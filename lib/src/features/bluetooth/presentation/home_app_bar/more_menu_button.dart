@@ -1,8 +1,7 @@
-import 'package:bluetooth_on_my_body/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
-
 import 'package:go_router/go_router.dart';
 
+import '../../../../localization/string_hardcoded.dart';
 import '../../../../routing/app_router.dart';
 import '../../../authentication/domain/app_user.dart';
 
@@ -24,6 +23,7 @@ class MoreMenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       // three vertical dots icon (to reveal menu options)
       icon: const Icon(Icons.more_vert),
       itemBuilder: (_) {

@@ -7,7 +7,7 @@ import 'not_found_screen.dart';
 
 enum AppRoute {
   home,
-  product,
+  bluetooth,
   leaveReview,
   cart,
   checkout,
@@ -43,11 +43,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         routes: [
           // GoRoute(
           //   path: 'product/:id',
-          //   name: AppRoute.product.name,
+          //   name: AppRoute.bluetooth.name,
           //   builder: (context, state) {
           //     final productId = state.params['id']!;
-          //     return ProductScreen(productId: productId);
+          //     return BluetoothScreen(deviceId: productId);
           //   },
+          // ),
           //   routes: [
           //     GoRoute(
           //       path: 'review',

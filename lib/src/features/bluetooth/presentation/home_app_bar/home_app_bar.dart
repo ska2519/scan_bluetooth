@@ -1,10 +1,10 @@
-import 'package:bluetooth_on_my_body/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/action_text_button.dart';
 import '../../../../constants/breakpoints.dart';
+import '../../../../localization/string_hardcoded.dart';
 import '../../../../routing/app_router.dart';
 import '../../../authentication/data/fake_auth_repository.dart';
 import 'more_menu_button.dart';
@@ -31,15 +31,15 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth < Breakpoint.tablet) {
       return AppBar(
-        title: Text('My Shop'.hardcoded),
-        actions: const [
+        title: Text('Bluetooth on My Body'.hardcoded),
+        actions: [
           // const ShoppingCartIcon(),
-          // MoreMenuButton(user: user),
+          MoreMenuButton(user: user),
         ],
       );
     } else {
       return AppBar(
-        title: Text('My Shop'.hardcoded),
+        title: Text('Bluetooth on My Body'.hardcoded),
         actions: [
           // const ShoppingCartIcon(),
           if (user != null) ...[

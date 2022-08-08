@@ -20,6 +20,7 @@ dependencies:
   flutter_riverpod: 2.0.0-dev.9
   font_awesome_flutter: ^10.1.0
   go_router: ^4.2.2
+  icons_launcher: ^2.0.2
   intl: ^0.17.0
   line_icons: ^2.0.1
   mocktail: ^0.3.0
@@ -32,27 +33,38 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.10.0
 
-flutter_icons:
-  #  image_path: "assets/images/icon-128x128.png"
-  image_path_android: "assets/logo/icons8-bluetooth-1024.png"
-  image_path_ios: "assets/logo/icons8-bluetooth-1024.png"
-  android: true # can specify file name here e.g. "ic_launcher"
-  ios: true # can specify file name here e.g. "My-Launcher-Icon"
-  # adaptive_icon_background: "assets/images/christmas-background.png" # only available for Android 8.0 devices and above
-  # adaptive_icon_foreground: "assets/images/icon-foreground-432x432.png" # only available for Android 8.0 devices and above
-  min_sdk_android: 21 # android min sdk min:16, default 21
-  remove_alpha_ios: true
-  web:
-    generate: true
-    image_path: "assets/logo/icons8-bluetooth-1024.png"
-    # background_color: "#hexcode"
-    # theme_color: "#hexcode"
-  windows:
-    generate: true
-    image_path: "assets/logo/icons8-bluetooth-1024.png"
-    icon_size: 48 # min:48, max:256, default: 48
+
+icons_launcher:
+  image_path: 'assets/logo/icons8-bluetooth-1024.png'
+  platforms:
+    android:
+      enable: true
+      image_path: 'assets/logo/icons8-bluetooth-1024.png'
+      # adaptive_background_color: '#ffffff'
+      # adaptive_background_image: 'assets/ic_background.png'
+      # adaptive_foreground_image: 'assets/ic_foreground.png'
+      # adaptive_round_image: 'assets/ic_logo_round.png'
+    ios:
+      enable: true
+      image_path: 'assets/logo/icons8-bluetooth-1024.png'
+    web:
+      enable: true
+      image_path: 'assets/logo/icons8-bluetooth-1024.png'
+      favicon_path: 'assets/logo/icons8-bluetooth-1024.png'
+    macos:
+      enable: true
+      image_path: 'assets/logo/icons8-bluetooth-1024.png'
+    windows:
+      enable: true
+      image_path: 'assets/logo/icons8-bluetooth-1024.png'
+    linux:
+      enable: true
+      image_path: 'assets/logo/icons8-bluetooth-1024.png'
+
+
+
+
 
 flutter:
   uses-material-design: true

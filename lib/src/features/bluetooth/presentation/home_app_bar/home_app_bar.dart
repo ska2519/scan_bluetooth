@@ -7,6 +7,7 @@ import '../../../../constants/breakpoints.dart';
 import '../../../../localization/string_hardcoded.dart';
 import '../../../../routing/app_router.dart';
 import '../../../authentication/data/fake_auth_repository.dart';
+import '../../data/bluetooth_repository.dart';
 import 'more_menu_button.dart';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and
@@ -21,6 +22,8 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authStateChangesProvider).value;
+    final bluetoothList = ref.watch(bluetoothListProvider);
+    final emptyNameBTCount = ref.watch(emptyNameBTCountProvider);
     // * This widget is responsive.
     // * On large screen sizes, it shows all the actions in the app bar.
     // * On small screen sizes, it shows only the shopping cart icon and a
@@ -31,7 +34,23 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth < Breakpoint.tablet) {
       return AppBar(
-        title: Text('Bluetooth on My Body'.hardcoded),
+        title: Row(
+          children: [
+            Text(
+              'total ${bluetoothList.length}'.hardcoded,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Colors.white,
+                  ),
+            ),
+            Flexible(
+              child: Center(
+                child: Text(
+                  '이름 없는 블루투스 $emptyNameBTCount개'.hardcoded,
+                ),
+              ),
+            ),
+          ],
+        ),
         actions: [
           // const ShoppingCartIcon(),
           MoreMenuButton(user: user),
@@ -39,7 +58,12 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
       );
     } else {
       return AppBar(
-        title: Text('Bluetooth on My Body'.hardcoded),
+        title: Row(
+          children: [
+            Text('총'.hardcoded),
+            Text('Bluetooth on My Body'.hardcoded),
+          ],
+        ),
         actions: [
           // const ShoppingCartIcon(),
           if (user != null) ...[

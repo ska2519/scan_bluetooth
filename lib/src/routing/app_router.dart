@@ -20,7 +20,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return GoRouter(
     initialLocation: '/',
-    debugLogDiagnostics: false,
+    // debugLogDiagnostics: false,
     redirect: (state) {
       final isLoggedIn = authRepository.currentUser != null;
       if (isLoggedIn) {

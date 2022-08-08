@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quick_blue/quick_blue.dart';
 
 import '../../../../constants/app_sizes.dart';
@@ -28,45 +29,58 @@ class BluetoothCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                bluetooth.name.isNotEmpty ? bluetooth.name : 'Unknown',
+                bluetooth.name.isNotEmpty
+                    ? bluetooth.name
+                    : bluetooth.deviceId.substring(0, 8),
                 style: bluetooth.name.isNotEmpty
                     ? textTheme.bodyMedium
-                    : textTheme.titleMedium!.copyWith(color: Colors.black45),
+                    : textTheme.titleSmall!.copyWith(color: Colors.black38),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
-                      Text(
-                        'SIGNAL',
-                        style: textTheme.caption,
-                      ),
-                      gapH4,
-                      Text(
-                        '📡 ${rssiCalculate(bluetooth.rssi)}%',
-                        style: textTheme.bodyMedium,
-                      ),
-                    ],
+                  Tooltip(
+                    message: 'SIGNAL',
+                    child: Row(
+                      children: [
+                        if (bluetooth.rssi < 20)
+                          const FaIcon(
+                            FontAwesomeIcons.signal,
+                            // color: Colors.blue,
+                            size: Sizes.p12,
+                            semanticLabel: 'SIGNAL',
+                          ),
+                        // gapW4,
+                        Text(
+                          ' ${rssiCalculate(bluetooth.rssi)}%',
+                          style: textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
                   ),
-                  Column(
-                    children: [
-                      Text(
-                        'CONNECTION',
-                        style: textTheme.caption,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          QuickBlue.connect(bluetooth.deviceId);
-                          print('QuickBlue.connect');
-                          // QuickBlue.disconnect(bluetooth.deviceId);
-                          // print('QuickBlue.disconnect');
-                        },
-                        iconSize: 16,
-                        splashRadius: 16,
-                        icon: const Icon(Icons.bluetooth_connected),
-                      ),
-                    ],
+                  Tooltip(
+                    message: 'CONNECTION',
+                    child: Row(
+                      children: [
+                        // const FaIcon(
+                        //   FontAwesomeIcons.signal,
+                        //   // color: Colors.blue,
+                        //   size: Sizes.p12,
+                        //   semanticLabel: 'SIGNAL',
+                        // ),
+                        IconButton(
+                          onPressed: () {
+                            QuickBlue.connect(bluetooth.deviceId);
+                            print('QuickBlue.connect');
+                            // QuickBlue.disconnect(bluetooth.deviceId);
+                            // print('QuickBlue.disconnect');
+                          },
+                          iconSize: 16,
+                          splashRadius: 16,
+                          icon: const Icon(Icons.bluetooth_connected),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

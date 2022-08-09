@@ -1,13 +1,12 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'constants/resources.dart';
 import 'constants/theme.dart';
-import 'localization/string_hardcoded.dart';
 
 final scaffoldKeyProvider = Provider<GlobalKey<ScaffoldMessengerState>>(
     (ref) => GlobalKey<ScaffoldMessengerState>());
 
-class MyApp extends ConsumerWidget {
+class MyApp extends HookConsumerWidget {
   const MyApp({super.key});
 
   @override

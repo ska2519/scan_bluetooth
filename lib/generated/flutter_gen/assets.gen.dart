@@ -29,25 +29,25 @@ class $AssetsSvgGen {
   /// File path: assets/svg/google.svg
   SvgGenImage get google => const SvgGenImage('assets/svg/google.svg');
 
-  /// File path: assets/svg/ic_signal_fair_sk@_144.png
-  AssetGenImage get icSignalFairSk144 =>
-      const AssetGenImage('assets/svg/ic_signal_fair_sk@_144.png');
+  /// File path: assets/svg/ic_signal_fair_ska_144.svg
+  SvgGenImage get icSignalFairSka144 =>
+      const SvgGenImage('assets/svg/ic_signal_fair_ska_144.svg');
 
-  /// File path: assets/svg/ic_signal_good_sk@_144.png
-  AssetGenImage get icSignalGoodSk144 =>
-      const AssetGenImage('assets/svg/ic_signal_good_sk@_144.png');
+  /// File path: assets/svg/ic_signal_good_ska_144.svg
+  SvgGenImage get icSignalGoodSka144 =>
+      const SvgGenImage('assets/svg/ic_signal_good_ska_144.svg');
 
-  /// File path: assets/svg/ic_signal_sk@_144.png
-  AssetGenImage get icSignalSk144 =>
-      const AssetGenImage('assets/svg/ic_signal_sk@_144.png');
+  /// File path: assets/svg/ic_signal_ska_144.svg
+  SvgGenImage get icSignalSka144 =>
+      const SvgGenImage('assets/svg/ic_signal_ska_144.svg');
 
-  /// File path: assets/svg/ic_signal_strong_sk@_144.png
-  AssetGenImage get icSignalStrongSk144 =>
-      const AssetGenImage('assets/svg/ic_signal_strong_sk@_144.png');
+  /// File path: assets/svg/ic_signal_strong_ska_144.svg
+  SvgGenImage get icSignalStrongSka144 =>
+      const SvgGenImage('assets/svg/ic_signal_strong_ska_144.svg');
 
-  /// File path: assets/svg/ic_signal_weak_sk@_144.png
-  AssetGenImage get icSignalWeakSk144 =>
-      const AssetGenImage('assets/svg/ic_signal_weak_sk@_144.png');
+  /// File path: assets/svg/ic_signal_weak_ska_144.svg
+  SvgGenImage get icSignalWeakSka144 =>
+      const SvgGenImage('assets/svg/ic_signal_weak_ska_144.svg');
 
   /// File path: assets/svg/icon-dart.svg
   SvgGenImage get iconDart => const SvgGenImage('assets/svg/icon-dart.svg');

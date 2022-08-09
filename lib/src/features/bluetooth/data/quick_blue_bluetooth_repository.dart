@@ -17,4 +17,9 @@ class QuickBlueBluetoothRepository implements BluetoothRepository {
 
   @override
   Stream<BlueScanResult> scanResultStream() => QuickBlue.scanResultStream;
+
+  @override
+  void connect(String deviceId) {
+    QuickBlue.connect(deviceId);
+  }
 }

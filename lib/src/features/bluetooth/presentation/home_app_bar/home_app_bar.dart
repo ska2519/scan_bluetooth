@@ -1,11 +1,10 @@
 import 'dart:ui';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../common_widgets/action_text_button.dart';
 import '../../../../constants/resources.dart';
-import '../../../../localization/string_hardcoded.dart';
 import '../../../authentication/data/fake_auth_repository.dart';
 import '../../application/bluetooth_service.dart';
 import 'more_menu_button.dart';
@@ -16,7 +15,7 @@ import 'more_menu_button.dart';
 /// - [ShoppingCartIcon]
 /// - Orders button
 /// - Account or Sign-in button
-class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
+class HomeAppBar extends HookConsumerWidget with PreferredSizeWidget {
   const HomeAppBar({super.key});
 
   @override
@@ -82,9 +81,8 @@ class BluetoothCountInfo extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          '이름 없는 ',
+          'No name ',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            // color: Theme.of(context).colorScheme.onPrimary,
             letterSpacing: -0.9,
             fontFeatures: [const FontFeature.tabularFigures()],
           ),
@@ -97,15 +95,13 @@ class BluetoothCountInfo extends ConsumerWidget {
         Text(
           ' $emptyNameBTCount'.hardcoded,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            // color: Theme.of(context).colorScheme.onPrimary,
             letterSpacing: -1,
             fontFeatures: [const FontFeature.tabularFigures()],
           ),
         ),
         Text(
-          ' / ${bluetoothList.length} 개'.hardcoded,
+          ' / ${bluetoothList.length}'.hardcoded,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            // color: Theme.of(context).colorScheme.onPrimary,
             letterSpacing: -1,
             fontFeatures: [const FontFeature.tabularFigures()],
           ),

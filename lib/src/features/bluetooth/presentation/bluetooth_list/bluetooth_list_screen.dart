@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../common_widgets/async_value_widget.dart';
-import '../../../../common_widgets/primary_button.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
-import '../../../../localization/string_hardcoded.dart';
-import '../../../../utils/async_value_ui.dart';
 import '../../data/bluetooth_repository.dart';
 import '../home_app_bar/home_app_bar.dart';
 import 'bluetooth_grid.dart';
-import 'bluetooth_list_controller.dart';
+import 'scan_buttons_row.dart';
 
-class BluetoothListScreen extends ConsumerStatefulWidget {
+class BluetoothListScreen extends StatefulHookConsumerWidget {
   const BluetoothListScreen({super.key});
 
   @override
@@ -42,11 +39,6 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue>(
-      bluetoothListControllerProvider,
-      (_, state) => state.showAlertDialogOnError(context),
-    );
-    final state = ref.watch(bluetoothListControllerProvider);
     return Scaffold(
       appBar: const HomeAppBar(),
       body: AsyncValueWidget(
@@ -56,46 +48,7 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
           slivers: [
             ResponsiveSliverCenter(
               padding: const EdgeInsets.all(Sizes.p8),
-              child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Text(
-                    //   'Bluetooth Available: ',
-                    //   style: Theme.of(context).textTheme.bodyLarge,
-                    // ),
-                    isBluetoothAvailable
-                        ? const Icon(
-                            Icons.bluetooth_connected,
-                            color: Colors.blue,
-                          )
-                        : const Icon(
-                            Icons.bluetooth_disabled,
-                            color: Colors.red,
-                          ),
-                    gapW8,
-                    PrimaryButton(
-                      text: '🟢 Start'.hardcoded,
-                      isLoading: state.isLoading,
-                      onPressed: !isBluetoothAvailable || state.isLoading
-                          ? null
-                          : ref
-                              .read(bluetoothListControllerProvider.notifier)
-                              .submitStartScan,
-                    ),
-                    gapW8,
-                    PrimaryButton(
-                      text: '🛑 Stop'.hardcoded,
-                      isLoading: state.isLoading,
-                      onPressed: !isBluetoothAvailable || state.isLoading
-                          ? null
-                          : ref
-                              .read(bluetoothListControllerProvider.notifier)
-                              .submitStopScan,
-                    ),
-                  ],
-                ),
-              ),
+              child: ScanButtonsRow(isBluetoothAvailable),
             ),
             const ResponsiveSliverCenter(
               padding: EdgeInsets.all(Sizes.p8),

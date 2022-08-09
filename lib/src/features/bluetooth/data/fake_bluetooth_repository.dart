@@ -29,4 +29,9 @@ class FakeBluetoothRepository implements BluetoothRepository {
   void stopScan() {
     // TODO: implement stopScan
   }
+
+  @override
+  void connect(String deviceId) {
+    // TODO: implement connect
+  }
 }

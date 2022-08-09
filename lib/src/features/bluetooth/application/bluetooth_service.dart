@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quick_blue/models.dart';
 
 import '../data/bluetooth_repository.dart';
@@ -10,11 +10,21 @@ class BluetoothService {
   Future<void> startScan() async {
     ref.read(bluetoothRepositoryProvider).startScan();
     await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
+    ref.read(bluetoothListProvider.notifier).state = [];
+    // TODO: 이게 꼭 필요한지 고민해보자 예)주위에 블루투스가 하나도 없을 때
+    //본인 폰도 안잡힐때 리스트가 리셋이 될까?
+    await ref.read(bluetoothListStreamProvider.stream).join('[]');
   }
 
   Future<void> stopScan() async {
     ref.read(bluetoothRepositoryProvider).stopScan();
     await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
+  }
+
+  Future<void> connect(String deviceId) async {
+    print('QuickBlue.connect');
+    ref.read(bluetoothRepositoryProvider).connect(deviceId);
+    // await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
   }
 
   int emptyNameBTCount() {

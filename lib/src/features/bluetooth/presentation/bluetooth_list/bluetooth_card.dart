@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quick_blue/quick_blue.dart';
 import 'package:string_to_color/string_to_color.dart';
 
+import '../../../../../generated/flutter_gen/assets.gen.dart';
 import '../../../../constants/app_sizes.dart';
+import '../../application/bluetooth_service.dart';
 
 /// Used to show a single product inside a card.
-class BluetoothCard extends ConsumerWidget {
+class BluetoothCard extends HookConsumerWidget {
   const BluetoothCard({
     super.key,
     required this.index,
@@ -21,11 +22,12 @@ class BluetoothCard extends ConsumerWidget {
   // * Keys for testing using find.byKey()
   static const bluetoothCardKey = Key('bluetooth-card');
 
-  String rssiCalculate(int rssi) => (100 - rssi.abs()).toStringAsFixed(0);
+  int rssiCalculate(int rssi) => (100 - rssi.abs());
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
+    final intRssi = rssiCalculate(bluetooth.rssi);
     return Card(
       child: InkWell(
         key: bluetoothCardKey,
@@ -38,14 +40,14 @@ class BluetoothCard extends ConsumerWidget {
               Row(
                 children: [
                   Text(
-                    '${index + 1}. ',
+                    ' ${index + 1}. ',
                     style: textTheme.bodyText2!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
                   Text(
                     bluetooth.name.isNotEmpty
                         ? bluetooth.name
-                        : bluetooth.deviceId.substring(0, 8),
+                        : '❓🆔: ${bluetooth.deviceId.substring(0, 8)}',
                     style: bluetooth.name.isNotEmpty
                         ? textTheme.bodyMedium
                         : textTheme.titleSmall!.copyWith(
@@ -60,15 +62,18 @@ class BluetoothCard extends ConsumerWidget {
                   Tooltip(
                     message: 'SIGNAL',
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        if (bluetooth.rssi < 20)
-                          const FaIcon(
-                            FontAwesomeIcons.signal,
-                            // color: Colors.blue,
-                            size: Sizes.p12,
-                            semanticLabel: 'SIGNAL',
-                          ),
-                        // gapW4,
+                        if (intRssi < 20)
+                          Assets.svg.icSignalWeakSka144.svg(width: 30)
+                        else if (20 <= intRssi && intRssi < 40)
+                          Assets.svg.icSignalFairSka144.svg(width: 30)
+                        else if (40 <= intRssi && intRssi < 60)
+                          Assets.svg.icSignalGoodSka144.svg(width: 30)
+                        else if (60 <= intRssi && intRssi < 80)
+                          Assets.svg.icSignalStrongSka144.svg(width: 30)
+                        else if (80 <= intRssi)
+                          Assets.svg.icSignalSka144.svg(width: 30),
                         Text(
                           ' ${rssiCalculate(bluetooth.rssi)}%',
                           style: textTheme.bodyMedium,
@@ -80,19 +85,10 @@ class BluetoothCard extends ConsumerWidget {
                     message: 'CONNECTION',
                     child: Row(
                       children: [
-                        // const FaIcon(
-                        //   FontAwesomeIcons.signal,
-                        //   // color: Colors.blue,
-                        //   size: Sizes.p12,
-                        //   semanticLabel: 'SIGNAL',
-                        // ),
                         IconButton(
-                          onPressed: () {
-                            QuickBlue.connect(bluetooth.deviceId);
-                            print('QuickBlue.connect');
-                            // QuickBlue.disconnect(bluetooth.deviceId);
-                            // print('QuickBlue.disconnect');
-                          },
+                          onPressed: () => ref
+                              .read(bluetoothServiceProvider)
+                              .connect(bluetooth.deviceId),
                           iconSize: 16,
                           splashRadius: 16,
                           icon: const Icon(Icons.bluetooth_connected),

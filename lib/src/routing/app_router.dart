@@ -1,5 +1,5 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../features/authentication/data/fake_auth_repository.dart';
 import '../features/bluetooth/presentation/bluetooth_list/bluetooth_list_screen.dart';

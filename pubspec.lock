@@ -263,6 +263,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.3.0"
+  flutter_hooks:
+    dependency: "direct main"
+    description:
+      name: flutter_hooks
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.18.5+1"
   flutter_layout_grid:
     dependency: "direct main"
     description:
@@ -283,7 +290,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_riverpod:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_riverpod
       url: "https://pub.dartlang.org"
@@ -353,6 +360,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  hooks_riverpod:
+    dependency: "direct main"
+    description:
+      name: hooks_riverpod
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0-dev.9"
   http:
     dependency: transitive
     description:
@@ -659,6 +673,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0-dev.9"
+  rolling_switch:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: "4a15646f957323635ddac5cc6612a9ecfc3fb267"
+      url: "https://github.com/ska2519/rolling_switch.git"
+    source: git
+    version: "0.0.3"
   rxdart:
     dependency: "direct main"
     description:
@@ -759,9 +782,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
+      ref: main
       resolved-ref: "04d4116b77133282d9a0e13a874ef10096dd4513"
-      url: "https://github.com/hiranthaR/string_to_color.git"
+      url: "https://github.com/ska2519/string_to_color.git"
     source: git
     version: "2.0.0"
   sync_http:
@@ -813,6 +836,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  tools_tkmonkey:
+    dependency: transitive
+    description:
+      name: tools_tkmonkey
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   typed_data:
     dependency: transitive
     description:

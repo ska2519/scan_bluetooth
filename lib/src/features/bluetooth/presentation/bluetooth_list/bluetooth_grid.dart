@@ -1,17 +1,16 @@
 import 'dart:math';
 
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quick_blue/models.dart';
 
 import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../constants/resources.dart';
-import '../../../../localization/string_hardcoded.dart';
 import '../../application/bluetooth_service.dart';
 import 'bluetooth_card.dart';
 
 /// A widget that displays the list of products that match the search query.
-class BluetoothGrid extends ConsumerWidget {
+class BluetoothGrid extends HookConsumerWidget {
   const BluetoothGrid({super.key});
 
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../common_widgets/action_text_button.dart';
 import '../../../../common_widgets/alert_dialogs.dart';
@@ -11,7 +11,7 @@ import '../../data/fake_auth_repository.dart';
 import 'account_screen_controller.dart';
 
 /// Simple account screen showing some user info and a logout button.
-class AccountScreen extends ConsumerWidget {
+class AccountScreen extends HookConsumerWidget {
   const AccountScreen({super.key});
 
   @override

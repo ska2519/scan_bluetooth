@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quick_blue/models.dart';
 
 import 'quick_blue_bluetooth_repository.dart';
@@ -9,6 +9,7 @@ abstract class BluetoothRepository {
   void startScan();
   void stopScan();
   Stream<BlueScanResult> scanResultStream();
+  void connect(String deviceId);
 }
 
 final bluetoothRepositoryProvider = Provider<BluetoothRepository>(

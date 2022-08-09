@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../common_widgets/custom_text_button.dart';
 import '../../../../common_widgets/primary_button.dart';
@@ -37,7 +37,7 @@ class EmailPasswordSignInScreen extends StatelessWidget {
 /// A widget for email & password authentication, supporting the following:
 /// - sign in
 /// - register (create an account)
-class EmailPasswordSignInContents extends ConsumerStatefulWidget {
+class EmailPasswordSignInContents extends StatefulHookConsumerWidget {
   const EmailPasswordSignInContents({
     super.key,
     this.onSignedIn,

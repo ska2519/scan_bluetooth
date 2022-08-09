@@ -7,7 +7,7 @@ import '../../../../constants/breakpoints.dart';
 import '../../../../localization/string_hardcoded.dart';
 import '../../../../routing/app_router.dart';
 import '../../../authentication/data/fake_auth_repository.dart';
-import '../../data/bluetooth_repository.dart';
+import '../../application/bluetooth_service.dart';
 import 'more_menu_button.dart';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and

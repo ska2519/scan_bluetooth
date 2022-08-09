@@ -7,7 +7,7 @@ import 'package:quick_blue/models.dart';
 import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../constants/common.dart';
 import '../../../../localization/string_hardcoded.dart';
-import '../../data/bluetooth_repository.dart';
+import '../../application/bluetooth_service.dart';
 import 'bluetooth_card.dart';
 
 /// A widget that displays the list of products that match the search query.

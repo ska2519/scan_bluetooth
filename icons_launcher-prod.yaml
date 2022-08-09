@@ -1,28 +1,28 @@
-# flutter pub run icons_launcher:create --flavor prod
+# # flutter pub run icons_launcher:create --flavor prod
 
-icons_launcher:
-  image_path: 'assets/logo/icons8-bluetooth-1024.png'
-  platforms:
-    android:
-      enable: true
-      image_path: 'assets/logo/icons8-bluetooth-1024.png'
-      # adaptive_background_color: '#ffffff'
-      # adaptive_background_image: 'assets/ic_background.png'
-      # adaptive_foreground_image: 'assets/ic_foreground.png'
-      # adaptive_round_image: 'assets/logo/icons8-bluetooth-1024.png'
-    ios:
-      enable: true
-      image_path: 'assets/logo/icons8-bluetooth-1024.png'
-    web:
-      enable: true
-      image_path: 'assets/logo/icons8-bluetooth-1024.png'
-      favicon_path: 'assets/logo/icons8-bluetooth-1024.png'
-    macos:
-      enable: true
-      image_path: 'assets/logo/icons8-bluetooth-1024.png'
-    windows:
-      enable: true
-      image_path: 'assets/logo/icons8-bluetooth-1024.png'
-    linux:
-      enable: true
-      image_path: 'assets/logo/icons8-bluetooth-1024.png'
+# icons_launcher:
+#   image_path: 'assets/logo/icons8-bluetooth-1024.png'
+#   platforms:
+#     android:
+#       enable: true
+#       image_path: 'assets/logo/icons8-bluetooth-1024.png'
+#       # adaptive_background_color: '#ffffff'
+#       # adaptive_background_image: 'assets/ic_background.png'
+#       # adaptive_foreground_image: 'assets/ic_foreground.png'
+#       # adaptive_round_image: 'assets/logo/icons8-bluetooth-1024.png'
+#     ios:
+#       enable: true
+#       image_path: 'assets/logo/icons8-bluetooth-1024.png'
+#     web:
+#       enable: true
+#       image_path: 'assets/logo/icons8-bluetooth-1024.png'
+#       favicon_path: 'assets/logo/icons8-bluetooth-1024.png'
+#     macos:
+#       enable: true
+#       image_path: 'assets/logo/icons8-bluetooth-1024.png'
+#     windows:
+#       enable: true
+#       image_path: 'assets/logo/icons8-bluetooth-1024.png'
+#     linux:
+#       enable: true
+#       image_path: 'assets/logo/icons8-bluetooth-1024.png'

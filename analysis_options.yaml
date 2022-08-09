@@ -10,11 +10,6 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
 
-# linter:
-#   rules:
-#     - use_super_parameters
-    
-
 linter:
   rules:
     # STYLE

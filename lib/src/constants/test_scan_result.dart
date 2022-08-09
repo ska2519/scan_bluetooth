@@ -6,18 +6,31 @@ import 'package:quick_blue/quick_blue.dart';
 
 class MockBlueScanResult extends Mock implements BlueScanResult {
   MockBlueScanResult({
-    required String name,
-    required String deviceId,
-    Uint8List? manufacturerDataHead,
-    Uint8List? manufacturerData,
-    required int rssi,
-  });
+    required this.name,
+    required this.deviceId,
+    required this.manufacturerDataHead,
+    required this.manufacturerData,
+    required this.rssi,
+  }) : super();
+
+  @override
+  final String name;
+  @override
+  final String deviceId;
+  @override
+  final Uint8List manufacturerDataHead;
+  @override
+  final Uint8List manufacturerData;
+  @override
+  final int rssi;
 }
 
 /// Test products to be used until a data source is implemented
 final kBlueScanResult = MockBlueScanResult(
-  name: 'name',
-  deviceId: 'deviceId',
+  name: 'kBlueScanResult name',
+  deviceId: 'kBlueScanResult deviceId',
+  manufacturerDataHead: Uint8List.fromList(List.empty()),
+  manufacturerData: Uint8List.fromList(List.empty()),
   rssi: 18,
 );
 // final kBlueScanResult = MockBlueScanResult();

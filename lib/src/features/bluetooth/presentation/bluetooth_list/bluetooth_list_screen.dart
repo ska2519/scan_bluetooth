@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quick_blue/quick_blue.dart';
 
 import '../../../../common_widgets/async_value_widget.dart';
+import '../../../../common_widgets/primary_button.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
+import '../../../../localization/string_hardcoded.dart';
+import '../../../../utils/async_value_ui.dart';
 import '../../data/bluetooth_repository.dart';
 import '../home_app_bar/home_app_bar.dart';
 import 'bluetooth_grid.dart';
+import 'bluetooth_list_controller.dart';
 
 class BluetoothListScreen extends ConsumerStatefulWidget {
   const BluetoothListScreen({super.key});
@@ -22,11 +25,6 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
   @override
   void initState() {
     super.initState();
-    // if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    //   WidgetsBinding.instance.endOfFrame
-    //       .then((_) => ref.watch(windowSizeProvider));
-    // }
-    // QuickBlue.startScan();
     _scrollController.addListener(_dismissOnScreenKeyboard);
   }
 
@@ -44,6 +42,11 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue>(
+      bluetoothListControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
+    final state = ref.watch(bluetoothListControllerProvider);
     return Scaffold(
       appBar: const HomeAppBar(),
       body: AsyncValueWidget(
@@ -57,7 +60,7 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(' Bluetooth Available: '),
+                    const Text('Bluetooth Available: '),
                     isBluetoothAvailable
                         ? const Icon(
                             Icons.bluetooth_connected,
@@ -67,14 +70,23 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
                             Icons.bluetooth_disabled,
                             color: Colors.red,
                           ),
-                    ElevatedButton(
-                      onPressed: () =>
-                          ref.read(bluetoothRepositoryProvider).startScan(),
-                      child: const Text('startScan'),
+                    PrimaryButton(
+                      text: 'startScan'.hardcoded,
+                      isLoading: state.isLoading,
+                      onPressed: state.isLoading
+                          ? null
+                          : ref
+                              .read(bluetoothListControllerProvider.notifier)
+                              .submitStartScan,
                     ),
-                    const ElevatedButton(
-                      onPressed: QuickBlue.stopScan,
-                      child: Text('stopScan'),
+                    PrimaryButton(
+                      text: 'stopScan'.hardcoded,
+                      isLoading: state.isLoading,
+                      onPressed: state.isLoading
+                          ? null
+                          : ref
+                              .read(bluetoothListControllerProvider.notifier)
+                              .submitStopScan,
                     ),
                   ],
                 ),

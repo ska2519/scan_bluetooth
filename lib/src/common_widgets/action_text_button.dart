@@ -16,10 +16,9 @@ class ActionTextButton extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           text,
-          style: Theme.of(context)
-              .textTheme
-              .headline6!
-              .copyWith(color: Colors.white),
+          style: Theme.of(context).textTheme.headline6!.copyWith(
+              // color: Colors.white,
+              ),
         ),
       ),
     );

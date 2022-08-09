@@ -25,9 +25,7 @@ class MyApp extends ConsumerWidget {
       onGenerateTitle: (BuildContext context) =>
           'Bluetooth on my body'.hardcoded,
       themeMode: themeMode,
-      // theme: flexThemeLightData,
       theme: lightTheme,
-      // darkTheme: flexThemeDarkData,
       darkTheme: darkTheme,
     );
   }

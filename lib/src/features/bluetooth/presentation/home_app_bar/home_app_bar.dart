@@ -84,7 +84,7 @@ class BluetoothCountInfo extends ConsumerWidget {
         Text(
           '이름 없는 ',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            color: Theme.of(context).colorScheme.onPrimary,
+            // color: Theme.of(context).colorScheme.onPrimary,
             letterSpacing: -0.9,
             fontFeatures: [const FontFeature.tabularFigures()],
           ),
@@ -97,7 +97,7 @@ class BluetoothCountInfo extends ConsumerWidget {
         Text(
           ' $emptyNameBTCount'.hardcoded,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            color: Theme.of(context).colorScheme.onPrimary,
+            // color: Theme.of(context).colorScheme.onPrimary,
             letterSpacing: -1,
             fontFeatures: [const FontFeature.tabularFigures()],
           ),
@@ -105,7 +105,7 @@ class BluetoothCountInfo extends ConsumerWidget {
         Text(
           ' / ${bluetoothList.length} 개'.hardcoded,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            color: Theme.of(context).colorScheme.onPrimary,
+            // color: Theme.of(context).colorScheme.onPrimary,
             letterSpacing: -1,
             fontFeatures: [const FontFeature.tabularFigures()],
           ),

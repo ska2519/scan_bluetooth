@@ -8,7 +8,13 @@ import '../../../../constants/app_sizes.dart';
 
 /// Used to show a single product inside a card.
 class BluetoothCard extends ConsumerWidget {
-  const BluetoothCard({super.key, required this.bluetooth, this.onPressed});
+  const BluetoothCard({
+    super.key,
+    required this.index,
+    required this.bluetooth,
+    this.onPressed,
+  });
+  final int index;
   final BlueScanResult bluetooth;
   final VoidCallback? onPressed;
 
@@ -29,15 +35,24 @@ class BluetoothCard extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                bluetooth.name.isNotEmpty
-                    ? bluetooth.name
-                    : bluetooth.deviceId.substring(0, 8),
-                style: bluetooth.name.isNotEmpty
-                    ? textTheme.bodyMedium
-                    : textTheme.titleSmall!.copyWith(
-                        color: ColorUtils.stringToColor(bluetooth.deviceId),
-                      ),
+              Row(
+                children: [
+                  Text(
+                    '${index + 1}. ',
+                    style: textTheme.bodyText2!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    bluetooth.name.isNotEmpty
+                        ? bluetooth.name
+                        : bluetooth.deviceId.substring(0, 8),
+                    style: bluetooth.name.isNotEmpty
+                        ? textTheme.bodyMedium
+                        : textTheme.titleSmall!.copyWith(
+                            color: ColorUtils.stringToColor(bluetooth.deviceId),
+                          ),
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

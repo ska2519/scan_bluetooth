@@ -31,6 +31,7 @@ class BluetoothGrid extends ConsumerWidget {
               itemBuilder: (_, index) {
                 final bluetooth = bluetoothList[index];
                 return BluetoothCard(
+                  index: index,
                   bluetooth: bluetooth,
                   // () =>
                   // context.goNamed(

@@ -25,8 +25,8 @@ class PrimaryButton extends StatelessWidget {
             ? const CircularProgressIndicator()
             : Text(
                 text,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge,
+                // textAlign: TextAlign.center,
+                // style: Theme.of(context).textTheme.button,
               ),
       ),
     );

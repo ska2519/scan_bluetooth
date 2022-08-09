@@ -29,42 +29,63 @@ const FlexSchemeData myFlexScheme = FlexSchemeData(
 );
 
 final lightTheme = FlexThemeData.light(
-  scheme: FlexScheme.mango,
+  scheme: FlexScheme.aquaBlue,
+  // colors: myFlexScheme.light,
   surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
-  blendLevel: 20,
-  appBarOpacity: 0.95,
+  blendLevel: 10,
+  appBarStyle: FlexAppBarStyle.material,
+  appBarOpacity: 0.44,
+  // appBarElevation: 1,
+  tooltipsMatchBackground: true,
   subThemesData: const FlexSubThemesData(
-    blendOnLevel: 20,
     blendOnColors: false,
+    defaultRadius: 11,
+    // elevatedButtonRadius: 40.0,
   ),
+
+  keyColors: const FlexKeyColors(
+      // keepPrimary: true,
+      // useSecondary: true,
+
+      ),
+  // useMaterial3: true,
+  // useMaterial3ErrorColors: true,
+  fontFamily: GoogleFonts.notoSans().fontFamily,
   visualDensity: FlexColorScheme.comfortablePlatformDensity,
-  // To use the playground font, add GoogleFonts package and uncomment
-  // fontFamily: GoogleFonts.notoSans().fontFamily,
 );
+
 final darkTheme = FlexThemeData.dark(
-  scheme: FlexScheme.mango,
+  scheme: FlexScheme.aquaBlue,
+  // colors: myFlexScheme.dark,
   surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
-  blendLevel: 15,
-  appBarStyle: FlexAppBarStyle.background,
+  blendLevel: 3,
+  // appBarStyle: FlexAppBarStyle.background,
   appBarOpacity: 0.90,
+  appBarElevation: 1,
+  tooltipsMatchBackground: true,
   subThemesData: const FlexSubThemesData(
-    blendOnLevel: 30,
+    elevatedButtonRadius: 40.0,
+    blendTextTheme: false,
   ),
+  useMaterial3ErrorColors: true,
+  keyColors: const FlexKeyColors(
+      // keepPrimary: true,
+      // useSecondary: true,
+      ),
+  // useMaterial3: true,
+  // useMaterial3ErrorColors: true,
   visualDensity: FlexColorScheme.comfortablePlatformDensity,
-  // To use the playground font, add GoogleFonts package and uncomment
-  // fontFamily: GoogleFonts.notoSans().fontFamily,
+  fontFamily: GoogleFonts.notoSans().fontFamily,
 );
-// If you do not have a themeMode switch, uncomment this line
-// to let the device system mode control the theme mode:
-// themeMode: ThemeMode.system,
 
 final ThemeData flexThemeLightData = FlexThemeData.light(
   colors: myFlexScheme.light,
   surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
   blendLevel: 3,
-  appBarStyle: FlexAppBarStyle.surface,
-  appBarOpacity: 0.95,
-  appBarElevation: 2,
+  appBarStyle: FlexAppBarStyle.material,
+  appBarOpacity: 0.44,
+  // appBarElevation: 2,
+  tooltipsMatchBackground: true,
   subThemesData: const FlexSubThemesData(
     elevatedButtonRadius: 40.0,
   ),
@@ -93,9 +114,10 @@ final ThemeData flexThemeDarkData = FlexThemeData.dark(
   colors: myFlexScheme.dark,
   surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
   blendLevel: 3,
-  appBarStyle: FlexAppBarStyle.background,
+  // appBarStyle: FlexAppBarStyle.background,
   appBarOpacity: 0.90,
   appBarElevation: 2,
+  tooltipsMatchBackground: true,
   subThemesData: const FlexSubThemesData(
     elevatedButtonRadius: 40.0,
     blendTextTheme: false,

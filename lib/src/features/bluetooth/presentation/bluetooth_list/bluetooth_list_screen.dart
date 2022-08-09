@@ -75,9 +75,9 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
                           ),
                     gapW8,
                     PrimaryButton(
-                      text: 'startScan'.hardcoded,
+                      text: '🟢 Start'.hardcoded,
                       isLoading: state.isLoading,
-                      onPressed: state.isLoading
+                      onPressed: !isBluetoothAvailable || state.isLoading
                           ? null
                           : ref
                               .read(bluetoothListControllerProvider.notifier)
@@ -85,9 +85,9 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
                     ),
                     gapW8,
                     PrimaryButton(
-                      text: 'stopScan'.hardcoded,
+                      text: '🛑 Stop'.hardcoded,
                       isLoading: state.isLoading,
-                      onPressed: state.isLoading
+                      onPressed: !isBluetoothAvailable || state.isLoading
                           ? null
                           : ref
                               .read(bluetoothListControllerProvider.notifier)

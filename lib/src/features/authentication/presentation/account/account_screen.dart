@@ -1,5 +1,3 @@
-import 'package:bluetooth_on_my_body/src/localization/string_hardcoded.dart';
-import 'package:bluetooth_on_my_body/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,6 +5,8 @@ import '../../../../common_widgets/action_text_button.dart';
 import '../../../../common_widgets/alert_dialogs.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
+import '../../../../localization/string_hardcoded.dart';
+import '../../../../utils/async_value_ui.dart';
 import '../../data/fake_auth_repository.dart';
 import 'account_screen_controller.dart';
 
@@ -39,7 +39,7 @@ class AccountScreen extends ConsumerWidget {
                       defaultActionText: 'Logout'.hardcoded,
                     );
                     if (logout == true) {
-                      ref
+                      await ref
                           .read(accountScreenControllerProvider.notifier)
                           .signOut();
                     }

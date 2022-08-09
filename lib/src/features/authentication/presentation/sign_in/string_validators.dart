@@ -14,7 +14,7 @@ class RegexValidator implements StringValidator {
   bool isValid(String value) {
     try {
       // https://regex101.com/
-      final RegExp regex = RegExp(regexSource);
+      final regex = RegExp(regexSource);
       final Iterable<Match> matches = regex.allMatches(value);
       for (final match in matches) {
         if (match.start == 0 && match.end == value.length) {
@@ -37,8 +37,8 @@ class ValidatorInputFormatter implements TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    final bool oldValueValid = editingValidator.isValid(oldValue.text);
-    final bool newValueValid = editingValidator.isValid(newValue.text);
+    final oldValueValid = editingValidator.isValid(oldValue.text);
+    final newValueValid = editingValidator.isValid(newValue.text);
     if (oldValueValid && !newValueValid) {
       return oldValue;
     }

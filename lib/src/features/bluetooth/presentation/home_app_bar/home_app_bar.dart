@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/action_text_button.dart';
-import '../../../../constants/app_sizes.dart';
-import '../../../../constants/breakpoints.dart';
+import '../../../../constants/resources.dart';
 import '../../../../localization/string_hardcoded.dart';
-import '../../../../routing/app_router.dart';
 import '../../../authentication/data/fake_auth_repository.dart';
 import '../../application/bluetooth_service.dart';
 import 'more_menu_button.dart';
@@ -83,18 +82,33 @@ class BluetoothCountInfo extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          'total ${bluetoothList.length}'.hardcoded,
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-              ),
-        ),
-        gapW20,
-        Text(
-          '이름 없는 블루투스 $emptyNameBTCount개'.hardcoded,
+          '이름 없는 ',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: Colors.white,
-                letterSpacing: 1,
-              ),
+            color: Theme.of(context).colorScheme.onPrimary,
+            letterSpacing: -0.9,
+            fontFeatures: [const FontFeature.tabularFigures()],
+          ),
+        ),
+        const Icon(
+          Icons.bluetooth,
+          size: Sizes.p24,
+          color: Colors.blue,
+        ),
+        Text(
+          ' $emptyNameBTCount'.hardcoded,
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            color: Theme.of(context).colorScheme.onPrimary,
+            letterSpacing: -1,
+            fontFeatures: [const FontFeature.tabularFigures()],
+          ),
+        ),
+        Text(
+          ' / ${bluetoothList.length} 개'.hardcoded,
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            color: Theme.of(context).colorScheme.onPrimary,
+            letterSpacing: -1,
+            fontFeatures: [const FontFeature.tabularFigures()],
+          ),
         ),
       ],
     );

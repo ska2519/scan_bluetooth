@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quick_blue/quick_blue.dart';
+import 'package:string_to_color/string_to_color.dart';
 
 import '../../../../constants/app_sizes.dart';
 
@@ -34,7 +35,9 @@ class BluetoothCard extends ConsumerWidget {
                     : bluetooth.deviceId.substring(0, 8),
                 style: bluetooth.name.isNotEmpty
                     ? textTheme.bodyMedium
-                    : textTheme.titleSmall!.copyWith(color: Colors.black38),
+                    : textTheme.titleSmall!.copyWith(
+                        color: ColorUtils.stringToColor(bluetooth.deviceId),
+                      ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

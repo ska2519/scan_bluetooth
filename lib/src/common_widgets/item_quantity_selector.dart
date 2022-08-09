@@ -30,13 +30,11 @@ class ItemQuantitySelector extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.black54,
-          width: 1,
         ),
         borderRadius: const BorderRadius.all(Radius.circular(Sizes.p24)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
             key: decrementKey(itemIndex),

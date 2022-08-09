@@ -1,9 +1,8 @@
-import 'package:bluetooth_on_my_body/src/localization/string_hardcoded.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../common_widgets/alert_dialogs.dart';
+import '../localization/string_hardcoded.dart';
 
 extension AsyncValueUI on AsyncValue {
   void showAlertDialogOnError(BuildContext context) {

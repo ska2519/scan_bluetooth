@@ -1,5 +1,3 @@
-import 'package:bluetooth_on_my_body/src/localization/string_hardcoded.dart';
-import 'package:bluetooth_on_my_body/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +6,8 @@ import '../../../../common_widgets/custom_text_button.dart';
 import '../../../../common_widgets/primary_button.dart';
 import '../../../../common_widgets/responsive_scrollable_card.dart';
 import '../../../../constants/app_sizes.dart';
+import '../../../../localization/string_hardcoded.dart';
+import '../../../../utils/async_value_ui.dart';
 import 'email_password_sign_in_controller.dart';
 import 'email_password_sign_in_state.dart';
 import 'string_validators.dart';

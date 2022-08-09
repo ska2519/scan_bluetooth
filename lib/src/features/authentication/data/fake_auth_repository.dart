@@ -39,7 +39,7 @@ class FakeAuthRepository {
 
 final authRepositoryProvider = Provider<FakeAuthRepository>((ref) {
   final auth = FakeAuthRepository();
-  ref.onDispose(() => auth.dispose());
+  ref.onDispose(auth.dispose);
   return auth;
 });
 

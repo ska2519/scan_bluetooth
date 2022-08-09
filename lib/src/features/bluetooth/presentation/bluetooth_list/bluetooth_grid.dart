@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_blue/models.dart';
 
 import '../../../../common_widgets/async_value_widget.dart';
-import '../../../../constants/common.dart';
+import '../../../../constants/resources.dart';
 import '../../../../localization/string_hardcoded.dart';
 import '../../application/bluetooth_service.dart';
 import 'bluetooth_card.dart';

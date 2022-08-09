@@ -17,18 +17,16 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: Sizes.p24,
+      height: Sizes.p32,
       child: ElevatedButton(
         onPressed: onPressed,
+        style: ElevatedButton.styleFrom(),
         child: isLoading
             ? const CircularProgressIndicator()
             : Text(
                 text,
                 textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
       ),
     );

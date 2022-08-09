@@ -1,8 +1,8 @@
-import 'package:bluetooth_on_my_body/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../constants/app_sizes.dart';
+import '../localization/string_hardcoded.dart';
 import '../routing/app_router.dart';
 import 'primary_button.dart';
 
@@ -18,7 +18,6 @@ class EmptyPlaceholderWidget extends StatelessWidget {
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               message,

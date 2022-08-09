@@ -1,6 +1,6 @@
-import 'package:bluetooth_on_my_body/src/localization/string_hardcoded.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../localization/string_hardcoded.dart';
 import 'string_validators.dart';
 
 /// Form type for email & password authentication
@@ -116,16 +116,16 @@ extension EmailPasswordSignInStateX on EmailPasswordSignInState {
   }
 
   String? emailErrorText(String email) {
-    final bool showErrorText = !canSubmitEmail(email);
-    final String errorText = email.isEmpty
+    final showErrorText = !canSubmitEmail(email);
+    final errorText = email.isEmpty
         ? 'Email can\'t be empty'.hardcoded
         : 'Invalid email'.hardcoded;
     return showErrorText ? errorText : null;
   }
 
   String? passwordErrorText(String password) {
-    final bool showErrorText = !canSubmitPassword(password);
-    final String errorText = password.isEmpty
+    final showErrorText = !canSubmitPassword(password);
+    final errorText = password.isEmpty
         ? 'Password can\'t be empty'.hardcoded
         : 'Password is too short'.hardcoded;
     return showErrorText ? errorText : null;

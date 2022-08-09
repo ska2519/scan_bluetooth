@@ -17,7 +17,7 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: Sizes.p48,
+      height: Sizes.p24,
       child: ElevatedButton(
         onPressed: onPressed,
         child: isLoading
@@ -27,7 +27,7 @@ class PrimaryButton extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .bodyLarge!
                     .copyWith(color: Colors.white),
               ),
       ),

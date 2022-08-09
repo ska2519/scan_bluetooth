@@ -60,7 +60,10 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Bluetooth Available: '),
+                    // Text(
+                    //   'Bluetooth Available: ',
+                    //   style: Theme.of(context).textTheme.bodyLarge,
+                    // ),
                     isBluetoothAvailable
                         ? const Icon(
                             Icons.bluetooth_connected,
@@ -70,6 +73,7 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
                             Icons.bluetooth_disabled,
                             color: Colors.red,
                           ),
+                    gapW8,
                     PrimaryButton(
                       text: 'startScan'.hardcoded,
                       isLoading: state.isLoading,
@@ -79,6 +83,7 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
                               .read(bluetoothListControllerProvider.notifier)
                               .submitStartScan,
                     ),
+                    gapW8,
                     PrimaryButton(
                       text: 'stopScan'.hardcoded,
                       isLoading: state.isLoading,

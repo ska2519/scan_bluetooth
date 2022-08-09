@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/action_text_button.dart';
+import '../../../../constants/app_sizes.dart';
 import '../../../../constants/breakpoints.dart';
 import '../../../../localization/string_hardcoded.dart';
 import '../../../../routing/app_router.dart';
@@ -22,8 +23,6 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authStateChangesProvider).value;
-    final bluetoothList = ref.watch(bluetoothListProvider);
-    final emptyNameBTCount = ref.watch(emptyNameBTCountProvider);
     // * This widget is responsive.
     // * On large screen sizes, it shows all the actions in the app bar.
     // * On small screen sizes, it shows only the shopping cart icon and a
@@ -34,23 +33,7 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth < Breakpoint.tablet) {
       return AppBar(
-        title: Row(
-          children: [
-            Text(
-              'total ${bluetoothList.length}'.hardcoded,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Colors.white,
-                  ),
-            ),
-            Flexible(
-              child: Center(
-                child: Text(
-                  '이름 없는 블루투스 $emptyNameBTCount개'.hardcoded,
-                ),
-              ),
-            ),
-          ],
-        ),
+        title: const BluetoothCountInfo(),
         actions: [
           // const ShoppingCartIcon(),
           MoreMenuButton(user: user),
@@ -58,12 +41,7 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
       );
     } else {
       return AppBar(
-        title: Row(
-          children: [
-            Text('총'.hardcoded),
-            Text('Bluetooth on My Body'.hardcoded),
-          ],
-        ),
+        title: const BluetoothCountInfo(),
         actions: [
           // const ShoppingCartIcon(),
           if (user != null) ...[
@@ -90,4 +68,35 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(60.0);
+}
+
+class BluetoothCountInfo extends ConsumerWidget {
+  const BluetoothCountInfo({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bluetoothList = ref.watch(bluetoothListProvider);
+    final emptyNameBTCount = ref.watch(emptyNameBTCountProvider);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          'total ${bluetoothList.length}'.hardcoded,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+              ),
+        ),
+        gapW20,
+        Text(
+          '이름 없는 블루투스 $emptyNameBTCount개'.hardcoded,
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: Colors.white,
+                letterSpacing: 1,
+              ),
+        ),
+      ],
+    );
+  }
 }

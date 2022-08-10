@@ -5,21 +5,85 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "bluetooth_on_my_body",
+            "name": "debug macos dev",
+            "type": "dart",
             "request": "launch",
-            "type": "dart"
+            "program": "lib/main_dev.dart",
+            "flutterMode": "debug",
+            "args": [
+                // "-t",
+                // "lib/main_dev.dart",
+                // "--flavor dev",
+            ]
         },
         {
-            "name": "bluetooth_on_my_body (profile mode)",
-            "request": "launch",
+            "name": "debug dev",
             "type": "dart",
-            "flutterMode": "profile"
+            "request": "launch",
+            "program": "lib/main_dev.dart",
+            "flutterMode": "debug",
+            "args": [
+                // "-t",
+                // "lib/main_dev.dart",
+                // "--flavor dev",
+                "--flavor",
+                "dev",
+            ]
         },
         {
-            "name": "bluetooth_on_my_body (release mode)",
-            "request": "launch",
+            "name": "profile dev",
             "type": "dart",
-            "flutterMode": "release"
-        }
+            "request": "launch",
+            "program": "lib/main_dev.dart",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor",
+                "dev",
+            ]
+        },
+        {
+            "name": "release dev",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_dev.dart",
+            "flutterMode": "release",
+            "args": [
+                "--flavor",
+                "dev",
+            ]
+        },
+        {
+            "name": "debug prod",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_prod.dart",
+            "flutterMode": "debug",
+            "args": [
+                "--flavor",
+                "prod",
+            ]
+        },
+        {
+            "name": "profile prod",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_prod.dart",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor",
+                "prod",
+            ]
+        },
+        {
+            "name": "release prod",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_prod.dart",
+            "flutterMode": "release",
+            "args": [
+                "--flavor",
+                "prod",
+            ]
+        },
     ]
 }

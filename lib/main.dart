@@ -12,10 +12,16 @@ void main() async {
   // * https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    final container = ProviderContainer();
+    // container.read(dynamicLinksServiceProvider);
     // turn off the # in the URLs on the web
     GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
     // * Entry point of the app
-    runApp(const ProviderScope(child: MyApp()));
+    runApp(UncontrolledProviderScope(
+      container: container,
+      child: const MyApp(),
+    ));
 
     // * This code will present some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {

@@ -4,6 +4,7 @@ import 'package:rolling_switch/rolling_switch.dart';
 
 import '../../../../constants/resources.dart';
 import '../../../../utils/async_value_ui.dart';
+import '../../application/bluetooth_service.dart';
 import 'scan_button_controller.dart';
 
 class ScanButtonRow extends StatefulHookConsumerWidget {
@@ -31,9 +32,8 @@ class _ScanButtonsRowState extends ConsumerState<ScanButtonRow>
       });
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _submitScanButton(true);
-    });
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _submitScanButton(true));
   }
 
   @override
@@ -62,13 +62,15 @@ class _ScanButtonsRowState extends ConsumerState<ScanButtonRow>
     });
   }
 
-  void _submitScanButton(bool rollingSwitchState) {
-    ref
+  Future<void> _submitScanButton(bool rollingSwitchState) async {
+    await ref
         .read(startStopButtonControllerProvider.notifier)
         .submitScanButton(rollingSwitchState);
 
     if (rollingSwitchState) {
-      _toggleRunning();
+      if (await ref.read(bluetoothServiceProvider).isBluetoothAvailable()) {
+        _toggleRunning();
+      }
     } else {
       _reset();
     }
@@ -108,23 +110,26 @@ class _ScanButtonsRowState extends ConsumerState<ScanButtonRow>
                   color: Colors.red,
                 ),
           gapW8,
-          RollingSwitch.icon(
-            initialState: true,
-            width: screenWidth / 2,
-            onChanged: (bool rollingSwitchState) {
-              if (isBluetoothAvailable || !state.isLoading) {
-                _submitScanButton(rollingSwitchState);
-              }
-            },
-            rollingInfoLeft: const RollingIconInfo(
-              icon: Icons.search_off,
-              backgroundColor: Colors.grey,
-              text: Text('Stop'),
-            ),
-            rollingInfoRight: RollingIconInfo(
-              icon: Icons.search,
-              text: Text(
-                'Searching... ${_elapsed.inSeconds.toString()}',
+          IgnorePointer(
+            ignoring: !isBluetoothAvailable,
+            child: RollingSwitch.icon(
+              initialState: isBluetoothAvailable ? true : false,
+              width: screenWidth / 2,
+              onChanged: (bool rollingSwitchState) {
+                if (!state.isLoading) {
+                  _submitScanButton(rollingSwitchState);
+                }
+              },
+              rollingInfoLeft: const RollingIconInfo(
+                icon: Icons.search_off,
+                backgroundColor: Colors.grey,
+                text: Text('Stop'),
+              ),
+              rollingInfoRight: RollingIconInfo(
+                icon: Icons.search,
+                text: Text(
+                  'Searching... ${_elapsed.inSeconds.toString()}',
+                ),
               ),
             ),
           ),

@@ -1,19 +1,30 @@
+import 'dart:io';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quick_blue/models.dart';
 
+import '../../../utils/bluetooth_on_off.dart';
 import '../data/bluetooth_repository.dart';
 
 class BluetoothService {
   BluetoothService(this.ref);
   final Ref ref;
 
+  Future<bool> isBluetoothAvailable() async =>
+      await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
+
   Future<void> startScan() async {
-    print('BluetoothService startScan');
-    ref.read(bluetoothRepositoryProvider).startScan();
-    ref.read(bluetoothListProvider.notifier).state = [];
-    // TODO: 이게 꼭 필요한지 고민해보자 예)주위에 블루투스가 하나도 없을 때
-    //본인 폰도 안잡힐때 리스트가 리셋이 될까?
-    await ref.read(bluetoothListStreamProvider.stream).join('[]');
+    if (await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable()) {
+      ref.read(bluetoothRepositoryProvider).startScan();
+      ref.read(bluetoothListProvider.notifier).state = [];
+      // TODO: 이게 꼭 필요한지 고민해보자 예)주위에 블루투스가 하나도 없을 때
+      //본인 폰도 안잡힐때 리스트가 리셋이 될까?
+      await ref.read(bluetoothListStreamProvider.stream).join('[]');
+    } else {
+      if (Platform.isAndroid) {
+        await BluetoothOnOff.turnOnBluetooth;
+      }
+    }
   }
 
   Future<void> stopScan() async {
@@ -41,8 +52,6 @@ class BluetoothService {
     final bluetoothList = ref.read(bluetoothListProvider);
 
     ref.watch(scanResultStreamProvider).whenData((scanBluetooth) {
-      print('bluetooth: ${scanBluetooth.name} / ${scanBluetooth.deviceId}');
-      print('bluetoothList.length: ${bluetoothList.length}');
       if (bluetoothList.isEmpty) {
         bluetoothList.add(scanBluetooth);
       } else {

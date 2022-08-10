@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class WindowSizeRepository {
-  Future<Size> getSize() async {
+  Future<Size> setWindowSize() async {
     late Size size;
     size = await DesktopWindow.getWindowSize();
     print('size: ${size.toString()}');
@@ -23,5 +23,5 @@ final windowSizeRepositoryProvider = Provider<WindowSizeRepository>(
 );
 
 final windowSizeProvider = FutureProvider.autoDispose<Size>(
-  (ref) async => await ref.read(windowSizeRepositoryProvider).getSize(),
+  (ref) async => await ref.read(windowSizeRepositoryProvider).setWindowSize(),
 );

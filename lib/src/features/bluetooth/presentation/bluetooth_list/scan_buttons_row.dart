@@ -4,7 +4,6 @@ import 'package:rolling_switch/rolling_switch.dart';
 
 import '../../../../constants/resources.dart';
 import '../../../../utils/async_value_ui.dart';
-import '../../application/bluetooth_service.dart';
 import 'start_stop_button_controller.dart';
 
 class ScanButtonsRow extends StatefulHookConsumerWidget {
@@ -31,7 +30,10 @@ class _ScanButtonsRowState extends ConsumerState<ScanButtonsRow>
         currentlyElapsed = elapsed;
       });
     });
-    ref.read(bluetoothServiceProvider).startScan();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _submitScanButton(true);
+    });
   }
 
   @override
@@ -60,22 +62,41 @@ class _ScanButtonsRowState extends ConsumerState<ScanButtonsRow>
     });
   }
 
+  void _submitScanButton(bool rollingSwitchState) {
+    ref
+        .read(startStopButtonControllerProvider.notifier)
+        .submitScanButton(rollingSwitchState);
+
+    if (rollingSwitchState) {
+      _toggleRunning();
+    } else {
+      _reset();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final screenWidth = size.width;
     final state = ref.watch(startStopButtonControllerProvider);
     ref.listen<AsyncValue>(
       startStopButtonControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Sizes.p8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            'Bluetooth Available: ',
-            style: Theme.of(context).textTheme.bodyLarge,
+          Flexible(
+            child: Text(
+              'Bluetooth Available: ',
+              style: Theme.of(context).textTheme.titleSmall,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           isBluetoothAvailable
               ? const Icon(
@@ -87,48 +108,26 @@ class _ScanButtonsRowState extends ConsumerState<ScanButtonsRow>
                   color: Colors.red,
                 ),
           gapW8,
-          Expanded(
-            child: RollingSwitch.icon(
-              onChanged: (bool rollingSwitchState) {
-                if (!rollingSwitchState) {
-                  if (isBluetoothAvailable || !state.isLoading) {
-                    ref
-                        .read(startStopButtonControllerProvider.notifier)
-                        .submitStartScan();
-                    _toggleRunning();
-                  }
-                } else {
-                  ref
-                      .read(startStopButtonControllerProvider.notifier)
-                      .submitStopScan();
-                  _reset();
-                }
-              },
-              rollingInfoRight: const RollingIconInfo(
-                icon: Icons.search_off,
-                backgroundColor: Colors.grey,
-                text: Text('Stop'),
-              ),
-              rollingInfoLeft: RollingIconInfo(
-                icon: Icons.search,
-                // backgroundColor: Colors.grey,
-                text: Text('Searching... ${_elapsed.inSeconds.toString()}'),
+          RollingSwitch.icon(
+            initialState: true,
+            width: screenWidth / 2,
+            onChanged: (bool rollingSwitchState) {
+              if (isBluetoothAvailable || !state.isLoading) {
+                _submitScanButton(rollingSwitchState);
+              }
+            },
+            rollingInfoLeft: const RollingIconInfo(
+              icon: Icons.search_off,
+              backgroundColor: Colors.grey,
+              text: Text('Stop'),
+            ),
+            rollingInfoRight: RollingIconInfo(
+              icon: Icons.search,
+              text: Text(
+                'Searching... ${_elapsed.inSeconds.toString()}',
               ),
             ),
           ),
-
-          // PrimaryButton(
-          //   text: '🛑 Stop'.hardcoded,
-          //   isLoading: state.isLoading,
-          //   onPressed: !isBluetoothAvailable || state.isLoading
-          //       ? null
-          //       : () {
-          //           ref
-          //               .read(bluetoothListControllerProvider.notifier)
-          //               .submitStopScan();
-          //           _reset();
-          //         },
-          // ),
         ],
       ),
     );

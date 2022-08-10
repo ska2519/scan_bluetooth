@@ -8,8 +8,8 @@ class BluetoothService {
   final Ref ref;
 
   Future<void> startScan() async {
+    print('BluetoothService startScan');
     ref.read(bluetoothRepositoryProvider).startScan();
-    await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
     ref.read(bluetoothListProvider.notifier).state = [];
     // TODO: 이게 꼭 필요한지 고민해보자 예)주위에 블루투스가 하나도 없을 때
     //본인 폰도 안잡힐때 리스트가 리셋이 될까?
@@ -18,7 +18,6 @@ class BluetoothService {
 
   Future<void> stopScan() async {
     ref.read(bluetoothRepositoryProvider).stopScan();
-    await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
   }
 
   Future<void> connect(String deviceId) async {

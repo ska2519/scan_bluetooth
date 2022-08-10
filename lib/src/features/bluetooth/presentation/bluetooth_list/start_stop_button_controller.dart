@@ -8,11 +8,13 @@ class StartStopButtonController extends StateNotifier<AsyncValue<void>> {
   }) : super(const AsyncData(null));
   final BluetoothService bluetoothService;
 
-  Future<void> submitStartScan({
+  Future<void> submitScanButton(
+    bool rollingSwitchState, {
     void Function()? onSuccess,
   }) async {
     state = const AsyncLoading();
-    final newState = await AsyncValue.guard(bluetoothService.startScan);
+    final newState =
+        rollingSwitchState ? await _startScan() : await _stopScan();
     if (mounted) {
       // * only set the state if the controller hasn't been disposed
       state = newState;
@@ -24,21 +26,11 @@ class StartStopButtonController extends StateNotifier<AsyncValue<void>> {
     }
   }
 
-  Future<void> submitStopScan({
-    void Function()? onSuccess,
-  }) async {
-    state = const AsyncLoading();
-    final newState = await AsyncValue.guard(bluetoothService.stopScan);
-    if (mounted) {
-      // * only set the state if the controller hasn't been disposed
-      state = newState;
-      if (state.hasError == false) {
-        if (onSuccess != null) onSuccess();
-      }
-    } else {
-      if (onSuccess != null) onSuccess();
-    }
-  }
+  Future<AsyncValue> _startScan() async =>
+      await AsyncValue.guard(bluetoothService.startScan);
+
+  Future<AsyncValue> _stopScan() async =>
+      await AsyncValue.guard(bluetoothService.stopScan);
 }
 
 final startStopButtonControllerProvider = StateNotifierProvider.autoDispose<

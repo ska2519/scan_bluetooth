@@ -32,8 +32,8 @@ class _ScanButtonsRowState extends ConsumerState<ScanButtonRow>
       });
     });
 
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _submitScanButton(true));
+    // WidgetsBinding.instance
+    //     .addPostFrameCallback((_) => _submitScanButton(true));
   }
 
   @override

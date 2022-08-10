@@ -19,7 +19,7 @@ class BluetoothService {
       ref.read(bluetoothListProvider.notifier).state = [];
       // TODO: 이게 꼭 필요한지 고민해보자 예)주위에 블루투스가 하나도 없을 때
       //본인 폰도 안잡힐때 리스트가 리셋이 될까?
-      await ref.read(bluetoothListStreamProvider.stream).join('[]');
+      ref.read(bluetoothListStreamProvider.stream);
     } else {
       if (Platform.isAndroid) {
         await BluetoothOnOff.turnOnBluetooth;

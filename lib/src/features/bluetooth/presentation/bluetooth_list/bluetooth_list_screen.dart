@@ -7,7 +7,7 @@ import '../../../../constants/app_sizes.dart';
 import '../../data/bluetooth_repository.dart';
 import '../home_app_bar/home_app_bar.dart';
 import 'bluetooth_grid.dart';
-import 'scan_buttons_row.dart';
+import 'scan_button_row.dart';
 
 class BluetoothListScreen extends StatefulHookConsumerWidget {
   const BluetoothListScreen({super.key});
@@ -48,7 +48,7 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
           slivers: [
             ResponsiveSliverCenter(
               padding: const EdgeInsets.all(Sizes.p8),
-              child: ScanButtonsRow(isBluetoothAvailable),
+              child: ScanButtonRow(isBluetoothAvailable),
             ),
             const ResponsiveSliverCenter(
               padding: EdgeInsets.all(Sizes.p8),

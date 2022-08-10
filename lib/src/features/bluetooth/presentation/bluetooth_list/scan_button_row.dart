@@ -4,17 +4,17 @@ import 'package:rolling_switch/rolling_switch.dart';
 
 import '../../../../constants/resources.dart';
 import '../../../../utils/async_value_ui.dart';
-import 'start_stop_button_controller.dart';
+import 'scan_button_controller.dart';
 
-class ScanButtonsRow extends StatefulHookConsumerWidget {
-  const ScanButtonsRow(this.isBluetoothAvailable, {super.key});
+class ScanButtonRow extends StatefulHookConsumerWidget {
+  const ScanButtonRow(this.isBluetoothAvailable, {super.key});
   final bool isBluetoothAvailable;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ScanButtonsRowState();
 }
 
-class _ScanButtonsRowState extends ConsumerState<ScanButtonsRow>
+class _ScanButtonsRowState extends ConsumerState<ScanButtonRow>
     with SingleTickerProviderStateMixin {
   bool get isBluetoothAvailable => super.widget.isBluetoothAvailable;
   Duration previouslyElapsed = Duration.zero;

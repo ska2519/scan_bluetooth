@@ -2,8 +2,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../application/bluetooth_service.dart';
 
-class StartStopButtonController extends StateNotifier<AsyncValue<void>> {
-  StartStopButtonController({
+class ScanButtonController extends StateNotifier<AsyncValue<void>> {
+  ScanButtonController({
     required this.bluetoothService,
   }) : super(const AsyncData(null));
   final BluetoothService bluetoothService;
@@ -33,9 +33,10 @@ class StartStopButtonController extends StateNotifier<AsyncValue<void>> {
       await AsyncValue.guard(bluetoothService.stopScan);
 }
 
-final startStopButtonControllerProvider = StateNotifierProvider.autoDispose<
-    StartStopButtonController, AsyncValue<void>>((ref) {
-  return StartStopButtonController(
+final startStopButtonControllerProvider =
+    StateNotifierProvider.autoDispose<ScanButtonController, AsyncValue<void>>(
+        (ref) {
+  return ScanButtonController(
     bluetoothService: ref.watch(bluetoothServiceProvider),
   );
 });

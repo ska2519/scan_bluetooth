@@ -55,22 +55,6 @@ flutter_gen:
   integrations:
     flutter_svg: true
 
-icons_launcher:
-  image_path: 'assets/logos/icons8_bluetooth_993_1024_white.png'
-  platforms:
-    android:
-      enable: true
-    ios:
-      enable: true
-    web:
-      enable: true
-    macos:
-      enable: true
-    windows:
-      enable: true
-    linux:
-      enable: true
-
 flutter:
   uses-material-design: true
   generate: true

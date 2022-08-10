@@ -636,6 +636,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BD043085DDE1FC997E98DDBF /* Pods-Runner.debug-dev.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				DEVELOPMENT_TEAM = 33BU599YAS;
 				PRODUCT_NAME = Runner;
 			};
@@ -645,6 +647,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 99A624E3C73127469A3C834F /* Pods-Runner.profile-dev.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				DEVELOPMENT_TEAM = 33BU599YAS;
 				PRODUCT_NAME = Runner;
 			};
@@ -654,6 +658,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 20E1061A66C80067781551FE /* Pods-Runner.release-dev.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				DEVELOPMENT_TEAM = 33BU599YAS;
 				PRODUCT_NAME = Runner;
 			};
@@ -663,6 +669,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D04146B8F630B7414A2DDB63 /* Pods-Runner.debug-prod.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				DEVELOPMENT_TEAM = 33BU599YAS;
 				PRODUCT_NAME = Runner;
 			};
@@ -672,6 +680,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0D3390228B5A7AAB58843251 /* Pods-Runner.profile-prod.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				DEVELOPMENT_TEAM = 33BU599YAS;
 				PRODUCT_NAME = Runner;
 			};
@@ -681,6 +691,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 955D022375E19CDEA271652B /* Pods-Runner.release-prod.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				DEVELOPMENT_TEAM = 33BU599YAS;
 				PRODUCT_NAME = Runner;
 			};

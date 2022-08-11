@@ -23,11 +23,11 @@ clean:
 	@echo "╠ Cleaning caches of the app"
 	@rm -rf build && rm -rf ios/Pods && rm -rf ios/Podfile.lock && pod cache clean --all && ${FLUTTER} clean && ${FLUTTER} pub get && cd ios &&  pod install && pod update && cd .. && cd macos && pod install && pod update && cd ..
 
-clean ios:
+cleanIos:
 	@echo "╠ Cleaning caches of the app"
 	@rm -rf build && rm -rf ios/Pods && rm -rf ios/Podfile.lock && pod cache clean --all && ${FLUTTER} clean && ${FLUTTER} pub get && cd ios && pod install && pod update && cd ..
 
-clean macos:
+cleanMacos:
 	@echo "╠ Cleaning caches of the app"
 	@rm -rf build && rm -rf macos/Pods && rm -rf macos/Podfile.lock && pod cache clean --all && ${FLUTTER} clean && ${FLUTTER} pub get && cd macos && pod install && pod update && cd ..
 

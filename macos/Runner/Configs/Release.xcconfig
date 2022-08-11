@@ -7,7 +7,7 @@
 FLUTTER_BUILD_MODE = release
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = Bluetooth On my Body
+PRODUCT_NAME = BOMB
 
 // The application's bundle identifier
 PRODUCT_BUNDLE_IDENTIFIER = dev.fruitlab.bluetoothOnmyBody

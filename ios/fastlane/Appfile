@@ -5,3 +5,4 @@ fastlane_require 'dotenv'
 
 app_identifier(ENV['IOS_BUNDLE_IDENTIFIER']) # The bundle identifier of your app
 apple_id('ska2519@gmail.com') # Apple ID of your developer account
+team_id(ENV['IOS_TEAM_ID']) # Developer Portal Team ID

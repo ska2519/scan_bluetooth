@@ -399,6 +399,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5388E71C28A58FEE006E797E /* devRelease.xcconfig */;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "$(ASSET_PREFIX)AppIcon";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -470,6 +471,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5388E71B28A58FEE006E797E /* devDebug.xcconfig */;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "$(ASSET_PREFIX)AppIcon";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -544,6 +546,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5388E71828A58FEE006E797E /* prodDebug.xcconfig */;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "$(ASSET_PREFIX)AppIcon";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -618,6 +621,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5388E71928A58FEE006E797E /* devProfile.xcconfig */;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "$(ASSET_PREFIX)AppIcon";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -744,7 +748,7 @@
 				ASSET_PREFIX = "$(ASSET_PREFIX)";
 				BUNDLE_NAME = "$(BUNDLE_NAME)";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_ NUMBER)";
 				DEVELOPMENT_TEAM = 33BU599YAS;
 				ENABLE_PREVIEWS = YES;
@@ -753,7 +757,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "$(BUNDLE_NAME)";
 				MARKETING_VERSION = "$(FLUTTER_BUILD_ NAME)";
 				PRODUCT_NAME = "$(BUNDLE_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "🧑‍💻 BOMB Ad-hoc Firebase Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Release-dev";
@@ -837,6 +841,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5388E71A28A58FEE006E797E /* prodProfile.xcconfig */;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "$(ASSET_PREFIX)AppIcon";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -906,6 +911,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5388E71D28A58FEE006E797E /* prodRelease.xcconfig */;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "$(ASSET_PREFIX)AppIcon";
 				CLANG_ANALYZER_NONNULL = YES;

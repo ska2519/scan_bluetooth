@@ -5,3 +5,7 @@
 # Xcode-related
 **/dgph
 **/xcuserdata/
+
+firebase_app_id_file-dev.json
+firebase_app_id_file-prod.json
+firebase_app_id_file.json

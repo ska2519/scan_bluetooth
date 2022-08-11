@@ -380,7 +380,7 @@
 /* Begin XCBuildConfiguration section */
 		535F850C28A4554B00F78C9B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 33E5194F232828860026EE4D /* AppInfo.xcconfig */;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -465,7 +465,7 @@
 		};
 		535F850F28A4555B00F78C9B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 33E5194F232828860026EE4D /* AppInfo.xcconfig */;
+			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -541,9 +541,9 @@
 			};
 			name = Release;
 		};
-		535F851228A4556300F78C9B /* Profile-prod */ = {
+		535F851228A4556300F78C9B /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 33E5194F232828860026EE4D /* AppInfo.xcconfig */;
+			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -585,11 +585,11 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
-			name = "Profile-prod";
+			name = Profile;
 		};
-		535F851328A4556300F78C9B /* Profile-prod */ = {
+		535F851328A4556300F78C9B /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 54829932067FD8EFF43A4CB5 /* Pods-Runner.profile-prod.xcconfig */;
+			baseConfigurationReference = 2C0747FD9F674909BAC160AF /* Pods-Runner.profile.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -609,15 +609,15 @@
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
-			name = "Profile-prod";
+			name = Profile;
 		};
-		535F851428A4556300F78C9B /* Profile-prod */ = {
+		535F851428A4556300F78C9B /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Manual;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Profile-prod";
+			name = Profile;
 		};
 /* End XCBuildConfiguration section */
 
@@ -627,7 +627,7 @@
 			buildConfigurations = (
 				535F850C28A4554B00F78C9B /* Debug */,
 				535F850F28A4555B00F78C9B /* Release */,
-				535F851228A4556300F78C9B /* Profile-prod */,
+				535F851228A4556300F78C9B /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -637,7 +637,7 @@
 			buildConfigurations = (
 				535F850D28A4554B00F78C9B /* Debug */,
 				535F851028A4555B00F78C9B /* Release */,
-				535F851328A4556300F78C9B /* Profile-prod */,
+				535F851328A4556300F78C9B /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -647,7 +647,7 @@
 			buildConfigurations = (
 				535F850E28A4554B00F78C9B /* Debug */,
 				535F851128A4555B00F78C9B /* Release */,
-				535F851428A4556300F78C9B /* Profile-prod */,
+				535F851428A4556300F78C9B /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

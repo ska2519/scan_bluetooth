@@ -5,18 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "debug macos dev",
-            "type": "dart",
-            "request": "launch",
-            "program": "lib/main_dev.dart",
-            "flutterMode": "debug",
-            // "args": [
-            //     "-t",
-            //     "lib/main_dev.dart",
-            // "--flavor dev",
-            // ]
-        },
-        {
             "name": "debug dev",
             "type": "dart",
             "request": "launch",
@@ -25,9 +13,9 @@
             "args": [
                 // "-t",
                 // "lib/main_dev.dart",
-                // "--flavor dev",
-                "--flavor",
-                "dev",
+                "--flavor dev",
+                // "--flavor",
+                // "dev",
             ]
         },
         {
@@ -37,8 +25,7 @@
             "program": "lib/main_dev.dart",
             "flutterMode": "profile",
             "args": [
-                "--flavor",
-                "dev",
+                "--flavor dev",
             ]
         },
         {
@@ -48,8 +35,7 @@
             "program": "lib/main_dev.dart",
             "flutterMode": "release",
             "args": [
-                "--flavor",
-                "dev",
+                "--flavor dev",
             ]
         },
         {
@@ -59,8 +45,7 @@
             "program": "lib/main_prod.dart",
             "flutterMode": "debug",
             "args": [
-                "--flavor",
-                "prod",
+                "--flavor prod",
             ]
         },
         {
@@ -70,8 +55,7 @@
             "program": "lib/main_prod.dart",
             "flutterMode": "profile",
             "args": [
-                "--flavor",
-                "prod",
+                "--flavor prod",
             ]
         },
         {
@@ -81,8 +65,7 @@
             "program": "lib/main_prod.dart",
             "flutterMode": "release",
             "args": [
-                "--flavor",
-                "prod",
+                "--flavor prod",
             ]
         },
     ]

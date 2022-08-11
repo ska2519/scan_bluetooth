@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'firebase_options.dart';
+import 'firebase_options_dev.dart';
 import 'flavors.dart';
 import 'src/app.dart';
 import 'src/localization/string_hardcoded.dart';
@@ -14,6 +17,11 @@ class AppRunner {
     // * https://docs.flutter.dev/testing/errors
     await runZonedGuarded(() async {
       WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp(
+        options: flavor == Flavor.PROD
+            ? DefaultFirebaseOptions.currentPlatform
+            : DefaultFirebaseOptionsDev.currentPlatform,
+      );
 
       final container = ProviderContainer();
       // container.read(dynamicLinksServiceProvider);

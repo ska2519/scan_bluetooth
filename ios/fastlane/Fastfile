@@ -1,0 +1,72 @@
+# Firebase App Distribution deploy 명령어: bundle exec fastlane deploy_dev --env dev
+# testflight deploy 명령어: bundle exec fastlane deploy_testflight --env dev
+
+import "../../scripts/Fastfile"
+fastlane_require 'dotenv'
+
+default_platform(:ios)
+
+platform :ios do
+  # Updates Xcode project settings to use a different code signing based on method
+  private_lane :archive do |options|
+    method = options[:method]
+    flavor = ENV['IOS_SCHEME'].downcase
+    is_dev = flavor == "dev"
+
+    profile_name = method == 'ad-hoc' ? "🧑‍💻 BOMB Ad-hoc Firebase Distribution" : "📱 BOMB Release testflight"
+    configuration = is_dev ? "Release-dev" : "Release-prod"
+
+    update_code_signing_settings(
+      build_configurations: configuration,
+      use_automatic_signing: false,
+      profile_name: profile_name
+    )
+
+
+    build_app(
+      output_directory: "#{root_path}/build/ios",
+      build_path: "#{root_path}/build/ios",
+      archive_path: "#{root_path}/build/ios",
+      export_method: method,
+      scheme: is_dev ? "dev" : "prod",
+      configuration: configuration,
+      # xcargs: "-allowProvisioningUpdates"
+    )
+  end
+
+  desc "Deploy a DEV build to Firebase Distribution"
+  lane :deploy_dev do
+    platform = "ios"
+    env = "dev"
+    
+    begin
+      # send_start_slack_message(platform, env)
+      archive(method: "ad-hoc")
+      firebase_app_distribution(
+        app: ENV['IOS_FIREBASE_APP_DISTRIBUTION_APP'],
+        groups: ENV['IOS_FIREBASE_APP_DISTRIBUTION_TESTER_GROUPS'],
+        release_notes: ENV['IOS_FIREBASE_APP_DISTRIBUTION_RELEASE_NOTES'],
+      )
+      # send_success_slack_message(platform, env)
+    rescue => exception
+      on_error(exception, platform, env)
+    end
+  end
+
+  desc "Deploy a PROD build to TestFlight"
+  lane :deploy_testflight do
+    platform = "ios"
+    env = "prod"
+    begin
+      # send_start_slack_message(platform, env)
+      archive(method: "app-store")
+      upload_to_testflight(
+        ipa: "#{root_path}/build/ios/Runner.ipa",
+        skip_waiting_for_build_processing: true
+      )
+      # send_success_slack_message(platform, env)
+    rescue => exception
+      on_error(exception, platform, env)
+    end
+  end
+end

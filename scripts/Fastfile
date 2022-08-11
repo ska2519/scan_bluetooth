@@ -1,0 +1,202 @@
+opt_out_usage
+
+# Have an easy way to get the root of the project
+def root_path
+  Dir.pwd.sub(/.*\Kfastlane/, '').sub(/.*\Kandroid/, '').sub(/.*\Kios/, '').sub(/.*\K\/\//, '')
+end
+
+def format(size: 0)
+  if size == 0
+    UI.user_error! ("error: Parameter (def format) \n size is required")
+  end
+  {
+    'b'  => 1024,
+    'kb' => 1024 * 1024,
+    'mb' => 1024 * 1024 * 1024,
+    'gb' => 1024 * 1024 * 1024 * 1024,
+    'tb' => 1024 * 1024 * 1024 * 1024 * 1024
+  }.each_pair { |e, s|
+    return "#{(size.to_f / (s / 1024)).round(2)}#{e}" if size < s
+  }
+end
+
+def get_app_version
+  pubspec_path = "#{root_path}/pubspec.yaml"
+  pubspec = YAML.load_file(pubspec_path)
+  version_splited = pubspec['version'].split('+')
+
+  app_version = version_splited[0]
+  app_build_number = version_splited[1]
+
+  return app_version, app_build_number
+end
+
+def get_file_size(path: '')
+  if path == ''
+    UI.user_error! ("error: get file size \n #{path} is empty")
+  end
+
+  if !File.exist?(path)
+    UI.user_error! ("error: get file size \n #{path} is not exist")
+  end
+
+  return format(size: File.size(path))
+end
+
+def install_url(platform, env)
+  if env.downcase == "dev"
+    return "https://appdistribution.firebase.google.com/testerapps/1:336947476568:#{platform.downcase}:3c9a237eee692b3367722d"
+  elsif env.downcase == "Prod"
+    return platform.downcase == "ios" ? "https://testflight.apple.com/v1/app/1588557236" : "https://play.google.com/apps/testing/app.passionfruit.passionfruit"
+  end
+end
+
+def on_error(exception, platform, env)
+  is_ios = platform.downcase == "ios"
+  is_dev = env.downcase == "dev"
+  app_version, app_build_number = get_app_version
+  
+  UI.user_error!(exception)
+
+  # slack(
+  #   username: "Deployment Error",
+  #   success: false,
+  #   slack_url: ENV['SLACK_URL'],
+  #   default_payloads: [:lane, :git_branch, :last_git_commit_message],
+  #   icon_url: "https://lh3.googleusercontent.com/83uJWDic3BfdeENiQwmF0Eilr7_oYmo78XSYiorwUHpvp9VTzE69sFysVs-FN7qlKTw=h180",
+  #   attachment_properties: {
+  #     fields: [
+  #       {
+  #         title: "Flavor",
+  #         value: is_dev ? "Dev" : "Prod",
+  #         short: true
+  #       },
+  #       {
+  #         title: "Version",
+  #         value: "`#{app_version} (#{app_build_number})`",
+  #         short: true
+  #       },
+  #     ],
+  #     text: "*Failed to deploy #{is_ios ? 'iOS' : 'Android'} app for #{is_dev ? 'QA' : 'Prod'} 😨*",
+  #     fallback: "Failed to deploy #{is_ios ? 'iOS' : 'Android'} app for #{is_dev ? 'QA' : 'Prod'} 😨",
+  #     color: "#9C1A22",
+  #   }
+  # )
+end
+
+def send_start_slack_message(platform, env)
+  is_ios = platform.downcase == "ios"
+  is_dev = env.downcase == "dev"
+  app_version, app_build_number = get_app_version
+  slack(
+    username: "Deployment",
+    icon_url: "https://lh3.googleusercontent.com/83uJWDic3BfdeENiQwmF0Eilr7_oYmo78XSYiorwUHpvp9VTzE69sFysVs-FN7qlKTw=h180",
+    message: "*Start to deploy #{is_ios ? 'iOS' : 'Android'} app for #{is_dev ? 'QA' : 'Prod'} 🚀*",
+    success: true,
+    slack_url: ENV['SLACK_URL'],
+    default_payloads: [:git_branch, :last_git_commit],
+    attachment_properties: {
+      fields: [
+        {
+          title: "Flavor",
+          value: is_dev ? "Dev" : "Prod",
+          short: true
+        },
+        {
+          title: "Version",
+          value: "`#{app_version} (#{app_build_number})`",
+          short: true
+        },
+      ],
+      fallback: "Start to deploy #{is_ios ? 'iOS' : 'Android'} app for #{is_dev ? 'QA' : 'Prod'} 🚀",
+      color: "good",
+    }
+  )
+end
+
+def send_success_slack_message(platform, env)
+  is_ios = platform.downcase == "ios"
+  is_dev = env.downcase == "dev"
+
+  app_size = get_file_size(
+    path: is_ios ? "#{root_path}/build/ios/Runner.ipa" : "#{root_path}/build/app/outputs/apk/#{ENV['ANDROID_SCHEME']}/release/app-#{ENV['ANDROID_SCHEME']}-release.apk"
+  )
+  app_version, app_build_number = get_app_version
+  
+  slack(
+    username: "Deployment",
+    icon_url: "https://lh3.googleusercontent.com/83uJWDic3BfdeENiQwmF0Eilr7_oYmo78XSYiorwUHpvp9VTzE69sFysVs-FN7qlKTw=h180",
+    message: "*Successfully deployed #{is_ios ? 'iOS' : 'Android'} app for #{is_dev ? 'QA' : 'Prod'} 🎉*",
+    success: true,
+    slack_url: ENV['SLACK_URL'],
+    default_payloads: [:git_branch, :last_git_commit],
+    attachment_properties: {
+      fields: [
+        {
+          title: "Flavor",
+          value: is_dev ? "Dev" : "Prod",
+          short: true
+        },
+        {
+          title: "Version",
+          value: "`#{app_version} (#{app_build_number})`",
+          short: true
+        },
+        {
+          title: "Size",
+          value: "#{app_size}",
+          short: true
+        },
+      ],
+      fallback: "Successfully deployed #{is_ios ? 'iOS' : 'Android'} app for #{is_dev ? 'QA' : 'Prod'} #{app_version}",
+      color: "good",
+      actions: [
+        {
+          type: "button",
+          text: "최신 버전 설치",
+          url: install_url(platform, env)
+        },
+      ]
+    }
+  )
+end
+
+# TODO: iOS와 Android lane 통합. 공통 환경 변수 설정.
+# before_all do |lane, options|
+#   @slack_url = "https://hooks.slack.com/services/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"
+
+#   if options[:flavor] == "dev"
+#     @flavor = "dev"
+#   elsif options[:flavor] == "Prod"
+#     @platform = "Prod"
+
+#   if options[:platform] == "ios"
+#     @platform = "ios"
+#   elsif options[:platform] == "android"
+#     @platform = "android"
+
+# Have an easy way to run flutter tasks on the root of the project
+lane :sh_on_root do |options|
+  command = options[:command]
+  sh("cd #{root_path} && #{command}")
+end
+
+# Tasks to be reused on each platform flow
+lane :fetch_dependencies do
+  sh_on_root(command: "flutter pub get --suppress-analytics")
+end
+
+# Tasks to be reused on each platform flow
+lane :build_autogenerated_code do
+  sh_on_root(command: "flutter pub run intl_utils:generate && flutter pub run build_runner build --delete-conflicting-outputs")
+end
+
+# # Tasks to be reused on each platform flow
+# lane :lint do
+#   sh_on_root(command: "flutter format --suppress-analytics --set-exit-if-changed -n lib/main.dart lib/src/ test/")
+# end
+
+# Tasks to be reused on each platform flow
+lane :test do |options|
+  sh_on_root(command: "flutter test --no-pub --coverage --suppress-analytics")
+end

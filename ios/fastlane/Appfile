@@ -1,0 +1,7 @@
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
+
+fastlane_require 'dotenv'
+
+app_identifier(ENV['IOS_BUNDLE_IDENTIFIER']) # The bundle identifier of your app
+apple_id('ska2519@gmail.com') # Apple ID of your developer account

@@ -381,11 +381,12 @@ coverage/
 app.*.symbols
 
 /*/*/*/firebase_app_id_file.json
-/*/*/*/firebase_app_id_file*.json
 /*/GoogleService-Info.plist
 /*/GoogleService-Info*.plist
 /*/*/GoogleService-Info.plist
 /*/*/GoogleService-Info*.plist
+/*/*/*/GoogleService-Info.plist
+
 /*/*/google-services.json
 /*/*/google-services*.json
 /*/*/*/*/google-services.json

@@ -5,7 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "debug dev",
+            "name": "🛠🧑‍💻 debug macos dev",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_dev.dart",
+            "flutterMode": "debug",
+            "args": [
+                "-v",
+            ]
+        },
+        {
+            "name": "🛠🧑‍💻 debug dev",
             "type": "dart",
             "request": "launch",
             "program": "lib/main_dev.dart",
@@ -13,59 +23,79 @@
             "args": [
                 // "-t",
                 // "lib/main_dev.dart",
-                "--flavor dev",
-                // "--flavor",
-                // "dev",
+                "--flavor",
+                "dev",
+                "-v",
             ]
         },
         {
-            "name": "profile dev",
-            "type": "dart",
-            "request": "launch",
-            "program": "lib/main_dev.dart",
-            "flutterMode": "profile",
-            "args": [
-                "--flavor dev",
-            ]
-        },
-        {
-            "name": "release dev",
-            "type": "dart",
-            "request": "launch",
-            "program": "lib/main_dev.dart",
-            "flutterMode": "release",
-            "args": [
-                "--flavor dev",
-            ]
-        },
-        {
-            "name": "debug prod",
+            "name": "🛠🛍 debug prod",
             "type": "dart",
             "request": "launch",
             "program": "lib/main_prod.dart",
             "flutterMode": "debug",
             "args": [
-                "--flavor prod",
+                "--flavor",
+                "prod",
+                "-v",
             ]
         },
         {
-            "name": "profile prod",
+            "name": "🧑‍💻📱 release dev",
             "type": "dart",
             "request": "launch",
-            "program": "lib/main_prod.dart",
-            "flutterMode": "profile",
+            "program": "lib/main_dev.dart",
+            "flutterMode": "release",
             "args": [
-                "--flavor prod",
+                "--flavor",
+                "dev",
+                "-v",
             ]
         },
         {
-            "name": "release prod",
+            "name": "🛍📱 release macos prod",
             "type": "dart",
             "request": "launch",
             "program": "lib/main_prod.dart",
             "flutterMode": "release",
             "args": [
-                "--flavor prod",
+                "-v",
+            ]
+        },
+        {
+            "name": "🛍📱 release prod",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_prod.dart",
+            "flutterMode": "release",
+            "args": [
+                "--flavor",
+                "prod",
+                // "-v",
+            ]
+        },
+        {
+            "name": "🕵️‍♂️🧑‍💻 profile dev",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_dev.dart",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor",
+                "dev",
+                "-v",
+            ]
+        },
+        {
+            "name": "🕵️‍♂️🛍 profile prod",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_prod.dart",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor",
+                "prod",
+                "-v",
             ]
         },
     ]

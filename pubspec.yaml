@@ -1,5 +1,5 @@
-name: bluetooth_on_my_body
-description: A new Flutter project.
+name: bomb
+description: Bluetooth On My body
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -9,7 +9,9 @@ environment:
 
 dependencies:
   desktop_window: ^0.4.0
+  firebase_analytics: ^9.3.0
   firebase_core: ^1.20.0
+  firebase_crashlytics: ^2.8.6
   flex_color_scheme: ^5.1.0
   flutter:
     sdk: flutter
@@ -24,7 +26,6 @@ dependencies:
   go_router: ^4.2.2
   google_fonts: ^3.0.1
   hooks_riverpod: ^2.0.0-dev.9
-  icons_launcher: ^2.0.2
   intl: ^0.17.0
   line_icons: ^2.0.1
   mocktail: ^0.3.0
@@ -75,17 +76,29 @@ flavorizr:
 
   flavors:
     dev:
+
       app:
-        name: "[DEV]Bluetooth On my Body"
+        name: "🧑‍💻 BOMB"
+        icon: "assets/logos/icons8_bluetooth_993_1024_dev.png"
       android:
         applicationId: "test.fruitlab.bluetoothOnmyBody"
+        firebase:
+          config: "android/app/src/dev/google-services.json"
       ios:
         bundleId: "test.fruitlab.bluetoothOnmyBody"
+        firebase:
+          config: "ios/Runner/dev/GoogleService-Info.plist"
+
 
     prod:
       app:
-        name: "Bluetooth On my Body"
+        name: "🔍 BOMB"
+        icon: "assets/logos/icons8_bluetooth_993_1024_white.png"
       android:
         applicationId: "dev.fruitlab.bluetoothOnmyBody"
+        firebase:
+          config: "android/app/src/prod/google-services.json"
       ios:
         bundleId: "dev.fruitlab.bluetoothOnmyBody"
+        firebase:
+          config: "ios/Runner/prod/GoogleService-Info.plist"

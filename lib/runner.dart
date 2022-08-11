@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,6 +15,7 @@ import 'src/localization/string_hardcoded.dart';
 
 class AppRunner {
   static Future<void> run(Flavor flavor) async {
+    FirebaseAnalytics analytics;
     // * For more info on error handling, see:
     // * https://docs.flutter.dev/testing/errors
     await runZonedGuarded(() async {
@@ -22,7 +25,12 @@ class AppRunner {
             ? DefaultFirebaseOptions.currentPlatform
             : DefaultFirebaseOptionsDev.currentPlatform,
       );
-
+      analytics = FirebaseAnalytics.instance;
+      await analytics.logAppOpen();
+      await analytics.logEvent(name: 'app_start');
+      FlutterError.onError =
+          FirebaseCrashlytics.instance.recordFlutterFatalError;
+      // FirebaseCrashlytics.instance.crash();
       final container = ProviderContainer();
       // container.read(dynamicLinksServiceProvider);
       // turn off the # in the URLs on the web
@@ -48,7 +56,8 @@ class AppRunner {
       };
     }, (Object error, StackTrace stack) {
       // * Log any errors to console
-      debugPrint(error.toString());
+      debugPrint('debugPrint error: ${error.toString()}');
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     });
   }
 }

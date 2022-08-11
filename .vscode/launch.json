@@ -10,11 +10,11 @@
             "request": "launch",
             "program": "lib/main_dev.dart",
             "flutterMode": "debug",
-            "args": [
-                "-t",
-                "lib/main_dev.dart",
-                // "--flavor dev",
-            ]
+            // "args": [
+            //     "-t",
+            //     "lib/main_dev.dart",
+            // "--flavor dev",
+            // ]
         },
         {
             "name": "debug dev",

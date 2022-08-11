@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../../flavors.dart';
 import '../../../../common_widgets/async_value_widget.dart';
+import '../../../../common_widgets/flavor_banner.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../data/bluetooth_repository.dart';
@@ -39,22 +41,25 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const HomeAppBar(),
-      body: AsyncValueWidget(
-        value: ref.watch(isBluetoothAvailableProvider),
-        data: (bool isBluetoothAvailable) => CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            ResponsiveSliverCenter(
-              padding: const EdgeInsets.all(Sizes.p8),
-              child: ScanButtonRow(isBluetoothAvailable),
-            ),
-            const ResponsiveSliverCenter(
-              padding: EdgeInsets.all(Sizes.p8),
-              child: BluetoothGrid(),
-            ),
-          ],
+    return FlavorBanner(
+      show: F.appFlavor != Flavor.PROD,
+      child: Scaffold(
+        appBar: const HomeAppBar(),
+        body: AsyncValueWidget(
+          value: ref.watch(isBluetoothAvailableProvider),
+          data: (bool isBluetoothAvailable) => CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              ResponsiveSliverCenter(
+                padding: const EdgeInsets.all(Sizes.p8),
+                child: ScanButtonRow(isBluetoothAvailable),
+              ),
+              const ResponsiveSliverCenter(
+                padding: EdgeInsets.all(Sizes.p8),
+                child: BluetoothGrid(),
+              ),
+            ],
+          ),
         ),
       ),
     );

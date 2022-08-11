@@ -1,4 +1,7 @@
 import 'flavors.dart';
 import 'runner.dart';
 
-Future<void> main() => AppRunner.run(Flavor.dev);
+Future<void> main() async {
+  F.appFlavor = Flavor.DEV;
+  await AppRunner.run(F.appFlavor!);
+}

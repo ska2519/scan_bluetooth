@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'app.dart';
 import 'flavors.dart';
+import 'runner.dart';
 
-void main() {
-  F.appFlavor = Flavor.PROD;
-  runApp(App());
-}
+Future<void> main() => AppRunner.run(Flavor.prod);

@@ -11,8 +11,8 @@
             "program": "lib/main_dev.dart",
             "flutterMode": "debug",
             "args": [
-                // "-t",
-                // "lib/main_dev.dart",
+                "-t",
+                "lib/main_dev.dart",
                 // "--flavor dev",
             ]
         },

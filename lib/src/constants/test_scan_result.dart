@@ -34,4 +34,3 @@ final kBlueScanResult = MockBlueScanResult(
   rssi: 18,
 );
 // final kBlueScanResult = MockBlueScanResult();
-

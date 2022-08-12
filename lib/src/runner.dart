@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../firebase_options.dart';
-import '../firebase_options_dev.dart';
 import '../flavors.dart';
 import 'app.dart';
+import 'firebase_options.dart';
+import 'firebase_options_dev.dart';
 import 'localization/string_hardcoded.dart';
 
 class AppRunner {

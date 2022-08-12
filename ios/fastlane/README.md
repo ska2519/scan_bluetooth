@@ -50,13 +50,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios deploy_dev
+### ios deploy_adhoc
 
 ```sh
-[bundle exec] fastlane ios deploy_dev
+[bundle exec] fastlane ios deploy_adhoc
 ```
 
-Deploy a DEV build to Firebase Distribution
+Deploy a ad-hoc build to Firebase Distribution
 
 ### ios deploy_testflight
 

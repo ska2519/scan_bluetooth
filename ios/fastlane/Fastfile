@@ -6,20 +6,19 @@ fastlane_require 'dotenv'
 
 default_platform(:ios)
 
+
 platform :ios do
+  platform = "ios"
+  flavor = ENV['IOS_SCHEME']
   # Updates Xcode project settings to use a different code signing based on method
   private_lane :archive do |options|
-    method = options[:method]
-    flavor = ENV['IOS_SCHEME'].downcase
+    method = options[:method]  
     is_prod = flavor == "prod"
-
-    # profile_name = method == 'ad-hoc' ? "Release-dev" : "Release-prod"
     configuration = is_prod ? "Release-prod" : "Release-dev"
 
     update_code_signing_settings(
       build_configurations: configuration,
       use_automatic_signing: true,
-      # profile_name: profile_name
     )
 
 
@@ -34,39 +33,36 @@ platform :ios do
     )
   end
 
-  desc "Deploy a DEV build to Firebase Distribution"
-  lane :deploy_dev do
-    platform = "ios"
-    env = "dev"
-    
+  desc "Deploy a ad-hoc build to Firebase Distribution"
+  lane :deploy_adhoc do
+
     begin
-      # send_start_slack_message(platform, env)
+      # send_start_slack_message(platform, flavor)
       archive(method: "ad-hoc")
       firebase_app_distribution(
         app: ENV['IOS_FIREBASE_APP_DISTRIBUTION_APP'],
         groups: ENV['IOS_FIREBASE_APP_DISTRIBUTION_TESTER_GROUPS'],
         release_notes: ENV['IOS_FIREBASE_APP_DISTRIBUTION_RELEASE_NOTES'],
+        service_credentials_file:ENV['IOS_FIREBASE_APP_DISTRIBUTION_CREDENTIALS_FILE_PATH'],
       )
-      # send_success_slack_message(platform, env)
+      # send_success_slack_message(platform, flavor)
     rescue => exception
-      on_error(exception, platform, env)
+      on_error(exception, platform, flavor)
     end
   end
 
   desc "Deploy a PROD build to TestFlight"
   lane :deploy_testflight do
-    platform = "ios"
-    env = "prod"
     begin
-      # send_start_slack_message(platform, env)
+      # send_start_slack_message(platform, flavor)
       archive(method: "app-store")
       upload_to_testflight(
         ipa: "#{root_path}/build/ios/Runner.ipa",
         skip_waiting_for_build_processing: true
       )
-      # send_success_slack_message(platform, env)
+      # send_success_slack_message(platform, flavor)
     rescue => exception
-      on_error(exception, platform, env)
+      on_error(exception, platform, flavor)
     end
   end
 end

@@ -37,7 +37,7 @@ Runner/GeneratedPluginRegistrant.*
 **/.env*
 **/.env.*
 
-**/bluetooth-on-my-body.json
+**/bomb.json
 
 # fastlane specific
 fastlane/report.xml

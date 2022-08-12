@@ -1,6 +1,6 @@
 {
-  "name": "bluetooth_on_my_body",
-  "short_name": "bluetooth_on_my_body",
+  "name": "BOMB",
+  "short_name": "BOMB",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#0175C2",

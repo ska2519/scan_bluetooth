@@ -1,0 +1,2 @@
+json_key_file("service_account_user.json")
+package_name("dev.fruitshop.bomb")

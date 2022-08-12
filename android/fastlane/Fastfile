@@ -1,0 +1,56 @@
+update_fastlane
+
+import "../../scripts/Fastfile"
+
+default_platform(:android)
+
+platform :android do
+  platform = "android"
+  flavor = ENV['ANDROID_SCHEME']
+  release_path = flavor == 'dev' ? 'devRelease' : 'prodRelease'
+
+  private_lane :build_aab do
+    print('build_aab flavor: ',flavor)
+    params = '-t lib/main_dev.dart --flavor '+ flavor
+    print('params: ',params)
+    sh_on_root(command: "flutter build appbundle #{params}")
+    # sh_on_root(command: "fvm use #{ENV['FLUTTER_VERSION']} && fvm flutter build apk --split-per-abi #{params}")
+  end
+
+  lane :deploy_staging do
+    # after_all do |lane|
+      # slack(message: "Successfully deployed Android App", slack_url: ENV['SLACK_URL'])
+    # end
+
+    # slack(message: "Fastlane Android build start", slack_url: ENV['SLACK_URL'])
+
+    # gradle(task: 'assemble', build_type: 'Release')
+    # begin
+    build_aab
+    aab_path = "#{root_path}/build/app/outputs/bundle/#{release_path}/app-#{flavor}-release.aab"
+    print('aab_path: ',aab_path)
+    firebase_app_distribution(
+      app: ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_APP'],
+      service_credentials_file: ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_CREDENTIALS_FILE_PATH'],
+      # firebase_cli_token: ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_CREDENTIALS_FILE_PATH'],
+      android_artifact_type: "AAB",
+      android_artifact_path: aab_path,
+      release_notes: ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_RELEASE_NOTES'],
+      groups: "QA_TEAM",
+    )
+  end
+
+  # lane :beta do
+  # build_aab
+  # upload_to_play_store(track: 'beta')
+  # # slack(message: 'Successfully distributed a new beta build')
+  # end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+      increase_version
+      sh "flutter build appbundle -t lib/main_dev.dart --flavor "+flavor
+      upload_to_play_store(aab: "../../build/app/outputs/bundle/devRelease/app-dev-release.aab")
+  end
+  
+end

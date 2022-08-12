@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "bomb-fruitshop-dev",
+  "private_key_id": "eecb5441396f48c75fad407728b9facb4f531528",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCaz5PbZxgNhoLN\nay3MIqhaDMUrGnCM1w8EZvBhgVTBNxBC8kQ+kVdatywlBHN99i3QFO0gxXAJdlUE\nJRJed9Iu16w+hw8BhgJf5HLn9fwqYKkSm64r8NYXP/1V7BbZyNT8fbX7HLQDtPe4\nCBnLh3RbEMJ8dXg2P2TXdosPpmws3jindqthNTeQKWPxU/XvCHmVBxnOVQkR7oi5\n4ytHQ+2NFF820ATHsDwm9FsqmmeKFBhe51dA3sUutPH48krol32rFerkOLxm6t8P\nAE5l3c+ONjbiUsqWoInS9Fehho/LXXuyQ1iqW2/qbkng/7MTL6kVfLgwthItEye0\nEvfCkZfbAgMBAAECggEARPUBX1FknWG1EdsT40Hsy2+0w6ZbS+Dfh45ytHvvTMFC\nNQ/E5jnHN1kwCK0a5Jirf2xS064eYZib9eStcfbdYJAg4Rk3ze3rUNtpc3lWgWnc\n5bUCt//m3SRbq9Ilu4yBkpZMYTY/2Qba8NZq5wXHBmlIuDd6/G7wdCkReD8hIDqK\nhLy8IxcdW4txp9pYB0caWoXWqhsA8GtNKFN1vUabCBJVdjq0+LbuXQIOKWTxSMrw\nGtdVIS9D8UZxkV8widYpwC5pT54v4fQTfZoA9lCBq9XIT1+JF6uohdEpBBw/0nwV\nxPDlWQaeXLbybxQcyNjoiw0pu5d/WTazPFKitR1IQQKBgQDM7+6k3Wvmp4PysBPx\nnghr2YhUm7v8iFeJNgBYqLuxk/SQvr8YdTQwRjdqv5ar48L96/+EEsIK0kwM3ziC\nosHqeZbTbTcbKwppatP/UgZqml49+YVHcFznAC3cOcoJ+kRHcRxJPoWePqp23Rct\nrvgjNJlQbswV1BwZSizvDwiSZwKBgQDBYkxQme1fVm8GlqpN91kjQY/gxP/NFhNW\nDl50dpM/AF+Zou4Y+1D6g8cDiljhEBNJrvbWrvNcasVV+8Mqn29lZVco4YIFIpX5\n3vxnoR+D2nOux3rdPKwqxewGnnt0FBA4zj+YR3Wj5l50vh2YbjMFUUx1FJ4NCdiR\nyivrBwVubQKBgQDDuzChM303uaxzIKqbrMT8RLJJpMgBpDJ+sR3Zj6ZcLyR5DkUz\nVdV3eci54qxEFW+J11meSdAcR8gszxGI62vrxx8/ZWMpRo1WK5q4kx3fuPnjlSov\nFekVE325hVQq/WUzGpvadKVngxCKIBVgI2mJLlZzlK7E9mWz3b1WwXP9ZwKBgCmL\nM3fRSZREnj9dGKL9MzIGwKD50TY+utKu7Y25d3J+Yws/XEUToFbg/lz9WJCpAmu+\n4ZpHJVLCQThyiH/clnLC7ZGDuInf3zY5uCGPFJUf1eBDTFrA0P+zWzwkycKrGL0L\nWdAd8eDO+ZW8zeDUM7O9vl4cmsOUTOks9HheHsWVAoGAadKDqwp8r1OPXHXQPcbf\nUYfuB7TSAKaHjGlZd37o2asAcEcGpB0n61wMmGMPQCdk9YIX2vbrRu4f3hZXKE6w\nYgfU5UiyadkKsW3HrCrqIp+m4okhrCKfXZuVG3HK41/KcHN54FkGFUIKcdk5OuCo\nvMeuZwMjz7abx7Ejj+GN4ls=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-app-distribution-admi@bomb-fruitshop-dev.iam.gserviceaccount.com",
+  "client_id": "101303575743449352527",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-app-distribution-admi%40bomb-fruitshop-dev.iam.gserviceaccount.com"
+}

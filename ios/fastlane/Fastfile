@@ -1,5 +1,5 @@
 # Firebase App Distribution deploy 명령어: bundle exec fastlane deploy_dev --env dev
-# testflight deploy 명령어: bundle exec fastlane deploy_testflight --env dev
+# testflight deploy 명령어: bundle exec fastlane deploy_testflight --env prod
 
 import "../../scripts/Fastfile"
 fastlane_require 'dotenv'
@@ -11,10 +11,10 @@ platform :ios do
   private_lane :archive do |options|
     method = options[:method]
     flavor = ENV['IOS_SCHEME'].downcase
-    is_dev = flavor == "dev"
+    is_prod = flavor == "prod"
 
     # profile_name = method == 'ad-hoc' ? "Release-dev" : "Release-prod"
-    configuration = is_dev ? "Release-dev" : "Release-prod"
+    configuration = is_prod ? "Release-prod" : "Release-dev"
 
     update_code_signing_settings(
       build_configurations: configuration,
@@ -30,7 +30,7 @@ platform :ios do
       export_method: method,
       scheme: flavor,
       configuration: configuration,
-      # xcargs: "-allowProvisioningUpdates"
+      xcargs: "-allowProvisioningUpdates"
     )
   end
 

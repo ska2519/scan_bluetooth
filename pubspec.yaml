@@ -2,7 +2,7 @@ name: bomb
 description: Bluetooth On My body
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 0.0.1+1
 
 environment:
   sdk: '>=2.17.6 <3.0.0'
@@ -95,7 +95,7 @@ flavorizr:
     dev:
 
       app:
-        name: "🧑‍💻 BOMB"
+        name: "DEV_BOMB"
         icon: "assets/logos/icons8_bluetooth_993_1024_dev.png"
       android:
         applicationId: "test.fruitlab.bluetoothOnmyBody"
@@ -109,7 +109,7 @@ flavorizr:
 
     prod:
       app:
-        name: "🔍 BOMB"
+        name: "BOMB"
         icon: "assets/logos/icons8_bluetooth_993_1024_white.png"
       android:
         applicationId: "dev.fruitlab.bluetoothOnmyBody"

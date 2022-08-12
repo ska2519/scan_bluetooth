@@ -9,12 +9,6 @@
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		4A8B54E2FD0B5D939855A373 /* devLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F151FECCC03B7582CD17E806 /* devLaunchScreen.storyboard */; };
-		5388E71E28A58FEE006E797E /* prodDebug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5388E71828A58FEE006E797E /* prodDebug.xcconfig */; };
-		5388E71F28A58FEE006E797E /* devProfile.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5388E71928A58FEE006E797E /* devProfile.xcconfig */; };
-		5388E72028A58FEE006E797E /* prodProfile.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5388E71A28A58FEE006E797E /* prodProfile.xcconfig */; };
-		5388E72128A58FEE006E797E /* devDebug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5388E71B28A58FEE006E797E /* devDebug.xcconfig */; };
-		5388E72228A58FEE006E797E /* devRelease.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5388E71C28A58FEE006E797E /* devRelease.xcconfig */; };
-		5388E72328A58FEE006E797E /* prodRelease.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5388E71D28A58FEE006E797E /* prodRelease.xcconfig */; };
 		539A693928A184740061D41D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 539A693828A184740061D41D /* StoreKit.framework */; };
 		53FF5BD728A579D900E797E1 /* flutter_export_environment.sh in Resources */ = {isa = PBXBuildFile; fileRef = 53FF5BD228A579D900E797E1 /* flutter_export_environment.sh */; };
 		53FF5BD928A579D900E797E1 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 53FF5BD428A579D900E797E1 /* AppFrameworkInfo.plist */; };
@@ -63,7 +57,7 @@
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		955D022375E19CDEA271652B /* Pods-Runner.release-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-prod.xcconfig"; sourceTree = "<group>"; };
-		97C146EE1CF9000F007C117D /* 🧑‍💻 BOMB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "🧑‍💻 BOMB.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		97C146EE1CF9000F007C117D /* DEV_BOMB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DEV_BOMB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97C146FB1CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -134,7 +128,7 @@
 		97C146EF1CF9000F007C117D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				97C146EE1CF9000F007C117D /* 🧑‍💻 BOMB.app */,
+				97C146EE1CF9000F007C117D /* DEV_BOMB.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -178,8 +172,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
+				391AF067D8A34C9292424043 /* Firebase Setup */,
 				E1AD21E3B4948B0440DA934D /* [CP] Check Pods Manifest.lock */,
-				1FF85B7FD479BE659129B78F /* Firebase Setup */,
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
@@ -195,7 +189,7 @@
 			);
 			name = Runner;
 			productName = Runner;
-			productReference = 97C146EE1CF9000F007C117D /* 🧑‍💻 BOMB.app */;
+			productReference = 97C146EE1CF9000F007C117D /* DEV_BOMB.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -204,7 +198,7 @@
 		97C146E61CF9000F007C117D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1340;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					97C146ED1CF9000F007C117D = {
@@ -237,26 +231,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
-				5388E72328A58FEE006E797E /* prodRelease.xcconfig in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
-				5388E72128A58FEE006E797E /* devDebug.xcconfig in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				53FF5BDA28A579D900E797E1 /* Flutter.podspec in Resources */,
-				5388E71F28A58FEE006E797E /* devProfile.xcconfig in Resources */,
-				5388E72228A58FEE006E797E /* devRelease.xcconfig in Resources */,
 				53FF5BD928A579D900E797E1 /* AppFrameworkInfo.plist in Resources */,
 				4A8B54E2FD0B5D939855A373 /* devLaunchScreen.storyboard in Resources */,
 				5C8EC028691C594D24F45D0C /* prodLaunchScreen.storyboard in Resources */,
 				53FF5BD728A579D900E797E1 /* flutter_export_environment.sh in Resources */,
-				5388E71E28A58FEE006E797E /* prodDebug.xcconfig in Resources */,
-				5388E72028A58FEE006E797E /* prodProfile.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1FF85B7FD479BE659129B78F /* Firebase Setup */ = {
+		391AF067D8A34C9292424043 /* Firebase Setup */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -432,6 +420,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -456,8 +445,10 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = test.fruitlab.bluetoothOnmyBody;
+				RESOURCES_TARGETED_DEVICE_FAMILY = "";
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -535,10 +526,14 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = test.fruitlab.bluetoothOnmyBody;
+				RESOURCES_TARGETED_DEVICE_FAMILY = "";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = "Debug-dev";
 		};
@@ -610,10 +605,14 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.fruitlab.bluetoothOnmyBody;
+				RESOURCES_TARGETED_DEVICE_FAMILY = "";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = "Debug-prod";
 		};
@@ -654,6 +653,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -678,8 +678,10 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = test.fruitlab.bluetoothOnmyBody;
+				RESOURCES_TARGETED_DEVICE_FAMILY = "";
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -691,16 +693,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BD043085DDE1FC997E98DDBF /* Pods-Runner.debug-dev.xcconfig */;
 			buildSettings = {
-				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = prodAppIcon;
 				ASSETCATALOG_COMPILER_APPICON_NAME = devAppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				ASSET_PREFIX = "$(ASSET_PREFIX)";
 				BUNDLE_NAME = "$(BUNDLE_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_ NUMBER)";
 				DEVELOPMENT_TEAM = 33BU599YAS;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
@@ -708,6 +713,7 @@
 				MARKETING_VERSION = "$(FLUTTER_BUILD_ NAME)";
 				PRODUCT_NAME = "$(BUNDLE_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Debug-dev";
@@ -716,16 +722,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 99A624E3C73127469A3C834F /* Pods-Runner.profile-dev.xcconfig */;
 			buildSettings = {
-				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = prodAppIcon;
 				ASSETCATALOG_COMPILER_APPICON_NAME = devAppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				ASSET_PREFIX = "$(ASSET_PREFIX)";
 				BUNDLE_NAME = "$(BUNDLE_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_ NUMBER)";
 				DEVELOPMENT_TEAM = 33BU599YAS;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
@@ -733,6 +742,7 @@
 				MARKETING_VERSION = "$(FLUTTER_BUILD_ NAME)";
 				PRODUCT_NAME = "$(BUNDLE_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Profile-dev";
@@ -741,16 +751,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 20E1061A66C80067781551FE /* Pods-Runner.release-dev.xcconfig */;
 			buildSettings = {
-				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = prodAppIcon;
 				ASSETCATALOG_COMPILER_APPICON_NAME = devAppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				ASSET_PREFIX = "$(ASSET_PREFIX)";
 				BUNDLE_NAME = "$(BUNDLE_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_ NUMBER)";
 				DEVELOPMENT_TEAM = 33BU599YAS;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
@@ -758,6 +771,7 @@
 				MARKETING_VERSION = "$(FLUTTER_BUILD_ NAME)";
 				PRODUCT_NAME = "$(BUNDLE_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Release-dev";
@@ -766,16 +780,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D04146B8F630B7414A2DDB63 /* Pods-Runner.debug-prod.xcconfig */;
 			buildSettings = {
-				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = prodAppIcon;
 				ASSETCATALOG_COMPILER_APPICON_NAME = devAppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				ASSET_PREFIX = "$(ASSET_PREFIX)";
 				BUNDLE_NAME = "$(BUNDLE_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_ NUMBER)";
 				DEVELOPMENT_TEAM = 33BU599YAS;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
@@ -783,6 +800,7 @@
 				MARKETING_VERSION = "$(FLUTTER_BUILD_ NAME)";
 				PRODUCT_NAME = "$(BUNDLE_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Debug-prod";
@@ -791,16 +809,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0D3390228B5A7AAB58843251 /* Pods-Runner.profile-prod.xcconfig */;
 			buildSettings = {
-				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = prodAppIcon;
 				ASSETCATALOG_COMPILER_APPICON_NAME = devAppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				ASSET_PREFIX = "$(ASSET_PREFIX)";
 				BUNDLE_NAME = "$(BUNDLE_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_ NUMBER)";
 				DEVELOPMENT_TEAM = 33BU599YAS;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
@@ -808,6 +829,7 @@
 				MARKETING_VERSION = "$(FLUTTER_BUILD_ NAME)";
 				PRODUCT_NAME = "$(BUNDLE_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Profile-prod";
@@ -816,16 +838,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 955D022375E19CDEA271652B /* Pods-Runner.release-prod.xcconfig */;
 			buildSettings = {
-				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = prodAppIcon;
 				ASSETCATALOG_COMPILER_APPICON_NAME = devAppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				ASSET_PREFIX = "$(ASSET_PREFIX)";
 				BUNDLE_NAME = "$(BUNDLE_NAME)";
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_ NUMBER)";
 				DEVELOPMENT_TEAM = 33BU599YAS;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_TESTABILITY = NO;
 				ENABLE_TESTING_SEARCH_PATHS = NO;
@@ -833,6 +858,7 @@
 				MARKETING_VERSION = "$(FLUTTER_BUILD_ NAME)";
 				PRODUCT_NAME = "$(BUNDLE_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Release-prod";
@@ -874,6 +900,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -898,8 +925,10 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.fruitlab.bluetoothOnmyBody;
+				RESOURCES_TARGETED_DEVICE_FAMILY = "";
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -968,8 +997,10 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.fruitlab.bluetoothOnmyBody;
+				RESOURCES_TARGETED_DEVICE_FAMILY = "";
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";

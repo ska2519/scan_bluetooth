@@ -38,12 +38,12 @@ android {
         dev {
             dimension "flavor-type"
             applicationId "test.fruitlab.bluetoothOnmyBody"
-            resValue "string", "app_name", "🧑‍💻 BOMB"
+            resValue "string", "app_name", "DEV_BOMB"
         }
         prod {
             dimension "flavor-type"
             applicationId "dev.fruitlab.bluetoothOnmyBody"
-            resValue "string", "app_name", "🔍 BOMB"
+            resValue "string", "app_name", "BOMB"
         }
     }
 

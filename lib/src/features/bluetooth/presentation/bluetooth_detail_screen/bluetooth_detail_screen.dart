@@ -1,10 +1,4 @@
-// import 'package:bluetooth_on_my_body/src/common_widgets/async_value_widget.dart';
-// import 'package:bluetooth_on_my_body/src/common_widgets/empty_placeholder_widget.dart';
-// import 'package:bluetooth_on_my_body/src/common_widgets/responsive_center.dart';
-// import 'package:bluetooth_on_my_body/src/constants/common.dart';
-// import 'package:bluetooth_on_my_body/src/features/bluetooth/data/bluetooth_repository.dart';
-// import 'package:bluetooth_on_my_body/src/features/bluetooth/presentation/home_app_bar/home_app_bar.dart';
-// import 'package:bluetooth_on_my_body/src/localization/string_hardcoded.dart';
+
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:quick_blue/models.dart';
 

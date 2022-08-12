@@ -1,4 +1,4 @@
-package com.example.bluetooth_on_my_body
+package app.fruitshop.bomb
 
 import io.flutter.embedding.android.FlutterActivity
 

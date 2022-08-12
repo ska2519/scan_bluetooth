@@ -1,5 +1,5 @@
 import 'flavors.dart';
-import 'runner.dart';
+import 'src/runner.dart';
 
 Future<void> main() async {
   F.appFlavor = Flavor.PROD;

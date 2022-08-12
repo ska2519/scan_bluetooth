@@ -9,8 +9,8 @@ PRODUCT_NAME = DEV Bluetooth On my Body
 //PRODUCT_NAME = Bluetooth On my Body
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = test.fruitlab.bluetoothOnmyBody
-// PRODUCT_BUNDLE_IDENTIFIER = dev.fruitlab.bluetoothOnmyBody
+PRODUCT_BUNDLE_IDENTIFIER = app.fruitshop.bomb
+// PRODUCT_BUNDLE_IDENTIFIER = app.fruitshop.bomb
 
 FLUTTER_TARGET = /Users/ska/Coding/Projects/bluetooth_on_my_body/lib/main_dev.dart
 // FLUTTER_TARGET = /Users/ska/Coding/Projects/bluetooth_on_my_body/lib/main_prod.dart

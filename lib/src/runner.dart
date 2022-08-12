@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'firebase_options.dart';
-import 'firebase_options_dev.dart';
-import 'flavors.dart';
-import 'src/app.dart';
-import 'src/localization/string_hardcoded.dart';
+import '../firebase_options.dart';
+import '../firebase_options_dev.dart';
+import '../flavors.dart';
+import 'app.dart';
+import 'localization/string_hardcoded.dart';
 
 class AppRunner {
   static Future<void> run(Flavor flavor) async {

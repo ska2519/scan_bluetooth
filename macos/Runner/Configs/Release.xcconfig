@@ -10,7 +10,7 @@ FLUTTER_BUILD_MODE = release
 PRODUCT_NAME = BOMB
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = dev.fruitlab.bluetoothOnmyBody
+PRODUCT_BUNDLE_IDENTIFIER = app.fruitshop.bomb
 
 FLUTTER_TARGET = /Users/ska/Coding/Projects/bluetooth_on_my_body/lib/main_prod.dart
 

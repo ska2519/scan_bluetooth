@@ -18,6 +18,10 @@ class $AssetsLogosGen {
   AssetGenImage get icons8Bluetooth9931024 =>
       const AssetGenImage('assets/logos/icons8_bluetooth_993_1024.png');
 
+  /// File path: assets/logos/icons8_bluetooth_993_1024_dev.png
+  AssetGenImage get icons8Bluetooth9931024Dev =>
+      const AssetGenImage('assets/logos/icons8_bluetooth_993_1024_dev.png');
+
   /// File path: assets/logos/icons8_bluetooth_993_1024_white.png
   AssetGenImage get icons8Bluetooth9931024White =>
       const AssetGenImage('assets/logos/icons8_bluetooth_993_1024_white.png');

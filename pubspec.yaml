@@ -1,5 +1,5 @@
-name: bomb
-description: Bluetooth On My body
+name: BOMB
+description: Bluetooth finder
 publish_to: 'none'
 
 version: 0.0.1+1
@@ -93,29 +93,27 @@ flavorizr:
 
   flavors:
     dev:
-
       app:
         name: "DEV_BOMB"
         icon: "assets/logos/icons8_bluetooth_993_1024_dev.png"
       android:
-        applicationId: "test.fruitlab.bluetoothOnmyBody"
+        applicationId: "dev.fruitshop.bomb"
         firebase:
           config: "android/app/src/dev/google-services.json"
       ios:
-        bundleId: "test.fruitlab.bluetoothOnmyBody"
+        bundleId: "dev.fruitshop.bomb"
         firebase:
           config: "ios/Runner/dev/GoogleService-Info.plist"
-
 
     prod:
       app:
         name: "BOMB"
         icon: "assets/logos/icons8_bluetooth_993_1024_white.png"
       android:
-        applicationId: "dev.fruitlab.bluetoothOnmyBody"
+        applicationId: "app.fruitshop.bomb"
         firebase:
           config: "android/app/src/prod/google-services.json"
       ios:
-        bundleId: "dev.fruitlab.bluetoothOnmyBody"
+        bundleId: "app.fruitshop.bomb"
         firebase:
           config: "ios/Runner/prod/GoogleService-Info.plist"

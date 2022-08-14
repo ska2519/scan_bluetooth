@@ -9,6 +9,7 @@ import '../../../../constants/app_sizes.dart';
 import '../../data/bluetooth_repository.dart';
 import '../home_app_bar/home_app_bar.dart';
 import 'bluetooth_grid.dart';
+import 'bluetooth_searching_fab.dart';
 import 'scan_button_row.dart';
 
 class BluetoothListScreen extends StatefulHookConsumerWidget {
@@ -43,11 +44,12 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
   Widget build(BuildContext context) {
     return FlavorBanner(
       show: F.appFlavor != Flavor.PROD,
-      child: Scaffold(
-        appBar: const HomeAppBar(),
-        body: AsyncValueWidget(
-          value: ref.watch(isBluetoothAvailableProvider),
-          data: (bool isBluetoothAvailable) => CustomScrollView(
+      child: AsyncValueWidget(
+        value: ref.watch(isBluetoothAvailableProvider),
+        data: (bool isBluetoothAvailable) => Scaffold(
+          floatingActionButton: BluetoothSearchingFAB(isBluetoothAvailable),
+          appBar: const HomeAppBar(),
+          body: CustomScrollView(
             controller: _scrollController,
             slivers: [
               ResponsiveSliverCenter(

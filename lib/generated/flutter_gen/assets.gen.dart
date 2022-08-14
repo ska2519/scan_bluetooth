@@ -11,20 +11,31 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 
-class $AssetsLogosGen {
-  const $AssetsLogosGen();
+class $AssetsGifGen {
+  const $AssetsGifGen();
 
-  /// File path: assets/logos/icons8_bluetooth_993_1024.png
-  AssetGenImage get icons8Bluetooth9931024 =>
-      const AssetGenImage('assets/logos/icons8_bluetooth_993_1024.png');
+  /// File path: assets/gif/search.gif
+  AssetGenImage get search => const AssetGenImage('assets/gif/search.gif');
 
-  /// File path: assets/logos/icons8_bluetooth_993_1024_dev.png
-  AssetGenImage get icons8Bluetooth9931024Dev =>
-      const AssetGenImage('assets/logos/icons8_bluetooth_993_1024_dev.png');
+  /// File path: assets/gif/search_dark.gif
+  AssetGenImage get searchDark =>
+      const AssetGenImage('assets/gif/search_dark.gif');
+}
 
-  /// File path: assets/logos/icons8_bluetooth_993_1024_white.png
-  AssetGenImage get icons8Bluetooth9931024White =>
-      const AssetGenImage('assets/logos/icons8_bluetooth_993_1024_white.png');
+class $AssetsLogoGen {
+  const $AssetsLogoGen();
+
+  /// File path: assets/logo/boom_993_1024.png
+  AssetGenImage get boom9931024 =>
+      const AssetGenImage('assets/logo/boom_993_1024.png');
+
+  /// File path: assets/logo/boom_993_1024_dev.png
+  AssetGenImage get boom9931024Dev =>
+      const AssetGenImage('assets/logo/boom_993_1024_dev.png');
+
+  /// File path: assets/logo/boom_993_1024_white.png
+  AssetGenImage get boom9931024White =>
+      const AssetGenImage('assets/logo/boom_993_1024_white.png');
 }
 
 class $AssetsSvgGen {
@@ -86,7 +97,8 @@ class $AssetsSvgGen {
 class Assets {
   Assets._();
 
-  static const $AssetsLogosGen logos = $AssetsLogosGen();
+  static const $AssetsGifGen gif = $AssetsGifGen();
+  static const $AssetsLogoGen logo = $AssetsLogoGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
 }
 

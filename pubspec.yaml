@@ -64,7 +64,8 @@ flutter:
   assets:
     - assets/
     - assets/svg/
-    - assets/logos/
+    - assets/logo/
+    - assets/gif/
 
 flutter_intl:
   enabled: true

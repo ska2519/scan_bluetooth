@@ -78,22 +78,18 @@ class BluetoothCountInfo extends ConsumerWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
+        // Text(
+        //   '💣',
+        //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
+        //         letterSpacing: -0.9,
+        //         fontFeatures: [const FontFeature.tabularFigures()],
+        //         height: 1.1,
+        //       ),
+        // ),
+
         Text(
-          'No name ',
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            letterSpacing: -0.9,
-            fontFeatures: [const FontFeature.tabularFigures()],
-          ),
-        ),
-        const Icon(
-          Icons.bluetooth,
-          size: Sizes.p24,
-          color: Colors.blue,
-        ),
-        Text(
-          ' $emptyNameBTCount'.hardcoded,
+          '❓ $emptyNameBTCount'.hardcoded,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
             letterSpacing: -1,
             fontFeatures: [const FontFeature.tabularFigures()],

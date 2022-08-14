@@ -1,6 +1,7 @@
 {
     "dart.flutterSdkPath": "/Users/ska/fvm/versions/stable",
     "cSpell.words": [
+        "fastlane",
         "fruitlab",
         "fruitshop",
         "xcconfig"

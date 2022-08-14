@@ -388,3 +388,5 @@ app.*.symbols
 **/google-services.json
 **/firebase_options.dart
 **/firebase_options*.dart
+
+**/service_account_user.json

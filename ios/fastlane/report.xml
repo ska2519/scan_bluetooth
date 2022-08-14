@@ -5,32 +5,37 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: opt_out_usage" time="0.00024">
+      <testcase classname="fastlane.lanes" name="0: update_fastlane" time="1.973771">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.00019">
+      <testcase classname="fastlane.lanes" name="1: opt_out_usage" time="0.000194">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: Switch to ios archive lane" time="0.00017">
+      <testcase classname="fastlane.lanes" name="2: default_platform" time="0.000262">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: update_code_signing_settings" time="0.056676">
+      <testcase classname="fastlane.lanes" name="3: Switch to ios archive lane" time="0.000266">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: build_app" time="328.012923">
+      <testcase classname="fastlane.lanes" name="4: update_code_signing_settings" time="0.059829">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="5: firebase_app_distribution" time="84.249556">
+      <testcase classname="fastlane.lanes" name="5: build_app" time="235.227421">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="6: firebase_app_distribution" time="44.78701">
         
       </testcase>
     

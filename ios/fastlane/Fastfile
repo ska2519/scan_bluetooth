@@ -1,5 +1,6 @@
 # Firebase App Distribution deploy 명령어: bundle exec fastlane deploy_dev --env dev
 # testflight deploy 명령어: bundle exec fastlane deploy_testflight --env prod
+update_fastlane
 
 import "../../scripts/Fastfile"
 fastlane_require 'dotenv'
@@ -27,7 +28,9 @@ platform :ios do
       build_path: "#{root_path}/build/ios",
       archive_path: "#{root_path}/build/ios",
       export_method: method,
-      scheme: flavor,
+      scheme: "--split-debug-info #{flavor}",
+
+      # scheme: flavor,
       configuration: configuration,
       xcargs: "-allowProvisioningUpdates"
     )
@@ -35,15 +38,18 @@ platform :ios do
 
   desc "Deploy a ad-hoc build to Firebase Distribution"
   lane :deploy_adhoc do
-
+    
     begin
+      service_credentials_file = "#{root_path}/.firebase/#{flavor}/bomb-fruitshop.json"
       # send_start_slack_message(platform, flavor)
+      
       archive(method: "ad-hoc")
       firebase_app_distribution(
         app: ENV['IOS_FIREBASE_APP_DISTRIBUTION_APP'],
-        groups: ENV['IOS_FIREBASE_APP_DISTRIBUTION_TESTER_GROUPS'],
+        service_credentials_file:service_credentials_file,
         release_notes: ENV['IOS_FIREBASE_APP_DISTRIBUTION_RELEASE_NOTES'],
-        service_credentials_file:ENV['IOS_FIREBASE_APP_DISTRIBUTION_CREDENTIALS_FILE_PATH'],
+        testers:ENV['IOS_FIREBASE_APP_DISTRIBUTION_TESTER'],
+        # groups: ENV['IOS_FIREBASE_APP_DISTRIBUTION_TESTER_GROUPS'],
       )
       # send_success_slack_message(platform, flavor)
     rescue => exception
@@ -57,7 +63,7 @@ platform :ios do
       # send_start_slack_message(platform, flavor)
       archive(method: "app-store")
       upload_to_testflight(
-        ipa: "#{root_path}/build/ios/Runner.ipa",
+        # ipa: "#{root_path}/build/ios/Runner.ipa",
         skip_waiting_for_build_processing: true
       )
       # send_success_slack_message(platform, flavor)

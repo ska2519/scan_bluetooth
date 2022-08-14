@@ -50,10 +50,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## Android
 
-### android deploy_staging
+### android deploy_firebase_distribution
 
 ```sh
-[bundle exec] fastlane android deploy_staging
+[bundle exec] fastlane android deploy_firebase_distribution
 ```
 
 
@@ -65,6 +65,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 ```
 
 Deploy a new version to the Google Play
+
+### android fetch_google_application_credentials
+
+```sh
+[bundle exec] fastlane android fetch_google_application_credentials
+```
+
+
 
 ----
 

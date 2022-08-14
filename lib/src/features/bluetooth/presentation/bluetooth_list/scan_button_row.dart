@@ -92,14 +92,6 @@ class _ScanButtonsRowState extends ConsumerState<ScanButtonRow>
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Flexible(
-            child: Text(
-              'Bluetooth Available: ',
-              style: Theme.of(context).textTheme.titleSmall,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
           isBluetoothAvailable
               ? const Icon(
                   Icons.bluetooth_connected,
@@ -109,6 +101,15 @@ class _ScanButtonsRowState extends ConsumerState<ScanButtonRow>
                   Icons.bluetooth_disabled,
                   color: Colors.red,
                 ),
+          gapW8,
+          Flexible(
+            child: Text(
+              isBluetoothAvailable ? 'Available' : 'Not available',
+              style: Theme.of(context).textTheme.titleSmall,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           gapW8,
           IgnorePointer(
             ignoring: !isBluetoothAvailable,

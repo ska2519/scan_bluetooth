@@ -1,6 +1,7 @@
 update_fastlane
 
 import "../../scripts/Fastfile"
+fastlane_require 'dotenv'
 
 default_platform(:android)
 
@@ -10,33 +11,33 @@ platform :android do
   release_path = flavor == 'dev' ? 'devRelease' : 'prodRelease'
 
   private_lane :build_aab do
-    print('build_aab flavor: ',flavor)
-    params = '-t lib/main_dev.dart --flavor '+ flavor
-    print('params: ',params)
-    sh_on_root(command: "flutter build appbundle #{params}")
+    params = "-t lib/main_dev.dart"
+    sh_on_root(command: "flutter build appbundle --split-debug-info #{params} --flavor #{flavor}")
     # sh_on_root(command: "fvm use #{ENV['FLUTTER_VERSION']} && fvm flutter build apk --split-per-abi #{params}")
   end
 
-  lane :deploy_staging do
+  lane :deploy_firebase_distribution do
     # after_all do |lane|
       # slack(message: "Successfully deployed Android App", slack_url: ENV['SLACK_URL'])
     # end
 
     # slack(message: "Fastlane Android build start", slack_url: ENV['SLACK_URL'])
 
-    # gradle(task: 'assemble', build_type: 'Release')
     # begin
+    fetch_google_application_credentials
     build_aab
+    service_credentials_file = "#{root_path}/.firebase/#{flavor}/bomb-fruitshop.json"
     aab_path = "#{root_path}/build/app/outputs/bundle/#{release_path}/app-#{flavor}-release.aab"
-    print('aab_path: ',aab_path)
+
     firebase_app_distribution(
       app: ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_APP'],
-      service_credentials_file: ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_CREDENTIALS_FILE_PATH'],
-      # firebase_cli_token: ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_CREDENTIALS_FILE_PATH'],
+      
+      service_credentials_file: service_credentials_file,
       android_artifact_type: "AAB",
       android_artifact_path: aab_path,
       release_notes: ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_RELEASE_NOTES'],
-      groups: "QA_TEAM",
+      testers:ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_TESTER'],
+      # groups: "QA_TEAM",
     )
   end
 
@@ -53,4 +54,20 @@ platform :android do
       upload_to_play_store(aab: "../../build/app/outputs/bundle/devRelease/app-dev-release.aab")
   end
   
+
+  lane :fetch_google_application_credentials do 
+    service_account_user_credentials_file = "#{root_path}/.firebase/service_account_user.json"
+    project_id = "pc-api-8735604440160345818-521"
+    key_file = "/Users/ska/coding/Certificates_Keys/GoogleCloud/deploy_play_console_api_access_service_account.json"
+    require "google/cloud/storage"
+
+    # Explicitly use service account credentials by specifying the private key
+    # file.
+    storage = Google::Cloud::Storage.new project: project_id, keyfile: key_file
+
+    # Make an authenticated API request
+    storage.buckets.each do |bucket|
+        puts bucket.name
+    end
+  end
 end

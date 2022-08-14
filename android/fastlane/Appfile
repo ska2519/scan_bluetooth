@@ -1,2 +1,4 @@
-json_key_file("service_account_user.json")
-package_name("dev.fruitshop.bomb")
+fastlane_require 'dotenv'
+
+json_key_file(ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_CREDENTIALS_FILE_PATH'])
+package_name("#{flavor = ENV['ANDROID_SCHEME']}.fruitshop.bomb")

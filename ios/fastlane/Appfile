@@ -3,7 +3,13 @@
 
 fastlane_require 'dotenv'
 
-app_identifier(ENV['IOS_BUNDLE_IDENTIFIER']) # The bundle identifier of your app
+app_identifier ENV['IOS_BUNDLE_IDENTIFIER'] # The bundle identifier of your app
+
 apple_id "ska2519@gmail.com" # Apple ID of your developer account
-team_id(ENV['IOS_TEAM_ID']) # Developer Portal Team ID
-itc_team_id "123104614" # App Store Connect Team ID
+apple_dev_portal_id "ska2519@gmail.com"  # Apple Developer Account
+itunes_connect_id "ska2519@company.com"# App Store Connect Account
+
+team_id ENV['IOS_TEAM_ID'] # Developer Portal Team ID
+itc_team_id ENV['ITC_TEAM_ID'] # App Store Connect Team ID
+
+apple_password ENV['IOS_PASSWORD'] # Apple ID password

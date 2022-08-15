@@ -58,13 +58,37 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### android internal
+
+```sh
+[bundle exec] fastlane android internal
+```
+
+
+
+### android alpha
+
+```sh
+[bundle exec] fastlane android alpha
+```
+
+
+
+### android beta
+
+```sh
+[bundle exec] fastlane android beta
+```
+
+
+
 ### android deploy
 
 ```sh
 [bundle exec] fastlane android deploy
 ```
 
-Deploy a new version to the Google Play
+
 
 ### android fetch_google_application_credentials
 

@@ -64,7 +64,7 @@ Deploy a ad-hoc build to Firebase Distribution
 [bundle exec] fastlane ios deploy_testflight
 ```
 
-Deploy a PROD build to TestFlight
+Deploy a iOS build to TestFlight
 
 ----
 

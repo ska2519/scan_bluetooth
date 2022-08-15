@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../flavors.dart';
@@ -20,6 +21,7 @@ class AppRunner {
     // * https://docs.flutter.dev/testing/errors
     await runZonedGuarded(() async {
       WidgetsFlutterBinding.ensureInitialized();
+      unawaited(MobileAds.instance.initialize());
       await Firebase.initializeApp(
         options: flavor == Flavor.PROD
             ? DefaultFirebaseOptions.currentPlatform

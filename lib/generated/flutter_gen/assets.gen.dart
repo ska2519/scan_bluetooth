@@ -25,17 +25,21 @@ class $AssetsGifGen {
 class $AssetsLogoGen {
   const $AssetsLogoGen();
 
-  /// File path: assets/logo/boom_993_1024.png
-  AssetGenImage get boom9931024 =>
-      const AssetGenImage('assets/logo/boom_993_1024.png');
+  /// File path: assets/logo/bomb_1024.png
+  AssetGenImage get bomb1024 =>
+      const AssetGenImage('assets/logo/bomb_1024.png');
 
-  /// File path: assets/logo/boom_993_1024_dev.png
-  AssetGenImage get boom9931024Dev =>
-      const AssetGenImage('assets/logo/boom_993_1024_dev.png');
+  /// File path: assets/logo/bomb_1024_white.png
+  AssetGenImage get bomb1024White =>
+      const AssetGenImage('assets/logo/bomb_1024_white.png');
 
-  /// File path: assets/logo/boom_993_1024_white.png
-  AssetGenImage get boom9931024White =>
-      const AssetGenImage('assets/logo/boom_993_1024_white.png');
+  /// File path: assets/logo/bomb_dev_1024.png
+  AssetGenImage get bombDev1024 =>
+      const AssetGenImage('assets/logo/bomb_dev_1024.png');
+
+  /// File path: assets/logo/bomb_ios_1024.jpg
+  AssetGenImage get bombIos1024 =>
+      const AssetGenImage('assets/logo/bomb_ios_1024.jpg');
 }
 
 class $AssetsSvgGen {

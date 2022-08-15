@@ -9,9 +9,10 @@ platform :android do
   platform = "android"
   flavor = ENV['ANDROID_SCHEME']
   release_path = flavor == 'dev' ? 'devRelease' : 'prodRelease'
+  aab_path = "#{root_path}/build/app/outputs/bundle/#{release_path}/app-#{flavor}-release.aab"
 
   private_lane :build_aab do
-    params = "-t lib/main_dev.dart"
+    params = "-t lib/main_#{flavor}.dart"
     sh_on_root(command: "flutter build appbundle --split-debug-info #{params} --flavor #{flavor}")
     # sh_on_root(command: "fvm use #{ENV['FLUTTER_VERSION']} && fvm flutter build apk --split-per-abi #{params}")
   end
@@ -27,11 +28,9 @@ platform :android do
     fetch_google_application_credentials
     build_aab
     service_credentials_file = "#{root_path}/.firebase/#{flavor}/bomb-fruitshop.json"
-    aab_path = "#{root_path}/build/app/outputs/bundle/#{release_path}/app-#{flavor}-release.aab"
 
     firebase_app_distribution(
       app: ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_APP'],
-      
       service_credentials_file: service_credentials_file,
       android_artifact_type: "AAB",
       android_artifact_path: aab_path,
@@ -41,18 +40,39 @@ platform :android do
     )
   end
 
-  # lane :beta do
-  # build_aab
-  # upload_to_play_store(track: 'beta')
-  # # slack(message: 'Successfully distributed a new beta build')
-  # end
-
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-      increase_version
-      sh "flutter build appbundle -t lib/main_dev.dart --flavor "+flavor
-      upload_to_play_store(aab: "../../build/app/outputs/bundle/devRelease/app-dev-release.aab")
+  lane :internal do
+    fetch_google_application_credentials
+    build_aab
+    upload_to_play_store(track: 'internal')
+    # # slack(message: 'Successfully distributed a new beta build')
   end
+
+  lane :alpha do
+    fetch_google_application_credentials
+    build_aab
+    upload_to_play_store(
+      track: 'alpha',
+      # json_key: "/Users/ska/coding/Certificates_Keys/GoogleCloud/deploy_play_console_api_access_service_account.json",
+      )
+    # # slack(message: 'Successfully distributed a new beta build')
+  end
+
+  lane :beta do
+  fetch_google_application_credentials
+  build_aab
+  upload_to_play_store(track: 'beta')
+  # # slack(message: 'Successfully distributed a new beta build')
+  end
+
+  lane :deploy do
+      # increase_version
+      # sh "flutter build appbundle -t lib/main_dev.dart --flavor "+flavor
+      build_aab
+      upload_to_play_store(track:'production')
+  end
+
+
+
   
 
   lane :fetch_google_application_credentials do 

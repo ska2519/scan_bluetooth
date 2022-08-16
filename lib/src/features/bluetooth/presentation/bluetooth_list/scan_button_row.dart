@@ -1,3 +1,4 @@
+import 'package:duration/duration.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rolling_switch/rolling_switch.dart';
@@ -130,7 +131,10 @@ class _ScanButtonsRowState extends ConsumerState<ScanButtonRow>
               rollingInfoRight: RollingIconInfo(
                 icon: Icons.search,
                 text: Text(
-                  'Searching... ${_elapsed.inSeconds.toString()}',
+                  'Searching... ${prettyDuration(
+                    _elapsed,
+                    abbreviated: true,
+                  )}',
                 ),
               ),
             ),

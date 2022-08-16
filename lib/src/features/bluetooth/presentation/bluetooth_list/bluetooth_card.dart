@@ -81,19 +81,22 @@ class BluetoothCard extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  Tooltip(
-                    message: 'CONNECTION',
-                    child: Row(
-                      children: [
-                        IconButton(
-                          onPressed: () => ref
-                              .read(bluetoothServiceProvider)
-                              .connect(bluetooth.deviceId),
-                          iconSize: 16,
-                          splashRadius: 16,
-                          icon: const Icon(Icons.bluetooth_connected),
-                        ),
-                      ],
+                  Visibility(
+                    visible: false,
+                    child: Tooltip(
+                      message: 'CONNECTION',
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => ref
+                                .read(bluetoothServiceProvider)
+                                .connect(bluetooth.deviceId),
+                            iconSize: 16,
+                            splashRadius: 16,
+                            icon: const Icon(Icons.bluetooth_connected),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

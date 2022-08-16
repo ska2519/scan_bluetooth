@@ -32,33 +32,33 @@ class HomeAppBar extends HookConsumerWidget with PreferredSizeWidget {
     if (screenWidth < Breakpoint.tablet) {
       return AppBar(
         title: const BluetoothCountInfo(),
-        actions: [
+        actions: const [
           // const ShoppingCartIcon(),
-          MoreMenuButton(user: user),
+          // MoreMenuButton(user: user),
         ],
       );
     } else {
       return AppBar(
         title: const BluetoothCountInfo(),
-        actions: [
+        actions: const [
           // const ShoppingCartIcon(),
-          if (user != null) ...[
-            ActionTextButton(
-              key: MoreMenuButton.ordersKey,
-              text: 'Orders'.hardcoded,
-              onPressed: () => context.pushNamed(AppRoute.orders.name),
-            ),
-            ActionTextButton(
-              key: MoreMenuButton.accountKey,
-              text: 'Account'.hardcoded,
-              onPressed: () => context.pushNamed(AppRoute.account.name),
-            ),
-          ] else
-            ActionTextButton(
-              key: MoreMenuButton.signInKey,
-              text: 'Sign In'.hardcoded,
-              onPressed: () => context.pushNamed(AppRoute.signIn.name),
-            )
+          // if (user != null) ...[
+          //   ActionTextButton(
+          //     key: MoreMenuButton.ordersKey,
+          //     text: 'Orders'.hardcoded,
+          //     onPressed: () => context.pushNamed(AppRoute.orders.name),
+          //   ),
+          //   ActionTextButton(
+          //     key: MoreMenuButton.accountKey,
+          //     text: 'Account'.hardcoded,
+          //     onPressed: () => context.pushNamed(AppRoute.account.name),
+          //   ),
+          // ] else
+          //   ActionTextButton(
+          //     key: MoreMenuButton.signInKey,
+          //     text: 'Sign In'.hardcoded,
+          //     onPressed: () => context.pushNamed(AppRoute.signIn.name),
+          //   )
         ],
       );
     }

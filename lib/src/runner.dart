@@ -1,15 +1,16 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../flavors.dart';
 import 'app.dart';
+import 'features/admob/application/admob_service.dart';
 import 'firebase_options.dart';
 import 'firebase_options_dev.dart';
 import 'localization/string_hardcoded.dart';
@@ -21,7 +22,6 @@ class AppRunner {
     // * https://docs.flutter.dev/testing/errors
     await runZonedGuarded(() async {
       WidgetsFlutterBinding.ensureInitialized();
-      unawaited(MobileAds.instance.initialize());
       await Firebase.initializeApp(
         options: flavor == Flavor.PROD
             ? DefaultFirebaseOptions.currentPlatform
@@ -34,7 +34,9 @@ class AppRunner {
           FirebaseCrashlytics.instance.recordFlutterFatalError;
       // FirebaseCrashlytics.instance.crash();
       final container = ProviderContainer();
-      // container.read(dynamicLinksServiceProvider);
+      if (Platform.isAndroid || Platform.isIOS) {
+        container.read(initAdmobProvider);
+      }
       // turn off the # in the URLs on the web
       GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
       // * Entry point of the app

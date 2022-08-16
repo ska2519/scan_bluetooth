@@ -17,6 +17,20 @@ class $AssetsGifGen {
   /// File path: assets/gif/search.gif
   AssetGenImage get search => const AssetGenImage('assets/gif/search.gif');
 
+  /// File path: assets/gif/search_2.gif
+  AssetGenImage get search2 => const AssetGenImage('assets/gif/search_2.gif');
+
+  /// File path: assets/gif/search_2_dark.gif
+  AssetGenImage get search2Dark =>
+      const AssetGenImage('assets/gif/search_2_dark.gif');
+
+  /// File path: assets/gif/search_3.gif
+  AssetGenImage get search3 => const AssetGenImage('assets/gif/search_3.gif');
+
+  /// File path: assets/gif/search_4_dark.gif
+  AssetGenImage get search4Dark =>
+      const AssetGenImage('assets/gif/search_4_dark.gif');
+
   /// File path: assets/gif/search_dark.gif
   AssetGenImage get searchDark =>
       const AssetGenImage('assets/gif/search_dark.gif');

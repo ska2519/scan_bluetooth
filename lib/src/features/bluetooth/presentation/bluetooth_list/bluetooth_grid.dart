@@ -9,12 +9,16 @@ import '../../../../constants/resources.dart';
 import '../../application/bluetooth_service.dart';
 import 'bluetooth_card.dart';
 
-/// A widget that displays the list of products that match the search query.
-class BluetoothGrid extends HookConsumerWidget {
+class BluetoothGrid extends StatefulHookConsumerWidget {
   const BluetoothGrid({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _BluetoothGridState();
+}
+
+class _BluetoothGridState extends ConsumerState<BluetoothGrid> {
+  @override
+  Widget build(BuildContext context) {
     final bluetoothListValue = ref.watch(bluetoothListStreamProvider);
     return AsyncValueWidget<List<BlueScanResult>>(
       value: bluetoothListValue,

@@ -78,13 +78,14 @@ class _ScanButtonsRowState extends ConsumerState<ScanButtonRow>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final screenWidth = size.width;
-    final state = ref.watch(startStopButtonControllerProvider);
     ref.listen<AsyncValue>(
       startStopButtonControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
+
+    final size = MediaQuery.of(context).size;
+    final screenWidth = size.width;
+    final state = ref.watch(startStopButtonControllerProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Sizes.p8),

@@ -12,9 +12,10 @@ import '../../../../constants/app_sizes.dart';
 import '../../../admob/application/admob_service.dart';
 import '../../data/bluetooth_repository.dart';
 import '../home_app_bar/home_app_bar.dart';
+import 'animation_searching_icon.dart';
+import 'bluetooth_available.dart';
 import 'bluetooth_grid.dart';
 import 'bluetooth_searching_fab.dart';
-import 'scan_button_row.dart';
 
 class BluetoothListScreen extends StatefulHookConsumerWidget {
   const BluetoothListScreen({super.key});
@@ -65,7 +66,7 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen>
   Widget build(BuildContext context) {
     return FlavorBanner(
       show: F.appFlavor != Flavor.PROD,
-      child: Platform.isAndroid
+      child: Platform.isAndroid || Platform.isIOS
           ? AsyncValueWidget<InitializationStatus>(
               value: ref.watch(initAdmobProvider),
               data: (InitializationStatus initializationStatus) {
@@ -74,18 +75,19 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen>
                 return AsyncValueWidget<bool>(
                   value: ref.watch(isBluetoothAvailableProvider),
                   data: (bool isBluetoothAvailable) => Scaffold(
-                    floatingActionButton: const BluetoothSearchingFAB(),
+                    floatingActionButton:
+                        BluetoothSearchingFAB(isBluetoothAvailable),
                     appBar: const HomeAppBar(),
                     body: CustomScrollView(
                       controller: _scrollController,
                       slivers: [
                         ResponsiveSliverCenter(
                           padding: const EdgeInsets.all(Sizes.p8),
-                          child: ScanButtonRow(isBluetoothAvailable),
+                          child: BluetoothAvailable(isBluetoothAvailable),
                         ),
                         if (_ad != null)
                           ResponsiveSliverCenter(
-                            // padding: const EdgeInsets.all(Sizes.p8),
+                            padding: const EdgeInsets.all(Sizes.p8),
                             child: AdWidget(ad: _ad!),
                           ),
                         const ResponsiveSliverCenter(
@@ -100,14 +102,19 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen>
           : AsyncValueWidget<bool>(
               value: ref.watch(isBluetoothAvailableProvider),
               data: (bool isBluetoothAvailable) => Scaffold(
-                floatingActionButton: const BluetoothSearchingFAB(),
+                floatingActionButton:
+                    BluetoothSearchingFAB(isBluetoothAvailable),
                 appBar: const HomeAppBar(),
                 body: CustomScrollView(
                   controller: _scrollController,
                   slivers: [
+                    const ResponsiveSliverCenter(
+                      padding: EdgeInsets.all(Sizes.p8),
+                      child: AnimationSearchingIcon(),
+                    ),
                     ResponsiveSliverCenter(
                       padding: const EdgeInsets.all(Sizes.p8),
-                      child: ScanButtonRow(isBluetoothAvailable),
+                      child: BluetoothAvailable(isBluetoothAvailable),
                     ),
                     if (_ad != null)
                       ResponsiveSliverCenter(

@@ -18,7 +18,7 @@ final bluetoothRepositoryProvider = Provider<BluetoothRepository>(
 
 final isBluetoothAvailableProvider =
     FutureProvider.autoDispose<bool>((ref) async {
-  return ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
+  return await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
 });
 
 final scanResultStreamProvider = StreamProvider<BlueScanResult>(

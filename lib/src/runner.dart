@@ -35,6 +35,7 @@ class AppRunner {
       // FirebaseCrashlytics.instance.crash();
       final container = ProviderContainer();
       if (Platform.isAndroid || Platform.isIOS) {
+        print('Platform.isAndroid || Platform.isIOS');
         container.read(initAdmobProvider);
       }
       // turn off the # in the URLs on the web

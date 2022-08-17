@@ -14,6 +14,7 @@ class AdmobService {
 final admobServiceProvider = Provider<AdmobService>(AdmobService.new);
 
 final initAdmobProvider = FutureProvider<InitializationStatus>((ref) async {
+  print('initAdmobProvider start');
   final admobStatus = await ref.read(admobServiceProvider).initAdmob();
   print('admobStatus: ${admobStatus.adapterStatuses.values.first.state}');
   ref.read(admobStatusProvider.notifier).state = admobStatus;

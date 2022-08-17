@@ -114,7 +114,7 @@ class _ScanButtonsRowState extends ConsumerState<ScanButtonRow>
           ),
           gapW8,
           IgnorePointer(
-            ignoring: !isBluetoothAvailable,
+            // ignoring: !isBluetoothAvailable,
             child: RollingSwitch.icon(
               initialState: isBluetoothAvailable ? true : false,
               width: screenWidth / 2,

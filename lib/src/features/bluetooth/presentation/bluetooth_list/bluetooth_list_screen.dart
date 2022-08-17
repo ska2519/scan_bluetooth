@@ -23,7 +23,8 @@ class BluetoothListScreen extends StatefulHookConsumerWidget {
   BluetoothListScreenState createState() => BluetoothListScreenState();
 }
 
-class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
+class BluetoothListScreenState extends ConsumerState<BluetoothListScreen>
+    with WidgetsBindingObserver {
   final _scrollController = ScrollController();
   NativeAd? _ad;
 
@@ -31,13 +32,27 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
   void initState() {
     super.initState();
     _scrollController.addListener(_dismissOnScreenKeyboard);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     _scrollController.removeListener(_dismissOnScreenKeyboard);
     _ad?.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) return;
+    final isBackgroud = state == AppLifecycleState.paused;
+    if (isBackgroud) {
+    } else {
+      ref.refresh(isBluetoothAvailableProvider);
+    }
   }
 
   void _dismissOnScreenKeyboard() {
@@ -59,8 +74,7 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
                 return AsyncValueWidget<bool>(
                   value: ref.watch(isBluetoothAvailableProvider),
                   data: (bool isBluetoothAvailable) => Scaffold(
-                    floatingActionButton:
-                        BluetoothSearchingFAB(isBluetoothAvailable),
+                    floatingActionButton: const BluetoothSearchingFAB(),
                     appBar: const HomeAppBar(),
                     body: CustomScrollView(
                       controller: _scrollController,
@@ -86,8 +100,7 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
           : AsyncValueWidget<bool>(
               value: ref.watch(isBluetoothAvailableProvider),
               data: (bool isBluetoothAvailable) => Scaffold(
-                floatingActionButton:
-                    BluetoothSearchingFAB(isBluetoothAvailable),
+                floatingActionButton: const BluetoothSearchingFAB(),
                 appBar: const HomeAppBar(),
                 body: CustomScrollView(
                   controller: _scrollController,

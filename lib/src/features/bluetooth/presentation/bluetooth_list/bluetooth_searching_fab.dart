@@ -33,8 +33,7 @@ class _BluetoothSearchingFABState extends ConsumerState<BluetoothSearchingFAB>
         currentlyElapsed = elapsed;
       });
     });
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _submitScanButton(false));
+    _submitScanButton(true);
   }
 
   @override
@@ -55,7 +54,7 @@ class _BluetoothSearchingFABState extends ConsumerState<BluetoothSearchingFAB>
     });
   }
 
-  void _reset() {
+  void _resetTicker() {
     _ticker.stop();
     setState(() {
       previouslyElapsed = Duration.zero;
@@ -63,21 +62,18 @@ class _BluetoothSearchingFABState extends ConsumerState<BluetoothSearchingFAB>
     });
   }
 
-  Future<void> _submitScanButton(bool scanButtonState) async {
-    print('scanButtonState: $scanButtonState');
-    scanButtonState = !scanButtonState;
-    if (scanButtonState) {
+  Future<void> _submitScanButton(bool isSearching) async {
+    if (isSearching) {
       if (await ref.read(bluetoothServiceProvider).isBluetoothAvailable()) {
         _toggleRunning();
-        ref.read(scanButtonStateProvider.notifier).state = true;
-        await ref
-            .read(scanButtonControllerProvider.notifier)
-            .submitScanButton(scanButtonState);
       }
     } else {
-      _reset();
-      ref.read(scanButtonStateProvider.notifier).state = false;
+      _resetTicker();
     }
+    ref.read(scanButtonStateProvider.notifier).state = isSearching;
+    await ref
+        .read(scanButtonControllerProvider.notifier)
+        .submitScanButton(isSearching);
   }
 
   @override
@@ -86,13 +82,12 @@ class _BluetoothSearchingFABState extends ConsumerState<BluetoothSearchingFAB>
       scanButtonControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-
-    final scanButtonState = ref.watch(scanButtonStateProvider);
+    final isSearching = ref.watch(scanButtonStateProvider);
 
     return FloatingActionButton.extended(
       tooltip: 'Bluetooth Search',
-      onPressed: () async => await _submitScanButton(scanButtonState),
-      label: scanButtonState
+      onPressed: () async => await _submitScanButton(!isSearching),
+      label: isSearching
           ? Text(
               prettyDuration(
                 _elapsed,
@@ -100,7 +95,7 @@ class _BluetoothSearchingFABState extends ConsumerState<BluetoothSearchingFAB>
               ),
             )
           : const Text('Stopped'),
-      icon: scanButtonState
+      icon: isSearching
           ? const AnimationSearchingIcon()
           : const Icon(Icons.search),
     );

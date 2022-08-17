@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quick_blue/quick_blue.dart';
@@ -47,7 +49,9 @@ class BluetoothCard extends HookConsumerWidget {
                   Text(
                     bluetooth.name.isNotEmpty
                         ? bluetooth.name
-                        : '❓🆔: ${bluetooth.deviceId.substring(0, 8)}',
+                        : Platform.isIOS || Platform.isMacOS
+                            ? '❓🆔  ${bluetooth.deviceId.substring(0, 8)}'
+                            : '❓🆔  ${bluetooth.deviceId}',
                     style: bluetooth.name.isNotEmpty
                         ? textTheme.bodyMedium
                         : textTheme.titleSmall!.copyWith(

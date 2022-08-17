@@ -11,31 +11,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 
-class $AssetsGifGen {
-  const $AssetsGifGen();
-
-  /// File path: assets/gif/search.gif
-  AssetGenImage get search => const AssetGenImage('assets/gif/search.gif');
-
-  /// File path: assets/gif/search_2.gif
-  AssetGenImage get search2 => const AssetGenImage('assets/gif/search_2.gif');
-
-  /// File path: assets/gif/search_2_dark.gif
-  AssetGenImage get search2Dark =>
-      const AssetGenImage('assets/gif/search_2_dark.gif');
-
-  /// File path: assets/gif/search_3.gif
-  AssetGenImage get search3 => const AssetGenImage('assets/gif/search_3.gif');
-
-  /// File path: assets/gif/search_4_dark.gif
-  AssetGenImage get search4Dark =>
-      const AssetGenImage('assets/gif/search_4_dark.gif');
-
-  /// File path: assets/gif/search_dark.gif
-  AssetGenImage get searchDark =>
-      const AssetGenImage('assets/gif/search_dark.gif');
-}
-
 class $AssetsLogoGen {
   const $AssetsLogoGen();
 
@@ -115,7 +90,6 @@ class $AssetsSvgGen {
 class Assets {
   Assets._();
 
-  static const $AssetsGifGen gif = $AssetsGifGen();
   static const $AssetsLogoGen logo = $AssetsLogoGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
 }

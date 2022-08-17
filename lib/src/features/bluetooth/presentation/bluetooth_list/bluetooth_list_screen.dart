@@ -9,10 +9,9 @@ import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../common_widgets/flavor_banner.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
-import '../../../admob/application/admob_service.dart';
+import '../../../admob/ad_helper.dart';
 import '../../data/bluetooth_repository.dart';
 import '../home_app_bar/home_app_bar.dart';
-import 'animation_searching_icon.dart';
 import 'bluetooth_available.dart';
 import 'bluetooth_grid.dart';
 import 'bluetooth_searching_fab.dart';
@@ -34,6 +33,29 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen>
     super.initState();
     _scrollController.addListener(_dismissOnScreenKeyboard);
     WidgetsBinding.instance.addObserver(this);
+    if (Platform.isAndroid || Platform.isIOS) {
+      NativeAd(
+        adUnitId: AdHelper.nativeAdUnitId,
+        factoryId: 'listTile',
+        request: const AdRequest(),
+        listener: NativeAdListener(
+          onAdLoaded: (ad) {
+            print('onAdLoaded ad:  ${ad.toString()}');
+            // ref.read(admobStatusProvider.notifier).state = admobStatus;
+            setState(() {
+              _ad = ad as NativeAd;
+              print('_ad:  ${_ad.toString()}');
+            });
+          },
+          onAdFailedToLoad: (ad, error) {
+            // Releases an ad resource when it fails to load
+            ad.dispose();
+            print(
+                'Ad load failed (code=${error.code} message=${error.message})');
+          },
+        ),
+      ).load();
+    }
   }
 
   @override
@@ -65,70 +87,31 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen>
   @override
   Widget build(BuildContext context) {
     return FlavorBanner(
-      show: F.appFlavor != Flavor.PROD,
-      child: Platform.isAndroid || Platform.isIOS
-          ? AsyncValueWidget<InitializationStatus>(
-              value: ref.watch(initAdmobProvider),
-              data: (InitializationStatus initializationStatus) {
-                print(
-                    'initializationStatus: ${initializationStatus.adapterStatuses.values.first.state}');
-                return AsyncValueWidget<bool>(
-                  value: ref.watch(isBluetoothAvailableProvider),
-                  data: (bool isBluetoothAvailable) => Scaffold(
-                    floatingActionButton:
-                        BluetoothSearchingFAB(isBluetoothAvailable),
-                    appBar: const HomeAppBar(),
-                    body: CustomScrollView(
-                      controller: _scrollController,
-                      slivers: [
-                        ResponsiveSliverCenter(
-                          padding: const EdgeInsets.all(Sizes.p8),
-                          child: BluetoothAvailable(isBluetoothAvailable),
-                        ),
-                        if (_ad != null)
-                          ResponsiveSliverCenter(
-                            padding: const EdgeInsets.all(Sizes.p8),
-                            child: AdWidget(ad: _ad!),
-                          ),
-                        const ResponsiveSliverCenter(
-                          padding: EdgeInsets.all(Sizes.p8),
-                          child: BluetoothGrid(),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              })
-          : AsyncValueWidget<bool>(
-              value: ref.watch(isBluetoothAvailableProvider),
-              data: (bool isBluetoothAvailable) => Scaffold(
-                floatingActionButton:
-                    BluetoothSearchingFAB(isBluetoothAvailable),
-                appBar: const HomeAppBar(),
-                body: CustomScrollView(
-                  controller: _scrollController,
-                  slivers: [
-                    const ResponsiveSliverCenter(
-                      padding: EdgeInsets.all(Sizes.p8),
-                      child: AnimationSearchingIcon(),
-                    ),
-                    ResponsiveSliverCenter(
-                      padding: const EdgeInsets.all(Sizes.p8),
-                      child: BluetoothAvailable(isBluetoothAvailable),
-                    ),
-                    if (_ad != null)
-                      ResponsiveSliverCenter(
-                        // padding: const EdgeInsets.all(Sizes.p8),
-                        child: AdWidget(ad: _ad!),
-                      ),
-                    const ResponsiveSliverCenter(
-                      padding: EdgeInsets.all(Sizes.p8),
-                      child: BluetoothGrid(),
-                    ),
-                  ],
+        show: F.appFlavor != Flavor.PROD,
+        child: AsyncValueWidget<bool>(
+          value: ref.watch(isBluetoothAvailableProvider),
+          data: (bool isBluetoothAvailable) => Scaffold(
+            floatingActionButton: BluetoothSearchingFAB(isBluetoothAvailable),
+            appBar: const HomeAppBar(),
+            body: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                ResponsiveSliverCenter(
+                  padding: const EdgeInsets.all(Sizes.p8),
+                  child: BluetoothAvailable(isBluetoothAvailable),
                 ),
-              ),
+                if ((Platform.isAndroid || Platform.isIOS) && _ad != null)
+                  ResponsiveSliverCenter(
+                    padding: const EdgeInsets.all(Sizes.p8),
+                    child: AdWidget(ad: _ad!),
+                  ),
+                const ResponsiveSliverCenter(
+                  padding: EdgeInsets.all(Sizes.p8),
+                  child: BluetoothGrid(),
+                ),
+              ],
             ),
-    );
+          ),
+        ));
   }
 }

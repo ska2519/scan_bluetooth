@@ -5,8 +5,8 @@ class AdmobRepository {
   AdmobRepository({this.addDelay = true});
   final bool addDelay;
 
-  Future<InitializationStatus> initGoogleMobileAds() =>
-      MobileAds.instance.initialize();
+  Future<InitializationStatus> initGoogleMobileAds() async =>
+      await MobileAds.instance.initialize();
 }
 
 final admobRepositoryProvider = Provider<AdmobRepository>(

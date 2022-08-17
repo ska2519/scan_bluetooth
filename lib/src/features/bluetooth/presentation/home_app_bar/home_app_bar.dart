@@ -1,13 +1,10 @@
 import 'dart:ui';
 
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../common_widgets/action_text_button.dart';
 import '../../../../constants/resources.dart';
 import '../../../authentication/data/fake_auth_repository.dart';
 import '../../application/bluetooth_service.dart';
-import 'more_menu_button.dart';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and
 /// [ProductScreen].

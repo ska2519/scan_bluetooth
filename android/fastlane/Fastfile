@@ -27,11 +27,11 @@ platform :android do
     # begin
     fetch_google_application_credentials
     build_aab
-    service_credentials_file = "#{root_path}/.firebase/#{flavor}/bomb-fruitshop.json"
+    distribution_service_credentials_file = "#{root_path}/.firebase/#{flavor}/bomb-fruitshop.json"
 
     firebase_app_distribution(
       app: ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_APP'],
-      service_credentials_file: service_credentials_file,
+      service_credentials_file: distribution_service_credentials_file,
       android_artifact_type: "AAB",
       android_artifact_path: aab_path,
       release_notes: ENV['ANDROID_FIREBASE_APP_DISTRIBUTION_RELEASE_NOTES'],
@@ -43,17 +43,18 @@ platform :android do
   lane :internal do
     fetch_google_application_credentials
     build_aab
-    upload_to_play_store(track: 'internal')
+    upload_to_play_store(
+      track: 'internal',
+      json_key_data:  ENV['AUTHENTICATE_GOOGLE_JSON_FILE_PATH']
+      #  json_key: ENV['AUTHENTICATE_GOOGLE_JSON_FILE_PATH'],
+    )
     # # slack(message: 'Successfully distributed a new beta build')
   end
 
   lane :alpha do
     fetch_google_application_credentials
     build_aab
-    upload_to_play_store(
-      track: 'alpha',
-      # json_key: "/Users/ska/coding/Certificates_Keys/GoogleCloud/deploy_play_console_api_access_service_account.json",
-      )
+    upload_to_play_store(track: 'alpha')
     # # slack(message: 'Successfully distributed a new beta build')
   end
 

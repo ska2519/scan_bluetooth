@@ -1,10 +1,10 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../../flavors.dart';
 import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../common_widgets/flavor_banner.dart';
 import '../../../../common_widgets/responsive_center.dart';
@@ -87,7 +87,7 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen>
   @override
   Widget build(BuildContext context) {
     return FlavorBanner(
-        show: F.appFlavor != Flavor.PROD,
+        show: kDebugMode,
         child: AsyncValueWidget<bool>(
           value: ref.watch(isBluetoothAvailableProvider),
           data: (bool isBluetoothAvailable) => Scaffold(

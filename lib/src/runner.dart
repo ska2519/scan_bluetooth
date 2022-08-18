@@ -34,7 +34,7 @@ class AppRunner {
           FirebaseCrashlytics.instance.recordFlutterFatalError;
       // FirebaseCrashlytics.instance.crash();
       final container = ProviderContainer();
-      if (Platform.isAndroid) {
+      if (Platform.isAndroid || Platform.isIOS) {
         container.read(admobServiceProvider);
       }
       // turn off the # in the URLs on the web

@@ -29,8 +29,8 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>example1</string>
+	<string>Permission is required to search for nearby Bluetooth</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>example2</string>
+	<string>Permission is required to search for nearby Bluetooth</string>
 </dict>
 </plist>

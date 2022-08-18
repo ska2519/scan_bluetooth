@@ -2,7 +2,7 @@ name: BOMB
 description: Bluetooth finder
 publish_to: 'none'
 
-version: 0.0.4+4
+version: 0.0.5+5
 
 environment:
   sdk: '>=2.17.6 <3.0.0'
@@ -22,7 +22,7 @@ dependencies:
   flutter_lints: ^2.0.1
   flutter_localizations:
     sdk: flutter
-  flutter_native_splash: ^2.2.0+1
+  # flutter_native_splash: ^2.2.0+1
   flutter_svg: ^1.0.3
   font_awesome_flutter: ^10.1.0
   go_router: ^4.2.2
@@ -33,6 +33,7 @@ dependencies:
   intl: ^0.17.0
   line_icons: ^2.0.1
   mocktail: ^0.3.0
+  # permission_handler: ^10.0.0
   quick_blue: ^0.4.1+1
 
   rxdart: ^0.27.5
@@ -76,16 +77,16 @@ flutter_native_splash:
   # https://developer.android.com/reference/android/view/Gravity): bottom, center,
   # center_horizontal, center_vertical, clip_horizontal, clip_vertical, end, fill, fill_horizontal,
   # fill_vertical, left, right, start, or top.
-  #android_gravity: center
+  android_gravity: center
   #
   # ios_content_mode can be one of the following iOS UIView.ContentMode (see
   # https://developer.apple.com/documentation/uikit/uiview/contentmode): scaleToFill,
   # scaleAspectFit, scaleAspectFill, center, top, bottom, left, right, topLeft, topRight,
   # bottomLeft, or bottomRight.
-  #ios_content_mode: center
+  ios_content_mode: center
   #
   # web_image_mode can be one of the following modes: center, contain, stretch, and cover.
-  #web_image_mode: center
+  web_image_mode: center
 
 flutter_intl:
   enabled: true

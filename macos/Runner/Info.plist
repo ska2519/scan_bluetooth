@@ -25,9 +25,9 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>example2</string>
+	<string>Permission is required to search for nearby Bluetooth</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>example1</string>
+	<string>Permission is required to search for nearby Bluetooth</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>$(PRODUCT_COPYRIGHT)</string>
 	<key>NSMainNibFile</key>

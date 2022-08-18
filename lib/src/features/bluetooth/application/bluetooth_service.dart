@@ -1,29 +1,46 @@
-import 'dart:io';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import 'package:quick_blue/models.dart';
 
-import '../../../utils/bluetooth_on_off.dart';
 import '../data/bluetooth_repository.dart';
 
 class BluetoothService {
   BluetoothService(this.ref);
   final Ref ref;
 
+  // Future<void> _init() async {
+  //   var status = await Permission.bluetooth.status;
+  //   PermissionStatus? permission;
+  //   print('status: ${status.toString()}');
+  //   if (status.isGranted) {
+  //     print('승인됨! ask the permission about its status: isGranted');
+  //   }
+  //   if (status.isDenied) {
+  //     print('거절! ask the permission about its status: isDenied');
+  //     permission = await Permission.bluetooth.request();
+  //   }
+  //   if (status.isRestricted) {
+  //     print('제한됨! ask the permission about its status: isRestricted');
+  //     permission = await Permission.bluetooth.request();
+  //   }
+  //   if (status.isPermanentlyDenied) {
+  //     print('영구 제한! ask the permission about its status: isPermanentlyDenied');
+  //     await openAppSettings();
+  //   }
+  // }
+
   Future<bool> isBluetoothAvailable() async =>
       await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
 
   Future<void> startScan() async {
+    print('startScan');
     if (await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable()) {
+      print('isBluetoothAvailable');
       ref.read(bluetoothRepositoryProvider).startScan();
       ref.read(bluetoothListProvider.notifier).state = [];
       // TODO: 이게 꼭 필요한지 고민해보자 예)주위에 블루투스가 하나도 없을 때
       //본인 폰도 안잡힐때 리스트가 리셋이 될까?
-      ref.read(bluetoothListStreamProvider.stream);
-    } else {
-      if (Platform.isAndroid) {
-        await BluetoothOnOff.turnOnBluetooth;
-      }
+      // ref.read(bluetoothListStreamProvider.stream);
     }
   }
 
@@ -50,8 +67,9 @@ class BluetoothService {
 
   Stream<List<BlueScanResult>> createBluetoothListStream() async* {
     final bluetoothList = ref.read(bluetoothListProvider);
-
+    print('createBluetoothListStream');
     ref.watch(scanResultStreamProvider).whenData((scanBluetooth) {
+      print('whenData((scanBluetooth): $scanBluetooth');
       if (bluetoothList.isEmpty) {
         bluetoothList.add(scanBluetooth);
       } else {

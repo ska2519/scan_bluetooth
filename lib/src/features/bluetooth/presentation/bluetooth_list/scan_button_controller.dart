@@ -32,7 +32,7 @@ class ScanButtonController extends StateNotifier<AsyncValue<void>> {
       await AsyncValue.guard(bluetoothService.stopScan);
 }
 
-final scanButtonStateProvider = StateProvider<bool>((ref) => true);
+final scanButtonStateProvider = StateProvider<bool>((ref) => false);
 
 final scanButtonControllerProvider =
     StateNotifierProvider.autoDispose<ScanButtonController, AsyncValue<void>>(

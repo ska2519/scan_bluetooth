@@ -33,7 +33,7 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen>
     super.initState();
     _scrollController.addListener(_dismissOnScreenKeyboard);
     WidgetsBinding.instance.addObserver(this);
-    if (Platform.isAndroid || Platform.isIOS) {
+    if (Platform.isAndroid) {
       NativeAd(
         adUnitId: AdHelper.nativeAdUnitId,
         factoryId: 'listTile',
@@ -100,7 +100,7 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen>
                   padding: const EdgeInsets.all(Sizes.p8),
                   child: BluetoothAvailable(isBluetoothAvailable),
                 ),
-                if ((Platform.isAndroid || Platform.isIOS) && _ad != null)
+                if ((Platform.isAndroid) && _ad != null)
                   ResponsiveSliverCenter(
                     padding: const EdgeInsets.all(Sizes.p8),
                     child: AdWidget(ad: _ad!),

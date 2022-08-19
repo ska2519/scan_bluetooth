@@ -21,9 +21,3 @@ class AdmobService {
 }
 
 final admobServiceProvider = Provider<AdmobService>(AdmobService.new);
-
-final admobStatusProvider = StateProvider<InitializationStatus?>((ref) {
-  print(
-      'admobStatusProvider: ${ref.controller.state?.adapterStatuses.values.first.state}');
-  return null;
-});

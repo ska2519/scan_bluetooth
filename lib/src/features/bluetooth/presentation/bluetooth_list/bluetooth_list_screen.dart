@@ -1,12 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../common_widgets/notice_screen.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
-import '../../../admob/presentation/native_ad_card.dart';
 import '../../../permission/presentation/permission_card.dart';
 import '../home_app_bar/home_app_bar.dart';
 import 'bluetooth_available.dart';
@@ -64,11 +61,11 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
                   padding: const EdgeInsets.all(Sizes.p8),
                   child: BluetoothAvailable(isBluetoothAvailable),
                 ),
-                if (Platform.isAndroid || Platform.isIOS)
-                  const ResponsiveSliverCenter(
-                    padding: EdgeInsets.symmetric(horizontal: Sizes.p12),
-                    child: NativeAdCard(),
-                  ),
+                // if (Platform.isAndroid || Platform.isIOS)
+                //   const ResponsiveSliverCenter(
+                //     padding: EdgeInsets.symmetric(horizontal: Sizes.p12),
+                //     child: NativeAdCard(),
+                //   ),
                 const ResponsiveSliverCenter(
                   padding: EdgeInsets.all(Sizes.p8),
                   child: BluetoothGrid(),

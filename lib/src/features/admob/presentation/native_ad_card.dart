@@ -20,7 +20,7 @@ class _NativeAdCardState extends State<NativeAdCard> {
     super.initState();
     if (Platform.isAndroid || Platform.isIOS) {
       NativeAd(
-        adUnitId: AdHelper.nativeAdUnitId,
+        adUnitId: AdHelper.nativeAdUnitId(AdType.test),
         factoryId: 'listTile',
         request: const AdRequest(),
         listener: NativeAdListener(

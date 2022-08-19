@@ -34,8 +34,16 @@ class $AssetsLogoGen {
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
+  /// File path: assets/svg/bluetooth_50.svg
+  SvgGenImage get bluetooth50 =>
+      const SvgGenImage('assets/svg/bluetooth_50.svg');
+
   /// File path: assets/svg/google.svg
   SvgGenImage get google => const SvgGenImage('assets/svg/google.svg');
+
+  /// File path: assets/svg/gps_location_128.svg
+  SvgGenImage get gpsLocation128 =>
+      const SvgGenImage('assets/svg/gps_location_128.svg');
 
   /// File path: assets/svg/ic_signal_fair_ska_144.svg
   SvgGenImage get icSignalFairSka144 =>

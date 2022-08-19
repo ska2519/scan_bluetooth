@@ -15,6 +15,7 @@ class AdHelper {
       // return 'ca-app-pub-2418665308297154/3742117811'; // real id
       return 'ca-app-pub-3940256099942544/2247696110'; //test id
     } else if (Platform.isIOS) {
+      // return 'ca-app-pub-2418665308297154~2401115988'; // real id
       return 'ca-app-pub-3940256099942544/3986624511';
     }
     throw UnsupportedError('Unsupported platform');

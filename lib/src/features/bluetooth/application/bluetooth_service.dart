@@ -45,9 +45,7 @@ class BluetoothService {
 
   Stream<List<BlueScanResult>> createBluetoothListStream() async* {
     final bluetoothList = ref.read(bluetoothListProvider);
-    print('createBluetoothListStream');
     ref.watch(scanResultStreamProvider).whenData((scanBluetooth) {
-      print('whenData((scanBluetooth): $scanBluetooth');
       if (bluetoothList.isEmpty) {
         bluetoothList.add(scanBluetooth);
       } else {

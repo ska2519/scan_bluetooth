@@ -1,12 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-const requiredPermissionList = [
-  Permission.bluetooth,
-  Permission.locationWhenInUse,
-  // Permission.locationAlways,
-];
+final requiredPermissionList = Platform.isAndroid
+    ? [
+        Permission.bluetooth,
+        Permission.locationWhenInUse,
+        // Permission.locationAlways,
+      ]
+    : [
+        Permission.bluetooth,
+      ];
 
 class PermissionService {
   PermissionService(this.ref);

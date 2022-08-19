@@ -1,7 +1,5 @@
 import 'dart:ui';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import '../../../../constants/resources.dart';
 import '../../../authentication/data/fake_auth_repository.dart';
 import '../../application/bluetooth_service.dart';

@@ -23,6 +23,10 @@ clean:
 	@echo "╠ Cleaning caches of the app"
 	@rm -rf build && rm -rf ios/Pods && rm -rf ios/Podfile.lock && pod cache clean --all && ${FLUTTER} clean && ${FLUTTER} pub get && cd ios &&  pod install && pod update && cd .. && cd macos && pod install && pod update && cd ..
 
+fcleanRun:
+	@echo "╠ fclean & Run"
+	@${FLUTTER} clean && ${FLUTTER} pub get && cd ios && pod install && pod update && cd .. && flutter run -t lib/main_dev.dart --debug --flavor dev -v
+
 cleanIos:
 	@echo "╠ Cleaning caches of the app"
 	@rm -rf build && rm -rf ios/Pods && rm -rf ios/Podfile.lock && pod cache clean --all && ${FLUTTER} clean && ${FLUTTER} pub get && cd ios && pod install && pod update && cd ..

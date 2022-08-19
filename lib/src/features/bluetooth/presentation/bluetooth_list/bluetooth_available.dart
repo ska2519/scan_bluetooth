@@ -1,5 +1,3 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import '../../../../constants/resources.dart';
 
 class BluetoothAvailable extends StatefulHookConsumerWidget {

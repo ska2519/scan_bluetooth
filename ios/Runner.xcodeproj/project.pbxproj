@@ -11,6 +11,7 @@
 		1D1B32C845197266F8FC3503 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6DDB74D49F17B7ADCE0D002B /* GoogleService-Info.plist */; };
 		4A8B54E2FD0B5D939855A373 /* devLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F151FECCC03B7582CD17E806 /* devLaunchScreen.storyboard */; };
 		539A693928A184740061D41D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 539A693828A184740061D41D /* StoreKit.framework */; };
+		53E1175228AF54D400871F8E /* ListTileNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53E1175128AF54D400871F8E /* ListTileNativeAdView.xib */; };
 		53F5B19F28AEEA38000D769A /* ListTileNativeAdFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F5B19E28AEEA38000D769A /* ListTileNativeAdFactory.swift */; };
 		53FF5BD728A579D900E797E1 /* flutter_export_environment.sh in Resources */ = {isa = PBXBuildFile; fileRef = 53FF5BD228A579D900E797E1 /* flutter_export_environment.sh */; };
 		53FF5BD928A579D900E797E1 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 53FF5BD428A579D900E797E1 /* AppFrameworkInfo.plist */; };
@@ -50,6 +51,7 @@
 		5388E71D28A58FEE006E797E /* prodRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = prodRelease.xcconfig; sourceTree = "<group>"; };
 		539A693628A1845F0061D41D /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		539A693828A184740061D41D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		53E1175128AF54D400871F8E /* ListTileNativeAdView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListTileNativeAdView.xib; sourceTree = "<group>"; };
 		53F5B19E28AEEA38000D769A /* ListTileNativeAdFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTileNativeAdFactory.swift; sourceTree = "<group>"; };
 		53FF5BD228A579D900E797E1 /* flutter_export_environment.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = flutter_export_environment.sh; sourceTree = "<group>"; };
 		53FF5BD428A579D900E797E1 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 				53F5B19E28AEEA38000D769A /* ListTileNativeAdFactory.swift */,
+				53E1175128AF54D400871F8E /* ListTileNativeAdView.xib */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 				53FF5BDA28A579D900E797E1 /* Flutter.podspec in Resources */,
 				53FF5BD928A579D900E797E1 /* AppFrameworkInfo.plist in Resources */,
 				4A8B54E2FD0B5D939855A373 /* devLaunchScreen.storyboard in Resources */,
+				53E1175228AF54D400871F8E /* ListTileNativeAdView.xib in Resources */,
 				5C8EC028691C594D24F45D0C /* prodLaunchScreen.storyboard in Resources */,
 				53FF5BD728A579D900E797E1 /* flutter_export_environment.sh in Resources */,
 				1D1B32C845197266F8FC3503 /* GoogleService-Info.plist in Resources */,

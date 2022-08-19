@@ -24,7 +24,7 @@ class BluetoothCard extends HookConsumerWidget {
   // * Keys for testing using find.byKey()
   static const bluetoothCardKey = Key('bluetooth-card');
 
-  int rssiCalculate(int rssi) => (100 - rssi.abs());
+  int rssiCalculate(int rssi) => (120 - rssi.abs());
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,8 +50,8 @@ class BluetoothCard extends HookConsumerWidget {
                     bluetooth.name.isNotEmpty
                         ? bluetooth.name
                         : Platform.isIOS || Platform.isMacOS
-                            ? '❓🆔  ${bluetooth.deviceId.substring(0, 8)}'
-                            : '❓🆔  ${bluetooth.deviceId}',
+                            ? '🆔 ${bluetooth.deviceId.substring(0, 8)}'
+                            : '🆔 ${bluetooth.deviceId}',
                     style: bluetooth.name.isNotEmpty
                         ? textTheme.bodyMedium
                         : textTheme.titleSmall!.copyWith(
@@ -79,7 +79,8 @@ class BluetoothCard extends HookConsumerWidget {
                         else if (80 <= intRssi)
                           Assets.svg.icSignalSka144.svg(width: 30),
                         Text(
-                          ' ${rssiCalculate(bluetooth.rssi) <= 0 ? 1 : rssiCalculate(bluetooth.rssi)}%',
+                          ' $intRssi%',
+                          // ' ${intRssi <= 0 ? 1 : 99 <= intRssi ? 99 : intRssi}%',
                           style: textTheme.bodyMedium,
                         ),
                       ],

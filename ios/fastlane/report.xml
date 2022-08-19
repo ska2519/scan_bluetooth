@@ -5,37 +5,42 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: update_fastlane" time="8.339463">
+      <testcase classname="fastlane.lanes" name="0: update_fastlane" time="1.878997">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: opt_out_usage" time="0.000412">
+      <testcase classname="fastlane.lanes" name="1: opt_out_usage" time="0.000208">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: default_platform" time="0.00027">
+      <testcase classname="fastlane.lanes" name="2: default_platform" time="0.000199">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: Switch to ios archive lane" time="0.000506">
+      <testcase classname="fastlane.lanes" name="3: Switch to ios archive lane" time="0.000201">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: update_code_signing_settings" time="0.079258">
+      <testcase classname="fastlane.lanes" name="4: cert" time="22.777566">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="5: build_app" time="138.367736">
+      <testcase classname="fastlane.lanes" name="5: sigh" time="36.273252">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="6: upload_to_testflight" time="371.47393">
+      <testcase classname="fastlane.lanes" name="6: build_app" time="128.345989">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="7: upload_to_testflight" time="643.616174">
         
       </testcase>
     

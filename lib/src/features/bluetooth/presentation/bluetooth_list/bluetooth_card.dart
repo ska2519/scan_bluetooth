@@ -79,8 +79,7 @@ class BluetoothCard extends HookConsumerWidget {
                         else if (80 <= intRssi)
                           Assets.svg.icSignalSka144.svg(width: 30),
                         Text(
-                          ' $intRssi%',
-                          // ' ${intRssi <= 0 ? 1 : 99 <= intRssi ? 99 : intRssi}%',
+                          ' ${intRssi <= 0 ? 1 : 99 <= intRssi ? 99 : intRssi}%',
                           style: textTheme.bodyMedium,
                         ),
                       ],

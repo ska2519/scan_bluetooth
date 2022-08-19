@@ -11,13 +11,13 @@ import 'bluetooth_grid.dart';
 import 'bluetooth_searching_fab.dart';
 
 class BluetoothListScreen extends StatefulHookConsumerWidget {
-  const BluetoothListScreen(
-    this.isBluetoothAvailable,
-    this.permissionListStatus, {
+  const BluetoothListScreen({
+    required this.isBluetoothAvailable,
+    this.permissionListStatus,
     super.key,
   });
   final bool isBluetoothAvailable;
-  final bool permissionListStatus;
+  final bool? permissionListStatus;
 
   @override
   BluetoothListScreenState createState() => BluetoothListScreenState();
@@ -26,7 +26,7 @@ class BluetoothListScreen extends StatefulHookConsumerWidget {
 class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
   final _scrollController = ScrollController();
   bool get isBluetoothAvailable => super.widget.isBluetoothAvailable;
-  bool get permissionListStatus => super.widget.permissionListStatus;
+  bool? get permissionListStatus => super.widget.permissionListStatus;
 
   @override
   void initState() {
@@ -49,11 +49,12 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: permissionListStatus
-          ? const BluetoothSearchingFAB()
-          : const RequestPemissionsCard(),
+      floatingActionButton:
+          permissionListStatus == null || permissionListStatus == true
+              ? const BluetoothSearchingFAB()
+              : const RequestPemissionsCard(),
       appBar: const HomeAppBar(),
-      body: permissionListStatus
+      body: permissionListStatus == null || permissionListStatus == true
           ? CustomScrollView(
               controller: _scrollController,
               slivers: [

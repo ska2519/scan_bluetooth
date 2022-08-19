@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'common_widgets/notice_screen.dart';
 import 'constants/resources.dart';
 import 'features/bluetooth/data/bluetooth_repository.dart';
@@ -45,13 +47,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       body: AsyncValueWidget<bool>(
         value: ref.watch(isBluetoothAvailableProvider),
         data: (bool isBluetoothAvailable) => isBluetoothAvailable
-            ? AsyncValueWidget<bool>(
-                value: ref.watch(checkPermissionListStatusProvider),
-                data: (permissionListStatus) => BluetoothListScreen(
-                  isBluetoothAvailable,
-                  permissionListStatus,
-                ),
-              )
+            ? Platform.isAndroid || Platform.isIOS
+                ? AsyncValueWidget<bool>(
+                    value: ref.watch(checkPermissionListStatusProvider),
+                    data: (permissionListStatus) => BluetoothListScreen(
+                      isBluetoothAvailable: isBluetoothAvailable,
+                      permissionListStatus: permissionListStatus,
+                    ),
+                  )
+                : BluetoothListScreen(
+                    isBluetoothAvailable: isBluetoothAvailable,
+                  )
             : const NoticeScreen('🔔 Turn on Bluetooth'),
       ),
     );

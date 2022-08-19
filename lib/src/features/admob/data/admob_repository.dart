@@ -9,6 +9,5 @@ class AdmobRepository {
       await MobileAds.instance.initialize();
 }
 
-final admobRepositoryProvider = Provider<AdmobRepository>(
-  (ref) => AdmobRepository(),
-);
+final admobRepositoryProvider =
+    Provider<AdmobRepository>((ref) => AdmobRepository());

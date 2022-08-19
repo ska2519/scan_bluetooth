@@ -9,8 +9,7 @@ import 'animation_searching_icon.dart';
 import 'scan_button_controller.dart';
 
 class BluetoothSearchingFAB extends StatefulHookConsumerWidget {
-  const BluetoothSearchingFAB(this.isBluetoothAvailable, {super.key});
-  final bool isBluetoothAvailable;
+  const BluetoothSearchingFAB({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -19,7 +18,6 @@ class BluetoothSearchingFAB extends StatefulHookConsumerWidget {
 
 class _BluetoothSearchingFABState extends ConsumerState<BluetoothSearchingFAB>
     with SingleTickerProviderStateMixin {
-  bool get isBluetoothAvailable => super.widget.isBluetoothAvailable;
   Duration previouslyElapsed = Duration.zero;
   Duration currentlyElapsed = Duration.zero;
   Duration get _elapsed => previouslyElapsed + currentlyElapsed;
@@ -66,14 +64,18 @@ class _BluetoothSearchingFABState extends ConsumerState<BluetoothSearchingFAB>
     if (isSearching) {
       if (await ref.read(bluetoothServiceProvider).isBluetoothAvailable()) {
         _toggleRunning();
+        await ref
+            .read(scanButtonControllerProvider.notifier)
+            .submitScanButton(isSearching);
+        ref.read(scanButtonStateProvider.notifier).state = isSearching;
       }
     } else {
       _resetTicker();
+      await ref
+          .read(scanButtonControllerProvider.notifier)
+          .submitScanButton(isSearching);
+      ref.read(scanButtonStateProvider.notifier).state = isSearching;
     }
-    ref.read(scanButtonStateProvider.notifier).state = isSearching;
-    await ref
-        .read(scanButtonControllerProvider.notifier)
-        .submitScanButton(isSearching);
   }
 
   @override

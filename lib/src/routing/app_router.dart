@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../features/authentication/data/fake_auth_repository.dart';
-import '../features/bluetooth/presentation/bluetooth_list/bluetooth_list_screen.dart';
+import '../home_screen.dart';
 import 'not_found_screen.dart';
 
 enum AppRoute {
@@ -39,7 +39,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/',
         name: AppRoute.home.name,
-        builder: (context, state) => const BluetoothListScreen(),
+        builder: (context, state) => const HomeScreen(),
         routes: [
           // GoRoute(
           //   path: 'product/:id',

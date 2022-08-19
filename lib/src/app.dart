@@ -18,7 +18,6 @@ class MyApp extends HookConsumerWidget {
       routeInformationProvider: goRouter.routeInformationProvider,
       routeInformationParser: goRouter.routeInformationParser,
       routerDelegate: goRouter.routerDelegate,
-      debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: ref.read(scaffoldKeyProvider),
       restorationScopeId: 'app',
       onGenerateTitle: (BuildContext context) =>

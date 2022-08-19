@@ -19,9 +19,12 @@ platform :ios do
 
     update_code_signing_settings(
       build_configurations: configuration,
-      use_automatic_signing: true,
+      use_automatic_signing: false,
     )
 
+    cert
+    # get_certificates()
+    sigh(force: true)
 
     build_app(
       output_directory: "#{root_path}/build/ios",
@@ -30,7 +33,7 @@ platform :ios do
       export_method: method,
       scheme: flavor,
       configuration: configuration,
-      xcargs: "-allowProvisioningUpdates"
+      # xcargs: "-allowProvisioningUpdates"
     )
   end
 
@@ -56,8 +59,6 @@ platform :ios do
   desc "Deploy a iOS build to TestFlight"
   lane :deploy_testflight do
     begin
-      cert
-      sigh(force: true)
       # send_start_slack_message(platform, flavor)
       archive(method: "app-store")
       upload_to_testflight(

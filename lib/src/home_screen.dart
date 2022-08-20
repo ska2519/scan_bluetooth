@@ -5,6 +5,7 @@ import 'constants/resources.dart';
 import 'features/bluetooth/data/bluetooth_repository.dart';
 import 'features/bluetooth/presentation/bluetooth_list/bluetooth_list_screen.dart';
 import 'features/permission/application/permission_service.dart';
+import 'features/permission/presentation/request_permission_dialog.dart';
 
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({super.key});
@@ -50,10 +51,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             ? Platform.isAndroid || Platform.isIOS
                 ? AsyncValueWidget<bool>(
                     value: ref.watch(checkPermissionListStatusProvider),
-                    data: (permissionListStatus) => BluetoothListScreen(
-                      isBluetoothAvailable: isBluetoothAvailable,
-                      permissionListStatus: permissionListStatus,
-                    ),
+                    data: (permissionListStatus) => permissionListStatus
+                        ? BluetoothListScreen(
+                            isBluetoothAvailable: isBluetoothAvailable,
+                            permissionListStatus: permissionListStatus,
+                          )
+                        : RequestPermissionDialog(permissionListStatus),
                   )
                 : BluetoothListScreen(
                     isBluetoothAvailable: isBluetoothAvailable,

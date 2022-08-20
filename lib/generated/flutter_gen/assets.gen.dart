@@ -11,6 +11,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 
+class $AssetsImageGen {
+  const $AssetsImageGen();
+
+  /// File path: assets/image/request_location_permission.png
+  AssetGenImage get requestLocationPermission =>
+      const AssetGenImage('assets/image/request_location_permission.png');
+}
+
 class $AssetsLogoGen {
   const $AssetsLogoGen();
 
@@ -98,6 +106,7 @@ class $AssetsSvgGen {
 class Assets {
   Assets._();
 
+  static const $AssetsImageGen image = $AssetsImageGen();
   static const $AssetsLogoGen logo = $AssetsLogoGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
 }

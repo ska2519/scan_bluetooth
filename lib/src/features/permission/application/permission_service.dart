@@ -8,10 +8,10 @@ final requiredPermissionList = Platform.isAndroid
     ? [
         Permission.bluetooth,
         Permission.locationWhenInUse,
-        // Permission.locationAlways,
       ]
     : [
         Permission.bluetooth,
+        Permission.locationWhenInUse,
       ];
 
 class PermissionService {
@@ -29,6 +29,19 @@ class PermissionService {
 
   Future<PermissionStatus> checkPermissionStatus(Permission permission) async =>
       await permission.status;
+
+  Future<List<Permission>> requestPermissionList() async {
+    final requestPermissionList = <Permission>[];
+
+    for (var requiredPermission in requiredPermissionList) {
+      final status = await checkPermissionStatus(requiredPermission);
+      if (!status.isGranted) {
+        requestPermissionList.add(requiredPermission);
+      }
+    }
+    print('permissionStatusList: $requestPermissionList');
+    return requestPermissionList;
+  }
 }
 
 final checkPermissionListStatusProvider = FutureProvider.autoDispose<bool>(
@@ -40,6 +53,10 @@ final checkPermissionStatusProvider = FutureProvider.family
         await ref
             .read(permissionServiceProvider)
             .checkPermissionStatus(permission));
+
+final requestPermissionListProvider =
+    FutureProvider.autoDispose<List<Permission>>((ref) async =>
+        await ref.read(permissionServiceProvider).requestPermissionList());
 
 final permissionServiceProvider =
     Provider<PermissionService>(PermissionService.new);

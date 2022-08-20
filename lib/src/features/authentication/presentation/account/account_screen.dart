@@ -7,7 +7,7 @@ import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../localization/string_hardcoded.dart';
 import '../../../../utils/async_value_ui.dart';
-import '../../data/fake_auth_repository.dart';
+import '../../data/auth_repository.dart';
 import 'account_screen_controller.dart';
 
 /// Simple account screen showing some user info and a logout button.

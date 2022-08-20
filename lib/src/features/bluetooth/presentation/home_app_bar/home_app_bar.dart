@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import '../../../../constants/resources.dart';
-import '../../../authentication/data/fake_auth_repository.dart';
+import '../../../authentication/data/auth_repository.dart';
 import '../../application/bluetooth_service.dart';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and

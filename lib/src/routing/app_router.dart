@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../features/authentication/data/fake_auth_repository.dart';
+import '../features/authentication/data/auth_repository.dart';
 import '../home_screen.dart';
 import 'not_found_screen.dart';
 

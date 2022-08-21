@@ -18,6 +18,7 @@ class SearchingFAB extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isSearching = ref.watch(scanButtonStateProvider);
     final elapsed = useState(Duration.zero);
+    final tickerProvider = useSingleTickerProvider();
     final ticker = useState<Ticker>(Ticker((onTick) {
       elapsed.value = onTick;
     }));

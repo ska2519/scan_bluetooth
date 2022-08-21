@@ -2,8 +2,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../application/bluetooth_service.dart';
 
-class ScanButtonController extends StateNotifier<AsyncValue<void>> {
-  ScanButtonController({
+class SearchingFABController extends StateNotifier<AsyncValue<void>> {
+  SearchingFABController({
     required this.bluetoothService,
   }) : super(const AsyncData(null));
   final BluetoothService bluetoothService;
@@ -35,9 +35,9 @@ class ScanButtonController extends StateNotifier<AsyncValue<void>> {
 final scanButtonStateProvider = StateProvider<bool>((ref) => false);
 
 final scanButtonControllerProvider =
-    StateNotifierProvider.autoDispose<ScanButtonController, AsyncValue<void>>(
+    StateNotifierProvider.autoDispose<SearchingFABController, AsyncValue<void>>(
         (ref) {
-  return ScanButtonController(
+  return SearchingFABController(
     bluetoothService: ref.watch(bluetoothServiceProvider),
   );
 });

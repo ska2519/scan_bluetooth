@@ -1,101 +1,85 @@
 import 'package:duration/duration.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:permission_handler/permission_handler.dart';
 
+import '../../../../constants/resources.dart';
 import '../../../../utils/async_value_ui.dart';
+import '../../../permission/presentation/request_permission_dialog.dart';
 import '../../application/bluetooth_service.dart';
 import 'animation_searching_icon.dart';
 import 'scan_button_controller.dart';
 
-class BluetoothSearchingFAB extends StatefulHookConsumerWidget {
-  const BluetoothSearchingFAB({super.key});
+class BluetoothSearchingFAB extends HookConsumerWidget {
+  const BluetoothSearchingFAB(this.requestPermissionList, {super.key});
+  final List<Permission> requestPermissionList;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _BluetoothSearchingFABState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isSearching = ref.watch(scanButtonStateProvider);
+    final elapsed = useState(Duration.zero);
+    final ticker = useState<Ticker>(Ticker((onTick) {
+      elapsed.value = onTick;
+    }));
 
-class _BluetoothSearchingFABState extends ConsumerState<BluetoothSearchingFAB>
-    with SingleTickerProviderStateMixin {
-  Duration previouslyElapsed = Duration.zero;
-  Duration currentlyElapsed = Duration.zero;
-  Duration get _elapsed => previouslyElapsed + currentlyElapsed;
-  late final Ticker _ticker;
-
-  @override
-  void initState() {
-    super.initState();
-    _ticker = createTicker((elapsed) {
-      setState(() {
-        currentlyElapsed = elapsed;
-      });
-    });
-    _submitScanButton(true);
-  }
-
-  @override
-  void dispose() {
-    _ticker.dispose();
-    super.dispose();
-  }
-
-  void _toggleRunning() {
-    setState(() {
-      if (!_ticker.isActive) {
-        _ticker.start();
+    void _toggleRunning() {
+      if (!ticker.value.isActive) {
+        ticker.value.start();
       } else {
-        _ticker.stop();
-        previouslyElapsed += currentlyElapsed;
-        currentlyElapsed = Duration.zero;
+        ticker.value.stop();
+        elapsed.value = Duration.zero;
       }
-    });
-  }
+    }
 
-  void _resetTicker() {
-    _ticker.stop();
-    setState(() {
-      previouslyElapsed = Duration.zero;
-      currentlyElapsed = Duration.zero;
-    });
-  }
+    void _resetTicker() {
+      ticker.value.stop();
+      elapsed.value = Duration.zero;
+    }
 
-  Future<void> _submitScanButton(bool isSearching) async {
-    if (isSearching) {
-      if (await ref.read(bluetoothServiceProvider).isBluetoothAvailable()) {
-        _toggleRunning();
+    Future<void> _submitScanButton(bool isSearching) async {
+      final bluetoothAvailable =
+          await ref.read(bluetoothServiceProvider).isBluetoothAvailable();
+
+      if (isSearching) {
+        if (bluetoothAvailable) {
+          _toggleRunning();
+          await ref
+              .read(scanButtonControllerProvider.notifier)
+              .submitScanButton(isSearching);
+          ref.read(scanButtonStateProvider.notifier).state = isSearching;
+        }
+      } else {
+        _resetTicker();
         await ref
             .read(scanButtonControllerProvider.notifier)
             .submitScanButton(isSearching);
         ref.read(scanButtonStateProvider.notifier).state = isSearching;
       }
-    } else {
-      _resetTicker();
-      await ref
-          .read(scanButtonControllerProvider.notifier)
-          .submitScanButton(isSearching);
-      ref.read(scanButtonStateProvider.notifier).state = isSearching;
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
+    useEffect(() {
+      if (requestPermissionList.isEmpty) {
+        _submitScanButton(true);
+      }
+      return null;
+    }, []);
+
     ref.listen<AsyncValue>(
       scanButtonControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final isSearching = ref.watch(scanButtonStateProvider);
 
     return FloatingActionButton.extended(
-      tooltip: 'Bluetooth Search',
-      onPressed: () async => await _submitScanButton(!isSearching),
+      tooltip: 'Search Bluetooth',
+      onPressed: () async => requestPermissionList.isEmpty
+          ? await _submitScanButton(!isSearching)
+          : showDialog(
+              context: context,
+              builder: (context) =>
+                  RequestPermissionDialog(requestPermissionList),
+            ),
       label: isSearching
-          ? Text(
-              prettyDuration(
-                _elapsed,
-                abbreviated: true,
-              ),
-            )
+          ? Text(prettyDuration(elapsed.value, abbreviated: true))
           : const Text('Stopped'),
       icon: isSearching
           ? const AnimationSearchingIcon()

@@ -18,6 +18,7 @@ final bluetoothRepositoryProvider = Provider<BluetoothRepository>(
 
 final isBluetoothAvailableProvider =
     FutureProvider.autoDispose<bool>((ref) async {
+  print('isBluetoothAvailableProvider');
   return await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
 });
 

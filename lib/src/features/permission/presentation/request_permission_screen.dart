@@ -5,6 +5,7 @@ import '../../../../layout/letter_spacing.dart';
 import '../../../common_widgets/alert_dialogs.dart';
 import '../../../constants/resources.dart';
 import '../../../constants/theme.dart';
+import '../../bluetooth/data/bluetooth_repository.dart';
 import '../application/permission_service.dart';
 
 class RequestPermissionScreen extends HookConsumerWidget {
@@ -25,9 +26,12 @@ class RequestPermissionScreen extends HookConsumerWidget {
 
     Future<void> _submitPermission() async {
       final permissionStatus = await permission.request();
-
+      print('permissionStatus: $permissionStatus');
       if (permissionStatus.isGranted) {
-        ref.refresh(checkPermissionListStatusProvider);
+        // ref.refresh(
+        //     requestPermissionListProvider(defaultBluetoothPermissionList));
+        ref.refresh(isBluetoothAvailableProvider);
+        Navigator.of(context).pop();
       }
       if (permissionStatus == PermissionStatus.permanentlyDenied) {
         final result = await showAlertDialog(
@@ -39,8 +43,19 @@ class RequestPermissionScreen extends HookConsumerWidget {
               'Please update your $permissionName setting in order to use feature.',
         );
         if (result == true) {
+          print('openAppSettings');
           final isOpend = await openAppSettings();
           print('isOpend: $isOpend');
+          if (isOpend) {
+            ref.refresh(
+                requestPermissionListProvider(defaultBluetoothPermissionList));
+
+            // ref.listen(
+            //     requestPermissionListProvider(defaultBluetoothPermissionList),
+            //     (prev, next) {
+            //   print('counter changed $next');
+            // });
+          }
         }
       }
     }
@@ -61,7 +76,7 @@ class RequestPermissionScreen extends HookConsumerWidget {
             text: TextSpan(
               text: 'Use your ',
               style: textTheme.titleLarge,
-              children: <TextSpan>[
+              children: [
                 TextSpan(
                   text: permissionName,
                   style: textTheme.headline6!.copyWith(
@@ -93,7 +108,7 @@ class RequestPermissionScreen extends HookConsumerWidget {
                     borderRadius: BorderRadius.all(Radius.circular(7)),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () => Navigator.of(context).pop(),
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 16),

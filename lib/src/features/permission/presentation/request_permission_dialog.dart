@@ -1,20 +1,12 @@
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../constants/resources.dart';
-import '../application/permission_service.dart';
 import 'request_permission_screen.dart';
 
-class RequestPermissionDialog extends StatefulHookConsumerWidget {
-  const RequestPermissionDialog(this.permissionListStatus, {super.key});
-  final bool permissionListStatus;
+class RequestPermissionDialog extends StatelessWidget {
+  const RequestPermissionDialog(this.requestPermissionList, {super.key});
+  final List<Permission> requestPermissionList;
 
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _RequestPermissionScreenState();
-}
-
-class _RequestPermissionScreenState
-    extends ConsumerState<RequestPermissionDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -24,13 +16,7 @@ class _RequestPermissionScreenState
       ),
       insetAnimationCurve: Curves.bounceIn,
       insetAnimationDuration: const Duration(seconds: 2),
-      child: AsyncValueWidget<List<Permission>>(
-        value: ref.watch(requestPermissionListProvider),
-        data: (requestPermissionList) => Stack(
-          children:
-              requestPermissionList.map(RequestPermissionScreen.new).toList(),
-        ),
-      ),
+      child: RequestPermissionScreen(requestPermissionList.first),
     );
   }
 }

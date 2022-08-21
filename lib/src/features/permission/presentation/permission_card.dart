@@ -31,7 +31,7 @@ class _PemissionCardState extends ConsumerState<RequestPemissionsCard> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          for (var permission in requiredPermissionList)
+          for (var permission in defaultBluetoothPermissionList)
             AsyncValueWidget<PermissionStatus>(
               loading: const SizedBox(),
               value: ref.watch(checkPermissionStatusProvider(permission)),

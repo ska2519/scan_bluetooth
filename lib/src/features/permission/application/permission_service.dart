@@ -4,14 +4,13 @@ import 'dart:io';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-final requiredPermissionList = Platform.isAndroid
+final defaultBluetoothPermissionList = Platform.isAndroid
     ? [
         Permission.bluetooth,
         Permission.locationWhenInUse,
       ]
     : [
         Permission.bluetooth,
-        Permission.locationWhenInUse,
       ];
 
 class PermissionService {
@@ -19,7 +18,7 @@ class PermissionService {
   Ref ref;
 
   Future<bool> checkPermissionListStatus() async {
-    for (var permission in requiredPermissionList) {
+    for (var permission in defaultBluetoothPermissionList) {
       if (await checkPermissionStatus(permission) != PermissionStatus.granted) {
         return false;
       }
@@ -30,20 +29,22 @@ class PermissionService {
   Future<PermissionStatus> checkPermissionStatus(Permission permission) async =>
       await permission.status;
 
-  Future<List<Permission>> requestPermissionList() async {
+  Future<List<Permission>> filterRequestPermissionList(
+    List<Permission> requiredPermissionList,
+  ) async {
     final requestPermissionList = <Permission>[];
-
     for (var requiredPermission in requiredPermissionList) {
       final status = await checkPermissionStatus(requiredPermission);
       if (!status.isGranted) {
         requestPermissionList.add(requiredPermission);
       }
     }
-    print('permissionStatusList: $requestPermissionList');
+    print('requestPermissionList: $requestPermissionList');
     return requestPermissionList;
   }
 }
 
+// !! unused Provider
 final checkPermissionListStatusProvider = FutureProvider.autoDispose<bool>(
     (ref) async =>
         ref.read(permissionServiceProvider).checkPermissionListStatus());
@@ -54,9 +55,14 @@ final checkPermissionStatusProvider = FutureProvider.family
             .read(permissionServiceProvider)
             .checkPermissionStatus(permission));
 
-final requestPermissionListProvider =
-    FutureProvider.autoDispose<List<Permission>>((ref) async =>
-        await ref.read(permissionServiceProvider).requestPermissionList());
+final requestPermissionListProvider = FutureProvider.family
+    .autoDispose<List<Permission>, List<Permission>>(
+        (ref, requiredPermissionList) async {
+  print('!!start requestPermissionListProvider');
+  return await ref
+      .read(permissionServiceProvider)
+      .filterRequestPermissionList(requiredPermissionList);
+});
 
 final permissionServiceProvider =
-    Provider<PermissionService>(PermissionService.new);
+    Provider.autoDispose<PermissionService>(PermissionService.new);

@@ -1,6 +1,5 @@
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../../generated/flutter_gen/assets.gen.dart';
 import '../../../constants/resources.dart';
 
 class PermissionIconButton extends StatelessWidget {

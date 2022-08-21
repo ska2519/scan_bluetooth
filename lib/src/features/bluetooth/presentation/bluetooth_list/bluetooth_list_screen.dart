@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-import '../../../../common_widgets/notice_screen.dart';
+import '../../../../common_widgets/async_value_widget.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
-import '../../../permission/presentation/permission_card.dart';
+import '../../../permission/application/permission_service.dart';
 import '../home_app_bar/home_app_bar.dart';
 import 'bluetooth_available.dart';
 import 'bluetooth_grid.dart';
 import 'bluetooth_searching_fab.dart';
 
 class BluetoothListScreen extends StatefulHookConsumerWidget {
-  const BluetoothListScreen({
-    required this.isBluetoothAvailable,
-    this.permissionListStatus,
-    super.key,
-  });
+  const BluetoothListScreen(this.isBluetoothAvailable, {super.key});
   final bool isBluetoothAvailable;
-  final bool? permissionListStatus;
 
   @override
   BluetoothListScreenState createState() => BluetoothListScreenState();
@@ -26,7 +22,6 @@ class BluetoothListScreen extends StatefulHookConsumerWidget {
 class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
   final _scrollController = ScrollController();
   bool get isBluetoothAvailable => super.widget.isBluetoothAvailable;
-  bool? get permissionListStatus => super.widget.permissionListStatus;
 
   @override
   void initState() {
@@ -49,33 +44,33 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton:
-          permissionListStatus == null || permissionListStatus == true
-              ? const BluetoothSearchingFAB()
-              : const RequestPemissionsCard(),
+      floatingActionButton: AsyncValueWidget<List<Permission>>(
+        value: ref.watch(
+            requestPermissionListProvider(defaultBluetoothPermissionList)),
+        data: (list) {
+          print('refresh requestPermissionListProvider: $list');
+          return BluetoothSearchingFAB(list);
+        },
+      ),
       appBar: const HomeAppBar(),
-      body: permissionListStatus == null || permissionListStatus == true
-          ? CustomScrollView(
-              controller: _scrollController,
-              slivers: [
-                ResponsiveSliverCenter(
-                  padding: const EdgeInsets.all(Sizes.p8),
-                  child: BluetoothAvailable(isBluetoothAvailable),
-                ),
-                // if (Platform.isAndroid || Platform.isIOS)
-                //   const ResponsiveSliverCenter(
-                //     padding: EdgeInsets.symmetric(horizontal: Sizes.p12),
-                //     child: NativeAdCard(),
-                //   ),
-                const ResponsiveSliverCenter(
-                  padding: EdgeInsets.all(Sizes.p8),
-                  child: BluetoothGrid(),
-                ),
-              ],
-            )
-          : const NoticeScreen(
-              '🔔 Location permission is required to determine the exact location of Bluetooth devices.\n Click the button below to enable location permission ↘︎',
-            ),
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          ResponsiveSliverCenter(
+            padding: const EdgeInsets.all(Sizes.p8),
+            child: BluetoothAvailable(isBluetoothAvailable),
+          ),
+          // if (Platform.isAndroid || Platform.isIOS)
+          //   const ResponsiveSliverCenter(
+          //     padding: EdgeInsets.symmetric(horizontal: Sizes.p12),
+          //     child: NativeAdCard(),
+          //   ),
+          const ResponsiveSliverCenter(
+            padding: EdgeInsets.all(Sizes.p8),
+            child: BluetoothGrid(),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,11 +1,7 @@
-import 'dart:io';
-
 import 'common_widgets/notice_screen.dart';
 import 'constants/resources.dart';
 import 'features/bluetooth/data/bluetooth_repository.dart';
 import 'features/bluetooth/presentation/bluetooth_list/bluetooth_list_screen.dart';
-import 'features/permission/application/permission_service.dart';
-import 'features/permission/presentation/request_permission_dialog.dart';
 
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({super.key});
@@ -38,7 +34,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     } else {
       print('isBackgroud: $isBackgroud');
       ref.refresh(isBluetoothAvailableProvider);
-      ref.refresh(checkPermissionListStatusProvider);
     }
   }
 
@@ -48,19 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       body: AsyncValueWidget<bool>(
         value: ref.watch(isBluetoothAvailableProvider),
         data: (bool isBluetoothAvailable) => isBluetoothAvailable
-            ? Platform.isAndroid || Platform.isIOS
-                ? AsyncValueWidget<bool>(
-                    value: ref.watch(checkPermissionListStatusProvider),
-                    data: (permissionListStatus) => permissionListStatus
-                        ? BluetoothListScreen(
-                            isBluetoothAvailable: isBluetoothAvailable,
-                            permissionListStatus: permissionListStatus,
-                          )
-                        : RequestPermissionDialog(permissionListStatus),
-                  )
-                : BluetoothListScreen(
-                    isBluetoothAvailable: isBluetoothAvailable,
-                  )
+            ? BluetoothListScreen(isBluetoothAvailable)
             : const NoticeScreen('🔔 Turn on Bluetooth'),
       ),
     );

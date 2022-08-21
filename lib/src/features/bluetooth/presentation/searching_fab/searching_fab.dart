@@ -7,11 +7,11 @@ import '../../../../constants/resources.dart';
 import '../../../../utils/async_value_ui.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
 import '../../application/bluetooth_service.dart';
-import 'animation_searching_icon.dart';
-import 'scan_button_controller.dart';
+import '../bluetooth_list/animation_searching_icon.dart';
+import 'searching_fab_controller.dart';
 
-class BluetoothSearchingFAB extends HookConsumerWidget {
-  const BluetoothSearchingFAB(this.requestPermissionList, {super.key});
+class SearchingFAB extends HookConsumerWidget {
+  const SearchingFAB(this.requestPermissionList, {super.key});
   final List<Permission> requestPermissionList;
 
   @override

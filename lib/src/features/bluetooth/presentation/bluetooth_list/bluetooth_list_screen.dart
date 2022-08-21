@@ -7,9 +7,9 @@ import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../permission/application/permission_service.dart';
 import '../home_app_bar/home_app_bar.dart';
+import '../searching_fab/searching_fab.dart';
 import 'bluetooth_available.dart';
 import 'bluetooth_grid.dart';
-import 'bluetooth_searching_fab.dart';
 
 class BluetoothListScreen extends StatefulHookConsumerWidget {
   const BluetoothListScreen(this.isBluetoothAvailable, {super.key});
@@ -49,7 +49,7 @@ class BluetoothListScreenState extends ConsumerState<BluetoothListScreen> {
             requestPermissionListProvider(defaultBluetoothPermissionList)),
         data: (list) {
           print('refresh requestPermissionListProvider: $list');
-          return BluetoothSearchingFAB(list);
+          return SearchingFAB(list);
         },
       ),
       appBar: const HomeAppBar(),

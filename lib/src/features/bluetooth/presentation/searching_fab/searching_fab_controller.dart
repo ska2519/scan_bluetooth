@@ -14,7 +14,6 @@ class SearchingFABController extends StateNotifier<AsyncValue<void>> {
   }) async {
     state = const AsyncLoading();
     final newState = await _submitScan(searching);
-    // final newState = scanButtonState ? await _startScan() : await _stopScan();
     if (mounted) {
       // * only set the state if the controller hasn't been disposed
       state = newState;
@@ -34,8 +33,5 @@ final scanButtonStateProvider = StateProvider<bool>((ref) => false);
 
 final searchingFABControllerProvider =
     StateNotifierProvider.autoDispose<SearchingFABController, AsyncValue<void>>(
-        (ref) {
-  return SearchingFABController(
-    bluetoothService: ref.watch(bluetoothServiceProvider),
-  );
-});
+        (ref) => SearchingFABController(
+            bluetoothService: ref.watch(bluetoothServiceProvider)));

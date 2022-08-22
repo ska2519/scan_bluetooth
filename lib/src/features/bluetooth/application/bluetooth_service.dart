@@ -1,6 +1,5 @@
 import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-// import 'package:permission_handler/permission_handler.dart';
 import 'package:quick_blue/models.dart';
 
 import '../data/bluetooth_repository.dart';
@@ -76,7 +75,6 @@ final stopWatchProvider = Provider.family.autoDispose<void, bool>((ref, start) {
   } else {
     ticker.stop();
   }
-  // ref.onDispose(ticker.dispose);
 });
 
 final bluetoothServiceProvider =

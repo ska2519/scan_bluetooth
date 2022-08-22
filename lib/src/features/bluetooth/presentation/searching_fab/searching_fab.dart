@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../constants/resources.dart';
-import '../../../../utils/async_value_ui.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
 import '../../application/bluetooth_service.dart';
 import '../bluetooth_list/animation_searching_icon.dart';
@@ -15,12 +14,12 @@ class SearchingFAB extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<AsyncValue>(
-      searchingFABControllerProvider,
-      (_, state) => state.showAlertDialogOnError(context),
-    );
+    // TODO: error: debug didchangedependencies ==false riverpod
+    // ref.listen<AsyncValue>(
+    //   searchingFABControllerProvider,
+    //   (_, state) => state.showAlertDialogOnError(context),
+    // );
     final state = ref.watch(searchingFABControllerProvider);
-
     final searching = ref.watch(searchingFABStateProvider);
     final elapsed = ref.watch(elapsedProvider);
 

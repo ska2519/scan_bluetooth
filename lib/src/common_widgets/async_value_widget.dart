@@ -22,8 +22,8 @@ class AsyncValueWidget<T> extends StatelessWidget {
       data: data,
       error: (e, st) =>
           error ?? Center(child: ErrorMessageWidget(e.toString())),
-      loading: () =>
-          loading ?? const Center(child: CircularProgressIndicator()),
+      loading: () => loading ?? const SizedBox(),
+      // loading ?? const Center(child: CircularProgressIndicator()),
     );
   }
 }

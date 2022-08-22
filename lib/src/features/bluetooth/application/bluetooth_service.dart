@@ -70,11 +70,7 @@ final elapsedProvider =
 final stopWatchProvider = Provider.family.autoDispose<void, bool>((ref, start) {
   final ticker =
       Ticker((onTick) => ref.read(elapsedProvider.notifier).state = onTick);
-  if (start) {
-    ticker.start();
-  } else {
-    ticker.stop();
-  }
+  start ? ticker.start() : ticker.stop();
 });
 
 final bluetoothServiceProvider =

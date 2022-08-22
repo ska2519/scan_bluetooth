@@ -19,30 +19,33 @@ class SearchingFAB extends HookConsumerWidget {
       searchingFABControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
+    final state = ref.watch(searchingFABControllerProvider);
 
-    final searching = ref.watch(scanButtonStateProvider);
+    final searching = ref.watch(searchingFABStateProvider);
     final elapsed = ref.watch(elapsedProvider);
 
     useEffect(() {
       if (requestPermissionList.isEmpty) {
         WidgetsBinding.instance.addPostFrameCallback((_) => ref
             .read(searchingFABControllerProvider.notifier)
-            .submitScanButton(true));
+            .submitSearching(true));
       }
       return null;
     }, [requestPermissionList]);
 
     return FloatingActionButton.extended(
       tooltip: 'Search Bluetooth',
-      onPressed: requestPermissionList.isEmpty
-          ? () => ref
-              .read(searchingFABControllerProvider.notifier)
-              .submitScanButton(!searching)
-          : () => showDialog(
-                context: context,
-                builder: (context) =>
-                    RequestPermissionDialog(requestPermissionList),
-              ),
+      onPressed: state.isLoading
+          ? null
+          : requestPermissionList.isEmpty
+              ? () => ref
+                  .read(searchingFABControllerProvider.notifier)
+                  .submitSearching(!searching)
+              : () => showDialog(
+                    context: context,
+                    builder: (context) =>
+                        RequestPermissionDialog(requestPermissionList),
+                  ),
       label: requestPermissionList.isNotEmpty
           ? const Text('🔔 Setting Permission')
           : searching

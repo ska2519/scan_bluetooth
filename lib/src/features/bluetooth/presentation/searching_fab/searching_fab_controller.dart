@@ -8,12 +8,13 @@ class SearchingFABController extends StateNotifier<AsyncValue<void>> {
   }) : super(const AsyncData(null));
   final BluetoothService bluetoothService;
 
-  Future<void> submitScanButton(
+  Future<void> submitSearching(
     bool searching, {
     void Function()? onSuccess,
   }) async {
     state = const AsyncLoading();
-    final newState = await _submitScan(searching);
+    final newState = await AsyncValue.guard(
+        () => bluetoothService.submitSearching(searching));
     if (mounted) {
       // * only set the state if the controller hasn't been disposed
       state = newState;
@@ -24,12 +25,9 @@ class SearchingFABController extends StateNotifier<AsyncValue<void>> {
       if (onSuccess != null) onSuccess();
     }
   }
-
-  Future<AsyncValue> _submitScan(bool searching) async =>
-      await AsyncValue.guard(() => bluetoothService.submitScan(searching));
 }
 
-final scanButtonStateProvider = StateProvider<bool>((ref) => false);
+final searchingFABStateProvider = StateProvider<bool>((ref) => false);
 
 final searchingFABControllerProvider =
     StateNotifierProvider.autoDispose<SearchingFABController, AsyncValue<void>>(

@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:page_flip_builder/page_flip_builder.dart';
 import 'package:quick_blue/quick_blue.dart';
 import 'package:string_to_color/string_to_color.dart';
 
@@ -22,15 +24,48 @@ class BluetoothCard extends HookConsumerWidget {
   final BlueScanResult bluetooth;
   final VoidCallback? onPressed;
 
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pageFlipKey = useMemoized(GlobalKey<PageFlipBuilderState>.new);
+
+    useEffect(() {
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => pageFlipKey.currentState?.flip());
+      return null;
+    }, [bluetooth.deviceId]);
+
+    return SizedBox(
+      height: 80,
+      child: PageFlipBuilder(
+        nonInteractiveAnimationDuration: const Duration(milliseconds: 385),
+        interactiveFlipEnabled: false,
+        key: pageFlipKey,
+        flipAxis: Axis.vertical,
+        frontBuilder: (_) => BluetoothCardTile(bluetooth, index),
+        backBuilder: (_) => BluetoothCardTile(bluetooth, index),
+      ),
+    );
+  }
+}
+
+class BluetoothCardTile extends HookConsumerWidget {
+  const BluetoothCardTile(
+    this.bluetooth,
+    this.index, {
+    this.onPressed,
+    super.key,
+  });
+  final VoidCallback? onPressed;
+  final BlueScanResult bluetooth;
+  final int index;
+
   // * Keys for testing using find.byKey()
   static const bluetoothCardKey = Key('bluetooth-card');
-
-  int rssiCalculate(int rssi) => (120 - rssi.abs());
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
-    final intRssi = rssiCalculate(bluetooth.rssi);
+    final intRssi =
+        ref.read(bluetoothServiceProvider).rssiCalculate(bluetooth.rssi);
     final showID = useState<bool>(false);
 
     return Card(
@@ -38,7 +73,7 @@ class BluetoothCard extends HookConsumerWidget {
         key: bluetoothCardKey,
         onTap: onPressed,
         child: Padding(
-          padding: const EdgeInsets.all(Sizes.p16),
+          padding: const EdgeInsets.all(Sizes.p8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -87,7 +122,11 @@ class BluetoothCard extends HookConsumerWidget {
                             ? textTheme.bodyMedium
                             : textTheme.titleSmall!.copyWith(
                                 color: ColorUtils.stringToColor(
-                                    bluetooth.deviceId),
+                                  bluetooth.deviceId,
+                                ),
+                                fontFeatures: [
+                                  const FontFeature.tabularFigures()
+                                ],
                               ),
                       ),
                       Text(

@@ -21,10 +21,9 @@ platform :ios do
       build_configurations: configuration,
       use_automatic_signing: false,
     )
-
-    cert
-    # get_certificates()
+    cert()
     sigh(force: true)
+
 
     build_app(
       output_directory: "#{root_path}/build/ios",
@@ -60,6 +59,8 @@ platform :ios do
   lane :deploy_testflight do
     begin
       # send_start_slack_message(platform, flavor)
+     
+
       archive(method: "app-store")
       upload_to_testflight(
         skip_waiting_for_build_processing: true,

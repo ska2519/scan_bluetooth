@@ -8,6 +8,8 @@ import '../presentation/searching_fab/searching_fab_controller.dart';
 class BluetoothService {
   BluetoothService(this.ref);
   final Ref ref;
+
+  int rssiCalculate(int rssi) => (120 - rssi.abs());
   Future<bool> isBluetoothAvailable() async =>
       await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
 

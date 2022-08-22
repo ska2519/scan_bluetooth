@@ -42,7 +42,7 @@ class BluetoothCard extends HookConsumerWidget {
               Row(
                 children: [
                   Text(
-                    ' ${index + 1}. ',
+                    ' ${index + 1}.  ',
                     style: textTheme.bodyText2!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),

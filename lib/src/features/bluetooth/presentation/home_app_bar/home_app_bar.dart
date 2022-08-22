@@ -69,7 +69,7 @@ class BluetoothCountInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bluetoothList = ref.watch(bluetoothListProvider);
-    final emptyNameBTCount = ref.watch(emptyNameBTCountProvider);
+    final emptyNameBtsCount = ref.watch(emptyNameBTCountProvider);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -84,7 +84,7 @@ class BluetoothCountInfo extends ConsumerWidget {
         // ),
 
         Text(
-          '❓ $emptyNameBTCount'.hardcoded,
+          '❓ $emptyNameBtsCount'.hardcoded,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
             letterSpacing: -1,
             fontFeatures: [const FontFeature.tabularFigures()],

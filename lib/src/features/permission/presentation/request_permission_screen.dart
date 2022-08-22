@@ -5,8 +5,6 @@ import '../../../../layout/letter_spacing.dart';
 import '../../../common_widgets/alert_dialogs.dart';
 import '../../../constants/resources.dart';
 import '../../../constants/theme.dart';
-import '../../bluetooth/data/bluetooth_repository.dart';
-import '../application/permission_service.dart';
 
 class RequestPermissionScreen extends HookConsumerWidget {
   const RequestPermissionScreen(this.permission, {super.key});
@@ -26,15 +24,11 @@ class RequestPermissionScreen extends HookConsumerWidget {
 
     Future<void> _submitPermission() async {
       final permissionStatus = await permission.request();
-      print('permissionStatus: $permissionStatus');
       if (permissionStatus.isGranted) {
-        // ref.refresh(
-        //     requestPermissionListProvider(defaultBluetoothPermissionList));
-        ref.refresh(isBluetoothAvailableProvider);
         Navigator.of(context).pop();
       }
       if (permissionStatus == PermissionStatus.permanentlyDenied) {
-        final result = await showAlertDialog(
+        final buttonAction = await showAlertDialog(
           context: context,
           title: 'Update $permissionName settings',
           defaultActionText: 'Update Settings',
@@ -42,20 +36,9 @@ class RequestPermissionScreen extends HookConsumerWidget {
           content:
               'Please update your $permissionName setting in order to use feature.',
         );
-        if (result == true) {
-          print('openAppSettings');
-          final isOpend = await openAppSettings();
-          print('isOpend: $isOpend');
-          if (isOpend) {
-            ref.refresh(
-                requestPermissionListProvider(defaultBluetoothPermissionList));
-
-            // ref.listen(
-            //     requestPermissionListProvider(defaultBluetoothPermissionList),
-            //     (prev, next) {
-            //   print('counter changed $next');
-            // });
-          }
+        if (buttonAction == true) {
+          Navigator.of(context).pop();
+          await openAppSettings();
         }
       }
     }

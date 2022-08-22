@@ -2,6 +2,7 @@ import 'common_widgets/notice_screen.dart';
 import 'constants/resources.dart';
 import 'features/bluetooth/data/bluetooth_repository.dart';
 import 'features/bluetooth/presentation/bluetooth_list/bluetooth_list_screen.dart';
+import 'features/permission/application/permission_service.dart';
 
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({super.key});
@@ -19,22 +20,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
+    print('didChangeAppLifecycleState state: $state');
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.detached) return;
     final isBackgroud = state == AppLifecycleState.paused;
     if (isBackgroud) {
     } else {
-      print('isBackgroud: $isBackgroud');
       ref.refresh(isBluetoothAvailableProvider);
+      ref.refresh(
+          requestPermissionListProvider(defaultBluetoothPermissionList));
     }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override

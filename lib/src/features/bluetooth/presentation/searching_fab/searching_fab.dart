@@ -1,5 +1,4 @@
 import 'package:duration/duration.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -16,75 +15,44 @@ class SearchingFAB extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSearching = ref.watch(scanButtonStateProvider);
-    final elapsed = useState(Duration.zero);
-    final tickerProvider = useSingleTickerProvider();
-    final ticker = useState<Ticker>(Ticker((onTick) {
-      elapsed.value = onTick;
-    }));
-
-    void _toggleRunning() {
-      if (!ticker.value.isActive) {
-        ticker.value.start();
-      } else {
-        ticker.value.stop();
-        elapsed.value = Duration.zero;
-      }
-    }
-
-    void _resetTicker() {
-      ticker.value.stop();
-      elapsed.value = Duration.zero;
-    }
-
-    Future<void> _submitScanButton(bool isSearching) async {
-      final bluetoothAvailable =
-          await ref.read(bluetoothServiceProvider).isBluetoothAvailable();
-
-      if (isSearching) {
-        if (bluetoothAvailable) {
-          _toggleRunning();
-          await ref
-              .read(scanButtonControllerProvider.notifier)
-              .submitScanButton(isSearching);
-          ref.read(scanButtonStateProvider.notifier).state = isSearching;
-        }
-      } else {
-        _resetTicker();
-        await ref
-            .read(scanButtonControllerProvider.notifier)
-            .submitScanButton(isSearching);
-        ref.read(scanButtonStateProvider.notifier).state = isSearching;
-      }
-    }
-
-    useEffect(() {
-      if (requestPermissionList.isEmpty) {
-        _submitScanButton(true);
-      }
-      return null;
-    }, []);
-
     ref.listen<AsyncValue>(
-      scanButtonControllerProvider,
+      searchingFABControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
 
+    final searching = ref.watch(scanButtonStateProvider);
+    final elapsed = ref.watch(elapsedProvider);
+
+    useEffect(() {
+      if (requestPermissionList.isEmpty) {
+        WidgetsBinding.instance.addPostFrameCallback((_) => ref
+            .read(searchingFABControllerProvider.notifier)
+            .submitScanButton(true));
+      }
+      return null;
+    }, [requestPermissionList]);
+
     return FloatingActionButton.extended(
       tooltip: 'Search Bluetooth',
-      onPressed: () async => requestPermissionList.isEmpty
-          ? await _submitScanButton(!isSearching)
-          : showDialog(
-              context: context,
-              builder: (context) =>
-                  RequestPermissionDialog(requestPermissionList),
-            ),
-      label: isSearching
-          ? Text(prettyDuration(elapsed.value, abbreviated: true))
-          : const Text('Stopped'),
-      icon: isSearching
-          ? const AnimationSearchingIcon()
-          : const Icon(Icons.search),
+      onPressed: requestPermissionList.isEmpty
+          ? () => ref
+              .read(searchingFABControllerProvider.notifier)
+              .submitScanButton(!searching)
+          : () => showDialog(
+                context: context,
+                builder: (context) =>
+                    RequestPermissionDialog(requestPermissionList),
+              ),
+      label: requestPermissionList.isNotEmpty
+          ? const Text('🔔 Setting Permission')
+          : searching
+              ? Text(prettyDuration(elapsed, abbreviated: true))
+              : const Text('Stopped'),
+      icon: requestPermissionList.isNotEmpty
+          ? null
+          : searching
+              ? const AnimationSearchingIcon()
+              : const Icon(Icons.search),
     );
   }
 }

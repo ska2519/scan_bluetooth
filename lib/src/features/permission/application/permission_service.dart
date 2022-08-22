@@ -39,7 +39,6 @@ class PermissionService {
         requestPermissionList.add(requiredPermission);
       }
     }
-    print('requestPermissionList: $requestPermissionList');
     return requestPermissionList;
   }
 }
@@ -58,7 +57,6 @@ final checkPermissionStatusProvider = FutureProvider.family
 final requestPermissionListProvider = FutureProvider.family
     .autoDispose<List<Permission>, List<Permission>>(
         (ref, requiredPermissionList) async {
-  print('!!start requestPermissionListProvider');
   return await ref
       .read(permissionServiceProvider)
       .filterRequestPermissionList(requiredPermissionList);

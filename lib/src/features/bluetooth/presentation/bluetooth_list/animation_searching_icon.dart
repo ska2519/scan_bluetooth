@@ -14,9 +14,7 @@ class AnimationSearchingIcon extends HookWidget {
 
     return AnimatedBuilder(
       animation: controller,
-      child: const Icon(
-        Icons.search,
-      ),
+      child: const Icon(Icons.search),
       builder: (context, child) {
         return Transform.rotate(
           angle: controller.value * 2.0 * pi,

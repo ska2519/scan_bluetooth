@@ -1,47 +1,46 @@
+import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:quick_blue/models.dart';
 
 import '../data/bluetooth_repository.dart';
+import '../presentation/searching_fab/searching_fab_controller.dart';
 
 class BluetoothService {
   BluetoothService(this.ref);
   final Ref ref;
-
   Future<bool> isBluetoothAvailable() async =>
       await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
 
   Future<void> startScan() async {
-    print('startScan');
-    if (await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable()) {
-      print('isBluetoothAvailable');
+    final bluetoothAvailable = await isBluetoothAvailable();
+    if (bluetoothAvailable) {
       ref.read(bluetoothRepositoryProvider).startScan();
       ref.read(bluetoothListProvider.notifier).state = [];
-      // TODO: 이게 꼭 필요한지 고민해보자 예)주위에 블루투스가 하나도 없을 때
-      //본인 폰도 안잡힐때 리스트가 리셋이 될까?
     }
+    // TODO: 이게 꼭 필요한지 고민해보자 예)주위에 블루투스가 하나도 없을 때
+    //본인 폰도 안잡힐때 리스트가 리셋이 될까?
   }
 
-  Future<void> stopScan() async {
-    ref.read(bluetoothRepositoryProvider).stopScan();
+  Future<void> stopScan() async =>
+      ref.read(bluetoothRepositoryProvider).stopScan();
+
+  Future<void> submitScan(bool searching) async {
+    final bluetoothAvailable = await isBluetoothAvailable();
+    if (bluetoothAvailable) {
+      searching ? await startScan() : await stopScan();
+      ref.read(stopWatchProvider(searching));
+      ref.read(scanButtonStateProvider.notifier).state = searching;
+    }
   }
 
   Future<void> connect(String deviceId) async {
     print('QuickBlue.connect');
     ref.read(bluetoothRepositoryProvider).connect(deviceId);
-    // await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
   }
 
-  int emptyNameBTCount() {
-    final scanResults = ref.read(bluetoothListProvider);
-    var emptyBTCount = 0;
-    for (var i = 0; i < scanResults.length; i++) {
-      if (scanResults[i].name.isEmpty) {
-        emptyBTCount++;
-      }
-    }
-    return emptyBTCount;
-  }
+  int emptyNameBTCount() =>
+      ref.read(bluetoothListProvider).where((bt) => bt.name.isEmpty).length;
 
   Stream<List<BlueScanResult>> createBluetoothListStream() async* {
     final bluetoothList = ref.read(bluetoothListProvider);
@@ -65,6 +64,20 @@ class BluetoothService {
     yield bluetoothList;
   }
 }
+
+final elapsedProvider =
+    StateProvider.autoDispose<Duration>((ref) => Duration.zero);
+
+final stopWatchProvider = Provider.family.autoDispose<void, bool>((ref, start) {
+  final ticker =
+      Ticker((onTick) => ref.read(elapsedProvider.notifier).state = onTick);
+  if (start) {
+    ticker.start();
+  } else {
+    ticker.stop();
+  }
+  // ref.onDispose(ticker.dispose);
+});
 
 final bluetoothServiceProvider =
     Provider<BluetoothService>(BluetoothService.new);

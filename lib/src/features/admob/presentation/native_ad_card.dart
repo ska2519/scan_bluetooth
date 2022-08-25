@@ -18,11 +18,10 @@ class _NativeAdCardState extends ConsumerState<NativeAdCard> {
 
   @override
   void initState() {
-    final container = ProviderContainer();
     super.initState();
     if (Platform.isAndroid || Platform.isIOS) {
       NativeAd(
-        adUnitId: container
+        adUnitId: ref
             .read(admobServiceProvider)
             .getAdsUnitId(ADFormat.nativeAdvanced),
         factoryId: 'listTile',

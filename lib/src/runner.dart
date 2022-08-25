@@ -13,6 +13,7 @@ import '../flavors.dart';
 import 'app.dart';
 import 'exceptions/async_error_logger.dart';
 import 'exceptions/error_logger.dart';
+import 'features/admob/application/ad_helper.dart';
 import 'features/admob/application/admob_service.dart';
 import 'features/window_size/data/window_size_repository.dart';
 import 'firebase_options.dart';
@@ -43,24 +44,23 @@ class AppRunner {
             FirebaseCrashlytics.instance.recordFlutterFatalError;
       }
 
-      // FirebaseCrashlytics.instance.crash();
       final container = ProviderContainer(
         observers: [AsyncErrorLogger()],
         overrides: [
+          // !! This is setup Google Ads [ADType]
+          // !! chnage ADType.real when release app in app market
+          adTypeProvider.overrideWithProvider(Provider((ref) => ADType.sample)),
           flavorProvider.overrideWithProvider(Provider((ref) => flavor)),
         ],
       );
       errorLogger = container.read(errorLoggerProvider);
-      print(
-          'container.read(flavorProvider): ${container.read(flavorProvider)}');
-
+      // FirebaseCrashlytics.instance.crash();
+      // FirebaseCrashlytics.instance.log('test crash');
       if (Platform.isAndroid || Platform.isIOS) {
         container.read(admobServiceProvider);
       } else if (Platform.isMacOS) {
         container.read(windowSizeProvider);
       }
-
-      container.read(adTypeProvider(flavor));
 
       // * Entry point of the app
       runApp(UncontrolledProviderScope(

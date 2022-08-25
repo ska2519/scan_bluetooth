@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -25,11 +27,13 @@ class BluetoothListScreen extends HookConsumerWidget {
       ..addListener(_dismissOnScreenKeyboard);
 
     return Scaffold(
-      floatingActionButton: AsyncValueWidget<List<Permission>>(
-        value: ref.watch(
-            requestPermissionListProvider(defaultBluetoothPermissionList)),
-        data: SearchingFAB.new,
-      ),
+      floatingActionButton: Platform.isAndroid || Platform.isIOS
+          ? AsyncValueWidget<List<Permission>>(
+              value: ref.watch(requestPermissionListProvider(
+                  defaultBluetoothPermissionList)),
+              data: SearchingFAB.new,
+            )
+          : const SearchingFAB(null),
       appBar: const HomeAppBar(),
       body: CustomScrollView(
         controller: scrollController,

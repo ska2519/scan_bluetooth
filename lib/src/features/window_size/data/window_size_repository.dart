@@ -8,7 +8,7 @@ class WindowSizeRepository {
     size = await DesktopWindow.getWindowSize();
     print('size: ${size.toString()}');
 
-    await DesktopWindow.setWindowSize(const Size(500, 800));
+    await DesktopWindow.setWindowSize(const Size(1366, 1024));
     await DesktopWindow.setMinWindowSize(const Size(400, 400));
     await DesktopWindow.setMaxWindowSize(const Size(800, 800));
     await DesktopWindow.resetMaxWindowSize();

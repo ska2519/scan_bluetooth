@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'common_widgets/notice_screen.dart';
 import 'constants/resources.dart';
 import 'features/bluetooth/data/bluetooth_repository.dart';
@@ -29,8 +31,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     if (isBackgroud) {
     } else {
       ref.refresh(isBluetoothAvailableProvider);
-      ref.refresh(
-          requestPermissionListProvider(defaultBluetoothPermissionList));
+      if (Platform.isAndroid || Platform.isIOS) {
+        ref.refresh(
+            requestPermissionListProvider(defaultBluetoothPermissionList));
+      }
     }
   }
 

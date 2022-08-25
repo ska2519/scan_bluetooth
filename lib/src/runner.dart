@@ -14,6 +14,7 @@ import 'app.dart';
 import 'exceptions/async_error_logger.dart';
 import 'exceptions/error_logger.dart';
 import 'features/admob/application/admob_service.dart';
+import 'features/window_size/data/window_size_repository.dart';
 import 'firebase_options.dart';
 import 'firebase_options_dev.dart';
 import 'localization/string_hardcoded.dart';
@@ -45,11 +46,21 @@ class AppRunner {
       // FirebaseCrashlytics.instance.crash();
       final container = ProviderContainer(
         observers: [AsyncErrorLogger()],
+        overrides: [
+          flavorProvider.overrideWithProvider(Provider((ref) => flavor)),
+        ],
       );
       errorLogger = container.read(errorLoggerProvider);
+      print(
+          'container.read(flavorProvider): ${container.read(flavorProvider)}');
+
       if (Platform.isAndroid || Platform.isIOS) {
         container.read(admobServiceProvider);
+      } else if (Platform.isMacOS) {
+        container.read(windowSizeProvider);
       }
+
+      container.read(adTypeProvider(flavor));
 
       // * Entry point of the app
       runApp(UncontrolledProviderScope(
@@ -61,6 +72,7 @@ class AppRunner {
       FlutterError.onError = (FlutterErrorDetails details) {
         FlutterError.presentError(details);
       };
+
       ErrorWidget.builder = (FlutterErrorDetails details) {
         return Scaffold(
           appBar: AppBar(

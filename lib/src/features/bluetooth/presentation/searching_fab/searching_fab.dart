@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:duration/duration.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -10,7 +12,7 @@ import 'searching_fab_controller.dart';
 
 class SearchingFAB extends HookConsumerWidget {
   const SearchingFAB(this.requestPermissionList, {super.key});
-  final List<Permission> requestPermissionList;
+  final List<Permission>? requestPermissionList;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,11 +26,13 @@ class SearchingFAB extends HookConsumerWidget {
     final elapsed = ref.watch(elapsedProvider);
 
     useEffect(() {
-      if (requestPermissionList.isEmpty) {
+      if ((requestPermissionList != null && requestPermissionList!.isEmpty) ||
+          !(Platform.isAndroid || Platform.isIOS)) {
         WidgetsBinding.instance.addPostFrameCallback((_) => ref
             .read(searchingFABControllerProvider.notifier)
             .submitSearching(true));
       }
+
       return null;
     }, [requestPermissionList]);
 
@@ -36,21 +40,21 @@ class SearchingFAB extends HookConsumerWidget {
       tooltip: 'Search Bluetooth',
       onPressed: state.isLoading
           ? null
-          : requestPermissionList.isEmpty
-              ? () => ref
-                  .read(searchingFABControllerProvider.notifier)
-                  .submitSearching(!searching)
-              : () => showDialog(
+          : requestPermissionList != null && requestPermissionList!.isNotEmpty
+              ? () => showDialog(
                     context: context,
                     builder: (context) =>
-                        RequestPermissionDialog(requestPermissionList),
-                  ),
-      label: requestPermissionList.isNotEmpty
+                        RequestPermissionDialog(requestPermissionList!),
+                  )
+              : () => ref
+                  .read(searchingFABControllerProvider.notifier)
+                  .submitSearching(!searching),
+      label: requestPermissionList != null && requestPermissionList!.isNotEmpty
           ? const Text('🔔 Setting Permission')
           : searching
               ? Text(prettyDuration(elapsed, abbreviated: true))
               : const Text('Stopped'),
-      icon: requestPermissionList.isNotEmpty
+      icon: requestPermissionList != null && requestPermissionList!.isNotEmpty
           ? null
           : searching
               ? const AnimationSearchingIcon()

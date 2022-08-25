@@ -3,24 +3,28 @@ import 'dart:io';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../constants/resources.dart';
-import '../ad_helper.dart';
+import '../application/ad_helper.dart';
+import '../application/admob_service.dart';
 
-class NativeAdCard extends StatefulWidget {
+class NativeAdCard extends StatefulHookConsumerWidget {
   const NativeAdCard({super.key});
 
   @override
-  State<NativeAdCard> createState() => _NativeAdCardState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _NativeAdCardState();
 }
 
-class _NativeAdCardState extends State<NativeAdCard> {
+class _NativeAdCardState extends ConsumerState<NativeAdCard> {
   NativeAd? _ad;
 
   @override
   void initState() {
+    final container = ProviderContainer();
     super.initState();
     if (Platform.isAndroid || Platform.isIOS) {
       NativeAd(
-        adUnitId: AdHelper.nativeAdUnitId(AdType.test),
+        adUnitId: container
+            .read(admobServiceProvider)
+            .getAdsUnitId(ADFormat.nativeAdvanced),
         factoryId: 'listTile',
         request: const AdRequest(),
         listener: NativeAdListener(

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'common_widgets/notice_screen.dart';
 import 'constants/resources.dart';
+import 'features/admob/application/admob_service.dart';
 import 'features/bluetooth/data/bluetooth_repository.dart';
 import 'features/bluetooth/presentation/bluetooth_list/bluetooth_list_screen.dart';
 import 'features/permission/application/permission_service.dart';
@@ -30,8 +31,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final isBackgroud = state == AppLifecycleState.paused;
     if (isBackgroud) {
     } else {
-      ref.refresh(isBluetoothAvailableProvider);
-      if (Platform.isAndroid || Platform.isIOS) {
+      if (ref.read(interstitialAdStateProvider)) {
+        ref.read(interstitialAdStateProvider.notifier).state = false;
+        return;
+      } else if (Platform.isAndroid || Platform.isIOS) {
+        ref.refresh(isBluetoothAvailableProvider);
         ref.refresh(
             requestPermissionListProvider(defaultBluetoothPermissionList));
       }

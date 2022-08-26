@@ -10,6 +10,7 @@ import '../../../permission/application/permission_service.dart';
 import '../home_app_bar/home_app_bar.dart';
 import '../searching_fab/searching_fab.dart';
 import 'bluetooth_available.dart';
+import 'bluetooth_grid.dart';
 
 class BluetoothListScreen extends HookConsumerWidget {
   const BluetoothListScreen(this.isBluetoothAvailable, {super.key});
@@ -47,10 +48,10 @@ class BluetoothListScreen extends HookConsumerWidget {
               padding: EdgeInsets.symmetric(horizontal: Sizes.p12),
               child: NativeAdCard(),
             ),
-          // const ResponsiveSliverCenter(
-          //   padding: EdgeInsets.all(Sizes.p8),
-          //   child: BluetoothGrid(),
-          // ),
+          const ResponsiveSliverCenter(
+            padding: EdgeInsets.all(Sizes.p8),
+            child: BluetoothGrid(),
+          ),
         ],
       ),
     );

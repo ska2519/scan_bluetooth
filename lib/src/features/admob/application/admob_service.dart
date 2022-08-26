@@ -15,6 +15,7 @@ class AdmobService {
     final admobStatus = await _initAdmob();
     print(
         '_init AdmobService: ${admobStatus.adapterStatuses.values.first.state}');
+    createInterstitialAd();
   }
 
   Future<InitializationStatus> _initAdmob() =>
@@ -24,8 +25,66 @@ class AdmobService {
     final adType = ref.read(adTypeProvider);
     return AdHelper.getAdsUnitId(adType, adFormat);
   }
+
+  void createInterstitialAd() {
+    print('createInterstitialAd: $createInterstitialAd');
+    const maxFailedLoadAttempts = 3;
+    final interstitialAd = ref.read(interstitialAdProvider);
+    InterstitialAd.load(
+        adUnitId: getAdsUnitId(ADFormat.interstitial),
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (InterstitialAd ad) {
+            print('$InterstitialAd loaded');
+            ref.read(interstitialAdProvider.notifier).state = ad;
+            ref.read(numInterstitialLoadAttemptsProvider.notifier).state = 0;
+            interstitialAd?.setImmersiveMode(true);
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error.');
+            ref.read(numInterstitialLoadAttemptsProvider.notifier).state += 1;
+            ref.read(interstitialAdProvider.notifier).state = null;
+            if (ref.read(numInterstitialLoadAttemptsProvider) <
+                maxFailedLoadAttempts) {
+              createInterstitialAd();
+            }
+          },
+        ));
+  }
+
+  void showInterstitialAd() {
+    print('showInterstitialAd 1: $showInterstitialAd');
+    final interstitialAd = ref.read(interstitialAdProvider);
+    print('showInterstitialAd 2: $showInterstitialAd');
+    if (interstitialAd == null) {
+      print('Warning: attempt to show interstitial before loaded.');
+      return;
+    }
+    interstitialAd.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        createInterstitialAd();
+      },
+      onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
+    );
+    interstitialAd.show();
+    ref.read(interstitialAdProvider.notifier).state = null;
+    ref.read(interstitialAdStateProvider.notifier).state = true;
+  }
 }
 
 final admobServiceProvider = Provider<AdmobService>(AdmobService.new);
 
-final adTypeProvider = Provider<ADType>((ref) => ADType.sample);
+final interstitialAdStateProvider = StateProvider<bool>((ref) => false);
+final interstitialAdProvider = StateProvider<InterstitialAd?>((ref) => null);
+final numInterstitialLoadAttemptsProvider = StateProvider<int>((ref) => 0);
+
+final adTypeProvider = Provider<ADType>((ref) => throw UnimplementedError());

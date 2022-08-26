@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../constants/resources.dart';
+import '../../../admob/application/admob_service.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
 import '../../application/bluetooth_service.dart';
 import '../bluetooth_list/animation_searching_icon.dart';
@@ -27,7 +28,7 @@ class SearchingFAB extends HookConsumerWidget {
 
     useEffect(() {
       if ((requestPermissionList != null && requestPermissionList!.isEmpty) ||
-          !(Platform.isAndroid || Platform.isIOS)) {
+          (Platform.isAndroid || Platform.isIOS) == false) {
         WidgetsBinding.instance.addPostFrameCallback((_) => ref
             .read(searchingFABControllerProvider.notifier)
             .submitSearching(true));
@@ -46,9 +47,16 @@ class SearchingFAB extends HookConsumerWidget {
                     builder: (context) =>
                         RequestPermissionDialog(requestPermissionList!),
                   )
-              : () => ref
-                  .read(searchingFABControllerProvider.notifier)
-                  .submitSearching(!searching),
+              : () {
+                  ref
+                      .read(searchingFABControllerProvider.notifier)
+                      .submitSearching(!searching);
+
+                  if (searching) {
+                    print('searching: $searching');
+                    ref.read(admobServiceProvider).showInterstitialAd();
+                  }
+                },
       label: requestPermissionList != null && requestPermissionList!.isNotEmpty
           ? const Text('🔔 Setting Permission')
           : searching

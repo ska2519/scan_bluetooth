@@ -44,7 +44,7 @@ class AppRunner {
             FirebaseCrashlytics.instance.recordFlutterFatalError;
       }
 
-      final container = ProviderContainer(
+      final appStartupContainer = ProviderContainer(
         observers: [AsyncErrorLogger()],
         overrides: [
           // !! This is setup Google Ads [ADType]
@@ -53,18 +53,18 @@ class AppRunner {
           flavorProvider.overrideWithProvider(Provider((ref) => flavor)),
         ],
       );
-      errorLogger = container.read(errorLoggerProvider);
+      errorLogger = appStartupContainer.read(errorLoggerProvider);
       // FirebaseCrashlytics.instance.crash();
       // FirebaseCrashlytics.instance.log('test crash');
       if (Platform.isAndroid || Platform.isIOS) {
-        container.read(admobServiceProvider);
+        appStartupContainer.read(admobServiceProvider);
       } else if (Platform.isMacOS) {
-        container.read(windowSizeProvider);
+        appStartupContainer.read(windowSizeProvider);
       }
 
       // * Entry point of the app
       runApp(UncontrolledProviderScope(
-        container: container,
+        container: appStartupContainer,
         child: const MyApp(),
       ));
 

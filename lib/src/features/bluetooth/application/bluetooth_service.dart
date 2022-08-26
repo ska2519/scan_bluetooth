@@ -13,8 +13,8 @@ class BluetoothService {
   Future<bool> isBluetoothAvailable() async =>
       await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
 
-  Future<void> startScan() async {
-    ref.read(bluetoothListProvider.state).state = [];
+  void startScan() {
+    ref.read(bluetoothListProvider.notifier).state = [];
     ref.read(bluetoothRepositoryProvider).startScan();
 
     // TODO: 이게 꼭 필요한지 고민해보자 예)주위에 블루투스가 하나도 없을 때
@@ -26,7 +26,7 @@ class BluetoothService {
   Future<void> submitSearching(bool searching) async {
     final bluetoothAvailable = await isBluetoothAvailable();
     if (bluetoothAvailable) {
-      searching ? await startScan() : stopScan();
+      searching ? startScan() : stopScan();
       ref.read(stopWatchProvider(searching));
       ref.read(searchingFABStateProvider.notifier).state = searching;
     }

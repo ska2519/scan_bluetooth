@@ -27,7 +27,6 @@ class AdmobService {
   }
 
   void createInterstitialAd() {
-    print('createInterstitialAd: $createInterstitialAd');
     const maxFailedLoadAttempts = 3;
     final interstitialAd = ref.read(interstitialAdProvider);
     InterstitialAd.load(

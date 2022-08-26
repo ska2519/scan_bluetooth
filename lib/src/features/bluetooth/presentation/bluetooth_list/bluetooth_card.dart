@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:page_flip_builder/page_flip_builder.dart';
 import 'package:quick_blue/quick_blue.dart';
 import 'package:string_to_color/string_to_color.dart';
 
@@ -26,24 +25,9 @@ class BluetoothCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pageFlipKey = useMemoized(GlobalKey<PageFlipBuilderState>.new);
-
-    useEffect(() {
-      WidgetsBinding.instance
-          .addPostFrameCallback((_) => pageFlipKey.currentState?.flip());
-      return null;
-    }, [bluetooth.deviceId]);
-
     return SizedBox(
       height: 80,
-      child: PageFlipBuilder(
-        nonInteractiveAnimationDuration: const Duration(milliseconds: 385),
-        interactiveFlipEnabled: false,
-        key: pageFlipKey,
-        flipAxis: Axis.vertical,
-        frontBuilder: (_) => BluetoothCardTile(bluetooth, index),
-        backBuilder: (_) => BluetoothCardTile(bluetooth, index),
-      ),
+      child: BluetoothCardTile(bluetooth, index),
     );
   }
 }

@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../constants/resources.dart';
-import '../../../admob/application/admob_service.dart';
+import '../../../../utils/async_value_ui.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
 import '../../application/bluetooth_service.dart';
 import '../bluetooth_list/animation_searching_icon.dart';
@@ -18,13 +18,14 @@ class SearchingFAB extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: error: debug didchangedependencies ==false riverpod
-    // ref.listen<AsyncValue>(
-    //   searchingFABControllerProvider,
-    //   (_, state) => state.showAlertDialogOnError(context),
-    // );
+    ref.listen<AsyncValue>(
+      searchingFABControllerProvider,
+      (_, state) => state.showAlertDialogOnError(context),
+    );
     final state = ref.watch(searchingFABControllerProvider);
     final searching = ref.watch(searchingFABStateProvider);
     final elapsed = ref.watch(elapsedProvider);
+    final theme = Theme.of(context);
 
     useEffect(() {
       if ((requestPermissionList != null && requestPermissionList!.isEmpty) ||
@@ -33,11 +34,12 @@ class SearchingFAB extends HookConsumerWidget {
             .read(searchingFABControllerProvider.notifier)
             .submitSearching(true));
       }
-
       return null;
     }, [requestPermissionList]);
 
     return FloatingActionButton.extended(
+      backgroundColor:
+          !searching ? theme.primaryColorLight : theme.primaryColorDark,
       tooltip: 'Search Bluetooth',
       onPressed: state.isLoading
           ? null
@@ -47,16 +49,9 @@ class SearchingFAB extends HookConsumerWidget {
                     builder: (context) =>
                         RequestPermissionDialog(requestPermissionList!),
                   )
-              : () {
-                  ref
-                      .read(searchingFABControllerProvider.notifier)
-                      .submitSearching(!searching);
-
-                  if (searching) {
-                    print('searching: $searching');
-                    ref.read(admobServiceProvider).showInterstitialAd();
-                  }
-                },
+              : () => ref
+                  .read(searchingFABControllerProvider.notifier)
+                  .submitSearching(!searching),
       label: requestPermissionList != null && requestPermissionList!.isNotEmpty
           ? const Text('🔔 Setting Permission')
           : searching

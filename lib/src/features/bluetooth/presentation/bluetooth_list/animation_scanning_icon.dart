@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-class AnimationSearchingIcon extends HookWidget {
-  const AnimationSearchingIcon({super.key});
+class AnimationScanningIcon extends HookWidget {
+  const AnimationScanningIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

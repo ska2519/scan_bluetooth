@@ -33,7 +33,7 @@ dependencies:
   go_router: ^4.2.2
   google_fonts: ^3.0.1
   google_mobile_ads: ^2.0.1
-  hooks_riverpod: ^2.0.0-dev.9
+  hooks_riverpod: 2.0.0-dev.9
   icons_launcher: ^2.0.3
   intl: ^0.17.0
   json_annotation: ^4.6.0

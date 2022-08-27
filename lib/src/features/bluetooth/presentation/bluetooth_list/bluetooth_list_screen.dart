@@ -5,10 +5,9 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/resources.dart';
-import '../../../admob/presentation/native_ad_card.dart';
 import '../../../permission/application/permission_service.dart';
 import '../home_app_bar/home_app_bar.dart';
-import '../searching_fab/searching_fab.dart';
+import '../scanning_fab/scanning_fab.dart';
 import 'bluetooth_available.dart';
 import 'bluetooth_grid.dart';
 
@@ -32,9 +31,9 @@ class BluetoothListScreen extends HookConsumerWidget {
           ? AsyncValueWidget<List<Permission>>(
               value: ref.watch(requestPermissionListProvider(
                   defaultBluetoothPermissionList)),
-              data: SearchingFAB.new,
+              data: ScanningFAB.new,
             )
-          : const SearchingFAB(null),
+          : const ScanningFAB(null),
       appBar: const HomeAppBar(),
       body: CustomScrollView(
         controller: scrollController,
@@ -43,11 +42,6 @@ class BluetoothListScreen extends HookConsumerWidget {
             padding: const EdgeInsets.all(Sizes.p8),
             child: BluetoothAvailable(isBluetoothAvailable),
           ),
-          if (Platform.isAndroid || Platform.isIOS)
-            const ResponsiveSliverCenter(
-              padding: EdgeInsets.symmetric(horizontal: Sizes.p12),
-              child: NativeAdCard(),
-            ),
           const ResponsiveSliverCenter(
             padding: EdgeInsets.all(Sizes.p8),
             child: BluetoothGrid(),

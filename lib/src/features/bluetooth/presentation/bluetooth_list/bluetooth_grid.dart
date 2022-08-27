@@ -4,44 +4,68 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:quick_blue/models.dart';
 
 import '../../../../constants/resources.dart';
+import '../../../admob/application/admob_service.dart';
+import '../../../admob/presentation/native_ad_card.dart';
 import '../../application/bluetooth_service.dart';
+import '../scanning_fab/scanning_fab_controller.dart';
 import 'bluetooth_card.dart';
 
-class BluetoothGrid extends StatefulHookConsumerWidget {
+class BluetoothGrid extends HookConsumerWidget {
   const BluetoothGrid({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _BluetoothGridState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    const kAdIndex = 5;
 
-class _BluetoothGridState extends ConsumerState<BluetoothGrid> {
-  @override
-  Widget build(BuildContext context) {
+    int _getDestinationItemIndex(int rawIndex) {
+      final adCount = rawIndex ~/ kAdIndex;
+
+      return rawIndex >= kAdIndex ? rawIndex - adCount : rawIndex;
+    }
+
     final bluetoothListValue = ref.watch(bluetoothListStreamProvider);
+    final scanning = ref.watch(scanFABStateProvider);
+    final interstitialAdState = ref.watch(interstitialAdStateProvider);
+    final nativeAd = ref.watch(nativeAdProvider(key));
+
     return AsyncValueWidget<List<BlueScanResult>>(
       value: bluetoothListValue,
-      data: (bluetoothList) => bluetoothList.isEmpty
-          ? Center(
-              child: Text(
-                'No Bluetooth found'.hardcoded,
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            )
-          : BluetoothLayoutGrid(
-              itemCount: bluetoothList.length,
-              itemBuilder: (_, index) {
-                final bluetooth = bluetoothList[index];
-                return BluetoothCard(
-                  index: index,
-                  bluetooth: bluetooth,
-                  // () =>
-                  // context.goNamed(
-                  //   AppRoute.bluetooth.name,
-                  //   params: {'id': bluetooth.deviceId},
-                  // ),
-                );
-              },
-            ),
+      data: (bluetoothList) {
+        final adLength = bluetoothList.length ~/ kAdIndex;
+        return bluetoothList.isEmpty
+            ? Center(
+                child: Text(
+                  'No Bluetooth found'.hardcoded,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              )
+            : BluetoothLayoutGrid(
+                itemCount: !scanning && !interstitialAdState && nativeAd != null
+                    ? bluetoothList.length + adLength
+                    : bluetoothList.length,
+                itemBuilder: (_, index) {
+                  return !scanning &&
+                          !interstitialAdState &&
+                          nativeAd != null &&
+                          (index != 0 && index % kAdIndex == 0)
+                      ? NativeAdCard(
+                          nativeAd: nativeAd,
+                          nativeAdKey: UniqueKey(),
+                        )
+                      : BluetoothCard(
+                          index: index,
+                          bluetooth: !scanning
+                              ? bluetoothList[_getDestinationItemIndex(index)]
+                              : bluetoothList[index],
+                          // () =>
+                          // context.goNamed(
+                          //   AppRoute.bluetooth.name,
+                          //   params: {'id': bluetooth.deviceId},
+                          // ),
+                        );
+                },
+              );
+      },
     );
   }
 }

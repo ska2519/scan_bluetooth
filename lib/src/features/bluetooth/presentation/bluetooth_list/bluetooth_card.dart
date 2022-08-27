@@ -131,8 +131,10 @@ class BluetoothCardTile extends HookConsumerWidget {
                         children: [
                           IconButton(
                             tooltip: 'Change Name',
-                            padding: EdgeInsets.zero,
-                            splashRadius: 24,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: Sizes.p8,
+                            ),
+                            splashRadius: 20,
                             constraints: const BoxConstraints(),
                             icon: const Icon(Icons.change_circle_outlined),
                             onPressed: () => showID.value = !showID.value,

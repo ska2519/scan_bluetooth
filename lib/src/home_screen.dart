@@ -32,7 +32,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     if (isBackgroud) {
     } else {
       if (ref.read(interstitialAdStateProvider)) {
-        ref.read(interstitialAdStateProvider.notifier).state = false;
+        ref.read(interstitialAdStateProvider.notifier).update((state) => false);
         return;
       } else if (Platform.isAndroid || Platform.isIOS) {
         ref.refresh(isBluetoothAvailableProvider);

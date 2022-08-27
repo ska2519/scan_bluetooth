@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quick_blue/models.dart';
 
 import '../data/bluetooth_repository.dart';
-import '../presentation/searching_fab/searching_fab_controller.dart';
+import '../presentation/scanning_fab/scanning_fab_controller.dart';
 
 class BluetoothService {
   BluetoothService(this.ref);
@@ -14,7 +14,7 @@ class BluetoothService {
       await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
 
   void startScan() {
-    ref.read(bluetoothListProvider.notifier).state = [];
+    ref.read(bluetoothListProvider.notifier).update((state) => []);
     ref.read(bluetoothRepositoryProvider).startScan();
 
     // TODO: 이게 꼭 필요한지 고민해보자 예)주위에 블루투스가 하나도 없을 때
@@ -23,14 +23,14 @@ class BluetoothService {
 
   void stopScan() => ref.read(bluetoothRepositoryProvider).stopScan();
 
-  Future<void> submitSearching(bool searching) async {
-    final bluetoothAvailable = await isBluetoothAvailable();
-    if (bluetoothAvailable) {
-      searching ? startScan() : stopScan();
-      ref.read(stopWatchProvider(searching));
-      ref.read(searchingFABStateProvider.notifier).state = searching;
-    }
-  }
+  Future<void> updateScanFABState(bool scanning) async =>
+      ref.read(scanFABStateProvider.notifier).update((state) => scanning);
+
+  Future<void> toggleStopWatch(bool scanning) async =>
+      ref.read(stopWatchProvider(scanning));
+
+  Future<void> submitScanning(bool scanning) async =>
+      scanning ? startScan() : stopScan();
 
   Future<void> connect(String deviceId) async {
     print('QuickBlue.connect');
@@ -57,7 +57,7 @@ class BluetoothService {
       }
 
       bluetoothList.sort((a, b) => b.rssi.compareTo(a.rssi));
-      ref.read(bluetoothListProvider.notifier).state = bluetoothList.toList();
+      ref.read(bluetoothListProvider.notifier).update((state) => bluetoothList);
     });
     yield bluetoothList;
   }
@@ -67,8 +67,8 @@ final elapsedProvider =
     StateProvider.autoDispose<Duration>((ref) => Duration.zero);
 
 final stopWatchProvider = Provider.family.autoDispose<void, bool>((ref, start) {
-  final ticker =
-      Ticker((onTick) => ref.read(elapsedProvider.notifier).state = onTick);
+  final ticker = Ticker(
+      (onTick) => ref.read(elapsedProvider.notifier).update((state) => onTick));
   start ? ticker.start() : ticker.stop();
 });
 

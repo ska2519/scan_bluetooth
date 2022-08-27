@@ -15,14 +15,6 @@ class BluetoothGrid extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const kAdIndex = 5;
-
-    int _getDestinationItemIndex(int rawIndex) {
-      final adCount = rawIndex ~/ kAdIndex;
-
-      return rawIndex >= kAdIndex ? rawIndex - adCount : rawIndex;
-    }
-
     final bluetoothListValue = ref.watch(bluetoothListStreamProvider);
     final scanning = ref.watch(scanFABStateProvider);
     final interstitialAdState = ref.watch(interstitialAdStateProvider);
@@ -31,7 +23,20 @@ class BluetoothGrid extends HookConsumerWidget {
     return AsyncValueWidget<List<BlueScanResult>>(
       value: bluetoothListValue,
       data: (bluetoothList) {
-        final adLength = bluetoothList.length ~/ kAdIndex;
+        var kAdIndex = 1;
+        if (bluetoothList.isNotEmpty && !scanning && nativeAd != null) {
+          kAdIndex = Random()
+              .nextInt(bluetoothList.length > 7 ? 7 : bluetoothList.length - 1);
+        }
+
+        int _getDestinationItemIndex(int rawIndex) {
+          const adCount = 1;
+          // final adCount = rawIndex ~/ kAdIndex;
+          return rawIndex > kAdIndex ? rawIndex - adCount : rawIndex;
+        }
+
+        const adLength = 1;
+        // final adLength = bluetoothList.length ~/ kAdIndex;
         return bluetoothList.isEmpty
             ? Center(
                 child: Text(
@@ -47,10 +52,11 @@ class BluetoothGrid extends HookConsumerWidget {
                   return !scanning &&
                           !interstitialAdState &&
                           nativeAd != null &&
-                          (index != 0 && index % kAdIndex == 0)
+                          index == kAdIndex
+                      // (index != 0 && index % kAdIndex == 0)
                       ? NativeAdCard(
                           nativeAd: nativeAd,
-                          nativeAdKey: UniqueKey(),
+                          // nativeAdKey: UniqueKey(),
                         )
                       : BluetoothCard(
                           index: index,

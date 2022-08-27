@@ -25,14 +25,11 @@ class ScanningFABController extends StateNotifier<AsyncValue<void>> {
     final newState =
         await AsyncValue.guard(() => bluetoothService.submitScanning(scanning));
 
-    if (newState.hasError == false) {
+    if (mounted) {
+      // * only set the state if the controller hasn't been disposed
       await AsyncValue.guard(
           () => bluetoothService.updateScanFABState(scanning));
       await AsyncValue.guard(() => bluetoothService.toggleStopWatch(scanning));
-    }
-
-    if (mounted) {
-      // * only set the state if the controller hasn't been disposed
       state = newState;
       print('after newState state: $state');
       if (!scanning && admobService != null) {

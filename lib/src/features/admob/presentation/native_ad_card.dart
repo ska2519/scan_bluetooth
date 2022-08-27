@@ -16,9 +16,7 @@ class NativeAdCard extends HookConsumerWidget {
       child: Card(
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
-          child: nativeAd != null
-              ? AdWidget(key: nativeAdKey, ad: nativeAd)
-              : const SizedBox(),
+          child: nativeAd != null ? AdWidget(ad: nativeAd) : const SizedBox(),
         ),
       ),
     );

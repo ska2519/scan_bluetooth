@@ -21,7 +21,7 @@ class AdmobService {
     print(
         '_init AdmobService: ${admobStatus.adapterStatuses.values.first.state}');
 
-    if (Platform.isAndroid || Platform.isIOS) {
+    if (Platform.isAndroid) {
       createNativeAd();
       createInterstitialAd();
     }

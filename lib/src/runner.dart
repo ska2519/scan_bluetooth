@@ -49,14 +49,14 @@ class AppRunner {
         overrides: [
           // !! This is setup Google Ads [ADType]
           // !! chnage ADType.real when release app in app market
-          adTypeProvider.overrideWithProvider(Provider((ref) => ADType.sample)),
+          adTypeProvider.overrideWithProvider(Provider((ref) => ADType.real)),
           flavorProvider.overrideWithProvider(Provider((ref) => flavor)),
         ],
       );
       errorLogger = appStartupContainer.read(errorLoggerProvider);
       // FirebaseCrashlytics.instance.crash();
       // FirebaseCrashlytics.instance.log('test crash');
-      if (Platform.isAndroid || Platform.isIOS) {
+      if (Platform.isAndroid) {
         appStartupContainer.read(admobServiceProvider);
       } else if (Platform.isMacOS) {
         appStartupContainer.read(windowSizeProvider);

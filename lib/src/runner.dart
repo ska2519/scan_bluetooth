@@ -15,7 +15,6 @@ import 'exceptions/async_error_logger.dart';
 import 'exceptions/error_logger.dart';
 import 'features/admob/application/ad_helper.dart';
 import 'features/admob/application/admob_service.dart';
-import 'features/window_size/data/window_size_repository.dart';
 import 'firebase_options.dart';
 import 'firebase_options_dev.dart';
 import 'localization/string_hardcoded.dart';
@@ -59,7 +58,7 @@ class AppRunner {
       if (Platform.isAndroid) {
         appStartupContainer.read(admobServiceProvider);
       } else if (Platform.isMacOS) {
-        appStartupContainer.read(windowSizeProvider);
+        // appStartupContainer.read(windowSizeProvider);
       }
 
       // * Entry point of the app

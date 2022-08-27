@@ -10,6 +10,7 @@ import 'package:string_to_color/string_to_color.dart';
 import '../../../../../generated/flutter_gen/assets.gen.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../application/bluetooth_service.dart';
+import '../../domain/new_bluetooth.dart';
 
 /// Used to show a single product inside a card.
 class BluetoothCard extends HookConsumerWidget {
@@ -20,7 +21,7 @@ class BluetoothCard extends HookConsumerWidget {
     this.onPressed,
   });
   final int index;
-  final BlueScanResult bluetooth;
+  final NewBluetooth bluetooth;
   final VoidCallback? onPressed;
 
   @override
@@ -37,11 +38,13 @@ class BluetoothCardTile extends HookConsumerWidget {
     this.bluetooth,
     this.index, {
     this.onPressed,
+    // required this.onSubmit,
     super.key,
   });
   final VoidCallback? onPressed;
-  final BlueScanResult bluetooth;
+  final NewBluetooth bluetooth;
   final int index;
+  // final VoidCallback onSubmit;
 
   // * Keys for testing using find.byKey()
   static const bluetoothCardKey = Key('bluetooth-card');
@@ -52,6 +55,15 @@ class BluetoothCardTile extends HookConsumerWidget {
         ref.read(bluetoothServiceProvider).rssiCalculate(bluetooth.rssi);
     final showID = useState<bool>(false);
 
+    useEffect(
+      () {
+        // onSubmit.call();
+        return null;
+      },
+    );
+    // final rssiStream = useMemoized(() => Stream.value(bluetooth.rssi));
+    // final rssiSnapshot = useStream(rssiStream).data;
+    // print('snapshot: ${rssiSnapshot}');
     return Card(
       child: InkWell(
         key: bluetoothCardKey,
@@ -72,22 +84,30 @@ class BluetoothCardTile extends HookConsumerWidget {
                         style: textTheme.bodyText2!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      Tooltip(
-                        message: 'SIGNAL',
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            if (intRssi < 20)
-                              Assets.svg.icSignalWeakSka144.svg(width: 30)
-                            else if (20 <= intRssi && intRssi < 40)
-                              Assets.svg.icSignalFairSka144.svg(width: 30)
-                            else if (40 <= intRssi && intRssi < 60)
-                              Assets.svg.icSignalGoodSka144.svg(width: 30)
-                            else if (60 <= intRssi && intRssi < 80)
-                              Assets.svg.icSignalStrongSka144.svg(width: 30)
-                            else if (80 <= intRssi)
-                              Assets.svg.icSignalSka144.svg(width: 30),
-                          ],
+                      Material(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(30),
+                          // onTap: () => onSubmit,
+
+                          // crossFadeState: bluetooth.rssi > bluetooth.previousRssi!
+                          //     ? CrossFadeState.showSecond
+                          //     : CrossFadeState.showFirst,
+                          // duration: const Duration(seconds: 1),
+                          // canRequestFocus: bluetooth.previousRssi != null &&
+                          //     bluetooth.rssi != bluetooth.previousRssi!,
+                          splashColor: bluetooth.previousRssi != null &&
+                                  bluetooth.rssi > bluetooth.previousRssi!
+                              ? Colors.red.withOpacity(0.4)
+                              : Colors.green.withOpacity(0.4),
+
+                          child: Tooltip(
+                            message: 'SIGNAL',
+                            child: RssiIcon(
+                                intRssi: intRssi, rssiColor: rssiColor),
+                          ),
                         ),
                       ),
                     ],
@@ -150,6 +170,56 @@ class BluetoothCardTile extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  MaterialColor? get rssiColor => bluetooth.previousRssi != null
+      ? bluetooth.rssi > bluetooth.previousRssi!
+          ? Colors.red
+          : Colors.green
+      : null;
+}
+
+class RssiIcon extends StatelessWidget {
+  const RssiIcon({
+    super.key,
+    required this.intRssi,
+    required this.rssiColor,
+  });
+
+  final int intRssi;
+  final Color? rssiColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        if (intRssi < 20)
+          Assets.svg.icSignalWeakSka144.svg(
+            width: 30,
+            color: rssiColor,
+          )
+        else if (20 <= intRssi && intRssi < 40)
+          Assets.svg.icSignalFairSka144.svg(
+            width: 30,
+            color: rssiColor,
+          )
+        else if (40 <= intRssi && intRssi < 60)
+          Assets.svg.icSignalGoodSka144.svg(
+            width: 30,
+            color: rssiColor,
+          )
+        else if (60 <= intRssi && intRssi < 80)
+          Assets.svg.icSignalStrongSka144.svg(
+            width: 30,
+            color: rssiColor,
+          )
+        else if (80 <= intRssi)
+          Assets.svg.icSignalSka144.svg(
+            width: 30,
+            color: rssiColor,
+          ),
+      ],
     );
   }
 }

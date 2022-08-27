@@ -118,5 +118,6 @@ final nativeAdProvider =
 
 final interstitialAdProvider = StateProvider<InterstitialAd?>((ref) => null);
 
-final interstitialAdStateProvider = StateProvider<bool>((ref) => false);
+final interstitialAdStateProvider =
+    StateProvider.autoDispose<bool>((ref) => false);
 final numInterstitialLoadAttemptsProvider = StateProvider<int>((ref) => 0);

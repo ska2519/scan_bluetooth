@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:quick_blue/models.dart';
 
 import '../../../../constants/resources.dart';
+import '../../../../utils/destination_item_index.dart';
 import '../../../admob/application/admob_service.dart';
 import '../../../admob/presentation/native_ad_card.dart';
 import '../../application/bluetooth_service.dart';
+import '../../domain/new_bluetooth.dart';
 import '../scanning_fab/scanning_fab_controller.dart';
 import 'bluetooth_card.dart';
 
@@ -20,19 +21,13 @@ class BluetoothGrid extends HookConsumerWidget {
     final interstitialAdState = ref.watch(interstitialAdStateProvider);
     final nativeAd = ref.watch(nativeAdProvider(key));
 
-    return AsyncValueWidget<List<BlueScanResult>>(
+    return AsyncValueWidget<List<NewBluetooth>>(
       value: bluetoothListValue,
       data: (bluetoothList) {
         var kAdIndex = 1;
         if (bluetoothList.isNotEmpty && !scanning && nativeAd != null) {
           kAdIndex = Random()
-              .nextInt(bluetoothList.length > 7 ? 7 : bluetoothList.length - 1);
-        }
-
-        int _getDestinationItemIndex(int rawIndex) {
-          const adCount = 1;
-          // final adCount = rawIndex ~/ kAdIndex;
-          return rawIndex > kAdIndex ? rawIndex - adCount : rawIndex;
+              .nextInt(bluetoothList.length >= 7 ? 7 : bluetoothList.length);
         }
 
         const adLength = 1;
@@ -59,9 +54,13 @@ class BluetoothGrid extends HookConsumerWidget {
                           // nativeAdKey: UniqueKey(),
                         )
                       : BluetoothCard(
-                          index: index,
+                          index: !scanning
+                              ? getDestinationItemIndex(kAdIndex, index)
+                              : index,
+
                           bluetooth: !scanning
-                              ? bluetoothList[_getDestinationItemIndex(index)]
+                              ? bluetoothList[
+                                  getDestinationItemIndex(kAdIndex, index)]
                               : bluetoothList[index],
                           // () =>
                           // context.goNamed(

@@ -45,7 +45,7 @@ class ScanningFABController extends StateNotifier<AsyncValue<void>> {
   }
 }
 
-final scanFABStateProvider = StateProvider<bool>((ref) => false);
+final scanFABStateProvider = StateProvider.autoDispose<bool>((ref) => false);
 
 final scanningFABControllerProvider =
     StateNotifierProvider<ScanningFABController, AsyncValue<void>>(

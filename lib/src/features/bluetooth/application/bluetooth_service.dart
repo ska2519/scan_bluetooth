@@ -1,8 +1,8 @@
 import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:quick_blue/models.dart';
 
 import '../data/bluetooth_repository.dart';
+import '../domain/new_bluetooth.dart';
 import '../presentation/scanning_fab/scanning_fab_controller.dart';
 
 class BluetoothService {
@@ -40,18 +40,26 @@ class BluetoothService {
   int emptyNameBTCount() =>
       ref.read(bluetoothListProvider).where((bt) => bt.name.isEmpty).length;
 
-  Stream<List<BlueScanResult>> createBluetoothListStream() async* {
+  Stream<List<NewBluetooth>> createBluetoothListStream() async* {
     final bluetoothList = ref.read(bluetoothListProvider);
-    ref.watch(scanResultStreamProvider).whenData((scanBluetooth) {
+    ref.watch(scanResultStreamProvider).whenData((bluetooth) {
+      final newScanBluetooth = NewBluetooth(
+        deviceId: bluetooth.deviceId,
+        manufacturerData: bluetooth.manufacturerData,
+        manufacturerDataHead: bluetooth.manufacturerDataHead,
+        name: bluetooth.name,
+        rssi: bluetooth.rssi,
+      );
       if (bluetoothList.isEmpty) {
-        bluetoothList.add(scanBluetooth);
+        bluetoothList.add(newScanBluetooth);
       } else {
         for (var i = 0; i < bluetoothList.length; i++) {
-          if (bluetoothList[i].deviceId == scanBluetooth.deviceId) {
-            bluetoothList[i] = scanBluetooth;
+          if (bluetoothList[i].deviceId == newScanBluetooth.deviceId) {
+            bluetoothList[i] =
+                newScanBluetooth.copyWith(previousRssi: bluetoothList[i].rssi);
             break;
           } else if (i == bluetoothList.length - 1) {
-            bluetoothList.add(scanBluetooth);
+            bluetoothList.add(newScanBluetooth);
           }
         }
       }
@@ -78,8 +86,8 @@ final bluetoothServiceProvider =
 final emptyNameBTCountProvider = StateProvider<int>(
   (ref) => ref.watch(bluetoothServiceProvider).emptyNameBTCount(),
 );
-final bluetoothListProvider = StateProvider<List<BlueScanResult>>((ref) => []);
+final bluetoothListProvider = StateProvider<List<NewBluetooth>>((ref) => []);
 
-final bluetoothListStreamProvider = StreamProvider<List<BlueScanResult>>(
+final bluetoothListStreamProvider = StreamProvider<List<NewBluetooth>>(
   (ref) => ref.watch(bluetoothServiceProvider).createBluetoothListStream(),
 );

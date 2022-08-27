@@ -11,7 +11,6 @@ class MyApp extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final goRouter = ref.watch(goRouterProvider);
     final themeMode = ref.watch(themeModeProvider);
-
     return MaterialApp.router(
       routeInformationProvider: goRouter.routeInformationProvider,
       routeInformationParser: goRouter.routeInformationParser,
@@ -21,6 +20,7 @@ class MyApp extends HookConsumerWidget {
       onGenerateTitle: (BuildContext context) =>
           'Bluetooth on my body'.hardcoded,
       themeMode: themeMode,
+      // theme: shrineTheme,
       theme: lightTheme,
       darkTheme: darkTheme,
     );

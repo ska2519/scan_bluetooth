@@ -22,6 +22,6 @@ final windowSizeRepositoryProvider = Provider<WindowSizeRepository>(
   (ref) => WindowSizeRepository(),
 );
 
-final windowSizeProvider = FutureProvider.autoDispose<Size>(
+final setWindowSizeProvider = FutureProvider.autoDispose<Size>(
   (ref) async => await ref.read(windowSizeRepositoryProvider).setWindowSize(),
 );

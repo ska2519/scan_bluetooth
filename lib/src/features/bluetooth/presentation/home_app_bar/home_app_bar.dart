@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import '../../../../constants/resources.dart';
-import '../../../authentication/data/auth_repository.dart';
 import '../../application/bluetooth_service.dart';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and
@@ -15,7 +14,7 @@ class HomeAppBar extends HookConsumerWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authStateChangesProvider).value;
+    // final user = ref.watch(authStateChangesProvider).value;
     // * This widget is responsive.
     // * On large screen sizes, it shows all the actions in the app bar.
     // * On small screen sizes, it shows only the shopping cart icon and a
@@ -69,29 +68,20 @@ class BluetoothCountInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bluetoothList = ref.watch(bluetoothListProvider);
-    final emptyNameBtsCount = ref.watch(emptyNameBTCountProvider);
+    final unknownBtsCount = ref.watch(unknownBtsCountProvider);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Text(
-        //   '💣',
-        //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-        //         letterSpacing: -0.9,
-        //         fontFeatures: [const FontFeature.tabularFigures()],
-        //         height: 1.1,
-        //       ),
-        // ),
-
         Text(
-          '❓ $emptyNameBtsCount'.hardcoded,
+          'Unknown $unknownBtsCount'.hardcoded,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
             letterSpacing: -1,
             fontFeatures: [const FontFeature.tabularFigures()],
           ),
         ),
         Text(
-          ' / ${bluetoothList.length}'.hardcoded,
+          ' / Total ${bluetoothList.length}'.hardcoded,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
             letterSpacing: -1,
             fontFeatures: [const FontFeature.tabularFigures()],

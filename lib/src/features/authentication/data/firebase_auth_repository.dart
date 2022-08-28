@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../domain/app_user.dart';
 import 'auth_repository.dart';
 
@@ -5,12 +7,36 @@ class FirebaseAuthRepository implements AuthRepository {
   FirebaseAuthRepository({this.addDelay = true});
   final bool addDelay;
 
-  // final _authState = InMemoryStore<AppUser?>(null);
+  static final _firebaseAuth = FirebaseAuth.instance;
+
+  AppUser? fromFirebaseUser(User? user) =>
+      user != null ? AppUser.transformFirebaseUser(user) : null;
+
+  @override
+  AppUser? get currentUser => fromFirebaseUser(_firebaseAuth.currentUser);
 
   @override
   Stream<AppUser?> authStateChanges() {
-    // TODO: implement authStateChanges
-    throw UnimplementedError();
+    final authStateChanges = _firebaseAuth.authStateChanges();
+    return authStateChanges.map(fromFirebaseUser);
+  }
+
+  @override
+  Future<void> signInAnonymously() async {
+    try {
+      await _firebaseAuth.signInAnonymously();
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'operation-not-allowed':
+          print('e.code: ${e.code}');
+          print("Anonymous auth hasn't been enabled for this project.");
+          break;
+        default:
+          print('signInAnonymously e.code: ${e.code}');
+          print(e.message);
+      }
+    }
+    return;
   }
 
   @override
@@ -18,10 +44,6 @@ class FirebaseAuthRepository implements AuthRepository {
     // TODO: implement createUserWithEmailAndPassword
     throw UnimplementedError();
   }
-
-  @override
-  // TODO: implement currentUser
-  AppUser? get currentUser => throw UnimplementedError();
 
   @override
   void dispose() {

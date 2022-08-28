@@ -17,14 +17,10 @@ class ScanningFAB extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: error: debug didchangedependencies ==false riverpod
     ref.listen<AsyncValue>(scanningFABControllerProvider, (_, state) {
-      print('scanningFABControllerProvider state: $state');
       return state.showAlertDialogOnError(context);
     });
     final state = ref.watch(scanningFABControllerProvider);
-    print('statestatestate: $state');
-
     final theme = Theme.of(context);
 
     useEffect(() {
@@ -68,9 +64,15 @@ class ScanningFAB extends HookConsumerWidget {
                             builder: (context) =>
                                 RequestPermissionDialog(requestPermissionList!),
                           )
-                      : () => ref
-                          .read(scanningFABControllerProvider.notifier)
-                          .submitScanning(!scanning),
+                      : () async {
+                          if (!scanning) {
+                            ref.read(bluetoothListProvider.notifier).state = [];
+                          }
+
+                          await ref
+                              .read(scanningFABControllerProvider.notifier)
+                              .submitScanning(!scanning);
+                        },
           label:
               requestPermissionList != null && requestPermissionList!.isNotEmpty
                   ? const Text('🔔 Setting Permission')

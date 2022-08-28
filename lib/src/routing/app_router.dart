@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../features/authentication/data/auth_repository.dart';
+import '../features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
+import '../features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import '../home_screen.dart';
 import 'not_found_screen.dart';
 
@@ -22,17 +25,18 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     initialLocation: '/',
     // debugLogDiagnostics: false,
     redirect: (state) {
-      final isLoggedIn = authRepository.currentUser != null;
-      if (isLoggedIn) {
-        if (state.location == '/signIn') {
-          return '/';
-        }
-      } else {
-        if (state.location == '/account' || state.location == '/orders') {
-          return '/';
-        }
-      }
       return null;
+
+      // final isLoggedIn = authRepository.currentUser != null;
+      // if (isLoggedIn) {
+      //   if (state.location == '/signIn') {
+      //     return '/';
+      //   }
+      // } else {
+      //   if (state.location == '/account' || state.location == '/orders') {
+      //     return '/';
+      //   }
+      // }
     },
     refreshListenable: GoRouterRefreshStream(authRepository.authStateChanges()),
     routes: [
@@ -102,17 +106,17 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           //     child: const AccountScreen(),
           //   ),
           // ),
-          // GoRoute(
-          //   path: 'signIn',
-          //   name: AppRoute.signIn.name,
-          //   pageBuilder: (context, state) => MaterialPage(
-          //     key: state.pageKey,
-          //     fullscreenDialog: true,
-          //     child: const EmailPasswordSignInScreen(
-          //       formType: EmailPasswordSignInFormType.signIn,
-          //     ),
-          //   ),
-          // ),
+          GoRoute(
+            path: 'signIn',
+            name: AppRoute.signIn.name,
+            pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              fullscreenDialog: true,
+              child: const EmailPasswordSignInScreen(
+                formType: EmailPasswordSignInFormType.signIn,
+              ),
+            ),
+          ),
         ],
       ),
     ],

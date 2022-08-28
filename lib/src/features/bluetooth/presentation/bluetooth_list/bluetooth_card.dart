@@ -12,31 +12,10 @@ import '../../../../constants/app_sizes.dart';
 import '../../application/bluetooth_service.dart';
 import '../../domain/new_bluetooth.dart';
 
-/// Used to show a single product inside a card.
-class BluetoothCard extends HookConsumerWidget {
-  const BluetoothCard({
-    super.key,
-    required this.index,
-    required this.bluetooth,
-    this.onPressed,
-  });
-  final int index;
-  final NewBluetooth bluetooth;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return SizedBox(
-      height: 80,
-      child: BluetoothCardTile(bluetooth, index),
-    );
-  }
-}
-
 class BluetoothCardTile extends HookConsumerWidget {
-  const BluetoothCardTile(
-    this.bluetooth,
-    this.index, {
+  const BluetoothCardTile({
+    required this.bluetooth,
+    required this.index,
     this.onPressed,
     // required this.onSubmit,
     super.key,
@@ -55,118 +34,112 @@ class BluetoothCardTile extends HookConsumerWidget {
         ref.read(bluetoothServiceProvider).rssiCalculate(bluetooth.rssi);
     final showID = useState<bool>(false);
 
-    useEffect(
-      () {
-        // onSubmit.call();
-        return null;
-      },
-    );
-    // final rssiStream = useMemoized(() => Stream.value(bluetooth.rssi));
-    // final rssiSnapshot = useStream(rssiStream).data;
-    // print('snapshot: ${rssiSnapshot}');
-    return Card(
-      child: InkWell(
-        key: bluetoothCardKey,
-        onTap: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.all(Sizes.p8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        ' ${index + 1}.  ',
-                        style: textTheme.bodyText2!
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      Material(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+    return SizedBox(
+      height: 80,
+      child: Card(
+        child: InkWell(
+          key: bluetoothCardKey,
+          onTap: onPressed,
+          child: Padding(
+            padding: const EdgeInsets.all(Sizes.p8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          ' ${index + 1}.  ',
+                          style: textTheme.bodyText2!
+                              .copyWith(fontWeight: FontWeight.bold),
                         ),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(30),
-                          // onTap: () => onSubmit,
-
-                          // crossFadeState: bluetooth.rssi > bluetooth.previousRssi!
-                          //     ? CrossFadeState.showSecond
-                          //     : CrossFadeState.showFirst,
-                          // duration: const Duration(seconds: 1),
-                          // canRequestFocus: bluetooth.previousRssi != null &&
-                          //     bluetooth.rssi != bluetooth.previousRssi!,
-                          splashColor: bluetooth.previousRssi != null &&
-                                  bluetooth.rssi > bluetooth.previousRssi!
-                              ? Colors.red.withOpacity(0.4)
-                              : Colors.green.withOpacity(0.4),
-
-                          child: Tooltip(
-                            message: 'SIGNAL',
-                            child: RssiIcon(
-                                intRssi: intRssi, rssiColor: rssiColor),
+                        Material(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        bluetooth.name.isNotEmpty && !showID.value
-                            ? bluetooth.name
-                            : Platform.isIOS || Platform.isMacOS
-                                ? '🆔 ${bluetooth.deviceId.substring(0, 8)}'
-                                : '🆔 ${bluetooth.deviceId}',
-                        style: bluetooth.name.isNotEmpty
-                            ? textTheme.bodyMedium
-                            : textTheme.titleSmall!.copyWith(
-                                color: ColorUtils.stringToColor(
-                                  bluetooth.deviceId,
-                                ),
-                                fontFeatures: [
-                                  const FontFeature.tabularFigures()
-                                ],
-                              ),
-                      ),
-                      Text(
-                        ' ${intRssi <= 0 ? 1 : 99 <= intRssi ? 99 : intRssi}%',
-                        style: textTheme.bodyMedium,
-                      ),
-                      // ConnectButton(bluetooth: bluetooth),
-                    ],
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Row(children: [
-                    if (bluetooth.name.isNotEmpty)
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            tooltip: 'Change Name',
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: Sizes.p8,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(30),
+                            // onTap: () => onSubmit,
+
+                            // crossFadeState: bluetooth.rssi > bluetooth.previousRssi!
+                            //     ? CrossFadeState.showSecond
+                            //     : CrossFadeState.showFirst,
+                            // duration: const Duration(seconds: 1),
+                            // canRequestFocus: bluetooth.previousRssi != null &&
+                            //     bluetooth.rssi != bluetooth.previousRssi!,
+                            splashColor: bluetooth.previousRssi != null &&
+                                    bluetooth.rssi > bluetooth.previousRssi!
+                                ? Colors.red.withOpacity(0.4)
+                                : Colors.green.withOpacity(0.4),
+
+                            child: Tooltip(
+                              message: 'SIGNAL',
+                              child: RssiIcon(
+                                  intRssi: intRssi, rssiColor: rssiColor),
                             ),
-                            splashRadius: 20,
-                            constraints: const BoxConstraints(),
-                            icon: const Icon(Icons.change_circle_outlined),
-                            onPressed: () => showID.value = !showID.value,
                           ),
-                          const SizedBox(height: 1),
-                        ],
-                      )
-                  ]),
-                  gapW64,
-                ],
-              ),
-            ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          bluetooth.name.isNotEmpty && !showID.value
+                              ? bluetooth.name
+                              : Platform.isIOS || Platform.isMacOS
+                                  ? '🆔 ${bluetooth.deviceId.substring(0, 8)}'
+                                  : '🆔 ${bluetooth.deviceId}',
+                          style: bluetooth.name.isNotEmpty
+                              ? textTheme.bodyMedium
+                              : textTheme.titleSmall!.copyWith(
+                                  color: ColorUtils.stringToColor(
+                                    bluetooth.deviceId,
+                                  ),
+                                  fontFeatures: [
+                                    const FontFeature.tabularFigures()
+                                  ],
+                                ),
+                        ),
+                        Text(
+                          ' ${intRssi <= 0 ? 1 : 99 <= intRssi ? 99 : intRssi}%',
+                          style: textTheme.bodyMedium,
+                        ),
+                        // ConnectButton(bluetooth: bluetooth),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Row(children: [
+                      if (bluetooth.name.isNotEmpty)
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              tooltip: 'Change Name',
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: Sizes.p8,
+                              ),
+                              splashRadius: 20,
+                              constraints: const BoxConstraints(),
+                              icon: const Icon(Icons.change_circle_outlined),
+                              onPressed: () => showID.value = !showID.value,
+                            ),
+                            const SizedBox(height: 1),
+                          ],
+                        )
+                    ]),
+                    gapW64,
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

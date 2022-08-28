@@ -19,10 +19,10 @@ platform :ios do
 
     update_code_signing_settings(
       build_configurations: configuration,
-      use_automatic_signing: false,
+      use_automatic_signing: true,
     )
-    cert()
-    sigh(force: true)
+    # cert()
+    # sigh(force: true)
 
 
     build_app(

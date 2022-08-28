@@ -35,6 +35,8 @@ class AppRunner {
             ? DefaultFirebaseOptions.currentPlatform
             : DefaultFirebaseOptionsDev.currentPlatform,
       );
+      // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+
       if (kReleaseMode) {
         analytics = FirebaseAnalytics.instance;
         await analytics!.logAppOpen();
@@ -48,7 +50,7 @@ class AppRunner {
         overrides: [
           // !! This is setup Google Ads [ADType]
           // !! chnage ADType.real when release app in app market
-          adTypeProvider.overrideWithProvider(Provider((ref) => ADType.real)),
+          adTypeProvider.overrideWithProvider(Provider((ref) => ADType.sample)),
           flavorProvider.overrideWithProvider(Provider((ref) => flavor)),
         ],
       );

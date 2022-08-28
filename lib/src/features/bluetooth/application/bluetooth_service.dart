@@ -14,7 +14,6 @@ class BluetoothService {
       await ref.read(bluetoothRepositoryProvider).isBluetoothAvailable();
 
   void startScan() {
-    ref.read(bluetoothListProvider.notifier).update((state) => []);
     ref.read(bluetoothRepositoryProvider).startScan();
 
     // TODO: 이게 꼭 필요한지 고민해보자 예)주위에 블루투스가 하나도 없을 때
@@ -32,15 +31,19 @@ class BluetoothService {
   Future<void> submitScanning(bool scanning) async =>
       scanning ? startScan() : stopScan();
 
+  Future<void> updateBluetoothListEmpty() async =>
+      ref.read(bluetoothListProvider.notifier).update((state) => []);
+
   Future<void> connect(String deviceId) async {
     print('QuickBlue.connect');
     ref.read(bluetoothRepositoryProvider).connect(deviceId);
   }
 
-  int emptyNameBTCount() =>
-      ref.read(bluetoothListProvider).where((bt) => bt.name.isEmpty).length;
+  int unknownBtsCount() =>
+      ref.watch(bluetoothListProvider).where((bt) => bt.name.isEmpty).length;
 
-  Stream<List<NewBluetooth>> createBluetoothListStream() async* {
+  Stream<List<NewBluetooth>> createBluetoothListStream(
+      List<NewBluetooth> bluetoothList) async* {
     final bluetoothList = ref.read(bluetoothListProvider);
     ref.watch(scanResultStreamProvider).whenData((bluetooth) {
       final newScanBluetooth = NewBluetooth(
@@ -83,11 +86,14 @@ final stopWatchProvider = Provider.family.autoDispose<void, bool>((ref, start) {
 final bluetoothServiceProvider =
     Provider<BluetoothService>(BluetoothService.new);
 
-final emptyNameBTCountProvider = StateProvider<int>(
-  (ref) => ref.watch(bluetoothServiceProvider).emptyNameBTCount(),
+final unknownBtsCountProvider = StateProvider<int>(
+  (ref) => ref.watch(bluetoothServiceProvider).unknownBtsCount(),
 );
 final bluetoothListProvider = StateProvider<List<NewBluetooth>>((ref) => []);
 
-final bluetoothListStreamProvider = StreamProvider<List<NewBluetooth>>(
-  (ref) => ref.watch(bluetoothServiceProvider).createBluetoothListStream(),
-);
+final bluetoothListStreamProvider = StreamProvider<List<NewBluetooth>>((ref) {
+  final bluetoothList = ref.watch(bluetoothListProvider);
+  return ref
+      .watch(bluetoothServiceProvider)
+      .createBluetoothListStream(bluetoothList);
+});

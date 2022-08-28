@@ -43,4 +43,9 @@ class NewBluetooth extends Mock implements BlueScanResult {
       previousRssi: previousRssi ?? this.previousRssi,
     );
   }
+
+  @override
+  String toString() {
+    return 'NewBluetooth(name: $name, deviceId: $deviceId, manufacturerDataHead: $manufacturerDataHead, manufacturerData: $manufacturerData, rssi: $rssi, previousRssi: $previousRssi)';
+  }
 }

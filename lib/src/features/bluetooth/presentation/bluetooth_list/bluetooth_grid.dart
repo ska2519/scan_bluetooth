@@ -1,11 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../common_widgets/alert_dialogs.dart';
 import '../../../../constants/resources.dart';
 import '../../../../utils/destination_item_index.dart';
 import '../../../admob/application/admob_service.dart';
 import '../../../admob/presentation/native_ad_card.dart';
+import '../../../authentication/data/auth_repository.dart';
 import '../../application/bluetooth_service.dart';
 import '../../domain/new_bluetooth.dart';
 import '../scanning_fab/scanning_fab_controller.dart';
@@ -16,6 +19,8 @@ class BluetoothGrid extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentUser = ref.watch(authRepositoryProvider).currentUser;
+
     final bluetoothListValue = ref.watch(bluetoothListStreamProvider);
     final scanning = ref.watch(scanFABStateProvider);
     final interstitialAdState = ref.watch(interstitialAdStateProvider);
@@ -49,24 +54,29 @@ class BluetoothGrid extends HookConsumerWidget {
                           nativeAd != null &&
                           index == kAdIndex
                       // (index != 0 && index % kAdIndex == 0)
-                      ? NativeAdCard(
-                          nativeAd: nativeAd,
-                          // nativeAdKey: UniqueKey(),
-                        )
-                      : BluetoothCard(
+                      ? NativeAdCard(nativeAd)
+                      : BluetoothCardTile(
+                          onPressed: currentUser!.isAnonymous!
+                              ? () async {
+                                  final result = await showAlertDialog(
+                                      context: context,
+                                      title: '🚪 need to login',
+                                      defaultActionText: '🚪 OK',
+                                      cancelActionText: 'CANCEL',
+                                      content:
+                                          'U can make nickname of unknown Bluetooth');
+                                  if (result != null && result) {
+                                    context.goNamed(AppRoute.signIn.name);
+                                  }
+                                }
+                              : null,
                           index: !scanning
                               ? getDestinationItemIndex(kAdIndex, index)
                               : index,
-
                           bluetooth: !scanning
                               ? bluetoothList[
                                   getDestinationItemIndex(kAdIndex, index)]
                               : bluetoothList[index],
-                          // () =>
-                          // context.goNamed(
-                          //   AppRoute.bluetooth.name,
-                          //   params: {'id': bluetooth.deviceId},
-                          // ),
                         );
                 },
               );

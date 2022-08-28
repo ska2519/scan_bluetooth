@@ -15,6 +15,15 @@ class FakeAuthRepository implements AuthRepository {
   AppUser? get currentUser => _authState.value;
 
   @override
+  Future<void> signInAnonymously() async {
+    await delay(addDelay);
+    _authState.value = const AppUser(
+      uid: 'Anonymously',
+      isAnonymous: true,
+    );
+  }
+
+  @override
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     await delay(addDelay);
     _createNewUser(email);

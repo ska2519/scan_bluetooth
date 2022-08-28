@@ -112,9 +112,8 @@ class AdmobService {
 final adTypeProvider = Provider<ADType>((ref) => throw UnimplementedError());
 final admobServiceProvider = Provider<AdmobService>(AdmobService.new);
 
-// final nativeAdProvider = StateProvider<NativeAd?>((ref) => null);
 final nativeAdProvider =
-    StateProvider.family.autoDispose<NativeAd?, Key?>((ref, key) => null);
+    StateProvider.family<NativeAd?, Key?>((ref, key) => null);
 
 final interstitialAdProvider = StateProvider<InterstitialAd?>((ref) => null);
 

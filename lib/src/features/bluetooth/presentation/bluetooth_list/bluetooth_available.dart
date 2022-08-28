@@ -26,11 +26,13 @@ class _ScanButtonsRowState extends ConsumerState<BluetoothAvailable> {
           isBluetoothAvailable
               ? const Icon(
                   Icons.bluetooth_connected,
-                  color: Colors.blue,
+                  color: Colors.lightBlueAccent,
+                  size: 20,
                 )
               : const Icon(
                   Icons.bluetooth_disabled,
                   color: Colors.red,
+                  size: 20,
                 ),
           gapW8,
           Flexible(

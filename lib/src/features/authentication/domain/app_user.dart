@@ -22,11 +22,11 @@ class AppUser with _$AppUser {
     @Default(false) bool hasEstimate,
   }) = _AppUser;
 
-  factory AppUser.transformFirebaseUser(User user, {String? name}) {
+  factory AppUser.transformFirebaseUser(User user, {String? displayName}) {
     return AppUser(
       uid: user.uid,
       email: user.email,
-      displayName: name ?? user.displayName,
+      displayName: displayName ?? user.displayName,
       photoURL: user.photoURL,
       phoneNumber: user.phoneNumber,
       emailVerified: user.emailVerified,

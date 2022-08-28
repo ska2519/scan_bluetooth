@@ -14,7 +14,7 @@ class RequestPemissionsCard extends StatefulHookConsumerWidget {
 }
 
 class _PemissionCardState extends ConsumerState<RequestPemissionsCard> {
-  Future<void> _submitPermission(Permission permission) async {
+  Future<void> submitPermission(Permission permission) async {
     final permissionStatus = await permission.request();
     print('permissionStatus: $permissionStatus');
     if (permissionStatus == PermissionStatus.denied ||
@@ -42,7 +42,7 @@ class _PemissionCardState extends ConsumerState<RequestPemissionsCard> {
                     : PermissionIconButton(
                         permission: permission,
                         onPressed: () async =>
-                            await _submitPermission(permission),
+                            await submitPermission(permission),
                       );
               },
             ),

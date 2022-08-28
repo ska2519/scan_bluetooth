@@ -18,8 +18,10 @@ class ScanningFAB extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AsyncValue>(scanningFABControllerProvider, (_, state) {
+      print('statestatestatestate: $state');
       return state.showAlertDialogOnError(context);
     });
+
     final state = ref.watch(scanningFABControllerProvider);
     final theme = Theme.of(context);
 
@@ -67,6 +69,8 @@ class ScanningFAB extends HookConsumerWidget {
                       : () async {
                           if (!scanning) {
                             ref.read(bluetoothListProvider.notifier).state = [];
+                          } else {
+                            ref.invalidate(bluetoothListStreamProvider);
                           }
 
                           await ref

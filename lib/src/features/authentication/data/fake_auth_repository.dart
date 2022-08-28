@@ -15,6 +15,11 @@ class FakeAuthRepository implements AuthRepository {
   AppUser? get currentUser => _authState.value;
 
   @override
+  void userChanges() {
+    // TODO: implement userChanges
+  }
+  
+  @override
   Future<void> signInAnonymously() async {
     await delay(addDelay);
     _authState.value = const AppUser(
@@ -26,14 +31,14 @@ class FakeAuthRepository implements AuthRepository {
   @override
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     await delay(addDelay);
-    _createNewUser(email);
+    createNewUser(email);
   }
 
   @override
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
     await delay(addDelay);
-    _createNewUser(email);
+    createNewUser(email);
   }
 
   @override
@@ -44,7 +49,7 @@ class FakeAuthRepository implements AuthRepository {
   @override
   void dispose() => _authState.close();
 
-  void _createNewUser(String email) {
+  void createNewUser(String email) {
     _authState.value = AppUser(
       uid: email.split('').reversed.join(),
       email: email,

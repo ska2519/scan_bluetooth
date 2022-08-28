@@ -58,14 +58,14 @@ class BluetoothGrid extends HookConsumerWidget {
                       : BluetoothCardTile(
                           onPressed: currentUser!.isAnonymous!
                               ? () async {
-                                  final result = await showAlertDialog(
+                                  final goSignIn = await showAlertDialog(
                                       context: context,
-                                      title: '🚪 need to login',
-                                      defaultActionText: '🚪 OK',
-                                      cancelActionText: 'CANCEL',
+                                      title: '🏷 Make nickname',
+                                      defaultActionText: '🚪 Go to Sign In',
+                                      cancelActionText: 'Cancel',
                                       content:
-                                          'U can make nickname of unknown Bluetooth');
-                                  if (result != null && result) {
+                                          'U can make nickname of unkown Bluetooth');
+                                  if (goSignIn != null && goSignIn) {
                                     context.goNamed(AppRoute.signIn.name);
                                   }
                                 }

@@ -19,6 +19,8 @@ import 'firebase_options.dart';
 import 'firebase_options_dev.dart';
 import 'localization/string_hardcoded.dart';
 
+bool shouldUseFirestoreEmulator = false;
+
 class AppRunner {
   static Future<void> run(Flavor flavor) async {
     late ErrorLogger errorLogger;
@@ -35,7 +37,10 @@ class AppRunner {
             ? DefaultFirebaseOptions.currentPlatform
             : DefaultFirebaseOptionsDev.currentPlatform,
       );
-      // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+      if (shouldUseFirestoreEmulator) {
+        // FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+        // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+      }
 
       if (kReleaseMode) {
         analytics = FirebaseAnalytics.instance;

@@ -163,9 +163,8 @@ class _EmailPasswordSignInContentsState
                   enabled: !state.isLoading,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (password) => !_submitted
-                    ? null
-                    : state.passwordErrorText(password ?? ''),
+                validator: (password) =>
+                    !_submitted ? null : state.passwordErrorText(password ?? ''),
                 obscureText: true,
                 autocorrect: false,
                 textInputAction: TextInputAction.done,

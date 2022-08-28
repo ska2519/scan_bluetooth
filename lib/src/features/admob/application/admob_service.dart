@@ -22,8 +22,8 @@ class AdmobService {
         '_init AdmobService: ${admobStatus.adapterStatuses.values.first.state}');
 
     if (Platform.isAndroid) {
-      createNativeAd();
-      createInterstitialAd();
+      _createNativeAd();
+      _createInterstitialAd();
     }
   }
 
@@ -35,7 +35,7 @@ class AdmobService {
     return AdHelper.getAdsUnitId(adType, adFormat);
   }
 
-  void createNativeAd() {
+  void _createNativeAd() {
     NativeAd(
       adUnitId: getAdsUnitId(ADFormat.nativeAdvanced),
       factoryId: 'listTile',
@@ -52,7 +52,7 @@ class AdmobService {
     ).load();
   }
 
-  void createInterstitialAd() {
+  void _createInterstitialAd() {
     const maxFailedLoadAttempts = 3;
     final interstitialAd = ref.read(interstitialAdProvider);
     InterstitialAd.load(
@@ -75,7 +75,7 @@ class AdmobService {
             ref.read(interstitialAdProvider.notifier).update((state) => null);
             if (ref.read(numInterstitialLoadAttemptsProvider) <
                 maxFailedLoadAttempts) {
-              createInterstitialAd();
+              _createInterstitialAd();
             }
           },
         ));
@@ -94,12 +94,12 @@ class AdmobService {
         //TODO: add Firebase analytics Logs
         print('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
-        createInterstitialAd();
+        _createInterstitialAd();
       },
       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
         print('$ad onAdFailedToShowFullScreenContent: $error');
         ad.dispose();
-        createInterstitialAd();
+        _createInterstitialAd();
       },
       onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
     );

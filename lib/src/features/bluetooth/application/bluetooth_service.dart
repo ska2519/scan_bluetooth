@@ -5,6 +5,9 @@ import '../data/bluetooth_repository.dart';
 import '../domain/new_bluetooth.dart';
 import '../presentation/scanning_fab/scanning_fab_controller.dart';
 
+final bluetoothServiceProvider =
+    Provider<BluetoothService>(BluetoothService.new);
+
 class BluetoothService {
   BluetoothService(this.ref);
   final Ref ref;
@@ -82,9 +85,6 @@ final stopWatchProvider = Provider.family.autoDispose<void, bool>((ref, start) {
       (onTick) => ref.read(elapsedProvider.notifier).update((state) => onTick));
   start ? ticker.start() : ticker.stop();
 });
-
-final bluetoothServiceProvider =
-    Provider<BluetoothService>(BluetoothService.new);
 
 final unknownBtsCountProvider = StateProvider<int>(
   (ref) => ref.watch(bluetoothServiceProvider).unknownBtsCount(),

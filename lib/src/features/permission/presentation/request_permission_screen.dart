@@ -22,7 +22,7 @@ class RequestPermissionScreen extends HookConsumerWidget {
         ? const EdgeInsets.symmetric(horizontal: 24, vertical: 16)
         : EdgeInsets.zero;
 
-    Future<void> _submitPermission() async {
+    Future<void> submitPermission() async {
       final permissionStatus = await permission.request();
       if (permissionStatus.isGranted) {
         Navigator.of(context).pop();
@@ -108,7 +108,7 @@ class RequestPermissionScreen extends HookConsumerWidget {
                     borderRadius: BorderRadius.all(Radius.circular(7)),
                   ),
                 ),
-                onPressed: _submitPermission,
+                onPressed: submitPermission,
                 child: Padding(
                   padding: buttonTextPadding,
                   child: Text(

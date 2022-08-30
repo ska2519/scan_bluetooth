@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../exceptions/error_logger.dart';
 import '../../firebase/cloud_firestore.dart';
 import '../../firebase/firebase_path.dart';
 import '../domain/app_user.dart';
@@ -40,19 +41,19 @@ class FirebaseAuthRepository implements AuthRepository {
   Future<void> signInAnonymously() async {
     try {
       final userCredential = await _firebaseAuth.signInAnonymously();
-      print('signInAnonymously userCredential: $userCredential');
+      logger.i('signInAnonymously userCredential: $userCredential');
       return userCredential.user != null
           ? await setAppUser(userCredential.user!)
           : null;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'operation-not-allowed':
-          print('e.code: ${e.code}');
-          print("Anonymous auth hasn't been enabled for this project.");
+          logger.e('e.code: ${e.code}', e);
+          logger.i("Anonymous auth hasn't been enabled for this project.");
           break;
         default:
-          print('signInAnonymously e.code: ${e.code}');
-          print(e.message);
+          logger.i('signInAnonymously e.code: ${e.code}');
+          logger.i(e.message);
       }
     }
     return;
@@ -101,20 +102,21 @@ class FirebaseAuthRepository implements AuthRepository {
 
       return await _linkWithCredential(credential, displayName: displayName);
     } on FirebaseAuthException catch (e) {
-      print('e.code: ${e.code}');
+      logger.i('e.code: ${e.code}');
       switch (e.code) {
         case 'provider-already-linked':
-          print('The provider has already been linked to the user.');
+          logger.i('The provider has already been linked to the user.');
           break;
         case 'invalid-credential':
-          print("The provider's credential is not valid.");
+          logger.i("The provider's credential is not valid.");
           break;
         case 'credential-already-in-use':
-          print('The account corresponding to the credential already exists, '
-              'or is already linked to a Firebase User.');
+          logger
+              .d('The account corresponding to the credential already exists, '
+                  'or is already linked to a Firebase User.');
           return await _signInWithCredential(credential);
         default:
-          print('Unknown error. linkWithCredential e.code: ${e.code}');
+          logger.i('Unknown error. linkWithCredential e.code: ${e.code}');
       }
     }
     return;
@@ -131,14 +133,14 @@ class FirebaseAuthRepository implements AuthRepository {
 
   Future<void> setAppUser(User user, {String? displayName}) async {
     try {
-      print('start setAppUser: $user');
+      logger.i('start setAppUser: $user');
       await _firestore.setData(
         path: FirebasePath.users(uid: user.uid),
         data: AppUser.transformFirebaseUser(user, displayName: displayName)
             .toJson(),
       );
       userChanges();
-      print('!!CALLED setAppUser userChanges');
+      logger.i('!!CALLED setAppUser userChanges()');
     } catch (e) {
       rethrow;
     }
@@ -146,7 +148,7 @@ class FirebaseAuthRepository implements AuthRepository {
 
   Future<AppUser?> getAppUser(String uid) async {
     try {
-      print('start getAppUser uid: $uid');
+      logger.i('start getAppUser uid: $uid');
       return await _firestore.getDoc(
         path: FirebasePath.users(uid: uid),
         builder: (data, documentId) =>
@@ -155,7 +157,7 @@ class FirebaseAuthRepository implements AuthRepository {
     } catch (e) {
       rethrow;
     } finally {
-      print('finally getAppUser currentUser: $currentUser');
+      logger.i('finally getAppUser currentUser: $currentUser');
     }
   }
 

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../constants/resources.dart';
+import '../../../exceptions/error_logger.dart';
 import '../data/admob_repository.dart';
 import 'ad_helper.dart';
 
@@ -18,8 +19,8 @@ class AdmobService {
     // var configuration = RequestConfiguration(testDeviceIds: testDeviceIds);
     // await MobileAds.instance.updateRequestConfiguration(configuration);
     final admobStatus = await _initAdmob();
-    print(
-        '_init AdmobService: ${admobStatus.adapterStatuses.values.first.state}');
+    logger.i(
+        'AdmobService _init: ${admobStatus.adapterStatuses.values.first.state}');
 
     if (Platform.isAndroid) {
       _createNativeAd();
@@ -46,7 +47,8 @@ class AdmobService {
             .update((state) => ad as NativeAd),
         onAdFailedToLoad: (ad, error) {
           ad.dispose();
-          print('Ad load failed (code=${error.code} message=${error.message})');
+          logger.i(
+              'Ad load failed (code=${error.code} message=${error.message})');
         },
       ),
     ).load();
@@ -60,7 +62,7 @@ class AdmobService {
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (InterstitialAd ad) {
-            print('$InterstitialAd loaded');
+            logger.i('InterstitialAd loaded');
             ref.read(interstitialAdProvider.notifier).update((state) => ad);
             ref
                 .read(numInterstitialLoadAttemptsProvider.notifier)
@@ -68,7 +70,7 @@ class AdmobService {
             interstitialAd?.setImmersiveMode(true);
           },
           onAdFailedToLoad: (LoadAdError error) {
-            print('InterstitialAd failed to load: $error.');
+            logger.i('InterstitialAd failed to load: $error.');
             ref
                 .read(numInterstitialLoadAttemptsProvider.notifier)
                 .update((state) => state + 1);
@@ -84,24 +86,25 @@ class AdmobService {
   void showInterstitialAd() {
     final interstitialAd = ref.read(interstitialAdProvider);
     if (interstitialAd == null) {
-      print('Warning: attempt to show interstitial before loaded.');
+      logger.i('Warning: attempt to show interstitial before loaded.');
       return;
     }
     interstitialAd.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (InterstitialAd ad) =>
-          print('ad onAdShowedFullScreenContent.'),
+          logger.i('ad onAdShowedFullScreenContent.'),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
         //TODO: add Firebase analytics Logs
-        print('$ad onAdDismissedFullScreenContent.');
+        logger.i('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
         _createInterstitialAd();
       },
       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-        print('$ad onAdFailedToShowFullScreenContent: $error');
+        logger.i('$ad onAdFailedToShowFullScreenContent: $error');
         ad.dispose();
         _createInterstitialAd();
       },
-      onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
+      onAdImpression: (InterstitialAd ad) =>
+          logger.i('$ad impression occurred.'),
     );
     interstitialAd.show();
     ref.read(interstitialAdProvider.notifier).update((state) => null);

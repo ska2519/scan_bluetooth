@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../common_widgets/async_value_widget.dart';
+import '../../../exceptions/error_logger.dart';
 import '../application/permission_service.dart';
 import 'permission_icon_button.dart';
 
@@ -16,11 +17,11 @@ class RequestPemissionsCard extends StatefulHookConsumerWidget {
 class _PemissionCardState extends ConsumerState<RequestPemissionsCard> {
   Future<void> submitPermission(Permission permission) async {
     final permissionStatus = await permission.request();
-    print('permissionStatus: $permissionStatus');
+    logger.i('permissionStatus: $permissionStatus');
     if (permissionStatus == PermissionStatus.denied ||
         permissionStatus == PermissionStatus.permanentlyDenied) {
       final isOpend = await openAppSettings();
-      print('isOpend: $isOpend');
+      logger.i('Opend AppSettings: $isOpend');
     }
   }
 
@@ -36,7 +37,7 @@ class _PemissionCardState extends ConsumerState<RequestPemissionsCard> {
               loading: const SizedBox(),
               value: ref.watch(checkPermissionStatusProvider(permission)),
               data: (status) {
-                print('status: $status');
+                logger.i('Permission status: $status');
                 return status == PermissionStatus.granted
                     ? const SizedBox()
                     : PermissionIconButton(

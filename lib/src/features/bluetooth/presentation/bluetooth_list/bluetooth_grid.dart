@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 
 import '../../../../constants/resources.dart';
+import '../../../../exceptions/error_logger.dart';
 import '../../../../utils/current_date_provider.dart';
 import '../../../../utils/destination_item_index.dart';
 import '../../../admob/application/admob_service.dart';
@@ -59,7 +60,6 @@ class BluetoothGrid extends HookConsumerWidget {
                       ? NativeAdCard(nativeAd)
                       : BluetoothCardTile(
                           onPressed: () async {
-                            
                             await ref
                                 .read(nickNameBluetoothRepoProvider)
                                 .updateBluetooth(
@@ -67,7 +67,7 @@ class BluetoothGrid extends HookConsumerWidget {
                                         ? getDestinationItemIndex(
                                             kAdIndex, index)
                                         : index]);
-                            print('bluetooth grid user: $user');
+                            logger.i('bluetooth grid user: $user');
                             await ref
                                 .read(nicknameBTServiceProvider)
                                 .updateNickname(

@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../exceptions/error_logger.dart';
 import '../domain/app_user.dart';
 import 'firebase_auth_repository.dart';
 
@@ -16,10 +17,10 @@ abstract class AuthRepository {
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final auth = FirebaseAuthRepository();
-  print('auth.currentUser: ${auth.currentUser}');
+  logger.i('auth.currentUser: ${auth.currentUser}');
   if (auth.currentUser == null) {
     auth.signInAnonymously();
-    print('auth.signInAnonymously();');
+    logger.i('called auth.signInAnonymously();');
   }
   ref.onDispose(auth.dispose);
   return auth;

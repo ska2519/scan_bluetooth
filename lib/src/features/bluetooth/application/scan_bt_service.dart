@@ -1,6 +1,7 @@
 import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../exceptions/error_logger.dart';
 import '../data/scan_bt_repository.dart';
 import '../domain/bluetooth.dart';
 import '../presentation/scanning_fab/scanning_fab_controller.dart';
@@ -37,7 +38,7 @@ class ScanBTService {
       ref.read(bluetoothListProvider.notifier).update((state) => []);
 
   Future<void> connect(String deviceId) async {
-    print('QuickBlue.connect');
+    logger.i('QuickBlue.connect');
     ref.read(btRepoProvider).connect(deviceId);
   }
 

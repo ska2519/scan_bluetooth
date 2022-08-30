@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../constants/resources.dart';
+import '../../../../exceptions/error_logger.dart';
 import '../../../../utils/async_value_ui.dart';
 import '../../../../utils/toast_context.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
@@ -19,7 +20,7 @@ class ScanningFAB extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AsyncValue>(scanningFABControllerProvider, (_, state) {
-      print('statestatestatestate: $state');
+      logger.i('statestatestatestate: $state');
       return state.showAlertDialogOnError(context);
     });
 

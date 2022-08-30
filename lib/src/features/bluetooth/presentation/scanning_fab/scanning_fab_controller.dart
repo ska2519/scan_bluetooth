@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../admob/application/admob_service.dart';
-import '../../application/bluetooth_service.dart';
+import '../../application/scan_bt_service.dart';
 
 class ScanningFABController extends StateNotifier<AsyncValue<void>> {
   ScanningFABController({
     required this.bluetoothService,
     this.admobService,
   }) : super(const AsyncData(null));
-  final BluetoothService bluetoothService;
+  final ScanBTService bluetoothService;
   final AdmobService? admobService;
 
   Future<void> submitScanning(
@@ -54,7 +54,7 @@ final scanFABStateProvider = StateProvider<bool>((ref) => false);
 final scanningFABControllerProvider =
     StateNotifierProvider<ScanningFABController, AsyncValue<void>>(
   (ref) => ScanningFABController(
-    bluetoothService: ref.read(bluetoothServiceProvider),
+    bluetoothService: ref.read(scanBluetoothServiceProvider),
     admobService: Platform.isAndroid || Platform.isIOS
         ? ref.read(admobServiceProvider)
         : null,

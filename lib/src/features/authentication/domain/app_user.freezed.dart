@@ -25,14 +25,14 @@ mixin _$AppUser {
   String? get displayName => throw _privateConstructorUsedError;
   bool? get emailVerified => throw _privateConstructorUsedError;
   bool? get isAnonymous => throw _privateConstructorUsedError;
-  UserMetadata? get metadata => throw _privateConstructorUsedError;
   String? get phoneNumber => throw _privateConstructorUsedError;
-  String? get photoURL => throw _privateConstructorUsedError;
+  String? get photoURL =>
+      throw _privateConstructorUsedError; // @Default([]) List<dynamic> providerData,
   List<UserInfo>? get providerData => throw _privateConstructorUsedError;
   String? get refreshToken => throw _privateConstructorUsedError;
   String? get tenantId => throw _privateConstructorUsedError;
-  List<String> get estimateIds => throw _privateConstructorUsedError;
-  bool get hasEstimate => throw _privateConstructorUsedError;
+  DateTime? get creationTime => throw _privateConstructorUsedError;
+  DateTime? get lastSignInTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,16 +49,13 @@ abstract class $AppUserCopyWith<$Res> {
       String? displayName,
       bool? emailVerified,
       bool? isAnonymous,
-      UserMetadata? metadata,
       String? phoneNumber,
       String? photoURL,
       List<UserInfo>? providerData,
       String? refreshToken,
       String? tenantId,
-      List<String> estimateIds,
-      bool hasEstimate});
-
-  $UserMetadataCopyWith<$Res>? get metadata;
+      DateTime? creationTime,
+      DateTime? lastSignInTime});
 }
 
 /// @nodoc
@@ -76,14 +73,13 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
     Object? displayName = freezed,
     Object? emailVerified = freezed,
     Object? isAnonymous = freezed,
-    Object? metadata = freezed,
     Object? phoneNumber = freezed,
     Object? photoURL = freezed,
     Object? providerData = freezed,
     Object? refreshToken = freezed,
     Object? tenantId = freezed,
-    Object? estimateIds = freezed,
-    Object? hasEstimate = freezed,
+    Object? creationTime = freezed,
+    Object? lastSignInTime = freezed,
   }) {
     return _then(_value.copyWith(
       uid: uid == freezed
@@ -106,10 +102,6 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
           ? _value.isAnonymous
           : isAnonymous // ignore: cast_nullable_to_non_nullable
               as bool?,
-      metadata: metadata == freezed
-          ? _value.metadata
-          : metadata // ignore: cast_nullable_to_non_nullable
-              as UserMetadata?,
       phoneNumber: phoneNumber == freezed
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -130,26 +122,15 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
           ? _value.tenantId
           : tenantId // ignore: cast_nullable_to_non_nullable
               as String?,
-      estimateIds: estimateIds == freezed
-          ? _value.estimateIds
-          : estimateIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      hasEstimate: hasEstimate == freezed
-          ? _value.hasEstimate
-          : hasEstimate // ignore: cast_nullable_to_non_nullable
-              as bool,
+      creationTime: creationTime == freezed
+          ? _value.creationTime
+          : creationTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      lastSignInTime: lastSignInTime == freezed
+          ? _value.lastSignInTime
+          : lastSignInTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
-  }
-
-  @override
-  $UserMetadataCopyWith<$Res>? get metadata {
-    if (_value.metadata == null) {
-      return null;
-    }
-
-    return $UserMetadataCopyWith<$Res>(_value.metadata!, (value) {
-      return _then(_value.copyWith(metadata: value));
-    });
   }
 }
 
@@ -165,17 +146,13 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       String? displayName,
       bool? emailVerified,
       bool? isAnonymous,
-      UserMetadata? metadata,
       String? phoneNumber,
       String? photoURL,
       List<UserInfo>? providerData,
       String? refreshToken,
       String? tenantId,
-      List<String> estimateIds,
-      bool hasEstimate});
-
-  @override
-  $UserMetadataCopyWith<$Res>? get metadata;
+      DateTime? creationTime,
+      DateTime? lastSignInTime});
 }
 
 /// @nodoc
@@ -194,14 +171,13 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
     Object? displayName = freezed,
     Object? emailVerified = freezed,
     Object? isAnonymous = freezed,
-    Object? metadata = freezed,
     Object? phoneNumber = freezed,
     Object? photoURL = freezed,
     Object? providerData = freezed,
     Object? refreshToken = freezed,
     Object? tenantId = freezed,
-    Object? estimateIds = freezed,
-    Object? hasEstimate = freezed,
+    Object? creationTime = freezed,
+    Object? lastSignInTime = freezed,
   }) {
     return _then(_$_AppUser(
       uid: uid == freezed
@@ -224,10 +200,6 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
           ? _value.isAnonymous
           : isAnonymous // ignore: cast_nullable_to_non_nullable
               as bool?,
-      metadata: metadata == freezed
-          ? _value.metadata
-          : metadata // ignore: cast_nullable_to_non_nullable
-              as UserMetadata?,
       phoneNumber: phoneNumber == freezed
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -248,14 +220,14 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
           ? _value.tenantId
           : tenantId // ignore: cast_nullable_to_non_nullable
               as String?,
-      estimateIds: estimateIds == freezed
-          ? _value._estimateIds
-          : estimateIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      hasEstimate: hasEstimate == freezed
-          ? _value.hasEstimate
-          : hasEstimate // ignore: cast_nullable_to_non_nullable
-              as bool,
+      creationTime: creationTime == freezed
+          ? _value.creationTime
+          : creationTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      lastSignInTime: lastSignInTime == freezed
+          ? _value.lastSignInTime
+          : lastSignInTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -269,16 +241,14 @@ class _$_AppUser implements _AppUser {
       this.displayName,
       this.emailVerified,
       this.isAnonymous,
-      this.metadata,
       this.phoneNumber,
       this.photoURL,
       final List<UserInfo>? providerData,
       this.refreshToken,
       this.tenantId,
-      final List<String> estimateIds = const [],
-      this.hasEstimate = false})
-      : _providerData = providerData,
-        _estimateIds = estimateIds;
+      this.creationTime,
+      this.lastSignInTime})
+      : _providerData = providerData;
 
   factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
       _$$_AppUserFromJson(json);
@@ -294,12 +264,12 @@ class _$_AppUser implements _AppUser {
   @override
   final bool? isAnonymous;
   @override
-  final UserMetadata? metadata;
-  @override
   final String? phoneNumber;
   @override
   final String? photoURL;
+// @Default([]) List<dynamic> providerData,
   final List<UserInfo>? _providerData;
+// @Default([]) List<dynamic> providerData,
   @override
   List<UserInfo>? get providerData {
     final value = _providerData;
@@ -312,21 +282,14 @@ class _$_AppUser implements _AppUser {
   final String? refreshToken;
   @override
   final String? tenantId;
-  final List<String> _estimateIds;
   @override
-  @JsonKey()
-  List<String> get estimateIds {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_estimateIds);
-  }
-
+  final DateTime? creationTime;
   @override
-  @JsonKey()
-  final bool hasEstimate;
+  final DateTime? lastSignInTime;
 
   @override
   String toString() {
-    return 'AppUser(uid: $uid, email: $email, displayName: $displayName, emailVerified: $emailVerified, isAnonymous: $isAnonymous, metadata: $metadata, phoneNumber: $phoneNumber, photoURL: $photoURL, providerData: $providerData, refreshToken: $refreshToken, tenantId: $tenantId, estimateIds: $estimateIds, hasEstimate: $hasEstimate)';
+    return 'AppUser(uid: $uid, email: $email, displayName: $displayName, emailVerified: $emailVerified, isAnonymous: $isAnonymous, phoneNumber: $phoneNumber, photoURL: $photoURL, providerData: $providerData, refreshToken: $refreshToken, tenantId: $tenantId, creationTime: $creationTime, lastSignInTime: $lastSignInTime)';
   }
 
   @override
@@ -342,7 +305,6 @@ class _$_AppUser implements _AppUser {
                 .equals(other.emailVerified, emailVerified) &&
             const DeepCollectionEquality()
                 .equals(other.isAnonymous, isAnonymous) &&
-            const DeepCollectionEquality().equals(other.metadata, metadata) &&
             const DeepCollectionEquality()
                 .equals(other.phoneNumber, phoneNumber) &&
             const DeepCollectionEquality().equals(other.photoURL, photoURL) &&
@@ -352,9 +314,9 @@ class _$_AppUser implements _AppUser {
                 .equals(other.refreshToken, refreshToken) &&
             const DeepCollectionEquality().equals(other.tenantId, tenantId) &&
             const DeepCollectionEquality()
-                .equals(other._estimateIds, _estimateIds) &&
+                .equals(other.creationTime, creationTime) &&
             const DeepCollectionEquality()
-                .equals(other.hasEstimate, hasEstimate));
+                .equals(other.lastSignInTime, lastSignInTime));
   }
 
   @JsonKey(ignore: true)
@@ -366,14 +328,13 @@ class _$_AppUser implements _AppUser {
       const DeepCollectionEquality().hash(displayName),
       const DeepCollectionEquality().hash(emailVerified),
       const DeepCollectionEquality().hash(isAnonymous),
-      const DeepCollectionEquality().hash(metadata),
       const DeepCollectionEquality().hash(phoneNumber),
       const DeepCollectionEquality().hash(photoURL),
       const DeepCollectionEquality().hash(_providerData),
       const DeepCollectionEquality().hash(refreshToken),
       const DeepCollectionEquality().hash(tenantId),
-      const DeepCollectionEquality().hash(_estimateIds),
-      const DeepCollectionEquality().hash(hasEstimate));
+      const DeepCollectionEquality().hash(creationTime),
+      const DeepCollectionEquality().hash(lastSignInTime));
 
   @JsonKey(ignore: true)
   @override
@@ -395,14 +356,13 @@ abstract class _AppUser implements AppUser {
       final String? displayName,
       final bool? emailVerified,
       final bool? isAnonymous,
-      final UserMetadata? metadata,
       final String? phoneNumber,
       final String? photoURL,
       final List<UserInfo>? providerData,
       final String? refreshToken,
       final String? tenantId,
-      final List<String> estimateIds,
-      final bool hasEstimate}) = _$_AppUser;
+      final DateTime? creationTime,
+      final DateTime? lastSignInTime}) = _$_AppUser;
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
 
@@ -417,179 +377,22 @@ abstract class _AppUser implements AppUser {
   @override
   bool? get isAnonymous;
   @override
-  UserMetadata? get metadata;
-  @override
   String? get phoneNumber;
   @override
   String? get photoURL;
-  @override
+  @override // @Default([]) List<dynamic> providerData,
   List<UserInfo>? get providerData;
   @override
   String? get refreshToken;
   @override
   String? get tenantId;
   @override
-  List<String> get estimateIds;
-  @override
-  bool get hasEstimate;
-  @override
-  @JsonKey(ignore: true)
-  _$$_AppUserCopyWith<_$_AppUser> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-UserMetadata _$UserMetadataFromJson(Map<String, dynamic> json) {
-  return _UserMetadata.fromJson(json);
-}
-
-/// @nodoc
-mixin _$UserMetadata {
-  DateTime? get creationTime => throw _privateConstructorUsedError;
-  DateTime? get lastSignInTime => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $UserMetadataCopyWith<UserMetadata> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UserMetadataCopyWith<$Res> {
-  factory $UserMetadataCopyWith(
-          UserMetadata value, $Res Function(UserMetadata) then) =
-      _$UserMetadataCopyWithImpl<$Res>;
-  $Res call({DateTime? creationTime, DateTime? lastSignInTime});
-}
-
-/// @nodoc
-class _$UserMetadataCopyWithImpl<$Res> implements $UserMetadataCopyWith<$Res> {
-  _$UserMetadataCopyWithImpl(this._value, this._then);
-
-  final UserMetadata _value;
-  // ignore: unused_field
-  final $Res Function(UserMetadata) _then;
-
-  @override
-  $Res call({
-    Object? creationTime = freezed,
-    Object? lastSignInTime = freezed,
-  }) {
-    return _then(_value.copyWith(
-      creationTime: creationTime == freezed
-          ? _value.creationTime
-          : creationTime // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      lastSignInTime: lastSignInTime == freezed
-          ? _value.lastSignInTime
-          : lastSignInTime // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ));
-  }
-}
-
-/// @nodoc
-abstract class _$$_UserMetadataCopyWith<$Res>
-    implements $UserMetadataCopyWith<$Res> {
-  factory _$$_UserMetadataCopyWith(
-          _$_UserMetadata value, $Res Function(_$_UserMetadata) then) =
-      __$$_UserMetadataCopyWithImpl<$Res>;
-  @override
-  $Res call({DateTime? creationTime, DateTime? lastSignInTime});
-}
-
-/// @nodoc
-class __$$_UserMetadataCopyWithImpl<$Res>
-    extends _$UserMetadataCopyWithImpl<$Res>
-    implements _$$_UserMetadataCopyWith<$Res> {
-  __$$_UserMetadataCopyWithImpl(
-      _$_UserMetadata _value, $Res Function(_$_UserMetadata) _then)
-      : super(_value, (v) => _then(v as _$_UserMetadata));
-
-  @override
-  _$_UserMetadata get _value => super._value as _$_UserMetadata;
-
-  @override
-  $Res call({
-    Object? creationTime = freezed,
-    Object? lastSignInTime = freezed,
-  }) {
-    return _then(_$_UserMetadata(
-      creationTime: creationTime == freezed
-          ? _value.creationTime
-          : creationTime // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      lastSignInTime: lastSignInTime == freezed
-          ? _value.lastSignInTime
-          : lastSignInTime // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_UserMetadata implements _UserMetadata {
-  const _$_UserMetadata({this.creationTime, this.lastSignInTime});
-
-  factory _$_UserMetadata.fromJson(Map<String, dynamic> json) =>
-      _$$_UserMetadataFromJson(json);
-
-  @override
-  final DateTime? creationTime;
-  @override
-  final DateTime? lastSignInTime;
-
-  @override
-  String toString() {
-    return 'UserMetadata(creationTime: $creationTime, lastSignInTime: $lastSignInTime)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_UserMetadata &&
-            const DeepCollectionEquality()
-                .equals(other.creationTime, creationTime) &&
-            const DeepCollectionEquality()
-                .equals(other.lastSignInTime, lastSignInTime));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(creationTime),
-      const DeepCollectionEquality().hash(lastSignInTime));
-
-  @JsonKey(ignore: true)
-  @override
-  _$$_UserMetadataCopyWith<_$_UserMetadata> get copyWith =>
-      __$$_UserMetadataCopyWithImpl<_$_UserMetadata>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_UserMetadataToJson(
-      this,
-    );
-  }
-}
-
-abstract class _UserMetadata implements UserMetadata {
-  const factory _UserMetadata(
-      {final DateTime? creationTime,
-      final DateTime? lastSignInTime}) = _$_UserMetadata;
-
-  factory _UserMetadata.fromJson(Map<String, dynamic> json) =
-      _$_UserMetadata.fromJson;
-
-  @override
   DateTime? get creationTime;
   @override
   DateTime? get lastSignInTime;
   @override
   @JsonKey(ignore: true)
-  _$$_UserMetadataCopyWith<_$_UserMetadata> get copyWith =>
+  _$$_AppUserCopyWith<_$_AppUser> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

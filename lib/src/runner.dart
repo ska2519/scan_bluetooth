@@ -60,6 +60,7 @@ class AppRunner {
         ],
       );
       errorLogger = appStartupContainer.read(errorLoggerProvider);
+
       // FirebaseCrashlytics.instance.crash();
       // FirebaseCrashlytics.instance.log('test crash');
       if (Platform.isAndroid) {

@@ -9,8 +9,8 @@ import 'package:string_to_color/string_to_color.dart';
 
 import '../../../../../generated/flutter_gen/assets.gen.dart';
 import '../../../../constants/app_sizes.dart';
-import '../../application/bluetooth_service.dart';
-import '../../domain/new_bluetooth.dart';
+import '../../application/scan_bt_service.dart';
+import '../../domain/bluetooth.dart';
 
 class BluetoothCardTile extends HookConsumerWidget {
   const BluetoothCardTile({
@@ -21,7 +21,7 @@ class BluetoothCardTile extends HookConsumerWidget {
     super.key,
   });
   final VoidCallback? onPressed;
-  final NewBluetooth bluetooth;
+  final Bluetooth bluetooth;
   final int index;
   // final VoidCallback onSubmit;
 
@@ -31,7 +31,7 @@ class BluetoothCardTile extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     final intRssi =
-        ref.read(bluetoothServiceProvider).rssiCalculate(bluetooth.rssi);
+        ref.read(scanBluetoothServiceProvider).rssiCalculate(bluetooth.rssi);
     final showID = useState<bool>(false);
 
     return SizedBox(
@@ -215,7 +215,7 @@ class ConnectButton extends ConsumerWidget {
           children: [
             IconButton(
               onPressed: () => ref
-                  .read(bluetoothServiceProvider)
+                  .read(scanBluetoothServiceProvider)
                   .connect(bluetooth.deviceId),
               iconSize: 16,
               splashRadius: 16,

@@ -24,13 +24,26 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Stream<AppUser?> authStateChanges() {
     final authStateChanges = _firebaseAuth.authStateChanges();
-    return authStateChanges.map(_fromFirebaseUser);
+    return authStateChanges.asyncMap((user) {
+      if (user != null) {
+        try {
+          getAppUser(user.uid);
+        } catch (e) {
+          //!! getAppUser failed case error handling
+        }
+      }
+      return null;
+    });
   }
 
   @override
   Future<void> signInAnonymously() async {
     try {
-      await _firebaseAuth.signInAnonymously();
+      final userCredential = await _firebaseAuth.signInAnonymously();
+      print('signInAnonymously userCredential: $userCredential');
+      return userCredential.user != null
+          ? await setAppUser(userCredential.user!)
+          : null;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'operation-not-allowed':
@@ -45,32 +58,37 @@ class FirebaseAuthRepository implements AuthRepository {
     return;
   }
 
-  Future<AppUser?> _linkWithCredential(OAuthCredential credential,
+  Future<void> _linkWithCredential(OAuthCredential credential,
       {String? displayName}) async {
     try {
       final userLinkWithCredential =
           await _firebaseAuth.currentUser?.linkWithCredential(credential);
       return userLinkWithCredential?.user != null
-          ? setAppUser(userLinkWithCredential!.user!, displayName: displayName)
+          ? await setAppUser(userLinkWithCredential!.user!,
+              displayName: displayName)
           : null;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<AppUser?> _signInWithCredential(OAuthCredential credential) async {
+  Future<void> _signInWithCredential(OAuthCredential credential,
+      {String? displayName}) async {
     try {
       final userLinkWithCredential =
           await _firebaseAuth.signInWithCredential(credential);
       return userLinkWithCredential.user != null
-          ? getAppUser(userLinkWithCredential.user!.uid)
+          ? await setAppUser(
+              userLinkWithCredential.user!,
+              displayName: displayName,
+            )
           : null;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<AppUser?> signInWithGoogle({String? displayName}) async {
+  Future<void> signInWithGoogle({String? displayName}) async {
     late OAuthCredential credential;
     try {
       final googleUser = await GoogleSignIn().signIn();
@@ -99,7 +117,7 @@ class FirebaseAuthRepository implements AuthRepository {
           print('Unknown error. linkWithCredential e.code: ${e.code}');
       }
     }
-    return null;
+    return;
   }
 
   // Future<void> signInWithApple() async {
@@ -111,24 +129,35 @@ class FirebaseAuthRepository implements AuthRepository {
   //   }
   // }
 
-  Future<AppUser> setAppUser(User user, {String? displayName}) async {
+  Future<void> setAppUser(User user, {String? displayName}) async {
     try {
+      print('start setAppUser: $user');
       await _firestore.setData(
         path: FirebasePath.users(uid: user.uid),
         data: AppUser.transformFirebaseUser(user, displayName: displayName)
             .toJson(),
       );
-      return AppUser.transformFirebaseUser(user, displayName: displayName);
+      userChanges();
+      print('!!CALLED setAppUser userChanges');
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<AppUser?> getAppUser(String uid) async => _firestore.getDoc(
+  Future<AppUser?> getAppUser(String uid) async {
+    try {
+      print('start getAppUser uid: $uid');
+      return await _firestore.getDoc(
         path: FirebasePath.users(uid: uid),
         builder: (data, documentId) =>
             data.isEmpty ? null : AppUser.fromJson(data),
       );
+    } catch (e) {
+      rethrow;
+    } finally {
+      print('finally getAppUser currentUser: $currentUser');
+    }
+  }
 
   @override
   Future<void> createUserWithEmailAndPassword(String email, String password) {

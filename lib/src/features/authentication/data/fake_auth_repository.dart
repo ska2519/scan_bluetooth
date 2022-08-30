@@ -18,7 +18,7 @@ class FakeAuthRepository implements AuthRepository {
   void userChanges() {
     // TODO: implement userChanges
   }
-  
+
   @override
   Future<void> signInAnonymously() async {
     await delay(addDelay);

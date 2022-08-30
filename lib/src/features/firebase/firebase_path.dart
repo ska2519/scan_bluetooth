@@ -28,4 +28,8 @@ class FirebasePath {
   static String users({String? uid}) => 'users/$uid';
   static String estimates({String? estimatesId}) => 'estimates/$estimatesId';
   static String faqCategories() => 'data/FAQCategories';
+
+  static String bluetoothes({String? deviceId}) => 'bluetoothes/$deviceId';
+  static String nicknames({required String deviceId, required String uid}) =>
+      'bluetoothes/$deviceId/nicknames/$uid';
 }

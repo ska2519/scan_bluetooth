@@ -12,14 +12,14 @@ class AppUser with _$AppUser {
     String? displayName,
     bool? emailVerified,
     bool? isAnonymous,
-    UserMetadata? metadata,
     String? phoneNumber,
     String? photoURL,
+    // @Default([]) List<dynamic> providerData,
     List<UserInfo>? providerData,
     String? refreshToken,
     String? tenantId,
-    @Default([]) List<String> estimateIds,
-    @Default(false) bool hasEstimate,
+    DateTime? creationTime,
+    DateTime? lastSignInTime,
   }) = _AppUser;
 
   factory AppUser.transformFirebaseUser(User user, {String? displayName}) {
@@ -31,10 +31,9 @@ class AppUser with _$AppUser {
       phoneNumber: user.phoneNumber,
       emailVerified: user.emailVerified,
       isAnonymous: user.isAnonymous,
-      metadata: UserMetadata(
-        creationTime: user.metadata.creationTime,
-        lastSignInTime: user.metadata.lastSignInTime,
-      ),
+      creationTime: user.metadata.creationTime,
+      lastSignInTime: user.metadata.lastSignInTime,
+      // providerData: user.providerData,
       providerData: [
         for (var providerData in user.providerData)
           UserInfo(
@@ -55,16 +54,16 @@ class AppUser with _$AppUser {
       _$AppUserFromJson(json);
 }
 
-@freezed
-class UserMetadata with _$UserMetadata {
-  const factory UserMetadata({
-    DateTime? creationTime,
-    DateTime? lastSignInTime,
-  }) = _UserMetadata;
+// @freezed
+// class UserMetadata with _$UserMetadata {
+//   const factory UserMetadata({
+//     DateTime? creationTime,
+//     DateTime? lastSignInTime,
+//   }) = _UserMetadata;
 
-  factory UserMetadata.fromJson(Map<String, dynamic> json) =>
-      _$UserMetadataFromJson(json);
-}
+//   factory UserMetadata.fromJson(Map<String, dynamic> json) =>
+//       _$UserMetadataFromJson(json);
+// }
 
 @freezed
 class UserInfo with _$UserInfo {

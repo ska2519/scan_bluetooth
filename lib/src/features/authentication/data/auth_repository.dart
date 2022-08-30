@@ -16,16 +16,14 @@ abstract class AuthRepository {
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final auth = FirebaseAuthRepository();
-  
+  print('auth.currentUser: ${auth.currentUser}');
   if (auth.currentUser == null) {
     auth.signInAnonymously();
+    print('auth.signInAnonymously();');
   }
-  print('authRepositoryProvider3 auth.currentUser: ${auth.currentUser}');
   ref.onDispose(auth.dispose);
   return auth;
 });
-
-
 
 final authStateChangesProvider = StreamProvider.autoDispose<AppUser?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);

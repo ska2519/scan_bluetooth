@@ -6,8 +6,9 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../constants/resources.dart';
 import '../../../../utils/async_value_ui.dart';
+import '../../../../utils/toast_context.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
-import '../../application/bluetooth_service.dart';
+import '../../application/scan_bt_service.dart';
 import '../bluetooth_list/animation_scanning_icon.dart';
 import 'scanning_fab_controller.dart';
 
@@ -24,6 +25,7 @@ class ScanningFAB extends HookConsumerWidget {
 
     final state = ref.watch(scanningFABControllerProvider);
     final theme = Theme.of(context);
+    final fToast = ref.read(fToastProvider);
 
     useEffect(() {
       if ((requestPermissionList != null && requestPermissionList!.isEmpty) ||
@@ -48,6 +50,9 @@ class ScanningFAB extends HookConsumerWidget {
       builder: (context, ref, child) {
         final scanning = ref.watch(scanFABStateProvider);
         final elapsed = ref.watch(elapsedProvider);
+        if (elapsed.inSeconds >= 4) {
+          fToast.removeQueuedCustomToasts();
+        }
         return FloatingActionButton.extended(
           backgroundColor: elapsed.inSeconds < 4
               ? theme.errorColor
@@ -58,7 +63,10 @@ class ScanningFAB extends HookConsumerWidget {
           onPressed: state.isLoading
               ? null
               : scanning && elapsed.inSeconds < 4
-                  ? null
+                  ? () => fToast.showToast(
+                          child: const ToastContext(
+                        'Scan minumun time 4s ⌛️',
+                      ))
                   : requestPermissionList != null &&
                           requestPermissionList!.isNotEmpty
                       ? () => showDialog(
@@ -70,7 +78,8 @@ class ScanningFAB extends HookConsumerWidget {
                           if (!scanning) {
                             ref.read(bluetoothListProvider.notifier).state = [];
                           } else {
-                            ref.invalidate(bluetoothListStreamProvider);
+                            //TODO: Is it necessary to clear the list?
+                            // ref.invalidate(bluetoothListStreamProvider);
                           }
 
                           await ref

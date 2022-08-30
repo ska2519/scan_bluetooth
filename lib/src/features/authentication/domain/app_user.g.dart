@@ -12,9 +12,6 @@ _$_AppUser _$$_AppUserFromJson(Map<String, dynamic> json) => _$_AppUser(
       displayName: json['displayName'] as String?,
       emailVerified: json['emailVerified'] as bool?,
       isAnonymous: json['isAnonymous'] as bool?,
-      metadata: json['metadata'] == null
-          ? null
-          : UserMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
       phoneNumber: json['phoneNumber'] as String?,
       photoURL: json['photoURL'] as String?,
       providerData: (json['providerData'] as List<dynamic>?)
@@ -22,11 +19,12 @@ _$_AppUser _$$_AppUserFromJson(Map<String, dynamic> json) => _$_AppUser(
           .toList(),
       refreshToken: json['refreshToken'] as String?,
       tenantId: json['tenantId'] as String?,
-      estimateIds: (json['estimateIds'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
-      hasEstimate: json['hasEstimate'] as bool? ?? false,
+      creationTime: json['creationTime'] == null
+          ? null
+          : DateTime.parse(json['creationTime'] as String),
+      lastSignInTime: json['lastSignInTime'] == null
+          ? null
+          : DateTime.parse(json['lastSignInTime'] as String),
     );
 
 Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
@@ -36,28 +34,11 @@ Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
       'displayName': instance.displayName,
       'emailVerified': instance.emailVerified,
       'isAnonymous': instance.isAnonymous,
-      'metadata': instance.metadata,
       'phoneNumber': instance.phoneNumber,
       'photoURL': instance.photoURL,
       'providerData': instance.providerData,
       'refreshToken': instance.refreshToken,
       'tenantId': instance.tenantId,
-      'estimateIds': instance.estimateIds,
-      'hasEstimate': instance.hasEstimate,
-    };
-
-_$_UserMetadata _$$_UserMetadataFromJson(Map<String, dynamic> json) =>
-    _$_UserMetadata(
-      creationTime: json['creationTime'] == null
-          ? null
-          : DateTime.parse(json['creationTime'] as String),
-      lastSignInTime: json['lastSignInTime'] == null
-          ? null
-          : DateTime.parse(json['lastSignInTime'] as String),
-    );
-
-Map<String, dynamic> _$$_UserMetadataToJson(_$_UserMetadata instance) =>
-    <String, dynamic>{
       'creationTime': instance.creationTime?.toIso8601String(),
       'lastSignInTime': instance.lastSignInTime?.toIso8601String(),
     };

@@ -5,6 +5,8 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/resources.dart';
+import '../../../../home_screen.dart';
+import '../../../../utils/toast_context.dart';
 import '../../../permission/application/permission_service.dart';
 import '../home_app_bar/home_app_bar.dart';
 import '../scanning_fab/scanning_fab.dart';
@@ -22,6 +24,11 @@ class BluetoothListScreen extends HookConsumerWidget {
         FocusScope.of(context).unfocus();
       }
     }
+
+    useEffect(() {
+      ref.read(fToastProvider).init(globalKey.currentState!.context);
+      return null;
+    }, []);
 
     final scrollController = useScrollController()
       ..addListener(_dismissOnScreenKeyboard);

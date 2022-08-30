@@ -2,10 +2,10 @@ import 'package:quick_blue/models.dart';
 
 import '../../../constants/test_scan_result.dart';
 import '../../../utils/in_memory_store.dart';
-import 'bluetooth_repository.dart';
+import 'scan_bt_repository.dart';
 
-class FakeBluetoothRepository implements BluetoothRepository {
-  FakeBluetoothRepository({this.addDelay = true});
+class FakeScanBTRepo implements ScanBTRepository {
+  FakeScanBTRepo({this.addDelay = true});
   final bool addDelay;
 
   final _scanResult = InMemoryStore<BlueScanResult>(kBlueScanResult);

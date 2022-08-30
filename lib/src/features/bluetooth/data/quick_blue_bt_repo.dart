@@ -1,9 +1,9 @@
 import 'package:quick_blue/quick_blue.dart';
 
-import 'bluetooth_repository.dart';
+import 'scan_bt_repository.dart';
 
-class QuickBlueBluetoothRepository implements BluetoothRepository {
-  QuickBlueBluetoothRepository({this.addDelay = true});
+class QuickBlueBTRepo implements ScanBTRepository {
+  QuickBlueBTRepo({this.addDelay = true});
   final bool addDelay;
 
   @override

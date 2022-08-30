@@ -3,9 +3,11 @@ import 'dart:io';
 import 'common_widgets/notice_screen.dart';
 import 'constants/resources.dart';
 import 'features/admob/application/admob_service.dart';
-import 'features/bluetooth/data/bluetooth_repository.dart';
+import 'features/bluetooth/data/scan_bt_repository.dart';
 import 'features/bluetooth/presentation/bluetooth_list/bluetooth_list_screen.dart';
 import 'features/permission/application/permission_service.dart';
+
+GlobalKey globalKey = GlobalKey();
 
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({super.key});
@@ -35,7 +37,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         ref.read(interstitialAdStateProvider.notifier).update((state) => false);
         return;
       } else if (Platform.isAndroid || Platform.isIOS) {
-        ref.refresh(isBluetoothAvailableProvider);
+        ref.refresh(isBTAvailableProvider);
         ref.refresh(
             requestPermissionListProvider(defaultBluetoothPermissionList));
       }
@@ -51,8 +53,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: globalKey,
       body: AsyncValueWidget<bool>(
-        value: ref.watch(isBluetoothAvailableProvider),
+        value: ref.watch(isBTAvailableProvider),
         data: (bool isBluetoothAvailable) => isBluetoothAvailable
             ? BluetoothListScreen(isBluetoothAvailable)
             : const NoticeScreen('🔔 Turn on Bluetooth'),

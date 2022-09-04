@@ -4,10 +4,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'app_user.g.dart';
 part 'app_user.freezed.dart';
 
+/// * The user identifier is an important concept and can have its own type.
+typedef UserId = String;
+
 @freezed
 class AppUser with _$AppUser {
   const factory AppUser({
-    required String uid,
+    required UserId uid,
     String? email,
     String? displayName,
     bool? emailVerified,
@@ -18,8 +21,9 @@ class AppUser with _$AppUser {
     List<UserInfo>? providerData,
     String? refreshToken,
     String? tenantId,
-    DateTime? creationTime,
-    DateTime? lastSignInTime,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? lastSignIn,
   }) = _AppUser;
 
   factory AppUser.transformFirebaseUser(User user, {String? displayName}) {
@@ -31,8 +35,8 @@ class AppUser with _$AppUser {
       phoneNumber: user.phoneNumber,
       emailVerified: user.emailVerified,
       isAnonymous: user.isAnonymous,
-      creationTime: user.metadata.creationTime,
-      lastSignInTime: user.metadata.lastSignInTime,
+      createdAt: user.metadata.creationTime,
+      lastSignIn: user.metadata.lastSignInTime,
       // providerData: user.providerData,
       providerData: [
         for (var providerData in user.providerData)

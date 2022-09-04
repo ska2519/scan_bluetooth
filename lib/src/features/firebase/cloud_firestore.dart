@@ -9,6 +9,20 @@ final cloudFirestoreProvider =
 class CloudFirestore {
   static final _instance = FirebaseFirestore.instance;
 
+  Future<void> batchSetAndSet({
+    required String path1,
+    required String path2,
+    required Map<String, dynamic> data1,
+    required Map<String, dynamic> data2,
+    bool merge = true,
+  }) async {
+    final ref1 = _instance.doc(path1);
+    final ref2 = _instance.doc(path2);
+    _instance.batch().set(ref1, data1, SetOptions(merge: merge));
+    _instance.batch().set(ref2, data1, SetOptions(merge: merge));
+    await _instance.batch().commit();
+  }
+
   Future<void> setData({
     required String path,
     required Map<String, dynamic> data,

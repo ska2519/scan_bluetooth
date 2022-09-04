@@ -30,6 +30,7 @@ class FirebasePath {
   static String faqCategories() => 'data/FAQCategories';
 
   static String bluetoothes({String? deviceId}) => 'bluetoothes/$deviceId';
-  static String nicknames({required String deviceId, required String uid}) =>
-      'bluetoothes/$deviceId/nicknames/$uid';
+  static String labels({required String deviceId, required String uid}) =>
+      'bluetoothes/$deviceId/labels/$uid';
+  static String collectionGrouplabels() => 'labels';
 }

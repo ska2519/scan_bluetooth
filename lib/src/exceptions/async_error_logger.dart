@@ -14,15 +14,15 @@ class AsyncErrorLogger extends ProviderObserver {
     Object? newValue,
     ProviderContainer container,
   ) {
-    final errorLogger = container.read(errorLoggerProvider);
+    final errorLogger = container.read(loggerProvider);
     final error = _findError(newValue);
     if (error != null) {
       if (error.error is AppException) {
         // only prints the AppException data
-        errorLogger.logAppException(error.error as AppException);
+        errorLogger.appException(error.error as AppException);
       } else {
         // prints everything including the stack trace
-        errorLogger.logError(error.error, error.stackTrace);
+        errorLogger.e(error.error, error.stackTrace);
       }
     }
   }

@@ -19,12 +19,15 @@ _$_AppUser _$$_AppUserFromJson(Map<String, dynamic> json) => _$_AppUser(
           .toList(),
       refreshToken: json['refreshToken'] as String?,
       tenantId: json['tenantId'] as String?,
-      creationTime: json['creationTime'] == null
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['creationTime'] as String),
-      lastSignInTime: json['lastSignInTime'] == null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['lastSignInTime'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
+      lastSignIn: json['lastSignIn'] == null
+          ? null
+          : DateTime.parse(json['lastSignIn'] as String),
     );
 
 Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
@@ -36,11 +39,12 @@ Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
       'isAnonymous': instance.isAnonymous,
       'phoneNumber': instance.phoneNumber,
       'photoURL': instance.photoURL,
-      'providerData': instance.providerData,
+      'providerData': instance.providerData?.map((e) => e.toJson()).toList(),
       'refreshToken': instance.refreshToken,
       'tenantId': instance.tenantId,
-      'creationTime': instance.creationTime?.toIso8601String(),
-      'lastSignInTime': instance.lastSignInTime?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'lastSignIn': instance.lastSignIn?.toIso8601String(),
     };
 
 _$_UserInfo _$$_UserInfoFromJson(Map<String, dynamic> json) => _$_UserInfo(

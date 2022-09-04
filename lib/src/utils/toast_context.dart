@@ -1,6 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../constants/resources.dart';
+import '../exceptions/error_logger.dart';
 
 final fToastProvider = StateProvider<FToast>((ref) => FToast());
 
@@ -11,6 +12,7 @@ class ToastContext extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    logger.i('ToastContext: $text');
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),

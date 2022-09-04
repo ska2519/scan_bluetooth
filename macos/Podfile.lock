@@ -899,7 +899,7 @@ SPEC CHECKSUMS:
   FirebaseCrashlytics: 65a5b349e664e986e6c7486b0a9b5ed8c11d0491
   FirebaseFirestore: 5a72aa925528f67469b16a54a6cfc369467197e4
   FirebaseInstallations: 41f811b530c41dd90973d0174381cdb3fcb5e839
-  FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
+  FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
   GoogleAppMeasurement: b907bdad775b6975a8108762345b2cfbf1a93c37
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1

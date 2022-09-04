@@ -18,7 +18,7 @@ class MyApp extends HookConsumerWidget {
       scaffoldMessengerKey: ref.read(scaffoldKeyProvider),
       restorationScopeId: 'app',
       onGenerateTitle: (BuildContext context) =>
-          'Bluetooth on my body'.hardcoded,
+          'BOMB'.hardcoded,
       themeMode: themeMode,
       // theme: shrineTheme,
       theme: lightTheme,

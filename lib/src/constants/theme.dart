@@ -95,6 +95,7 @@ final ThemeData flexThemeLightData = FlexThemeData.light(
   tooltipsMatchBackground: true,
   subThemesData: const FlexSubThemesData(
     elevatedButtonRadius: 40.0,
+    // dialogBackgroundSchemeColor: SchemeColor.onPrimary,
   ),
   useMaterial3ErrorColors: true,
   keyColors: const FlexKeyColors(
@@ -128,6 +129,7 @@ final ThemeData flexThemeDarkData = FlexThemeData.dark(
   subThemesData: const FlexSubThemesData(
     elevatedButtonRadius: 40.0,
     blendTextTheme: false,
+    // dialogBackgroundSchemeColor: SchemeColor.onPrimary,
   ),
   useMaterial3ErrorColors: true,
   keyColors: const FlexKeyColors(

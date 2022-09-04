@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'common_widgets/notice_screen.dart';
 import 'constants/resources.dart';
+import 'exceptions/error_logger.dart';
 import 'features/admob/application/admob_service.dart';
-import 'features/bluetooth/data/scan_bt_repository.dart';
-import 'features/bluetooth/presentation/bluetooth_list/bluetooth_list_screen.dart';
+import 'features/bluetooth/data/scan_bluetooth_repository.dart';
+import 'features/bluetooth/presentation/bluetooth_grid/bluetooth_grid_screen.dart';
 import 'features/permission/application/permission_service.dart';
 
 GlobalKey globalKey = GlobalKey();
@@ -27,19 +28,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    print('didChangeAppLifecycleState state: $state');
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.detached) return;
+    logger.i('didChangeAppLifecycleState state: $state');
+    if (state == AppLifecycleState.detached) return;
     final isBackgroud = state == AppLifecycleState.paused;
-    if (isBackgroud) {
-    } else {
+    logger.i('isBackgroud: $isBackgroud');
+    if (!isBackgroud) {
+      if (Platform.isAndroid || Platform.isIOS) {
+        logger.i('Platform: ${Platform.operatingSystem}');
+        ref.refresh(isBTAvailableProvider);
+        if (Platform.isAndroid) {
+          ref.refresh(
+              requestPermissionListProvider(defaultBluetoothPermissionList));
+        }
+      }
       if (ref.read(interstitialAdStateProvider)) {
         ref.read(interstitialAdStateProvider.notifier).update((state) => false);
         return;
-      } else if (Platform.isAndroid || Platform.isIOS) {
-        ref.refresh(isBTAvailableProvider);
-        ref.refresh(
-            requestPermissionListProvider(defaultBluetoothPermissionList));
       }
     }
   }
@@ -57,7 +61,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       body: AsyncValueWidget<bool>(
         value: ref.watch(isBTAvailableProvider),
         data: (bool isBluetoothAvailable) => isBluetoothAvailable
-            ? BluetoothListScreen(isBluetoothAvailable)
+            ? BluetoothGridScreen(isBluetoothAvailable)
             : const NoticeScreen('🔔 Turn on Bluetooth'),
       ),
     );

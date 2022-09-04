@@ -5,12 +5,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../constants/resources.dart';
-import '../../../../exceptions/error_logger.dart';
 import '../../../../utils/async_value_ui.dart';
 import '../../../../utils/toast_context.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
-import '../../application/scan_bt_service.dart';
-import '../bluetooth_list/animation_scanning_icon.dart';
+import '../../application/scan_bluetooth_service.dart';
+import 'animation_scanning_icon.dart';
 import 'scanning_fab_controller.dart';
 
 class ScanningFAB extends HookConsumerWidget {
@@ -20,7 +19,6 @@ class ScanningFAB extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AsyncValue>(scanningFABControllerProvider, (_, state) {
-      logger.i('statestatestatestate: $state');
       return state.showAlertDialogOnError(context);
     });
 

@@ -31,8 +31,9 @@ mixin _$AppUser {
   List<UserInfo>? get providerData => throw _privateConstructorUsedError;
   String? get refreshToken => throw _privateConstructorUsedError;
   String? get tenantId => throw _privateConstructorUsedError;
-  DateTime? get creationTime => throw _privateConstructorUsedError;
-  DateTime? get lastSignInTime => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
+  DateTime? get lastSignIn => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,8 +55,9 @@ abstract class $AppUserCopyWith<$Res> {
       List<UserInfo>? providerData,
       String? refreshToken,
       String? tenantId,
-      DateTime? creationTime,
-      DateTime? lastSignInTime});
+      DateTime? createdAt,
+      DateTime? updatedAt,
+      DateTime? lastSignIn});
 }
 
 /// @nodoc
@@ -78,8 +80,9 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
     Object? providerData = freezed,
     Object? refreshToken = freezed,
     Object? tenantId = freezed,
-    Object? creationTime = freezed,
-    Object? lastSignInTime = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+    Object? lastSignIn = freezed,
   }) {
     return _then(_value.copyWith(
       uid: uid == freezed
@@ -122,13 +125,17 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
           ? _value.tenantId
           : tenantId // ignore: cast_nullable_to_non_nullable
               as String?,
-      creationTime: creationTime == freezed
-          ? _value.creationTime
-          : creationTime // ignore: cast_nullable_to_non_nullable
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      lastSignInTime: lastSignInTime == freezed
-          ? _value.lastSignInTime
-          : lastSignInTime // ignore: cast_nullable_to_non_nullable
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      lastSignIn: lastSignIn == freezed
+          ? _value.lastSignIn
+          : lastSignIn // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
   }
@@ -151,8 +158,9 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       List<UserInfo>? providerData,
       String? refreshToken,
       String? tenantId,
-      DateTime? creationTime,
-      DateTime? lastSignInTime});
+      DateTime? createdAt,
+      DateTime? updatedAt,
+      DateTime? lastSignIn});
 }
 
 /// @nodoc
@@ -176,8 +184,9 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
     Object? providerData = freezed,
     Object? refreshToken = freezed,
     Object? tenantId = freezed,
-    Object? creationTime = freezed,
-    Object? lastSignInTime = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+    Object? lastSignIn = freezed,
   }) {
     return _then(_$_AppUser(
       uid: uid == freezed
@@ -220,13 +229,17 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
           ? _value.tenantId
           : tenantId // ignore: cast_nullable_to_non_nullable
               as String?,
-      creationTime: creationTime == freezed
-          ? _value.creationTime
-          : creationTime // ignore: cast_nullable_to_non_nullable
+      createdAt: createdAt == freezed
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      lastSignInTime: lastSignInTime == freezed
-          ? _value.lastSignInTime
-          : lastSignInTime // ignore: cast_nullable_to_non_nullable
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      lastSignIn: lastSignIn == freezed
+          ? _value.lastSignIn
+          : lastSignIn // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
   }
@@ -246,8 +259,9 @@ class _$_AppUser implements _AppUser {
       final List<UserInfo>? providerData,
       this.refreshToken,
       this.tenantId,
-      this.creationTime,
-      this.lastSignInTime})
+      this.createdAt,
+      this.updatedAt,
+      this.lastSignIn})
       : _providerData = providerData;
 
   factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
@@ -283,13 +297,15 @@ class _$_AppUser implements _AppUser {
   @override
   final String? tenantId;
   @override
-  final DateTime? creationTime;
+  final DateTime? createdAt;
   @override
-  final DateTime? lastSignInTime;
+  final DateTime? updatedAt;
+  @override
+  final DateTime? lastSignIn;
 
   @override
   String toString() {
-    return 'AppUser(uid: $uid, email: $email, displayName: $displayName, emailVerified: $emailVerified, isAnonymous: $isAnonymous, phoneNumber: $phoneNumber, photoURL: $photoURL, providerData: $providerData, refreshToken: $refreshToken, tenantId: $tenantId, creationTime: $creationTime, lastSignInTime: $lastSignInTime)';
+    return 'AppUser(uid: $uid, email: $email, displayName: $displayName, emailVerified: $emailVerified, isAnonymous: $isAnonymous, phoneNumber: $phoneNumber, photoURL: $photoURL, providerData: $providerData, refreshToken: $refreshToken, tenantId: $tenantId, createdAt: $createdAt, updatedAt: $updatedAt, lastSignIn: $lastSignIn)';
   }
 
   @override
@@ -313,10 +329,10 @@ class _$_AppUser implements _AppUser {
             const DeepCollectionEquality()
                 .equals(other.refreshToken, refreshToken) &&
             const DeepCollectionEquality().equals(other.tenantId, tenantId) &&
+            const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
+            const DeepCollectionEquality().equals(other.updatedAt, updatedAt) &&
             const DeepCollectionEquality()
-                .equals(other.creationTime, creationTime) &&
-            const DeepCollectionEquality()
-                .equals(other.lastSignInTime, lastSignInTime));
+                .equals(other.lastSignIn, lastSignIn));
   }
 
   @JsonKey(ignore: true)
@@ -333,8 +349,9 @@ class _$_AppUser implements _AppUser {
       const DeepCollectionEquality().hash(_providerData),
       const DeepCollectionEquality().hash(refreshToken),
       const DeepCollectionEquality().hash(tenantId),
-      const DeepCollectionEquality().hash(creationTime),
-      const DeepCollectionEquality().hash(lastSignInTime));
+      const DeepCollectionEquality().hash(createdAt),
+      const DeepCollectionEquality().hash(updatedAt),
+      const DeepCollectionEquality().hash(lastSignIn));
 
   @JsonKey(ignore: true)
   @override
@@ -361,8 +378,9 @@ abstract class _AppUser implements AppUser {
       final List<UserInfo>? providerData,
       final String? refreshToken,
       final String? tenantId,
-      final DateTime? creationTime,
-      final DateTime? lastSignInTime}) = _$_AppUser;
+      final DateTime? createdAt,
+      final DateTime? updatedAt,
+      final DateTime? lastSignIn}) = _$_AppUser;
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
 
@@ -387,9 +405,11 @@ abstract class _AppUser implements AppUser {
   @override
   String? get tenantId;
   @override
-  DateTime? get creationTime;
+  DateTime? get createdAt;
   @override
-  DateTime? get lastSignInTime;
+  DateTime? get updatedAt;
+  @override
+  DateTime? get lastSignIn;
   @override
   @JsonKey(ignore: true)
   _$$_AppUserCopyWith<_$_AppUser> get copyWith =>

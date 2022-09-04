@@ -1,13 +1,14 @@
 import 'package:quick_blue/quick_blue.dart';
 
-import 'scan_bt_repository.dart';
+import 'scan_bluetooth_repository.dart';
 
-class QuickBlueBTRepo implements ScanBTRepository {
-  QuickBlueBTRepo({this.addDelay = true});
+class QuickBlueBluetoothRepo implements ScanBlueToothRepository {
+  QuickBlueBluetoothRepo({this.addDelay = true});
   final bool addDelay;
 
   @override
-  Future<bool> isBluetoothAvailable() => QuickBlue.isBluetoothAvailable();
+  Future<bool> isBluetoothAvailable() async =>
+      await QuickBlue.isBluetoothAvailable();
 
   @override
   void startScan() => QuickBlue.startScan();

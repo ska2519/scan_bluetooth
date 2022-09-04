@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import '../../../../constants/resources.dart';
-import '../../application/scan_bt_service.dart';
+import '../../application/scan_bluetooth_service.dart';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and
 /// [ProductScreen].
@@ -86,8 +86,9 @@ class BluetoothCountInfo extends ConsumerWidget {
             fontFeatures: [const FontFeature.tabularFigures()],
           ),
         ),
+        const Text(' / Total '),
         Text(
-          '  /  Total  ${bluetoothList.length}'.hardcoded,
+          '${bluetoothList.length}'.hardcoded,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
             letterSpacing: -1,
             fontFeatures: [const FontFeature.tabularFigures()],

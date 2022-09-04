@@ -2,14 +2,18 @@ import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../exceptions/error_logger.dart';
-import '../data/scan_bt_repository.dart';
+import '../../../utils/current_date_provider.dart';
+import '../data/bluetooth_repo.dart';
+import '../data/scan_bluetooth_repository.dart';
 import '../domain/bluetooth.dart';
+import '../domain/label.dart';
 import '../presentation/scanning_fab/scanning_fab_controller.dart';
 
-final scanBluetoothServiceProvider = Provider<ScanBTService>(ScanBTService.new);
+final scanBluetoothServiceProvider =
+    Provider<ScanBluetoothService>(ScanBluetoothService.new);
 
-class ScanBTService {
-  ScanBTService(this.ref);
+class ScanBluetoothService {
+  ScanBluetoothService(this.ref);
   final Ref ref;
 
   int rssiCalculate(int rssi) => (120 - rssi.abs());
@@ -46,33 +50,53 @@ class ScanBTService {
       ref.watch(bluetoothListProvider).where((bt) => bt.name.isEmpty).length;
 
   Stream<List<Bluetooth>> createBluetoothListStream(
-      List<Bluetooth> bluetoothList) async* {
+    List<Bluetooth> bluetoothList,
+    List<Label> labelList,
+    bool labelFirst,
+  ) async* {
     final bluetoothList = ref.read(bluetoothListProvider);
     ref.watch(scanResultStreamProvider).whenData((bluetooth) {
-      final newScanBluetooth = Bluetooth(
+      final scanBluetooth = Bluetooth(
         deviceId: bluetooth.deviceId,
         manufacturerData: bluetooth.manufacturerData,
         manufacturerDataHead: bluetooth.manufacturerDataHead,
         name: bluetooth.name,
         rssi: bluetooth.rssi,
+        scannedAt: ref.watch(currentDateBuilderProvider).call(),
       );
+
       if (bluetoothList.isEmpty) {
-        bluetoothList.add(newScanBluetooth);
+        bluetoothList.add(scanBluetooth);
       } else {
         for (var i = 0; i < bluetoothList.length; i++) {
-          if (bluetoothList[i].deviceId == newScanBluetooth.deviceId) {
+          if (bluetoothList[i].deviceId == scanBluetooth.deviceId) {
             bluetoothList[i] =
-                newScanBluetooth.copyWith(previousRssi: bluetoothList[i].rssi);
+                scanBluetooth.copyWith(previousRssi: bluetoothList[i].rssi);
             break;
           } else if (i == bluetoothList.length - 1) {
-            bluetoothList.add(newScanBluetooth);
+            bluetoothList.add(scanBluetooth);
+          }
+        }
+      }
+
+      for (var label in labelList) {
+        for (var i = 0; i < bluetoothList.length; i++) {
+          if (bluetoothList[i].deviceId == label.deviceId) {
+            bluetoothList[i] = bluetoothList[i].copyWith(
+              userLabel: label,
+            );
+            break;
           }
         }
       }
 
       bluetoothList.sort((a, b) => b.rssi.compareTo(a.rssi));
+      if (labelFirst) {
+        bluetoothList.sort((a, b) => b.userLabel != null ? 1 : -1);
+      }
       ref.read(bluetoothListProvider.notifier).update((state) => bluetoothList);
     });
+
     yield bluetoothList;
   }
 }
@@ -91,9 +115,15 @@ final unknownBtsCountProvider = StateProvider<int>(
 );
 final bluetoothListProvider = StateProvider<List<Bluetooth>>((ref) => []);
 
-final bluetoothListStreamProvider = StreamProvider<List<Bluetooth>>((ref) {
-  final bluetoothList = ref.watch(bluetoothListProvider);
+final labelFirstProvider = StateProvider<bool>((ref) => true);
+
+final bluetoothListStreamProvider =
+    StreamProvider.autoDispose<List<Bluetooth>>((ref) {
+  final bluetoothList = ref.read(bluetoothListProvider);
+  final labelList = ref.watch(userLabelListProvider);
+  final labelFirst = ref.watch(labelFirstProvider);
+
   return ref
       .watch(scanBluetoothServiceProvider)
-      .createBluetoothListStream(bluetoothList);
+      .createBluetoothListStream(bluetoothList, labelList, labelFirst);
 });

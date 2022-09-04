@@ -33,8 +33,8 @@ class RequestPermissionScreen extends HookConsumerWidget {
           title: 'Update $permissionName settings',
           defaultActionText: 'Update Settings',
           cancelActionText: 'No Thanks',
-          content:
-              'Please update your $permissionName setting in order to use feature.',
+          content: Text(
+              'Please update your $permissionName setting in order to use feature.'),
         );
         if (buttonAction == true) {
           Navigator.of(context).pop();

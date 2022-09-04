@@ -9,5 +9,5 @@ targets:
 #           # The default value for each is listed.
           # any_map: true
 #           disallow_unrecognized_keys: false
-#           explicit_to_json: true
+          explicit_to_json: true
 #           generic_argument_factories: false

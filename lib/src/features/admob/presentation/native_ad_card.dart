@@ -1,7 +1,7 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../constants/resources.dart';
-import '../../bluetooth/application/scan_bt_service.dart';
+import '../../bluetooth/application/scan_bluetooth_service.dart';
 import '../application/admob_service.dart';
 
 class NativeAdCard extends HookConsumerWidget {

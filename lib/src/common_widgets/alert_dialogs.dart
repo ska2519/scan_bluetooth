@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../localization/string_hardcoded.dart';
@@ -12,47 +8,28 @@ const kDialogDefaultKey = Key('dialog-default-key');
 Future<bool?> showAlertDialog({
   required BuildContext context,
   required String title,
-  String? content,
+  Widget? content,
   String? cancelActionText,
   String defaultActionText = 'OK',
 }) async {
-  if (kIsWeb || !Platform.isIOS) {
-    return showDialog(
-      context: context,
-      barrierDismissible: cancelActionText != null,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: content != null ? Text(content) : null,
-        actions: <Widget>[
-          if (cancelActionText != null)
-            TextButton(
-              child: Text(cancelActionText),
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-          TextButton(
-            key: kDialogDefaultKey,
-            child: Text(defaultActionText),
-            onPressed: () => Navigator.of(context).pop(true),
-          ),
-        ],
-      ),
-    );
-  }
-  return showCupertinoDialog(
+  return showDialog(
     context: context,
     barrierDismissible: cancelActionText != null,
-    builder: (context) => CupertinoAlertDialog(
+    builder: (context) => AlertDialog(
       title: Text(title),
-      content: content != null ? Text(content) : null,
+      content: content,
       actions: <Widget>[
         if (cancelActionText != null)
-          CupertinoDialogAction(
+          TextButton(
             child: Text(cancelActionText),
             onPressed: () => Navigator.of(context).pop(false),
           ),
-        CupertinoDialogAction(
+        ElevatedButton(
           key: kDialogDefaultKey,
-          child: Text(defaultActionText),
+          child: Text(
+            defaultActionText,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
           onPressed: () => Navigator.of(context).pop(true),
         ),
       ],
@@ -69,7 +46,7 @@ Future<void> showExceptionAlertDialog({
     showAlertDialog(
       context: context,
       title: title,
-      content: exception.toString(),
+      content: Text(exception.toString()),
       defaultActionText: 'OK'.hardcoded,
     );
 

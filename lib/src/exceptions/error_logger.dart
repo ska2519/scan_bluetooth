@@ -7,28 +7,24 @@ final logger = Logger(
   printer: PrettyPrinter(
     printTime: true,
     noBoxingByDefault: true,
-    methodCount: 1,
+    methodCount: 0,
     errorMethodCount: 1,
   ),
 );
 
-var loggerNoStack = Logger(
-  printer: PrettyPrinter(methodCount: 0),
-);
-
 class ErrorLogger {
-  void logError(Object e, StackTrace? s) {
+  void e(Object e, StackTrace? s) {
     // * This can be replaced with a call to a crash reporting tool of choice
     logger.e('logError', e, s);
   }
 
-  void logAppException(AppException exception) {
+  void appException(AppException exception) {
     // * This can be replaced with a call to a crash reporting tool of choice
     logger.e('logError: ${exception.details.code}', exception.details.message);
     logger.e('$exception');
   }
 }
 
-final errorLoggerProvider = Provider<ErrorLogger>((ref) {
+final loggerProvider = Provider<ErrorLogger>((ref) {
   return ErrorLogger();
 });

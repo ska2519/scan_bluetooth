@@ -32,3 +32,41 @@ class FirestoreDateTimeConverter extends JsonConverter<DateTime?, Timestamp?> {
   Timestamp? toJson(DateTime? object) =>
       object == null ? null : Timestamp.fromDate(object);
 }
+
+class ServerTimestampConverter implements JsonConverter<DateTime?, Object?> {
+  const ServerTimestampConverter();
+
+  @override
+  DateTime? fromJson(Object? timestamp) {
+    if (timestamp is Timestamp) {
+      return timestamp.toDate();
+    } else {
+      return DateTime.fromMillisecondsSinceEpoch(0);
+    }
+  }
+
+  @override
+  Object? toJson(DateTime? date) => date ?? FieldValue.serverTimestamp();
+}
+
+class FieldValueIncrementConverter implements JsonConverter<int?, Object?> {
+  const FieldValueIncrementConverter();
+
+  @override
+  int? fromJson(Object? count) => count is int ? count : null;
+
+  @override
+  Object? toJson(int? count) => count ?? FieldValue.increment(1);
+}
+
+// ** DTO Sample
+// const factory Dto({
+//     required String title,
+//     @ServerTimestampConverter()
+//     @JsonKey(name: constants.startDateKey)
+//          DateTime? startDate,
+//     @ServerTimestampConverter()
+//     @JsonKey(name: constants.endDateKey)
+//         DateTime? endDate,
+//     @JsonKey(ignore: true) String? id,
+//   }) = _Dto;

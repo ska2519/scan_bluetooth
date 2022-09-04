@@ -26,9 +26,10 @@ class FirebaseAuthRepository implements AuthRepository {
   Stream<AppUser?> authStateChanges() {
     final authStateChanges = _firebaseAuth.authStateChanges();
     return authStateChanges.asyncMap((user) {
+      logger.i('authStateChanges: $user');
       if (user != null) {
         try {
-          getAppUser(user.uid);
+          return getAppUser(user.uid);
         } catch (e) {
           //!! getAppUser failed case error handling
         }
@@ -39,6 +40,7 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   Future<void> signInAnonymously() async {
+    logger.i('start signInAnonymously');
     try {
       final userCredential = await _firebaseAuth.signInAnonymously();
       logger.i('signInAnonymously userCredential: $userCredential');
@@ -139,8 +141,9 @@ class FirebaseAuthRepository implements AuthRepository {
         data: AppUser.transformFirebaseUser(user, displayName: displayName)
             .toJson(),
       );
-      userChanges();
-      logger.i('!!CALLED setAppUser userChanges()');
+
+      // await _firebaseAuth.currentUser!.reload();
+      logger.w('setAppUser finished!! currentUser reload!! ');
     } catch (e) {
       rethrow;
     }
@@ -169,7 +172,7 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    throw UnimplementedError();
   }
 
   @override
@@ -179,8 +182,7 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
   }
 }

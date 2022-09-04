@@ -17,6 +17,8 @@ abstract class AuthRepository {
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final auth = FirebaseAuthRepository();
+  // !! macos singout test 시 필요 https://github.com/FirebaseExtended/flutterfire/issues/4661
+  // auth.signOut();
   logger.i('auth.currentUser: ${auth.currentUser}');
   if (auth.currentUser == null) {
     auth.signInAnonymously();
@@ -26,7 +28,7 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return auth;
 });
 
-final authStateChangesProvider = StreamProvider.autoDispose<AppUser?>((ref) {
+final authStateChangesProvider = StreamProvider<AppUser?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return authRepository.authStateChanges();
 });

@@ -22,7 +22,7 @@ class AdmobService {
     logger.i(
         'AdmobService _init: ${admobStatus.adapterStatuses.values.first.state}');
 
-    if (Platform.isAndroid) {
+    if (Platform.isAndroid || Platform.isIOS) {
       _createNativeAd();
       _createInterstitialAd();
     }

@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../exceptions/error_logger.dart';
 import '../../../admob/application/admob_service.dart';
-import '../../application/scan_bt_service.dart';
+import '../../application/scan_bluetooth_service.dart';
 
 class ScanningFABController extends StateNotifier<AsyncValue<void>> {
   ScanningFABController({
     required this.bluetoothService,
     this.admobService,
   }) : super(const AsyncData(null));
-  final ScanBTService bluetoothService;
+  final ScanBluetoothService bluetoothService;
   final AdmobService? admobService;
 
   Future<void> submitScanning(
@@ -19,7 +19,6 @@ class ScanningFABController extends StateNotifier<AsyncValue<void>> {
   }) async {
     state = const AsyncLoading();
 
-    logger.i('before newState state: $state');
 
     /// !! ref.watch(scanningFABControllerProvider)가 읽을 수 있게 state 전달할 딜레이 시간 필요
     await Future.delayed(const Duration(milliseconds: 100));

@@ -33,17 +33,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final isBackgroud = state == AppLifecycleState.paused;
     logger.i('isBackgroud: $isBackgroud');
     if (!isBackgroud) {
+      logger.i('Platform: ${Platform.operatingSystem}');
       if (Platform.isAndroid || Platform.isIOS) {
-        logger.i('Platform: ${Platform.operatingSystem}');
         ref.refresh(isBTAvailableProvider);
-        if (Platform.isAndroid) {
-          ref.refresh(
-              requestPermissionListProvider(defaultBluetoothPermissionList));
-        }
-      }
-      if (ref.read(interstitialAdStateProvider)) {
+        ref.refresh(
+            requestPermissionListProvider(defaultBluetoothPermissionList));
         ref.read(interstitialAdStateProvider.notifier).update((state) => false);
-        return;
       }
     }
   }
@@ -60,9 +55,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       key: globalKey,
       body: AsyncValueWidget<bool>(
         value: ref.watch(isBTAvailableProvider),
-        data: (bool isBluetoothAvailable) => isBluetoothAvailable
-            ? BluetoothGridScreen(isBluetoothAvailable)
-            : const NoticeScreen('🔔 Turn on Bluetooth'),
+        data: (bool isBluetoothAvailable) {
+          if (Platform.isIOS) {
+            return BluetoothGridScreen(isBluetoothAvailable);
+          }
+          return isBluetoothAvailable
+              ? BluetoothGridScreen(isBluetoothAvailable)
+              : const NoticeScreen('🔔 Turn on Bluetooth');
+        },
       ),
     );
   }

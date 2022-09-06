@@ -100,3 +100,5 @@
         },
     ]
 }
+
+// /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -configuration Debug-dev VERBOSE_SCRIPT_LOGGING=YES DEVELOPMENT_TEAM=33BU599YAS -allowProvisioningUpdates -allowProvisioningDeviceRegistration -workspace Runner.xcworkspace -scheme dev BUILD_DIR=/Users/ska/Coding/Projects/BOMB/build/ios -sdk iphoneos -destination id=00008110-001C09510C44801E ONLY_ACTIVE_ARCH=YES ARCHS=arm64 -resultBundlePath /var/folders/6g/tvqwd2m96ss9qs762rwsfgvm0000gn/T/flutter_tools.4td9U3/flutter_ios_build_temp_dirpPPNb6/temporary_xcresult_bundle -resultBundleVersion 3 FLUTTER_SUPPRESS_ANALYTICS=true COMPILER_INDEX_STORE_ENABLE=NO

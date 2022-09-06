@@ -10,7 +10,7 @@ FLUTTER_BUILD_MODE = release
 PRODUCT_NAME = BOMB
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = app.fruitshop.bomb
+PRODUCT_BUNDLE_IDENTIFIER = dev.fruitshop.bomb
 
 FLUTTER_TARGET = /Users/ska/Coding/Projects/BOMB/lib/main_prod.dart
 

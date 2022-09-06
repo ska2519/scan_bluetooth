@@ -17,6 +17,7 @@ class ScanBluetoothService {
   final Ref ref;
 
   int rssiCalculate(int rssi) => (120 - rssi.abs());
+
   Future<bool> isBluetoothAvailable() async =>
       await ref.read(btRepoProvider).isBluetoothAvailable();
 
@@ -54,7 +55,6 @@ class ScanBluetoothService {
     List<Label> labelList,
     bool labelFirst,
   ) async* {
-    final bluetoothList = ref.read(bluetoothListProvider);
     ref.watch(scanResultStreamProvider).whenData((bluetooth) {
       final scanBluetooth = Bluetooth(
         deviceId: bluetooth.deviceId,
@@ -117,8 +117,7 @@ final bluetoothListProvider = StateProvider<List<Bluetooth>>((ref) => []);
 
 final labelFirstProvider = StateProvider<bool>((ref) => true);
 
-final bluetoothListStreamProvider =
-    StreamProvider.autoDispose<List<Bluetooth>>((ref) {
+final bluetoothListStreamProvider = StreamProvider<List<Bluetooth>>((ref) {
   final bluetoothList = ref.read(bluetoothListProvider);
   final labelList = ref.watch(userLabelListProvider);
   final labelFirst = ref.watch(labelFirstProvider);

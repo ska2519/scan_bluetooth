@@ -1,10 +1,10 @@
-import '../../../common_widgets/alert_dialogs.dart';
 import '../../../constants/resources.dart';
 import '../../../exceptions/error_logger.dart';
 import '../../authentication/data/auth_repository.dart';
 import '../data/bluetooth_repo.dart';
 import '../domain/bluetooth.dart';
 import '../domain/label.dart';
+import '../presentation/bluetooth_label/label_dialog.dart';
 
 final bluetoothServiceProvider =
     Provider<BluetoothService>(BluetoothService.new);
@@ -47,7 +47,7 @@ class BluetoothService {
       createdAt: bluetooth.userLabel?.createdAt,
     );
     logger.i('bluetooth.userLabel: ${bluetooth.userLabel}');
-
+//TODO : Cloud functions 으로 대체
     var firestoreBluetooth = await fetchBluetooth(bluetooth);
 
     final setBluetooth = bluetooth.copyWith(
@@ -59,6 +59,7 @@ class BluetoothService {
           bluetooth: setBluetooth,
         );
     logger.i('Finish setBluetooth');
+//TODO : 여기까지
 
     await ref.read(bluetoothRepoProvider).setLabel(
           deviceId: bluetooth.deviceId,
@@ -68,34 +69,11 @@ class BluetoothService {
   }
 
   Future<bool?> openLabelDialog(
-      Bluetooth bluetooth, BuildContext context) async {
+    Bluetooth bluetooth,
+    BuildContext context,
+  ) async {
     logger.i('openLabelDialog bluetooth: $bluetooth');
     textEditingCtr.text = bluetooth.userLabel?.name ?? bluetooth.name;
-    return await showAlertDialog(
-      context: context,
-      cancelActionText: 'Cancel'.hardcoded,
-      defaultActionText: '🖋 Make',
-      title: 'Label 🏷 ',
-      content: ValueListenableBuilder<TextEditingValue>(
-        valueListenable: textEditingCtr,
-        builder: (context, value, _) {
-          return TextField(
-            controller: textEditingCtr,
-            autofocus: true,
-            maxLength: 20,
-            decoration: InputDecoration(
-              isDense: true,
-              hintText: 'Bluetooth Label'.hardcoded,
-              suffixIcon: value.text.isNotEmpty
-                  ? IconButton(
-                      onPressed: textEditingCtr.clear,
-                      icon: const Icon(Icons.clear),
-                    )
-                  : null,
-            ),
-          );
-        },
-      ),
-    );
+    return await labelDialog(context, textEditingCtr);
   }
 }

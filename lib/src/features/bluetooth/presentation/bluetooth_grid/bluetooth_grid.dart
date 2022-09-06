@@ -1,10 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../../constants/resources.dart';
 import '../../../../utils/destination_item_index.dart';
 import '../../../../utils/dismiss_on_screen_keyboard.dart';
+import '../../../../utils/toast_context.dart';
 import '../../../admob/application/admob_service.dart';
 import '../../../admob/presentation/native_ad_card.dart';
 import '../../application/bluetooth_service.dart';
@@ -21,9 +23,6 @@ class BluetoothGrid extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bluetoothListValue = ref.watch(bluetoothListStreamProvider);
-    final scanning = ref.watch(scanFABStateProvider);
-    final interstitialAdState = ref.watch(interstitialAdStateProvider);
-    final nativeAd = ref.watch(nativeAdProvider(key));
 
     useEffect(() {
       ref
@@ -36,6 +35,14 @@ class BluetoothGrid extends HookConsumerWidget {
     return AsyncValueWidget<List<Bluetooth>>(
       value: bluetoothListValue,
       data: (bluetoothList) {
+        final fToast = ref.read(fToastProvider);
+        final scanning = ref.watch(scanFABStateProvider);
+        final interstitialAdState = ref.watch(interstitialAdStateProvider);
+        NativeAd? nativeAd;
+        if (!scanning) {
+          nativeAd = ref.watch(nativeAdProvider(key));
+        }
+
         var kAdIndex = 1;
         if (bluetoothList.isNotEmpty && !scanning && nativeAd != null) {
           kAdIndex = Random()
@@ -59,16 +66,24 @@ class BluetoothGrid extends HookConsumerWidget {
                   final i = !scanning
                       ? getDestinationItemIndex(kAdIndex, index)
                       : index;
+                  final intRssi = ref
+                      .read(scanBluetoothServiceProvider)
+                      .rssiCalculate(bluetoothList[i].rssi);
                   return !scanning &&
                           !interstitialAdState &&
                           nativeAd != null &&
                           index == kAdIndex
                       ? NativeAdCard(nativeAd)
                       : BluetoothCardTile(
-                          onPressed: () async => await ref
-                              .read(bluetoothGridScreenControllerProvider
-                                  .notifier)
-                              .onTapTile(bluetoothList[i], context),
+                          onPressed: intRssi < 70
+                              ? () => fToast.showToast(
+                                      child: const ToastContext(
+                                    'Sorry. can make label more 70% 📶',
+                                  ))
+                              : () async => await ref
+                                  .read(bluetoothGridScreenControllerProvider
+                                      .notifier)
+                                  .onTapTile(bluetoothList[i], context),
                           bluetooth: bluetoothList[i],
                           index: i,
                         );

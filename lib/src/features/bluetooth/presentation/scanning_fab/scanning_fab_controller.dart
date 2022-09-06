@@ -19,20 +19,15 @@ class ScanningFABController extends StateNotifier<AsyncValue<void>> {
   }) async {
     state = const AsyncLoading();
 
-
     /// !! ref.watch(scanningFABControllerProvider)가 읽을 수 있게 state 전달할 딜레이 시간 필요
     await Future.delayed(const Duration(milliseconds: 100));
-
+    logger.i('submitScanning scanning: $scanning');
     await AsyncValue.guard(() => bluetoothService.updateScanFABState(scanning));
 
     final newState =
         await AsyncValue.guard(() => bluetoothService.submitScanning(scanning));
     await AsyncValue.guard(() => bluetoothService.toggleStopWatch(scanning));
     if (mounted) {
-      // * only set the state if the controller hasn't been disposed
-      // await AsyncValue.guard(
-      //     () => bluetoothService.updateScanFABState(scanning));
-      // await AsyncValue.guard(() => bluetoothService.toggleStopWatch(scanning));
       state = newState;
       if (!scanning && admobService != null) {
         admobService!.showInterstitialAd();
@@ -40,8 +35,9 @@ class ScanningFABController extends StateNotifier<AsyncValue<void>> {
       if (state.hasError == false) {
         if (onSuccess != null) onSuccess();
       } else {
-        await AsyncValue.guard(
-            () => bluetoothService.updateScanFABState(!scanning));
+        logger.i('bluetoothService.updateScanFABState(!scanning)');
+        // await AsyncValue.guard(
+        //     () => bluetoothService.updateScanFABState(!scanning));
       }
     } else {
       if (onSuccess != null) onSuccess();

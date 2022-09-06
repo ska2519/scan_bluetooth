@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:quick_blue/quick_blue.dart';
 import 'package:string_to_color/string_to_color.dart';
 
 import '../../../../constants/app_sizes.dart';
@@ -25,6 +24,7 @@ class BluetoothCardTile extends HookConsumerWidget {
 
   // * Keys for testing using find.byKey()
   static const bluetoothCardKey = Key('bluetooth-card');
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
@@ -32,11 +32,28 @@ class BluetoothCardTile extends HookConsumerWidget {
         ref.read(scanBluetoothServiceProvider).rssiCalculate(bluetooth.rssi);
     final showID = useState<bool>(false);
 
+    final controller = useAnimationController(
+      duration: const Duration(milliseconds: 50),
+    );
+
+    final animation = useAnimation(
+        ColorTween(begin: rssiAnimationColor, end: Colors.transparent)
+            .animate(controller));
+
+    useEffect(() {
+      controller.forward();
+      if (controller.isCompleted ||
+          controller.isDismissed && !controller.isAnimating) {
+        controller.reset();
+      }
+      return null;
+    }, [bluetooth.previousRssi]);
+
     return SizedBox(
       height: 80,
       child: Card(
         child: InkWell(
-          key: bluetoothCardKey,
+          // key: bluetoothCardKey,
           onTap: onPressed,
           child: Padding(
             padding: const EdgeInsets.all(Sizes.p8),
@@ -57,25 +74,18 @@ class BluetoothCardTile extends HookConsumerWidget {
                                 overflow: TextOverflow.ellipsis),
                           ),
                         ),
-                        Material(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(30),
-                            // onTap: () => onSubmit,
+                        // if (bluetooth.previousRssi != null &&
+                        //     bluetooth.previousRssi! >= bluetooth.rssi)
+                        AnimatedBuilder(
+                          animation: controller,
+                          builder: (context, child) => Container(
+                            padding: const EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: animation,
+                            ),
 
-                            // crossFadeState: bluetooth.rssi > bluetooth.previousRssi!
-                            //     ? CrossFadeState.showSecond
-                            //     : CrossFadeState.showFirst,
-                            // duration: const Duration(seconds: 1),
-                            // canRequestFocus: bluetooth.previousRssi != null &&
-                            //     bluetooth.rssi != bluetooth.previousRssi!,
-                            splashColor: bluetooth.previousRssi != null &&
-                                    bluetooth.rssi > bluetooth.previousRssi!
-                                ? Colors.red.withOpacity(0.4)
-                                : Colors.green.withOpacity(0.4),
-
+                            // color: animation,
                             child: Tooltip(
                               message: 'SIGNAL',
                               child: RssiIcon(
@@ -91,30 +101,52 @@ class BluetoothCardTile extends HookConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          bluetooth.userLabel != null
-                              ? '🏷${bluetooth.userLabel!.name}'
-                              : bluetooth.name.isNotEmpty && !showID.value
-                                  ? bluetooth.name
-                                  : Platform.isIOS || Platform.isMacOS
-                                      ? '🆔 ${bluetooth.deviceId.substring(0, 8)}'
-                                      : '🆔 ${bluetooth.deviceId}',
-                          style: bluetooth.userLabel != null
-                              ? textTheme.titleMedium!.copyWith()
-                              : bluetooth.name.isNotEmpty
-                                  ? textTheme.titleSmall
-                                  : textTheme.titleSmall!.copyWith(
-                                      color: ColorUtils.stringToColor(
-                                        bluetooth.deviceId,
-                                      ),
-                                      fontFeatures: [
-                                        const FontFeature.tabularFigures()
-                                      ],
-                                    ),
+                        Row(
+                          children: [
+                            Text(
+                              bluetooth.userLabel != null
+                                  ? '🏷 ${bluetooth.userLabel!.name}'
+                                  : bluetooth.name.isNotEmpty && !showID.value
+                                      ? bluetooth.name
+                                      : Platform.isIOS || Platform.isMacOS
+                                          ? '🆔 ${bluetooth.deviceId.substring(0, 8)}'
+                                          : '🆔 ${bluetooth.deviceId}',
+                              style: bluetooth.userLabel != null
+                                  ? textTheme.titleMedium!.copyWith()
+                                  : bluetooth.name.isNotEmpty
+                                      ? textTheme.titleSmall
+                                      : textTheme.titleSmall!.copyWith(
+                                          color: ColorUtils.stringToColor(
+                                            bluetooth.deviceId,
+                                          ),
+                                          fontFeatures: [
+                                            const FontFeature.tabularFigures()
+                                          ],
+                                        ),
+                            ),
+                            if (bluetooth.userLabel != null &&
+                                ref
+                                        .read(scanBluetoothServiceProvider)
+                                        .rssiCalculate(
+                                            bluetooth.userLabel!.rssi) >
+                                    90)
+                              const Icon(
+                                Icons.star,
+                                color: Colors.yellow,
+                              ),
+                          ],
                         ),
-                        Text(
-                          ' ${intRssi <= 0 ? 1 : 99 <= intRssi ? 99 : intRssi}%',
-                          style: textTheme.bodyMedium,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              ' ${intRssi <= 0 ? 1 : 99 <= intRssi ? 99 : intRssi}%',
+                              style: textTheme.bodyMedium,
+                            ),
+                            gapW24,
+                            // if (bluetooth.userLabel != null)
+                            //   Text(bluetooth.userLabel.labelCount.toString()),
+                          ],
                         ),
                         // ConnectButton(bluetooth: bluetooth),
                       ],
@@ -153,7 +185,12 @@ class BluetoothCardTile extends HookConsumerWidget {
 
   MaterialColor? get rssiColor => bluetooth.previousRssi != null
       ? bluetooth.rssi > bluetooth.previousRssi!
-          ? Colors.red
-          : Colors.green
+          ? Colors.green
+          : Colors.red
+      : null;
+  Color? get rssiAnimationColor => bluetooth.previousRssi != null
+      ? bluetooth.rssi > bluetooth.previousRssi!
+          ? Colors.green.withOpacity(0.2)
+          : Colors.red.withOpacity(0.2)
       : null;
 }

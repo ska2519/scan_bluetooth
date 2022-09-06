@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../constants/resources.dart';
+import '../../../../exceptions/error_logger.dart';
 import '../../../../utils/async_value_ui.dart';
 import '../../../../utils/toast_context.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
@@ -27,6 +28,8 @@ class ScanningFAB extends HookConsumerWidget {
     final fToast = ref.read(fToastProvider);
 
     useEffect(() {
+      logger.i(
+          'ScanningFAB useEffect requestPermissionList: $requestPermissionList');
       if ((requestPermissionList != null && requestPermissionList!.isEmpty) ||
           (Platform.isAndroid || Platform.isIOS) == false) {
         WidgetsBinding.instance.addPostFrameCallback((_) => ref
@@ -34,7 +37,7 @@ class ScanningFAB extends HookConsumerWidget {
             .submitScanning(true));
       }
       return null;
-    }, [requestPermissionList]);
+    }, [requestPermissionList?.length]);
 
     // ** Test 용 코드
     // return ElevatedButton(
@@ -49,7 +52,7 @@ class ScanningFAB extends HookConsumerWidget {
       builder: (context, ref, child) {
         final scanning = ref.watch(scanFABStateProvider);
         final elapsed = ref.watch(elapsedProvider);
-        if (elapsed.inSeconds >= 4) {
+        if (elapsed.inSeconds == 4) {
           fToast.removeQueuedCustomToasts();
         }
         return FloatingActionButton.extended(

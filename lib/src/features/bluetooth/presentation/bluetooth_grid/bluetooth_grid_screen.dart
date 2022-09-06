@@ -12,6 +12,7 @@ import '../../../../utils/dismiss_on_screen_keyboard.dart';
 import '../../../../utils/toast_context.dart';
 import '../../../permission/application/permission_service.dart';
 import '../../application/scan_bluetooth_service.dart';
+import '../../data/bluetooth_repo.dart';
 import '../bluetooth_available/bluetooth_available.dart';
 import '../home_app_bar/home_app_bar.dart';
 import '../scanning_fab/scanning_fab.dart';
@@ -38,6 +39,8 @@ class BluetoothGridScreen extends HookConsumerWidget {
     final scrollController = useScrollController()
       ..addListener(() => dismissOnScreenKeyboard(context));
     final labelFirst = ref.watch(labelFirstProvider);
+    final labelList = ref.watch(userLabelListProvider);
+    final bluetoothList = ref.watch(bluetoothListProvider);
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -57,18 +60,24 @@ class BluetoothGridScreen extends HookConsumerWidget {
             slivers: [
               ResponsiveSliverCenter(
                 padding: const EdgeInsets.all(Sizes.p8),
-                child: Row(
-                  children: [
-                    BluetoothAvailable(isBluetoothAvailable),
-                    gapW8,
-                    FilterChip(
-                      label: const Text('🏷 Label first'),
-                      selected: labelFirst,
-                      onSelected: (onSelected) => ref
-                          .read(labelFirstProvider.notifier)
-                          .state = onSelected,
-                    ),
-                  ],
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      BluetoothAvailable(isBluetoothAvailable),
+                      if (labelList.isNotEmpty)
+                        FilterChip(
+                          label: Text(
+                              '🏷 Label (${bluetoothList.where((bluetooth) => bluetooth.userLabel != null).toList().length}/${labelList.length})'),
+                          selected: labelFirst,
+                          onSelected: (onSelected) => ref
+                              .read(labelFirstProvider.notifier)
+                              .state = onSelected,
+                        ),
+                    ],
+                  ),
                 ),
               ),
               const ResponsiveSliverCenter(

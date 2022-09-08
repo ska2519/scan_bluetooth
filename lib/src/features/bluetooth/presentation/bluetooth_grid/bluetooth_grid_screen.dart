@@ -59,7 +59,8 @@ class BluetoothGridScreen extends HookConsumerWidget {
             physics: const BouncingScrollPhysics(),
             slivers: [
               ResponsiveSliverCenter(
-                padding: const EdgeInsets.all(Sizes.p8),
+                padding:
+                    const EdgeInsets.fromLTRB(Sizes.p8, Sizes.p8, Sizes.p8, 0),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),

@@ -40,6 +40,7 @@ class BluetoothGrid extends HookConsumerWidget {
         if (!scanning) {
           nativeAd = ref.watch(nativeAdProvider(key));
         }
+
         final nativeAdState = ref.watch(nativeAdStateProvider);
 
         var kAdIndex = 1;

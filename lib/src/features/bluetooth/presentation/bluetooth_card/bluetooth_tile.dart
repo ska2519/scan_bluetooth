@@ -8,6 +8,7 @@ import 'package:string_to_color/string_to_color.dart';
 import '../../../../constants/resources.dart';
 import '../../application/scan_bluetooth_service.dart';
 import '../../domain/bluetooth.dart';
+import '../scanning_fab/scanning_fab_controller.dart';
 import 'rssi_icon.dart';
 
 class BluetoothTile extends HookConsumerWidget {
@@ -27,7 +28,7 @@ class BluetoothTile extends HookConsumerWidget {
       ? bluetooth.rssi > bluetooth.previousRssi!
           ? Colors.green.withOpacity(0.1)
           : Colors.red.withOpacity(0.1)
-      : null;
+      : Colors.transparent;
 
   MaterialColor? get rssiColor => bluetooth.previousRssi != null
       ? bluetooth.rssi > bluetooth.previousRssi!
@@ -41,20 +42,20 @@ class BluetoothTile extends HookConsumerWidget {
     final controller = useState(useAnimationController(
       duration: const Duration(milliseconds: 300),
     ));
-
+    final scanning = ref.watch(scanFABStateProvider);
     final animation = useAnimation(
-        ColorTween(begin: rssiAnimationColor, end: Colors.white)
+        ColorTween(begin: rssiAnimationColor, end: Colors.transparent)
             .animate(controller.value));
 
     useEffect(() {
       controller.value.addStatusListener((status) {
         if (status == AnimationStatus.completed ||
             status == AnimationStatus.dismissed) {
-          controller.value.stop();
           controller.value.reset();
         }
       });
       controller.value.forward();
+
       return null;
     }, [bluetooth.previousRssi]);
 
@@ -87,7 +88,7 @@ class BluetoothTile extends HookConsumerWidget {
                     padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: animation,
+                      color: scanning ? animation : Colors.transparent,
                     ),
                     child: Tooltip(
                       message: 'SIGNAL',
@@ -126,6 +127,7 @@ class BluetoothTile extends HookConsumerWidget {
                                     const FontFeature.tabularFigures()
                                   ],
                                 ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                     if (bluetooth.userLabel != null &&
                         ref
@@ -135,7 +137,7 @@ class BluetoothTile extends HookConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: Sizes.p12),
                         child: LineIcon.certificate(
-                          color: colorScheme.outline,
+                          color: colorScheme.primary,
                           size: Sizes.p20,
                         ),
                       ),

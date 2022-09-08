@@ -20,7 +20,7 @@ class ScanningFABController extends StateNotifier<AsyncValue<void>> {
     state = const AsyncLoading();
 
     /// !! ref.watch(scanningFABControllerProvider)가 읽을 수 있게 state 전달할 딜레이 시간 필요
-    await Future.delayed(const Duration(milliseconds: 100));
+    // await Future.delayed(const Duration(milliseconds: 100));
     logger.i('submitScanning scanning: $scanning');
     await AsyncValue.guard(() => bluetoothService.updateScanFABState(scanning));
 

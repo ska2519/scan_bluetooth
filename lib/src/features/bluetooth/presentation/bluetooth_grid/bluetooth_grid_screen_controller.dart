@@ -11,6 +11,8 @@ class BluetoothGridScreenController extends StateNotifier<AsyncValue<void>> {
   final ScanBluetoothService scanBluetoothService;
   final BluetoothService bluetoothService;
 
+  Future<void> onTap() async {}
+
   Future<void> onTapTile(
     Bluetooth bluetooth,
     BuildContext context,
@@ -19,6 +21,10 @@ class BluetoothGridScreenController extends StateNotifier<AsyncValue<void>> {
 
     if (isUpdate != null && isUpdate) {
       state = const AsyncLoading();
+      // if (bluetooth.userLabel == null) {
+      // } else {
+      //   await AsyncValue.guard(() => bluetoothService.updateLabel(bluetooth));
+      // }
       final newState =
           await AsyncValue.guard(() => bluetoothService.updateLabel(bluetooth));
 

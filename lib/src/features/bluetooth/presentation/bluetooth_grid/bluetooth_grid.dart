@@ -6,7 +6,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../../../constants/resources.dart';
 import '../../../../utils/destination_item_index.dart';
 import '../../../../utils/dismiss_on_screen_keyboard.dart';
-import '../../../../utils/toast_context.dart';
 import '../../../admob/application/admob_service.dart';
 import '../../../admob/presentation/native_ad_card.dart';
 import '../../application/bluetooth_service.dart';
@@ -35,7 +34,6 @@ class BluetoothGrid extends HookConsumerWidget {
     return AsyncValueWidget<List<Bluetooth>>(
       value: bluetoothListValue,
       data: (bluetoothList) {
-        final fToast = ref.read(fToastProvider);
         final scanning = ref.watch(scanFABStateProvider);
         final interstitialAdState = ref.watch(interstitialAdStateProvider);
         NativeAd? nativeAd;
@@ -66,24 +64,17 @@ class BluetoothGrid extends HookConsumerWidget {
                   final i = !scanning
                       ? getDestinationItemIndex(kAdIndex, index)
                       : index;
-                  final intRssi = ref
-                      .read(scanBluetoothServiceProvider)
-                      .rssiCalculate(bluetoothList[i].rssi);
+
                   return !scanning &&
                           !interstitialAdState &&
                           nativeAd != null &&
                           index == kAdIndex
                       ? NativeAdCard(nativeAd)
-                      : BluetoothCardTile(
-                          onPressed: intRssi < 70
-                              ? () => fToast.showToast(
-                                      child: const ToastContext(
-                                    'Sorry. can make label more 70% 📶',
-                                  ))
-                              : () async => await ref
-                                  .read(bluetoothGridScreenControllerProvider
-                                      .notifier)
-                                  .onTapTile(bluetoothList[i], context),
+                      : BluetoothCard(
+                          onTapLabelEdit: () async => await ref
+                              .read(bluetoothGridScreenControllerProvider
+                                  .notifier)
+                              .onTapTile(bluetoothList[i], context),
                           bluetooth: bluetoothList[i],
                           index: i,
                         );

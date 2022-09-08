@@ -1,6 +1,7 @@
 import '../../../constants/resources.dart';
 import '../../../exceptions/error_logger.dart';
 import '../../authentication/data/auth_repository.dart';
+import '../../authentication/domain/app_user.dart';
 import '../data/bluetooth_repo.dart';
 import '../domain/bluetooth.dart';
 import '../domain/label.dart';
@@ -29,23 +30,21 @@ class BluetoothService {
       logger.i('BluetoothService/firestoreBluetooth: $firestoreBluetooth');
       return firestoreBluetooth;
     } catch (e) {
-      logger.i('BluetoothService/fetchBluetooth/e: ${e.toString()}');
+      logger.i('BluetoothService fetchBluetooth e: ${e.toString()}');
       return null;
     }
   }
 
+  // Future<void> createLabel(Bluetooth bluetooth) async {
+  //   final user = ref.read(authRepositoryProvider).currentUser;
+  //   logger.i('updateLabel Start user: $user');
+  //   final label = _stateLabel(bluetooth, user);
+  // }
+
   Future<void> updateLabel(Bluetooth bluetooth) async {
     final user = ref.read(authRepositoryProvider).currentUser;
     logger.i('updateLabel Start user: $user');
-    final label = Label(
-      bluetoothName: bluetooth.name,
-      deviceId: bluetooth.deviceId,
-      uid: user!.uid,
-      name: textEditingCtr.text,
-      rssi: bluetooth.rssi,
-      user: user,
-      createdAt: bluetooth.userLabel?.createdAt,
-    );
+    final label = _stateLabel(bluetooth, user);
     logger.i('bluetooth.userLabel: ${bluetooth.userLabel}');
 //TODO : Cloud functions 으로 대체
     var firestoreBluetooth = await fetchBluetooth(bluetooth);
@@ -66,6 +65,18 @@ class BluetoothService {
           label: label,
         );
     logger.i('updated setLabel');
+  }
+
+  Label _stateLabel(Bluetooth bluetooth, AppUser? user) {
+    return Label(
+      bluetoothName: bluetooth.name,
+      deviceId: bluetooth.deviceId,
+      uid: user!.uid,
+      name: textEditingCtr.text,
+      rssi: bluetooth.rssi,
+      user: user,
+      createdAt: bluetooth.userLabel?.createdAt,
+    );
   }
 
   Future<bool?> openLabelDialog(

@@ -118,6 +118,8 @@ final admobServiceProvider = Provider<AdmobService>(AdmobService.new);
 final nativeAdProvider =
     StateProvider.family<NativeAd?, Key?>((ref, key) => null);
 
+final nativeAdStateProvider = StateProvider.autoDispose<bool>((ref) => false);
+
 final interstitialAdProvider = StateProvider<InterstitialAd?>((ref) => null);
 
 final interstitialAdStateProvider =

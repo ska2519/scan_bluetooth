@@ -8,6 +8,7 @@ import '../../../../constants/resources.dart';
 import '../../../../exceptions/error_logger.dart';
 import '../../../../utils/async_value_ui.dart';
 import '../../../../utils/toast_context.dart';
+import '../../../admob/application/admob_service.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
 import '../../application/scan_bluetooth_service.dart';
 import 'animation_scanning_icon.dart';
@@ -26,35 +27,43 @@ class ScanningFAB extends HookConsumerWidget {
     final state = ref.watch(scanningFABControllerProvider);
     final theme = Theme.of(context);
     final fToast = ref.read(fToastProvider);
+    final scanning = ref.watch(scanFABStateProvider);
+
+    Future<void> submit(scanning) async {
+      if (scanning) {
+        ref.read(scanBluetoothServiceProvider).updateBluetoothListEmpty();
+        ref.read(nativeAdStateProvider.notifier).state = false;
+      } else {
+        ref.read(nativeAdStateProvider.notifier).state = true;
+      }
+      ref.read(scanBluetoothServiceProvider).submitScanning(scanning);
+      ref.read(scanFABStateProvider.notifier).update((state) => scanning);
+      ref.read(scanBluetoothServiceProvider).toggleStopWatch(scanning);
+      await ref
+          .read(scanningFABControllerProvider.notifier)
+          .showInterstitialAd(scanning);
+    }
 
     useEffect(() {
       logger.i(
           'ScanningFAB useEffect requestPermissionList: $requestPermissionList');
       if ((requestPermissionList != null && requestPermissionList!.isEmpty) ||
           (Platform.isAndroid || Platform.isIOS) == false) {
-        WidgetsBinding.instance.addPostFrameCallback((_) => ref
-            .read(scanningFABControllerProvider.notifier)
-            .submitScanning(true));
+        // WidgetsBinding.instance.addPostFrameCallback((_) => ref
+        //     .read(scanningFABControllerProvider.notifier)
+        //     .submitScanning(true));
+        WidgetsBinding.instance.addPostFrameCallback((_) => submit(true));
       }
       return null;
     }, [requestPermissionList?.length]);
 
-    // ** Test 용 코드
-    // return ElevatedButton(
-    //     onPressed: state.isLoading
-    //         ? null
-    //         : () => ref
-    //             .read(scanningFABControllerProvider.notifier)
-    //             .submitScanning(true),
-    //     child: const Text('scan button'));
-
     return Consumer(
       builder: (context, ref, child) {
-        final scanning = ref.watch(scanFABStateProvider);
         final elapsed = ref.watch(elapsedProvider);
         if (elapsed.inSeconds == 4) {
           fToast.removeQueuedCustomToasts();
         }
+
         return FloatingActionButton.extended(
           backgroundColor: elapsed.inSeconds < 4
               ? theme.errorColor
@@ -76,18 +85,7 @@ class ScanningFAB extends HookConsumerWidget {
                             builder: (context) =>
                                 RequestPermissionDialog(requestPermissionList!),
                           )
-                      : () async {
-                          if (!scanning) {
-                            ref.read(bluetoothListProvider.notifier).state = [];
-                          } else {
-                            //TODO: Is it necessary to clear the list?
-                            // ref.invalidate(bluetoothListStreamProvider);
-                          }
-
-                          await ref
-                              .read(scanningFABControllerProvider.notifier)
-                              .submitScanning(!scanning);
-                        },
+                      : () async => await submit(!scanning),
           label:
               requestPermissionList != null && requestPermissionList!.isNotEmpty
                   ? const Text('🔔 Setting Permission')

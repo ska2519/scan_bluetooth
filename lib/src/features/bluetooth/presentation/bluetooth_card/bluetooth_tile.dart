@@ -38,23 +38,23 @@ class BluetoothTile extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final showID = useState<bool>(false);
-    final controller = useAnimationController(
+    final controller = useState(useAnimationController(
       duration: const Duration(milliseconds: 300),
-    );
+    ));
 
     final animation = useAnimation(
-        ColorTween(begin: rssiAnimationColor, end: Colors.transparent)
-            .animate(controller));
+        ColorTween(begin: rssiAnimationColor, end: Colors.white)
+            .animate(controller.value));
 
     useEffect(() {
-      controller.addStatusListener((status) {
+      controller.value.addStatusListener((status) {
         if (status == AnimationStatus.completed ||
             status == AnimationStatus.dismissed) {
-          controller.stop();
-          controller.reset();
+          controller.value.stop();
+          controller.value.reset();
         }
       });
-      controller.forward();
+      controller.value.forward();
       return null;
     }, [bluetooth.previousRssi]);
 

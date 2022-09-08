@@ -40,6 +40,7 @@ class BluetoothGrid extends HookConsumerWidget {
         if (!scanning) {
           nativeAd = ref.watch(nativeAdProvider(key));
         }
+        final nativeAdState = ref.watch(nativeAdStateProvider);
 
         var kAdIndex = 1;
         if (bluetoothList.isNotEmpty && !scanning && nativeAd != null) {
@@ -65,7 +66,7 @@ class BluetoothGrid extends HookConsumerWidget {
                       ? getDestinationItemIndex(kAdIndex, index)
                       : index;
 
-                  return !scanning &&
+                  return nativeAdState &&
                           !interstitialAdState &&
                           nativeAd != null &&
                           index == kAdIndex

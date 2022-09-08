@@ -6,9 +6,29 @@ class BluetoothDetailTile extends HookConsumerWidget {
   final Bluetooth bluetooth;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Row(
-      children: const [
-        Text('detail'),
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(bluetooth.deviceId),
+        RichText(
+          text: TextSpan(
+            text: 'Manufacturer : ',
+            style: textTheme.bodyMedium!.copyWith(
+              overflow: TextOverflow.ellipsis,
+            ),
+            children: [
+              TextSpan(
+                text: bluetooth.manufacturerData.toString(),
+              ),
+              // const TextSpan(text: ' permission'),
+            ],
+          ),
+          maxLines: 1,
+        ),
       ],
     );
   }

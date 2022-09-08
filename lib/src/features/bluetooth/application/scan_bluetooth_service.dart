@@ -30,16 +30,14 @@ class ScanBluetoothService {
 
   void stopScan() => ref.read(btRepoProvider).stopScan();
 
-  Future<void> updateScanFABState(bool scanning) async =>
+  void updateScanFABState(bool scanning) =>
       ref.read(scanFABStateProvider.notifier).update((state) => scanning);
 
-  Future<void> toggleStopWatch(bool scanning) async =>
-      ref.read(stopWatchProvider(scanning));
+  void toggleStopWatch(bool scanning) => ref.read(stopWatchProvider(scanning));
 
-  Future<void> submitScanning(bool scanning) async =>
-      scanning ? startScan() : stopScan();
+  void submitScanning(bool scanning) => scanning ? startScan() : stopScan();
 
-  Future<void> updateBluetoothListEmpty() async =>
+  void updateBluetoothListEmpty() async =>
       ref.read(bluetoothListProvider.notifier).update((state) => []);
 
   Future<void> connect(String deviceId) async {

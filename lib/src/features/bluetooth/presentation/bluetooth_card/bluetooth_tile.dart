@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:string_to_color/string_to_color.dart';
 
 import '../../../../constants/resources.dart';
@@ -21,14 +20,15 @@ class BluetoothTile extends HookConsumerWidget {
 
   final int index;
   final Bluetooth bluetooth;
-
   final VoidCallback onTapLabelEdit;
 
   Color? get rssiAnimationColor => bluetooth.previousRssi != null
       ? bluetooth.rssi > bluetooth.previousRssi!
           ? Colors.green.withOpacity(0.1)
-          : Colors.red.withOpacity(0.1)
-      : Colors.transparent;
+          : bluetooth.rssi < bluetooth.previousRssi!
+              ? Colors.red.withOpacity(0.1)
+              : null
+      : null;
 
   MaterialColor? get rssiColor => bluetooth.previousRssi != null
       ? bluetooth.rssi > bluetooth.previousRssi!
@@ -39,24 +39,18 @@ class BluetoothTile extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final showID = useState<bool>(false);
-    final controller = useState(useAnimationController(
+    final controller = useAnimationController(
       duration: const Duration(milliseconds: 300),
-    ));
+    );
+
     final scanning = ref.watch(scanFABStateProvider);
     final animation = useAnimation(
         ColorTween(begin: rssiAnimationColor, end: Colors.transparent)
-            .animate(controller.value));
+            .animate(controller));
 
     useEffect(() {
-      controller.value.addStatusListener((status) {
-        if (status == AnimationStatus.completed ||
-            status == AnimationStatus.dismissed) {
-          controller.value.reset();
-        }
-      });
-      controller.value.forward();
-
-      return null;
+      controller.forward();
+      return controller.reset;
     }, [bluetooth.previousRssi]);
 
     final intRssi =
@@ -74,12 +68,10 @@ class BluetoothTile extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Flexible(
-                  child: Text(
-                    ' ${index + 1}.  ',
-                    style: textTheme.bodyText2!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        overflow: TextOverflow.ellipsis),
+                Text(
+                  ' ${index + 1}.',
+                  style: textTheme.bodyText2!.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 AnimatedBuilder(
@@ -105,43 +97,47 @@ class BluetoothTile extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      bluetooth.userLabel != null
-                          ? '🏷 ${bluetooth.userLabel!.name}'
-                          : bluetooth.name.isNotEmpty && !showID.value
-                              ? bluetooth.name
-                              : Platform.isIOS || Platform.isMacOS
-                                  ? '🆔 ${bluetooth.deviceId.substring(0, 8)}'
-                                  : '🆔 ${bluetooth.deviceId}',
-                      style: bluetooth.userLabel != null
-                          ? textTheme.titleMedium!.copyWith()
-                          : bluetooth.name.isNotEmpty
-                              ? textTheme.titleSmall
-                              : textTheme.titleSmall!.copyWith(
-                                  color: ColorUtils.stringToColor(
-                                    bluetooth.deviceId,
+                Flexible(
+                  child: Row(
+                    children: [
+                      if (bluetooth.userLabel != null)
+                        Assets.svg.icons8Tag.svg(width: Sizes.p20),
+                      gapW4,
+                      Text(
+                        bluetooth.userLabel != null
+                            ? bluetooth.userLabel!.name
+                            : bluetooth.name.isNotEmpty && !showID.value
+                                ? bluetooth.name
+                                : Platform.isIOS || Platform.isMacOS
+                                    ? '🆔 ${bluetooth.deviceId.substring(0, 8)}'
+                                    : '🆔 ${bluetooth.deviceId}',
+                        style: bluetooth.userLabel != null
+                            ? textTheme.titleMedium!
+                            : bluetooth.name.isNotEmpty
+                                ? textTheme.titleSmall
+                                : textTheme.titleSmall!.copyWith(
+                                    color: ColorUtils.stringToColor(
+                                      bluetooth.deviceId,
+                                    ),
+                                    fontFeatures: [
+                                      const FontFeature.tabularFigures()
+                                    ],
                                   ),
-                                  fontFeatures: [
-                                    const FontFeature.tabularFigures()
-                                  ],
-                                ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (bluetooth.userLabel != null &&
-                        ref
-                                .read(scanBluetoothServiceProvider)
-                                .rssiCalculate(bluetooth.userLabel!.rssi) >
-                            70)
-                      Padding(
-                        padding: const EdgeInsets.only(left: Sizes.p12),
-                        child: LineIcon.certificate(
-                          color: colorScheme.primary,
-                          size: Sizes.p20,
-                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
-                  ],
+                      if (bluetooth.userLabel != null &&
+                          ref
+                                  .read(scanBluetoothServiceProvider)
+                                  .rssiCalculate(bluetooth.userLabel!.rssi) >
+                              70)
+                        Padding(
+                          padding: const EdgeInsets.only(left: Sizes.p4),
+                          child: Assets.svg.icons8VerifiedAccount
+                              .svg(width: Sizes.p20),
+                        ),
+                    ],
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -160,16 +156,24 @@ class BluetoothTile extends HookConsumerWidget {
             ),
           ],
         ),
-        if (bluetooth.userLabel != null || intRssi > 50)
-          OutlinedButton(
+        if (intRssi > 50)
+          FloatingActionButton(
+            elevation: 1,
             onPressed: onTapLabelEdit,
-            style: OutlinedButton.styleFrom(
-              padding: EdgeInsets.zero,
-              visualDensity: VisualDensity.comfortable,
-            ),
-            child: const Text('✍️'),
-          )
-
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black87,
+            mini: true,
+            heroTag: null,
+            shape: const CircleBorder(),
+            splashColor: Colors.lightBlueAccent,
+            child: bluetooth.userLabel != null
+                ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p28)
+                : Assets.svg.icons8AddTag.svg(width: Sizes.p28),
+          ),
+        // Fab.icon(
+        //     onPressed: onTapLabelEdit,
+        //     icon: LineIcon.pen(),
+        //     label: const Text('')),
         // Row(
         //   children: [
         //     if (bluetooth.name.isNotEmpty)

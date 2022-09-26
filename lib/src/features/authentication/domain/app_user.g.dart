@@ -6,7 +6,7 @@ part of 'app_user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AppUser _$$_AppUserFromJson(Map<String, dynamic> json) => _$_AppUser(
+_$_AppUser _$$_AppUserFromJson(Map json) => _$_AppUser(
       uid: json['uid'] as String,
       email: json['email'] as String?,
       displayName: json['displayName'] as String?,
@@ -15,7 +15,7 @@ _$_AppUser _$$_AppUserFromJson(Map<String, dynamic> json) => _$_AppUser(
       phoneNumber: json['phoneNumber'] as String?,
       photoURL: json['photoURL'] as String?,
       providerData: (json['providerData'] as List<dynamic>?)
-          ?.map((e) => UserInfo.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => UserInfo.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),
       refreshToken: json['refreshToken'] as String?,
       tenantId: json['tenantId'] as String?,
@@ -47,7 +47,7 @@ Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
       'lastSignIn': instance.lastSignIn?.toIso8601String(),
     };
 
-_$_UserInfo _$$_UserInfoFromJson(Map<String, dynamic> json) => _$_UserInfo(
+_$_UserInfo _$$_UserInfoFromJson(Map json) => _$_UserInfo(
       displayName: json['displayName'] as String?,
       email: json['email'] as String?,
       phoneNumber: json['phoneNumber'] as String?,

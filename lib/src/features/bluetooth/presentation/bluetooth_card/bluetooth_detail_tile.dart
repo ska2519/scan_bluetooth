@@ -13,11 +13,14 @@ class BluetoothDetailTile extends HookConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(bluetooth.deviceId),
+        Text(
+          bluetooth.deviceId,
+          style: textTheme.bodySmall,
+        ),
         RichText(
           text: TextSpan(
             text: 'Manufacturer : ',
-            style: textTheme.bodyMedium!.copyWith(
+            style: textTheme.caption!.copyWith(
               overflow: TextOverflow.ellipsis,
             ),
             children: [

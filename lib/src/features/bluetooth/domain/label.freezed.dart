@@ -27,7 +27,7 @@ mixin _$Label {
   String get deviceId => throw _privateConstructorUsedError;
   int get rssi => throw _privateConstructorUsedError;
   String? get documentId => throw _privateConstructorUsedError;
-  @ServerTimestampConverter()
+  @TimestampConverter()
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -48,7 +48,7 @@ abstract class $LabelCopyWith<$Res> {
       String deviceId,
       int rssi,
       String? documentId,
-      @ServerTimestampConverter() DateTime? createdAt,
+      @TimestampConverter() DateTime? createdAt,
       DateTime? updatedAt});
 
   $AppUserCopyWith<$Res> get user;
@@ -135,7 +135,7 @@ abstract class _$$_LabelCopyWith<$Res> implements $LabelCopyWith<$Res> {
       String deviceId,
       int rssi,
       String? documentId,
-      @ServerTimestampConverter() DateTime? createdAt,
+      @TimestampConverter() DateTime? createdAt,
       DateTime? updatedAt});
 
   @override
@@ -215,7 +215,7 @@ class _$_Label implements _Label {
       required this.deviceId,
       required this.rssi,
       this.documentId,
-      @ServerTimestampConverter() this.createdAt,
+      @TimestampConverter() this.createdAt,
       this.updatedAt});
 
   factory _$_Label.fromJson(Map<String, dynamic> json) =>
@@ -236,7 +236,7 @@ class _$_Label implements _Label {
   @override
   final String? documentId;
   @override
-  @ServerTimestampConverter()
+  @TimestampConverter()
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
@@ -300,7 +300,7 @@ abstract class _Label implements Label {
       required final String deviceId,
       required final int rssi,
       final String? documentId,
-      @ServerTimestampConverter() final DateTime? createdAt,
+      @TimestampConverter() final DateTime? createdAt,
       final DateTime? updatedAt}) = _$_Label;
 
   factory _Label.fromJson(Map<String, dynamic> json) = _$_Label.fromJson;
@@ -320,7 +320,7 @@ abstract class _Label implements Label {
   @override
   String? get documentId;
   @override
-  @ServerTimestampConverter()
+  @TimestampConverter()
   DateTime? get createdAt;
   @override
   DateTime? get updatedAt;

@@ -16,7 +16,7 @@ class Label with _$Label {
     required String deviceId,
     required int rssi,
     String? documentId,
-    @ServerTimestampConverter() DateTime? createdAt,
+    @TimestampConverter() DateTime? createdAt,
     DateTime? updatedAt,
   }) = _Label;
 

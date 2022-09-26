@@ -28,7 +28,7 @@ class BluetoothCard extends HookConsumerWidget {
     final pageFlipKey = useMemoized(GlobalKey<PageFlipBuilderState>.new);
 
     return SizedBox(
-      height: 80,
+      height: 84,
       child: InkWell(
         onTap: () => pageFlipKey.currentState?.flip(),
         child: Card(

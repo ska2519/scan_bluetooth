@@ -1,5 +1,5 @@
-import * as functions from 'firebase-functions';
+// import * as functions from 'firebase-functions';
 
-exports.sendByeEmail = functions.auth.user().onDelete((user) => {
-    // ...
-});
+// exports.sendByeEmail = functions.auth.user().onDelete((user) => {
+//     // ...
+// });

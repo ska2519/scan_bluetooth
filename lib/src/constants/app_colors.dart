@@ -10,11 +10,12 @@ class AppColors {
   static const Color dartPrimaryColor = Color(0xFF03599c);
   static const Color dartSecondColor = Color(0xFF40c3ff);
 
-  static const Color firebasePrimaryColor = Color(0xFFFFCA28); // Amber 400
+  static const Color firebasePrimaryYellowColor =
+      Color(0xFFFFCA28); // Amber 400
   static const Color firebaseAccentColor = Color(0xFFFFA000); // Amber 700
   static const Color firebaseOrangeColor = Color(0xFFF57C00); // Orange 700
-  static const Color youTubeColor = Color(0xFFFF0000); // Orange 700
-  static const Color subscribeColor = Color(0xFFC4320B); // Orange 700
+  static const Color youTubeRedColor = Color(0xFFFF0000);
+  static const Color youTubeSubscribeRedColor = Color(0xFFC4320B);
 
   static const Color figmaOrangeColor = Color(0xFFf24e1e);
   static const Color naverGreenColor = Color(0xFF03C75A);

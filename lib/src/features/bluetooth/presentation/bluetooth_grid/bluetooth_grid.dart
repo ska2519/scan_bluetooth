@@ -36,7 +36,7 @@ class BluetoothGrid extends HookConsumerWidget {
       data: (bluetoothList) {
         final scanning = ref.watch(scanFABStateProvider);
         final interstitialAdState = ref.watch(interstitialAdStateProvider);
-        NativeAd? nativeAd;
+        late final NativeAd? nativeAd;
         if (!scanning) {
           nativeAd = ref.watch(nativeAdProvider(key));
         }

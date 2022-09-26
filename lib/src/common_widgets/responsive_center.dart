@@ -49,9 +49,12 @@ class ResponsiveSliverCenter extends StatelessWidget {
   final Widget child;
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
     return SliverToBoxAdapter(
       child: ResponsiveCenter(
-        maxContentWidth: maxContentWidth,
+        maxContentWidth: width,
+        // maxContentWidth: maxContentWidth,
         padding: padding,
         child: child,
       ),

@@ -23,10 +23,12 @@ class BluetoothLayoutGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     // use a LayoutBuilder to determine the crossAxisCount
     return LayoutBuilder(builder: (context, constraints) {
-      final width = constraints.maxWidth;
+      final size = MediaQuery.of(context).size;
+      final width = size.width;
+      // final width = constraints.maxWidth;
       // 1 column for width < 500px
       // then add one more column for each 250px
-      final crossAxisCount = max(1, width ~/ 250);
+      final crossAxisCount = max(1, width ~/ 300);
       // once the crossAxisCount is known, calculate the column and row sizes
       // set some flexible track sizes based on the crossAxisCount with 1.fr
       final columnSizes = List.generate(crossAxisCount, (_) => 1.fr);

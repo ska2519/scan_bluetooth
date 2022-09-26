@@ -26,13 +26,12 @@ mixin _$Bluetooth {
   List<dynamic> get manufacturerData => throw _privateConstructorUsedError;
   int get rssi => throw _privateConstructorUsedError;
   int? get previousRssi => throw _privateConstructorUsedError;
-  @ServerTimestampConverter()
+  @TimestampConverter()
   DateTime? get scannedAt => throw _privateConstructorUsedError;
-  @ServerTimestampConverter()
+  @TimestampConverter()
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @ServerTimestampConverter()
+  @TimestampConverter()
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-  @FieldValueIncrementConverter()
   int? get labelCount => throw _privateConstructorUsedError;
   Label? get lastUpdatedLabel => throw _privateConstructorUsedError;
   Label? get userLabel => throw _privateConstructorUsedError;
@@ -54,10 +53,10 @@ abstract class $BluetoothCopyWith<$Res> {
       List<dynamic> manufacturerData,
       int rssi,
       int? previousRssi,
-      @ServerTimestampConverter() DateTime? scannedAt,
-      @ServerTimestampConverter() DateTime? createdAt,
-      @ServerTimestampConverter() DateTime? updatedAt,
-      @FieldValueIncrementConverter() int? labelCount,
+      @TimestampConverter() DateTime? scannedAt,
+      @TimestampConverter() DateTime? createdAt,
+      @TimestampConverter() DateTime? updatedAt,
+      int? labelCount,
       Label? lastUpdatedLabel,
       Label? userLabel});
 
@@ -176,10 +175,10 @@ abstract class _$$_BluetoothCopyWith<$Res> implements $BluetoothCopyWith<$Res> {
       List<dynamic> manufacturerData,
       int rssi,
       int? previousRssi,
-      @ServerTimestampConverter() DateTime? scannedAt,
-      @ServerTimestampConverter() DateTime? createdAt,
-      @ServerTimestampConverter() DateTime? updatedAt,
-      @FieldValueIncrementConverter() int? labelCount,
+      @TimestampConverter() DateTime? scannedAt,
+      @TimestampConverter() DateTime? createdAt,
+      @TimestampConverter() DateTime? updatedAt,
+      int? labelCount,
       Label? lastUpdatedLabel,
       Label? userLabel});
 
@@ -277,10 +276,10 @@ class _$_Bluetooth implements _Bluetooth {
       required final List<dynamic> manufacturerData,
       required this.rssi,
       this.previousRssi,
-      @ServerTimestampConverter() this.scannedAt,
-      @ServerTimestampConverter() this.createdAt,
-      @ServerTimestampConverter() this.updatedAt,
-      @FieldValueIncrementConverter() this.labelCount,
+      @TimestampConverter() this.scannedAt,
+      @TimestampConverter() this.createdAt,
+      @TimestampConverter() this.updatedAt,
+      this.labelCount,
       this.lastUpdatedLabel,
       this.userLabel})
       : _manufacturerDataHead = manufacturerDataHead,
@@ -312,16 +311,15 @@ class _$_Bluetooth implements _Bluetooth {
   @override
   final int? previousRssi;
   @override
-  @ServerTimestampConverter()
+  @TimestampConverter()
   final DateTime? scannedAt;
   @override
-  @ServerTimestampConverter()
+  @TimestampConverter()
   final DateTime? createdAt;
   @override
-  @ServerTimestampConverter()
+  @TimestampConverter()
   final DateTime? updatedAt;
   @override
-  @FieldValueIncrementConverter()
   final int? labelCount;
   @override
   final Label? lastUpdatedLabel;
@@ -395,10 +393,10 @@ abstract class _Bluetooth implements Bluetooth {
       required final List<dynamic> manufacturerData,
       required final int rssi,
       final int? previousRssi,
-      @ServerTimestampConverter() final DateTime? scannedAt,
-      @ServerTimestampConverter() final DateTime? createdAt,
-      @ServerTimestampConverter() final DateTime? updatedAt,
-      @FieldValueIncrementConverter() final int? labelCount,
+      @TimestampConverter() final DateTime? scannedAt,
+      @TimestampConverter() final DateTime? createdAt,
+      @TimestampConverter() final DateTime? updatedAt,
+      final int? labelCount,
       final Label? lastUpdatedLabel,
       final Label? userLabel}) = _$_Bluetooth;
 
@@ -418,16 +416,15 @@ abstract class _Bluetooth implements Bluetooth {
   @override
   int? get previousRssi;
   @override
-  @ServerTimestampConverter()
+  @TimestampConverter()
   DateTime? get scannedAt;
   @override
-  @ServerTimestampConverter()
+  @TimestampConverter()
   DateTime? get createdAt;
   @override
-  @ServerTimestampConverter()
+  @TimestampConverter()
   DateTime? get updatedAt;
   @override
-  @FieldValueIncrementConverter()
   int? get labelCount;
   @override
   Label? get lastUpdatedLabel;

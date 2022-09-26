@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -89,13 +92,25 @@ class ScanBluetoothService {
       }
 
       bluetoothList.sort((a, b) => b.rssi.compareTo(a.rssi));
+
       if (labelFirst) {
         bluetoothList.sort((a, b) => b.userLabel != null ? 1 : -1);
       }
       ref.read(bluetoothListProvider.notifier).update((state) => bluetoothList);
     });
 
+    // createExampleDate(bluetoothList);
+    //!! ExmapleData 사용 시 주석 해제
+    // ref.read(bluetoothListProvider.notifier).state =
+    //     exampleData2.map(Bluetooth.fromJson).toList();
+    // bluetoothList = exampleData2.map(Bluetooth.fromJson).toList();
+
     yield bluetoothList;
+  }
+
+  void createExampleDate(List<Bluetooth> bluetoothList) {
+    final file = File('example_bluetooth_list.txt');
+    file.writeAsStringSync(json.encode(bluetoothList));
   }
 }
 
@@ -119,7 +134,6 @@ final bluetoothListStreamProvider = StreamProvider<List<Bluetooth>>((ref) {
   final bluetoothList = ref.read(bluetoothListProvider);
   final labelList = ref.watch(userLabelListProvider);
   final labelFirst = ref.watch(labelFirstProvider);
-
   return ref
       .watch(scanBluetoothServiceProvider)
       .createBluetoothListStream(bluetoothList, labelList, labelFirst);

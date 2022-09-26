@@ -13,38 +13,13 @@ class _ScanButtonsRowState extends ConsumerState<BluetoothAvailable> {
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
-    // final screenWidth = size.width;
-    // final state = ref.watch(scanButtonControllerProvider);
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Sizes.p8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          isBluetoothAvailable
-              ? const Icon(
-                  Icons.bluetooth_connected,
-                  color: Colors.lightBlueAccent,
-                  size: 20,
-                )
-              : const Icon(
-                  Icons.bluetooth_disabled,
-                  color: Colors.red,
-                  size: 20,
-                ),
-          gapW8,
-          Flexible(
-            child: Text(
-              isBluetoothAvailable ? 'Available' : 'Not available',
-              style: Theme.of(context).textTheme.titleSmall,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          // gapW8,
-        ],
+      child: Tooltip(
+        message: isBluetoothAvailable ? 'Available' : 'Not available',
+        child: isBluetoothAvailable
+            ? Assets.svg.icons8Bluetooth.svg(width: 24)
+            : Assets.svg.icons8BluetoothRed.svg(width: 24),
       ),
     );
   }

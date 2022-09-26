@@ -1,7 +1,12 @@
 import 'dart:ui';
 
+import 'package:go_router/go_router.dart';
+
+import '../../../../common_widgets/action_text_button.dart';
 import '../../../../constants/resources.dart';
+import '../../../authentication/data/auth_repository.dart';
 import '../../application/scan_bluetooth_service.dart';
+import 'more_menu_button.dart';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and
 /// [ProductScreen].
@@ -14,7 +19,7 @@ class HomeAppBar extends HookConsumerWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final user = ref.watch(authStateChangesProvider).value;
+    final user = ref.watch(authStateChangesProvider).value;
     // * This widget is responsive.
     // * On large screen sizes, it shows all the actions in the app bar.
     // * On small screen sizes, it shows only the shopping cart icon and a
@@ -26,33 +31,33 @@ class HomeAppBar extends HookConsumerWidget with PreferredSizeWidget {
     if (screenWidth < Breakpoint.tablet) {
       return AppBar(
         title: const BluetoothCountInfo(),
-        actions: const [
+        actions: [
           // const ShoppingCartIcon(),
-          // MoreMenuButton(user: user),
+          MoreMenuButton(user: user),
         ],
       );
     } else {
       return AppBar(
         title: const BluetoothCountInfo(),
-        actions: const [
+        actions: [
           // const ShoppingCartIcon(),
-          // if (user != null) ...[
-          //   ActionTextButton(
-          //     key: MoreMenuButton.ordersKey,
-          //     text: 'Orders'.hardcoded,
-          //     onPressed: () => context.pushNamed(AppRoute.orders.name),
-          //   ),
-          //   ActionTextButton(
-          //     key: MoreMenuButton.accountKey,
-          //     text: 'Account'.hardcoded,
-          //     onPressed: () => context.pushNamed(AppRoute.account.name),
-          //   ),
-          // ] else
-          //   ActionTextButton(
-          //     key: MoreMenuButton.signInKey,
-          //     text: 'Sign In'.hardcoded,
-          //     onPressed: () => context.pushNamed(AppRoute.signIn.name),
-          //   )
+          if (user != null && !user.isAnonymous!) ...[
+            ActionTextButton(
+              key: MoreMenuButton.purchaseKey,
+              text: 'Purchase'.hardcoded,
+              onPressed: () => context.pushNamed(AppRoute.purchase.name),
+            ),
+            ActionTextButton(
+              key: MoreMenuButton.accountKey,
+              text: 'Account'.hardcoded,
+              onPressed: () => context.pushNamed(AppRoute.account.name),
+            ),
+          ] else
+            ActionTextButton(
+              key: MoreMenuButton.signInKey,
+              text: 'Sign In'.hardcoded,
+              onPressed: () => context.pushNamed(AppRoute.signIn.name),
+            )
         ],
       );
     }
@@ -73,11 +78,8 @@ class BluetoothCountInfo extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Icon(
-          Icons.bluetooth,
-          size: 20,
-          color: Colors.lightBlueAccent,
-        ),
+        Assets.svg.icons8Bluetooth.svg(width: 24),
+        gapW4,
         const Text('Unknown '),
         Text(
           '$unknownBtsCount'.hardcoded,

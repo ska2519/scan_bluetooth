@@ -46,7 +46,43 @@ class ServerTimestampConverter implements JsonConverter<DateTime?, Object?> {
   }
 
   @override
-  Object? toJson(DateTime? date) => date ?? FieldValue.serverTimestamp();
+  Object? toJson(DateTime? date) =>
+      date == null ? null : FieldValue.serverTimestamp();
+}
+
+class TimestampConverter implements JsonConverter<DateTime?, Object?> {
+  const TimestampConverter();
+
+  @override
+  DateTime? fromJson(Object? timestamp) {
+    if (timestamp is Timestamp) {
+      return timestamp.toDate();
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Object? toJson(DateTime? date) =>
+      date == null ? null : Timestamp.fromDate(date);
+  // @override
+  // DateTime? fromJson(Object? json) => json is Timestamp ? json.toDate() : null;
+
+  // @override
+  // Object? toJson(DateTime? object) =>
+  //     object is DateTime ? Timestamp.fromDate(object) : null;
+}
+
+class TimestampNullableConverter
+    implements JsonConverter<DateTime?, Timestamp?> {
+  const TimestampNullableConverter();
+
+  @override
+  DateTime? fromJson(Timestamp? json) => json?.toDate();
+
+  @override
+  Timestamp? toJson(DateTime? object) =>
+      object == null ? null : Timestamp.fromDate(object);
 }
 
 class FieldValueIncrementConverter implements JsonConverter<int?, Object?> {
@@ -56,7 +92,8 @@ class FieldValueIncrementConverter implements JsonConverter<int?, Object?> {
   int? fromJson(Object? count) => count is int ? count : null;
 
   @override
-  Object? toJson(int? count) => count ?? FieldValue.increment(1);
+  Object? toJson(int? count) =>
+      count == null ? null : FieldValue.increment(count);
 }
 
 // ** DTO Sample

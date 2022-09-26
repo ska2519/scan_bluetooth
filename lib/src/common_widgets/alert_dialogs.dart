@@ -7,16 +7,18 @@ const kDialogDefaultKey = Key('dialog-default-key');
 /// Generic function to show a platform-aware Material or Cupertino dialog
 Future<bool?> showAlertDialog({
   required BuildContext context,
-  required String title,
+  String? title,
+  Widget? titleWidget,
   Widget? content,
   String? cancelActionText,
-  String defaultActionText = 'OK',
+  String? defaultActionText = 'OK',
+  Widget? defaultActionWidget,
 }) async {
   return showDialog(
     context: context,
     barrierDismissible: cancelActionText != null,
     builder: (context) => AlertDialog(
-      title: Text(title),
+      title: title != null ? Text(title) : titleWidget,
       content: content,
       actions: <Widget>[
         if (cancelActionText != null)
@@ -24,14 +26,15 @@ Future<bool?> showAlertDialog({
             child: Text(cancelActionText),
             onPressed: () => Navigator.of(context).pop(false),
           ),
-        ElevatedButton(
-          key: kDialogDefaultKey,
-          child: Text(
-            defaultActionText,
-            style: const TextStyle(fontWeight: FontWeight.w600),
-          ),
-          onPressed: () => Navigator.of(context).pop(true),
-        ),
+        defaultActionWidget ??
+            ElevatedButton(
+              key: kDialogDefaultKey,
+              child: Text(
+                defaultActionText!,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
       ],
     ),
   );

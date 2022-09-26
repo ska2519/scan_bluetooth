@@ -17,7 +17,7 @@ class PermissionIconButton extends StatelessWidget {
       tooltip: 'Need Permission',
       onPressed: onPressed,
       icon: permission == Permission.bluetooth
-          ? Assets.svg.bluetooth50.svg(color: Colors.redAccent)
+          ? Assets.svg.icons8Bluetooth.svg(color: Colors.redAccent)
           : Assets.svg.gpsLocation128.svg(color: Colors.redAccent),
     );
   }

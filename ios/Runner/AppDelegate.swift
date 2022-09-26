@@ -1,7 +1,5 @@
 import UIKit
 import Flutter
-
-// TODO: Import google_mobile_ads
 import google_mobile_ads
 
 @UIApplicationMain

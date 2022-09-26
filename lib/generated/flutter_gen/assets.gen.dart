@@ -42,10 +42,6 @@ class $AssetsLogoGen {
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
-  /// File path: assets/svg/bluetooth_50.svg
-  SvgGenImage get bluetooth50 =>
-      const SvgGenImage('assets/svg/bluetooth_50.svg');
-
   /// File path: assets/svg/google.svg
   SvgGenImage get google => const SvgGenImage('assets/svg/google.svg');
 
@@ -101,6 +97,48 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/icon-star.svg
   SvgGenImage get iconStar => const SvgGenImage('assets/svg/icon-star.svg');
+
+  /// File path: assets/svg/icons8-add-tag.svg
+  SvgGenImage get icons8AddTag =>
+      const SvgGenImage('assets/svg/icons8-add-tag.svg');
+
+  /// File path: assets/svg/icons8-android-os.svg
+  SvgGenImage get icons8AndroidOs =>
+      const SvgGenImage('assets/svg/icons8-android-os.svg');
+
+  /// File path: assets/svg/icons8-apple-logo.svg
+  SvgGenImage get icons8AppleLogo =>
+      const SvgGenImage('assets/svg/icons8-apple-logo.svg');
+
+  /// File path: assets/svg/icons8-bluetooth-red.svg
+  SvgGenImage get icons8BluetoothRed =>
+      const SvgGenImage('assets/svg/icons8-bluetooth-red.svg');
+
+  /// File path: assets/svg/icons8-bluetooth.svg
+  SvgGenImage get icons8Bluetooth =>
+      const SvgGenImage('assets/svg/icons8-bluetooth.svg');
+
+  /// File path: assets/svg/icons8-edit.svg
+  SvgGenImage get icons8Edit => const SvgGenImage('assets/svg/icons8-edit.svg');
+
+  /// File path: assets/svg/icons8-iphone-x.svg
+  SvgGenImage get icons8IphoneX =>
+      const SvgGenImage('assets/svg/icons8-iphone-x.svg');
+
+  /// File path: assets/svg/icons8-tag-yellow.svg
+  SvgGenImage get icons8TagYellow =>
+      const SvgGenImage('assets/svg/icons8-tag-yellow.svg');
+
+  /// File path: assets/svg/icons8-tag.svg
+  SvgGenImage get icons8Tag => const SvgGenImage('assets/svg/icons8-tag.svg');
+
+  /// File path: assets/svg/icons8-update-tag.svg
+  SvgGenImage get icons8UpdateTag =>
+      const SvgGenImage('assets/svg/icons8-update-tag.svg');
+
+  /// File path: assets/svg/icons8-verified-account.svg
+  SvgGenImage get icons8VerifiedAccount =>
+      const SvgGenImage('assets/svg/icons8-verified-account.svg');
 }
 
 class Assets {

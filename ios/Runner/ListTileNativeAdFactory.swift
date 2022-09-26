@@ -1,4 +1,3 @@
-// Import google_mobile_ads
 import google_mobile_ads
 
 // Implement ListTileNativeAdFactory

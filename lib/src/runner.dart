@@ -18,6 +18,7 @@ import 'features/admob/application/admob_service.dart';
 import 'firebase_options.dart';
 import 'firebase_options_dev.dart';
 import 'localization/string_hardcoded.dart';
+import 'utils/window_size_provider.dart';
 
 bool shouldUseFirestoreEmulator = false;
 
@@ -73,7 +74,7 @@ class AppRunner {
     if (Platform.isAndroid || Platform.isIOS) {
       appStartupContainer.read(admobServiceProvider);
     } else if (Platform.isMacOS) {
-      // appStartupContainer.read(windowSizeProvider);
+      appStartupContainer.read(setWindowSizeProvider);
     }
 
     // * Entry point of the app

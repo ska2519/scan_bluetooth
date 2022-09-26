@@ -7,7 +7,7 @@ import '../../../authentication/domain/app_user.dart';
 
 enum PopupMenuOption {
   signIn,
-  orders,
+  purchase,
   account,
 }
 
@@ -17,7 +17,7 @@ class MoreMenuButton extends StatelessWidget {
 
   // * Keys for testing using find.byKey()
   static const signInKey = Key('menuSignIn');
-  static const ordersKey = Key('menuOrders');
+  static const purchaseKey = Key('menuPurchase');
   static const accountKey = Key('menuAccount');
 
   @override
@@ -28,13 +28,8 @@ class MoreMenuButton extends StatelessWidget {
       icon: const Icon(Icons.more_vert),
       itemBuilder: (_) {
         // show all the options based on conditional logic
-        return user != null
+        return user != null && !user!.isAnonymous!
             ? <PopupMenuEntry<PopupMenuOption>>[
-                PopupMenuItem(
-                  key: ordersKey,
-                  value: PopupMenuOption.orders,
-                  child: Text('Orders'.hardcoded),
-                ),
                 PopupMenuItem(
                   key: accountKey,
                   value: PopupMenuOption.account,
@@ -42,6 +37,11 @@ class MoreMenuButton extends StatelessWidget {
                 ),
               ]
             : <PopupMenuEntry<PopupMenuOption>>[
+                PopupMenuItem(
+                  key: purchaseKey,
+                  value: PopupMenuOption.purchase,
+                  child: Text('Purchase'.hardcoded),
+                ),
                 PopupMenuItem(
                   key: signInKey,
                   value: PopupMenuOption.signIn,
@@ -55,8 +55,8 @@ class MoreMenuButton extends StatelessWidget {
           case PopupMenuOption.signIn:
             context.pushNamed(AppRoute.signIn.name);
             break;
-          case PopupMenuOption.orders:
-            context.pushNamed(AppRoute.orders.name);
+          case PopupMenuOption.purchase:
+            context.pushNamed(AppRoute.purchase.name);
             break;
           case PopupMenuOption.account:
             context.pushNamed(AppRoute.account.name);

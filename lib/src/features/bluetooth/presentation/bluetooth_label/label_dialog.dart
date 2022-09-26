@@ -7,8 +7,27 @@ Future<bool?> labelDialog(
   return showAlertDialog(
     context: context,
     cancelActionText: 'Cancel'.hardcoded,
-    defaultActionText: '🖋 Make',
-    title: 'Create Label 🏷 ',
+    // defaultActionText: '🖋 Create',
+    defaultActionWidget: ElevatedButton(
+      key: kDialogDefaultKey,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Assets.svg.icons8AddTag.svg(width: Sizes.p24),
+          gapW8,
+          const Text(
+            'Create',
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+        ],
+      ),
+      onPressed: () => Navigator.of(context).pop(true),
+    ),
+    titleWidget: Row(children: [
+      Assets.svg.icons8AddTag.svg(width: Sizes.p24),
+      gapW8,
+      const Text('Create Label'),
+    ]),
     content: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -33,9 +52,17 @@ Future<bool?> labelDialog(
             );
           },
         ),
-        Text(
-          'verified icon over 70%',
-          style: textTheme.caption,
+        Row(
+          children: [
+            Text(
+              'verified icon over 70%',
+              style: textTheme.caption,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: Sizes.p4),
+              child: Assets.svg.icons8VerifiedAccount.svg(width: Sizes.p20),
+            ),
+          ],
         ),
       ],
     ),

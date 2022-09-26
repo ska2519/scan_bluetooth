@@ -70,8 +70,15 @@ class BluetoothGridScreen extends HookConsumerWidget {
                       BluetoothAvailable(isBluetoothAvailable),
                       if (labelList.isNotEmpty)
                         FilterChip(
-                          label: Text(
-                              '🏷 Label (${bluetoothList.where((bluetooth) => bluetooth.userLabel != null).toList().length}/${labelList.length})'),
+                          label: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Assets.svg.icons8Tag.svg(width: Sizes.p20),
+                              gapW4,
+                              Text(
+                                  'Label (${bluetoothList.where((bluetooth) => bluetooth.userLabel != null).toList().length}/${labelList.length})'),
+                            ],
+                          ),
                           selected: labelFirst,
                           onSelected: (onSelected) => ref
                               .read(labelFirstProvider.notifier)

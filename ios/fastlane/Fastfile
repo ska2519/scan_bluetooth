@@ -21,8 +21,8 @@ platform :ios do
       build_configurations: configuration,
       use_automatic_signing: true,
     )
-    # cert()
-    # sigh(force: true)
+    cert()
+    sigh(force: true)
 
 
     build_app(

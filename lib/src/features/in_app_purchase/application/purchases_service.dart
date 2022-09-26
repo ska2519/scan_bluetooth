@@ -12,11 +12,12 @@ import '../data/iap_repo.dart';
 import '../domain/past_purchase.dart';
 import '../domain/purchasable_product.dart';
 import '../domain/store_state.dart';
-import '../presentation/purchase_screen_controller.dart';
 import 'iap_connection.dart';
 
 final purchasesServiceProvider =
     Provider<PurchasesService>(PurchasesService.new);
+final pastPurchaseListProvider = StateProvider<List<PastPurchase>>((ref) => []);
+final productsProvider = StateProvider<List<PurchasableProduct>>((ref) => []);
 
 class PurchasesService {
   PurchasesService(this.ref) {
@@ -27,8 +28,8 @@ class PurchasesService {
   late final inAppPurchase = iapConnection.instance;
 
   late StreamSubscription<List<PurchaseDetails>> _subscription;
-  List<PurchasableProduct> products = [];
-  late final storeState = ref.watch(storeStateProvider);
+  late final pastPurchase = ref.read(pastPurchaseListProvider);
+  late final products = ref.read(productsProvider);
   bool get removeAds => _removeAdsUpgrade;
   bool _removeAdsUpgrade = false;
 
@@ -58,7 +59,6 @@ class PurchasesService {
   }
 
   Future<void> loadPurchases() async {
-    logger.i('loadPurchases start StoreState: $storeState');
     final available = await iapConnection.instance.isAvailable();
     if (!available) {
       ref.read(storeStateProvider.notifier).state = StoreState.notAvailable;
@@ -71,16 +71,15 @@ class PurchasesService {
       storeKeySubscription_1m,
       storeKeySubscription_1y,
     };
-
-    products = await iapConnection.fetchPurchasableProduct(ids);
+    final products = await iapConnection.fetchPurchasableProduct(ids);
+    ref.read(storeStateProvider.notifier).state = StoreState.available;
+    ref.read(productsProvider.notifier).update((state) => products);
 
     logger.i('loadPurchases() products: $products');
-    ref.read(storeStateProvider.notifier).state = StoreState.available;
   }
 
   final functions = FirebaseFunctions.instanceFor(region: cloudRegion);
 
-  List<PastPurchase> purchases = [];
   bool hasActiveSubscription = false;
   bool hasUpgrade = false;
 
@@ -90,7 +89,7 @@ class PurchasesService {
     final user = ref.watch(authStateChangesProvider).value;
 
     if (user == null || user.isAnonymous!) {
-      purchases = [];
+      ref.read(pastPurchaseListProvider.notifier).update((state) => []);
       hasActiveSubscription = false;
       hasUpgrade = false;
       return;
@@ -131,7 +130,8 @@ class PurchasesService {
     for (var purchaseDetails in purchaseDetailsList) {
       await _handlePurchase(purchaseDetails);
     }
-    ref.refresh(purchaseScreenControllerProvider);
+
+    ref.refresh(productsProvider);
   }
 
   Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
@@ -225,14 +225,14 @@ class PurchasesService {
                 ? ProductStatus.purchased
                 : ProductStatus.purchasable);
       }
-      ref.refresh(purchaseScreenControllerProvider);
+      ref.refresh(productsProvider);
     }
   }
 
   void _updateStatus(PurchasableProduct product, ProductStatus status) {
     if (product.status != status) {
       product.status = status;
-      ref.refresh(purchaseScreenControllerProvider);
+      ref.refresh(productsProvider);
     }
   }
 }

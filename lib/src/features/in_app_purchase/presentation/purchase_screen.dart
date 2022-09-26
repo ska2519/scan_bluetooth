@@ -1,9 +1,6 @@
 import '../../../constants/resources.dart';
 import '../../../exceptions/error_logger.dart';
 import '../../../utils/async_value_ui.dart';
-import '../../authentication/data/auth_repository.dart';
-import '../../authentication/presentation/sign_in/email_password_sign_in_screen.dart';
-import '../../authentication/presentation/sign_in/email_password_sign_in_state.dart';
 import '../application/purchases_service.dart';
 import '../domain/purchasable_product.dart';
 import '../domain/store_state.dart';
@@ -19,17 +16,16 @@ class PurchaseScreen extends HookConsumerWidget {
       return state.showAlertDialogOnError(context);
     });
     // final state = ref.watch(purchaseScreenControllerProvider);
-    final purchases = ref.watch(purchasesServiceProvider);
     final storeState = ref.watch(storeStateProvider);
-    final currentUser = ref.watch(authRepositoryProvider).currentUser;
+    // final currentUser = ref.watch(authRepositoryProvider).currentUser;
 
-    if (currentUser != null && !currentUser.isAnonymous!) {
-      return const EmailPasswordSignInScreen(
-        formType: EmailPasswordSignInFormType.register,
-      );
-    }
+    // if (currentUser != null && currentUser.isAnonymous!) {
+    //   return const EmailPasswordSignInScreen(
+    //     formType: EmailPasswordSignInFormType.register,
+    //   );
+    // }
 
-    logger.i('PurchaseScreen storeState: ${purchases.storeState}');
+    logger.i('PurchaseScreen storeState: $storeState');
     late Widget storeWidget;
     switch (storeState) {
       case StoreState.loading:
@@ -79,14 +75,14 @@ class _PurchasesNotAvailable extends StatelessWidget {
 class _PurchaseList extends HookConsumerWidget {
   @override
   Widget build(BuildContext contex, WidgetRef ref) {
-    final purchases = ref.watch(purchasesServiceProvider);
-    var products = purchases.products;
+    final purchasesService = ref.read(purchasesServiceProvider);
+    final products = ref.watch(productsProvider);
     return Column(
       children: products
           .map((product) => _PurchaseWidget(
               product: product,
               onPressed: () {
-                purchases.buy(product);
+                purchasesService.buy(product);
               }))
           .toList(),
     );
@@ -135,7 +131,7 @@ class PastPurchasesWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var purchases = ref.watch(purchasesServiceProvider).purchases;
+    final purchases = ref.watch(pastPurchaseListProvider);
     return ListView.separated(
       shrinkWrap: true,
       itemCount: purchases.length,

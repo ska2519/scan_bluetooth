@@ -52,7 +52,9 @@ class ScanningFAB extends HookConsumerWidget {
         // WidgetsBinding.instance.addPostFrameCallback((_) => ref
         //     .read(scanningFABControllerProvider.notifier)
         //     .submitScanning(true));
-        WidgetsBinding.instance.addPostFrameCallback((_) => submit(true));
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          submit(true);
+        });
       }
       return null;
     }, [requestPermissionList?.length]);

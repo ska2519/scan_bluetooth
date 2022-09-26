@@ -18,7 +18,7 @@ class PurchaseScreenController extends StateNotifier<AsyncValue<void>> {
 }
 
 final purchaseScreenControllerProvider =
-    StateNotifierProvider.autoDispose<PurchaseScreenController, AsyncValue>(
+    StateNotifierProvider<PurchaseScreenController, AsyncValue>(
         (ref) => PurchaseScreenController(
               authRepository: ref.read(authRepositoryProvider),
               purchasesService: ref.read(purchasesServiceProvider),

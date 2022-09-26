@@ -20,6 +20,7 @@ class BluetoothTile extends HookConsumerWidget {
 
   final int index;
   final Bluetooth bluetooth;
+
   final VoidCallback onTapLabelEdit;
 
   Color? get rssiAnimationColor => bluetooth.previousRssi != null
@@ -50,7 +51,8 @@ class BluetoothTile extends HookConsumerWidget {
 
     useEffect(() {
       controller.forward();
-      return controller.reset;
+      controller.reset();
+      return null;
     }, [bluetooth.previousRssi]);
 
     final intRssi =

@@ -18,6 +18,7 @@ final purchasesServiceProvider =
     Provider<PurchasesService>(PurchasesService.new);
 final pastPurchaseListProvider = StateProvider<List<PastPurchase>>((ref) => []);
 final productsProvider = StateProvider<List<PurchasableProduct>>((ref) => []);
+final removeAdsUpgradeProvider = StateProvider<bool>((ref) => false);
 
 class PurchasesService {
   PurchasesService(this.ref) {
@@ -26,12 +27,11 @@ class PurchasesService {
   final Ref ref;
   late final iapConnection = ref.read(iAPConnectionProvider);
   late final inAppPurchase = iapConnection.instance;
-
-  late StreamSubscription<List<PurchaseDetails>> _subscription;
   late final pastPurchase = ref.read(pastPurchaseListProvider);
   late final products = ref.read(productsProvider);
+  late StreamSubscription<List<PurchaseDetails>> _subscription;
   bool get removeAds => _removeAdsUpgrade;
-  bool _removeAdsUpgrade = false;
+  late final bool _removeAdsUpgrade = ref.watch(removeAdsUpgradeProvider);
 
   void _init() {
     _listenToLogin();
@@ -75,7 +75,7 @@ class PurchasesService {
     ref.read(storeStateProvider.notifier).state = StoreState.available;
     ref.read(productsProvider.notifier).update((state) => products);
 
-    logger.i('loadPurchases() products: $products');
+    logger.i('PurchasesService loadPurchases() products: $products');
   }
 
   final functions = FirebaseFunctions.instanceFor(region: cloudRegion);
@@ -84,7 +84,7 @@ class PurchasesService {
   bool hasUpgrade = false;
 
   void updatePurchases(UserId uid) {
-    logger.i('updatePurchases uid: $uid');
+    logger.i('PurchasesService updatePurchases uid: $uid');
     final purchasesStream = ref.read(iapRepoProvider).watchPurchases(uid);
     final user = ref.watch(authStateChangesProvider).value;
 
@@ -96,7 +96,7 @@ class PurchasesService {
     }
 
     purchasesStream.listen((purchases) {
-      logger.i('purchasesStream purchases: $purchases');
+      logger.i('PurchasesService purchasesStream purchases: $purchases');
       hasActiveSubscription = purchases.any((element) =>
           (element.productId == storeKeySubscription_1m ||
               element.productId == storeKeySubscription_1y) &&
@@ -143,16 +143,14 @@ class PurchasesService {
         // Apply changes locally
         switch (purchaseDetails.productID) {
           case storeKeySubscription_1m:
-            // counter.applyPaidMultiplier();
             break;
           case storeKeySubscription_1y:
-            // counter.applyPaidMultiplier();
             break;
           case storeKeyConsumable:
             // counter.addBoughtDashes(2000);
             break;
           case storeKeyUpgrade:
-            _removeAdsUpgrade = true;
+            ref.read(removeAdsUpgradeProvider.notifier).update((state) => true);
             break;
         }
       }
@@ -183,7 +181,7 @@ class PurchasesService {
   }
 
   Future<void> purchasesUpdate() async {
-    logger.i('purchasesUpdate start');
+    logger.i('PurchasesService purchasesUpdate start');
     var subscriptions = <PurchasableProduct>[];
     var upgrades = <PurchasableProduct>[];
     // Get a list of purchasable products for the subscription and upgrade.
@@ -203,13 +201,13 @@ class PurchasesService {
     // purchases page.
     if (hasActiveSubscription) {
       // !! Subscription = remove ads
-      // counter.applyPaidMultiplier();
+      ref.read(removeAdsUpgradeProvider.notifier).update((state) => true);
       for (final element in subscriptions) {
         _updateStatus(element, ProductStatus.purchased);
       }
     } else {
       // !! remove Subscription
-      // counter.removePaidMultiplier();
+      ref.read(removeAdsUpgradeProvider.notifier).update((state) => false);
       for (final element in subscriptions) {
         _updateStatus(element, ProductStatus.purchasable);
       }
@@ -217,7 +215,7 @@ class PurchasesService {
 
     // Set the Remove Ads
     if (hasUpgrade != _removeAdsUpgrade) {
-      _removeAdsUpgrade = hasUpgrade;
+      ref.read(removeAdsUpgradeProvider.notifier).update((state) => hasUpgrade);
       for (final element in upgrades) {
         _updateStatus(
             element,

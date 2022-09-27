@@ -7,4 +7,4 @@ enum StoreState {
 }
 
 final storeStateProvider =
-    StateProvider<StoreState>((ref) => StoreState.notAvailable);
+    StateProvider<StoreState>((ref) => StoreState.loading);

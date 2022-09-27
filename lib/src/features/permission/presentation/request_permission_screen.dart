@@ -23,9 +23,10 @@ class RequestPermissionScreen extends HookConsumerWidget {
         : EdgeInsets.zero;
 
     Future<void> submitPermission() async {
+      final navigator = Navigator.of(context);
       final permissionStatus = await permission.request();
       if (permissionStatus.isGranted) {
-        Navigator.pop(context);
+        navigator.pop();
       }
       if (permissionStatus == PermissionStatus.permanentlyDenied) {
         final buttonAction = await showAlertDialog(
@@ -37,7 +38,7 @@ class RequestPermissionScreen extends HookConsumerWidget {
               'Please update your $permissionName setting in order to use feature.'),
         );
         if (buttonAction == true) {
-          Navigator.pop(context);
+          navigator.pop();
           await openAppSettings();
         }
       }

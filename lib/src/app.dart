@@ -1,8 +1,8 @@
 import 'constants/resources.dart';
 import 'constants/theme.dart';
 
-final scaffoldKeyProvider = Provider<GlobalKey<ScaffoldMessengerState>>(
-    (ref) => GlobalKey<ScaffoldMessengerState>());
+final scaffoldMessengerKeyProvider =
+    Provider((ref) => GlobalKey<ScaffoldMessengerState>());
 
 class MyApp extends HookConsumerWidget {
   const MyApp({super.key});
@@ -16,7 +16,7 @@ class MyApp extends HookConsumerWidget {
       routeInformationProvider: goRouter.routeInformationProvider,
       routeInformationParser: goRouter.routeInformationParser,
       routerDelegate: goRouter.routerDelegate,
-      scaffoldMessengerKey: ref.read(scaffoldKeyProvider),
+      scaffoldMessengerKey: ref.read(scaffoldMessengerKeyProvider),
       restorationScopeId: 'app',
       onGenerateTitle: (BuildContext context) => 'BOMB'.hardcoded,
       themeMode: themeMode,

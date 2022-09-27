@@ -1,4 +1,4 @@
-name: BOMB
+name: scan_bluetooth
 description: Bluetooth Scanner
 publish_to: 'none'
 
@@ -84,7 +84,6 @@ flutter:
     - assets/svg/
     - assets/logo/
     - assets/image/
-    - assets/png/
 
 flutter_native_splash:
   color: "#FFFFFF"

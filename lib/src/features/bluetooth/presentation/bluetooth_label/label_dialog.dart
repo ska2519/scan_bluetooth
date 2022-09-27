@@ -1,33 +1,39 @@
 import '../../../../common_widgets/alert_dialogs.dart';
 import '../../../../constants/resources.dart';
+import '../../domain/bluetooth.dart';
 
-Future<bool?> labelDialog(
-    BuildContext context, TextEditingController textEditingCtr) {
+Future<bool?> labelDialog(BuildContext context,
+    TextEditingController textEditingCtr, Bluetooth bluetooth) {
   final textTheme = Theme.of(context).textTheme;
   return showAlertDialog(
     context: context,
     cancelActionText: 'Cancel'.hardcoded,
-    // defaultActionText: '🖋 Create',
     defaultActionWidget: ElevatedButton(
       key: kDialogDefaultKey,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Assets.svg.icons8AddTag.svg(width: Sizes.p24),
+          bluetooth.userLabel != null
+              ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p24)
+              : Assets.svg.icons8AddTag.svg(width: Sizes.p24),
           gapW8,
-          const Text(
-            'Create',
-            style: TextStyle(fontWeight: FontWeight.w600),
+          Text(
+            bluetooth.userLabel != null ? 'Update' : 'Create',
+            style: const TextStyle(fontWeight: FontWeight.w600),
           ),
         ],
       ),
       onPressed: () => Navigator.of(context).pop(true),
     ),
-    titleWidget: Row(children: [
-      Assets.svg.icons8AddTag.svg(width: Sizes.p24),
-      gapW8,
-      const Text('Create Label'),
-    ]),
+    titleWidget: Row(
+      children: [
+        bluetooth.userLabel != null
+            ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p24)
+            : Assets.svg.icons8AddTag.svg(width: Sizes.p24),
+        gapW8,
+        Text(bluetooth.userLabel != null ? 'Update Label' : 'Create Label'),
+      ],
+    ),
     content: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,

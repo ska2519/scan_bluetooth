@@ -87,6 +87,16 @@ class AdHelper {
               return AndroidRealADUnitId.interstitial.id;
             case ADFormat.nativeAdvanced:
               return AndroidRealADUnitId.nativeAdvanced.id;
+            case ADFormat.appOpen:
+              break;
+            case ADFormat.banner:
+              break;
+            case ADFormat.interstitialVideo:
+              break;
+            case ADFormat.rewarded:
+              break;
+            case ADFormat.nativeAdvancedVideo:
+              break;
           }
       }
     } else if (Platform.isIOS) {
@@ -114,6 +124,17 @@ class AdHelper {
               return IosRealADUnitId.interstitial.id;
             case ADFormat.nativeAdvanced:
               return IosRealADUnitId.nativeAdvanced.id;
+            case ADFormat.appOpen:
+              break;
+            case ADFormat.banner:
+              break;
+            case ADFormat.interstitialVideo:
+              break;
+            case ADFormat.rewarded:
+              break;
+            case ADFormat.nativeAdvancedVideo:
+              // TODO: Handle this case.
+              break;
           }
       }
     }

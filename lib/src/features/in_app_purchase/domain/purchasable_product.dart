@@ -9,7 +9,9 @@ enum ProductStatus {
 class PurchasableProduct {
   PurchasableProduct(this.productDetails) : status = ProductStatus.purchasable;
   String get id => productDetails.id;
+
   String get title => productDetails.title;
+  set title(String title) => title;
   String get description => productDetails.description;
   String get price => productDetails.price;
   ProductStatus status;

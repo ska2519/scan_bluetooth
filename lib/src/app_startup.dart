@@ -15,6 +15,7 @@ import 'exceptions/async_error_logger.dart';
 import 'exceptions/error_logger.dart';
 import 'features/admob/application/ad_helper.dart';
 import 'features/admob/application/admob_service.dart';
+import 'features/in_app_purchase/application/purchases_service.dart';
 import 'firebase_options.dart';
 import 'firebase_options_dev.dart';
 import 'localization/string_hardcoded.dart';
@@ -22,7 +23,7 @@ import 'utils/window_size_provider.dart';
 
 bool shouldUseFirestoreEmulator = false;
 
-class AppRunner {
+class AppStartup {
   static Future<void> run(Flavor flavor) async {
     late ErrorLogger errorLogger;
 
@@ -73,6 +74,7 @@ class AppRunner {
     // FirebaseCrashlytics.instance.log('test crash');
     if (Platform.isAndroid || Platform.isIOS) {
       appStartupContainer.read(admobServiceProvider);
+      appStartupContainer.read(purchasesServiceProvider);
     } else if (Platform.isMacOS) {
       appStartupContainer.read(setWindowSizeProvider);
     }

@@ -85,6 +85,6 @@ class BluetoothService {
   ) async {
     logger.i('openLabelDialog bluetooth: $bluetooth');
     textEditingCtr.text = bluetooth.userLabel?.name ?? bluetooth.name;
-    return await labelDialog(context, textEditingCtr);
+    return await labelDialog(context, textEditingCtr, bluetooth);
   }
 }

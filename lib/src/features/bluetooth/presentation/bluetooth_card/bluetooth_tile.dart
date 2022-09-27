@@ -59,7 +59,6 @@ class BluetoothTile extends HookConsumerWidget {
         ref.read(scanBluetoothServiceProvider).rssiCalculate(bluetooth.rssi);
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    final colorScheme = theme.colorScheme;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

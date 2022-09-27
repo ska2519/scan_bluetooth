@@ -12,7 +12,7 @@ class ToastContext extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    logger.i('ToastContext: $text');
+    logger.i('ToastContext text: $text');
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),

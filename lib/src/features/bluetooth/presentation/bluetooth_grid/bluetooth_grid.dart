@@ -21,8 +21,6 @@ class BluetoothGrid extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bluetoothListValue = ref.watch(bluetoothListStreamProvider);
-
     useEffect(() {
       ref
           .read(bluetoothServiceProvider)
@@ -32,7 +30,7 @@ class BluetoothGrid extends HookConsumerWidget {
     }, []);
 
     return AsyncValueWidget<List<Bluetooth>>(
-      value: bluetoothListValue,
+      value: ref.watch(bluetoothListStreamProvider),
       data: (bluetoothList) {
         final scanning = ref.watch(scanFABStateProvider);
         final interstitialAdState = ref.watch(interstitialAdStateProvider);

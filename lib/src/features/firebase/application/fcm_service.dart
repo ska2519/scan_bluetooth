@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../firebase/cloud_firestore.dart';
-import '../../firebase/firebase_path.dart';
+import '../cloud_firestore.dart';
+import '../firebase_path.dart';
 
 final fcmServiceProvider = Provider<FCMService>(FCMService.new);
 

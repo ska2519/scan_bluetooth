@@ -4,7 +4,6 @@ import { APP_STORE_SHARED_SECRET, CLOUD_REGION } from "./constants";
 import { IapRepository } from "./iap.repository";
 import * as firebase from "firebase-admin";
 import * as Functions from "firebase-functions";
-// import camelCaseKeys from "camelcase-keys";
 import * as appleReceiptVerify from "node-apple-receipt-verify";
 import Timestamp = firebase.firestore.Timestamp;
 import { groupBy } from "lodash";
@@ -19,6 +18,7 @@ declare module "node-apple-receipt-verify" {
 
 const firestore = firebase.firestore;
 const functions = Functions.region(CLOUD_REGION);
+
 export class AppStorePurchaseHandler extends PurchaseHandler {
   constructor(private iapRepository: IapRepository) {
     super();

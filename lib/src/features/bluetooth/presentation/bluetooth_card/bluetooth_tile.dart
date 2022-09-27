@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:string_to_color/string_to_color.dart';
 
 import '../../../../constants/resources.dart';
+import '../../../../exceptions/error_logger.dart';
 import '../../application/scan_bluetooth_service.dart';
 import '../../domain/bluetooth.dart';
 import '../scanning_fab/scanning_fab_controller.dart';
@@ -20,7 +21,6 @@ class BluetoothTile extends HookConsumerWidget {
 
   final int index;
   final Bluetooth bluetooth;
-
   final VoidCallback onTapLabelEdit;
 
   Color? get rssiAnimationColor => bluetooth.previousRssi != null
@@ -28,30 +28,43 @@ class BluetoothTile extends HookConsumerWidget {
           ? Colors.green.withOpacity(0.1)
           : bluetooth.rssi < bluetooth.previousRssi!
               ? Colors.red.withOpacity(0.1)
-              : null
+              : bluetooth.rssi == bluetooth.previousRssi
+                  ? null
+                  : null
       : null;
 
-  MaterialColor? get rssiColor => bluetooth.previousRssi != null
+  Color? get rssiColor => bluetooth.previousRssi != null
       ? bluetooth.rssi > bluetooth.previousRssi!
           ? Colors.green
-          : Colors.red
+          : bluetooth.rssi < bluetooth.previousRssi!
+              ? Colors.red
+              : bluetooth.rssi == bluetooth.previousRssi
+                  ? null
+                  : null
       : null;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final scanning = ref.watch(scanFABStateProvider);
     final showID = useState<bool>(false);
     final controller = useAnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(seconds: 1),
     );
+    controller.addStatusListener((status) {
+      if (bluetooth.previousRssi != null) {
+        logger.i('bluetooth.previousRssi != null');
+        controller.forward();
+      }
+      if (status == AnimationStatus.completed) {
+        logger.i('status == AnimationStatus.completed');
+        controller.reset();
+      }
+    });
 
-    final scanning = ref.watch(scanFABStateProvider);
-    final animation = useAnimation(
-        ColorTween(begin: rssiAnimationColor, end: Colors.transparent)
-            .animate(controller));
+    final animationColor =
+        useAnimation(ColorTween(begin: rssiAnimationColor).animate(controller));
 
     useEffect(() {
-      controller.forward();
-      controller.reset();
       return null;
     }, [bluetooth.previousRssi]);
 
@@ -81,7 +94,7 @@ class BluetoothTile extends HookConsumerWidget {
                     padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: scanning ? animation : Colors.transparent,
+                      color: scanning ? animationColor : null,
                     ),
                     child: Tooltip(
                       message: 'SIGNAL',
@@ -171,10 +184,6 @@ class BluetoothTile extends HookConsumerWidget {
                 ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p28)
                 : Assets.svg.icons8AddTag.svg(width: Sizes.p28),
           ),
-        // Fab.icon(
-        //     onPressed: onTapLabelEdit,
-        //     icon: LineIcon.pen(),
-        //     label: const Text('')),
         // Row(
         //   children: [
         //     if (bluetooth.name.isNotEmpty)

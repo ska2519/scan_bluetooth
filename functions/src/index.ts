@@ -1,6 +1,5 @@
 
 import * as Functions from "firebase-functions";
-
 import * as firebase from "firebase-admin";
 
 import { productDataMap } from "./feature/in_app_purchase/products";

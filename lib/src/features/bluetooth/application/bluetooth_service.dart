@@ -107,10 +107,8 @@ final userLabelListProvider = StateProvider<List<Label>>((ref) {
 final userLabelListStreamProvider = StreamProvider<List<Label>>((ref) {
   final bluetoothRepo = ref.read(bluetoothRepoProvider);
   final user = ref.watch(authStateChangesProvider).value;
-  final trySignOut = ref.watch(trySignOutProvider);
-  logger.i('userLabelListStreamProvider trySignOut: $trySignOut');
 
-  return !trySignOut && user != null
+  return user != null
       ? bluetoothRepo.labelsStream(user.uid)
       : const Stream<List<Label>>.empty();
 });

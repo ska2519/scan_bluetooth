@@ -6,7 +6,6 @@ import '../data/auth_repository.dart';
 import '../domain/app_user.dart';
 
 final authServiceProvider = Provider<AuthService>(AuthService.new);
-final trySignOutProvider = StateProvider<bool>((ref) => false);
 final authStateChangesProvider = StreamProvider<AppUser?>((ref) {
   return ref.watch(authServiceProvider).authStateChanges();
 });
@@ -49,12 +48,9 @@ class AuthService {
 
   Future<void> signOut() async {
     try {
-      ref.read(trySignOutProvider.notifier).update((state) => true);
-      logger.i('signOut trySignOut: ${ref.read(trySignOutProvider)}');
       await Future.delayed(const Duration(seconds: 1), () async {});
       await ref.read(authRepositoryProvider).signOut();
       refreshAuthStateChangesProvider();
-      ref.read(trySignOutProvider.notifier).update((state) => false);
     } catch (e) {
       logger.i('signOut e: e');
     }

@@ -39,7 +39,6 @@ class BluetoothGrid extends HookConsumerWidget {
         // final nativeAdState = ref.watch(nativeAdStateProvider);
 
         final removeAdsUpgrade = ref.watch(removeAdsUpgradeProvider);
-        logger.i('BluetoothGrid removeAdsUpgrade: $removeAdsUpgrade');
         var kAdIndex = 1;
         if (bluetoothList.isNotEmpty && !scanning && !removeAdsUpgrade) {
           kAdIndex = Random()

@@ -34,6 +34,7 @@ class PurchaseScreen extends HookConsumerWidget {
         storeWidget = _PurchasesNotAvailable();
         break;
     }
+
     return Scaffold(
       appBar: AppBar(title: const Text('Upgrade features')),
       body: GestureDetector(
@@ -83,13 +84,12 @@ class _PurchasesNotAvailable extends StatelessWidget {
 class _PurchaseList extends HookConsumerWidget {
   @override
   Widget build(BuildContext contex, WidgetRef ref) {
-    final purchasesService = ref.read(purchasesServiceProvider);
     final products = ref.watch(productsProvider);
     return Column(
       children: products.map((product) {
         return _PurchaseWidget(
           product: product,
-          onPressed: () => purchasesService.buy(product),
+          onPressed: () => ref.read(purchasesServiceProvider).buy(product),
         );
       }).toList(),
     );
@@ -116,6 +116,11 @@ const fruits = [
   '🥥'
 ];
 
+String removeAndroidAppName(String text) {
+  final temptext = text.replaceAll('(스캔 블루투스)', '');
+  return temptext.replaceAll('(Scan Bluetooth)', '');
+}
+
 class _PurchaseWidget extends HookConsumerWidget {
   const _PurchaseWidget({
     required this.product,
@@ -126,7 +131,7 @@ class _PurchaseWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var title = product.title;
+    var title = removeAndroidAppName(product.title);
     if (product.status == ProductStatus.purchased) {
       title += ' (purchased)';
     }
@@ -136,16 +141,16 @@ class _PurchaseWidget extends HookConsumerWidget {
 
     switch (product.id) {
       case storeKeyConsumable:
-        title = '${fruits[Random().nextInt(fruits.length)]} ${product.title}';
+        title = '${fruits[Random().nextInt(fruits.length)]} $title';
         break;
       case storeKeyUpgrade:
-        title = '␡ ${product.title}';
+        title = '␡ $title';
         break;
       case storeKeySubscription_1m:
-        title = 'Ⓜ️ ${product.title}';
+        title = 'Ⓜ️ $title';
         break;
       case storeKeySubscription_1y:
-        title = '🍦 ${product.title}';
+        title = '🍦 $title';
         break;
     }
 
@@ -155,12 +160,12 @@ class _PurchaseWidget extends HookConsumerWidget {
           child: ListTile(
             title: Text(title),
             subtitle: Text(product.description),
-            trailing: Text(_trailing(ref)),
+            trailing: Text(_trailing()),
           ),
         ));
   }
 
-  String _trailing(WidgetRef ref) {
+  String _trailing() {
     switch (product.status) {
       case ProductStatus.purchasable:
         return product.price;
@@ -185,7 +190,19 @@ class PastPurchasesWidget extends HookConsumerWidget {
         final purchase = pastPurchases[index];
         return ListTile(
           title: Text(purchase.title),
-          subtitle: Text(purchase.status.toString()),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(purchase.status.toString()),
+              Row(
+                children: [
+                  const Text('purchaseDate: '),
+                  Text(purchase.purchaseDate.toString()),
+                ],
+              ),
+              // Text(purchase.expiryDate.toString()),
+            ],
+          ),
         );
       },
       separatorBuilder: (context, index) => const Divider(),

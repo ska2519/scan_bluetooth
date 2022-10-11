@@ -7,6 +7,7 @@ export '../../../../generated/flutter_gen/assets.gen.dart';
 export '../common_widgets/async_value_widget.dart';
 export '../localization/string_hardcoded.dart';
 export '../routing/app_router.dart';
+export '../utils/async_value_ui.dart';
 export 'app_colors.dart';
 export 'app_sizes.dart';
 export 'breakpoints.dart';

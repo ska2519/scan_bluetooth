@@ -1,10 +1,11 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/action_text_button.dart';
 import '../../../../constants/resources.dart';
-import '../../../authentication/data/auth_repository.dart';
+import '../../../authentication/application/auth_service.dart';
 import '../../application/scan_bluetooth_service.dart';
 import 'more_menu_button.dart';
 
@@ -31,9 +32,9 @@ class HomeAppBar extends HookConsumerWidget with PreferredSizeWidget {
     if (screenWidth < Breakpoint.tablet) {
       return AppBar(
         title: const BluetoothCountInfo(),
-        actions: [
+        actions: const [
           // const ShoppingCartIcon(),
-          MoreMenuButton(user: user),
+          MoreMenuButton(),
         ],
       );
     } else {
@@ -42,11 +43,12 @@ class HomeAppBar extends HookConsumerWidget with PreferredSizeWidget {
         actions: [
           // const ShoppingCartIcon(),
           if (user != null && !user.isAnonymous!) ...[
-            ActionTextButton(
-              key: MoreMenuButton.purchaseKey,
-              text: 'Purchase'.hardcoded,
-              onPressed: () => context.pushNamed(AppRoute.purchase.name),
-            ),
+            if (!kReleaseMode)
+              ActionTextButton(
+                key: MoreMenuButton.purchaseKey,
+                text: 'Purchase'.hardcoded,
+                onPressed: () => context.pushNamed(AppRoute.purchase.name),
+              ),
             ActionTextButton(
               key: MoreMenuButton.accountKey,
               text: 'Account'.hardcoded,

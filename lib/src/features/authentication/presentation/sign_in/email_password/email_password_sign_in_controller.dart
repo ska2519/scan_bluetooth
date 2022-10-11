@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../data/auth_repository.dart';
+import '../../../data/auth_repository.dart';
 import 'email_password_sign_in_state.dart';
 
 class EmailPasswordSignInController

@@ -1,5 +1,6 @@
 import '../../../constants/resources.dart';
 import '../../../exceptions/error_logger.dart';
+import '../../authentication/application/auth_service.dart';
 import '../../authentication/data/auth_repository.dart';
 import '../../authentication/domain/app_user.dart';
 import '../data/bluetooth_repo.dart';
@@ -87,4 +88,29 @@ class BluetoothService {
     textEditingCtr.text = bluetooth.userLabel?.name ?? bluetooth.name;
     return await labelDialog(context, textEditingCtr, bluetooth);
   }
+
+  Stream<List<Bluetooth>> createUserLabelListStream(
+    List<Bluetooth> bluetoothList,
+    List<Label> labelList,
+    bool labelFirst,
+  ) async* {}
 }
+
+final userLabelListProvider = StateProvider<List<Label>>((ref) {
+  return ref.watch(userLabelListStreamProvider).when(
+        data: (data) => data,
+        error: (error, stackTrace) => [],
+        loading: () => [],
+      );
+});
+
+final userLabelListStreamProvider = StreamProvider<List<Label>>((ref) {
+  final bluetoothRepo = ref.read(bluetoothRepoProvider);
+  final user = ref.watch(authStateChangesProvider).value;
+  final trySignOut = ref.watch(trySignOutProvider);
+  logger.i('userLabelListStreamProvider trySignOut: $trySignOut');
+
+  return !trySignOut && user != null
+      ? bluetoothRepo.labelsStream(user.uid)
+      : const Stream<List<Label>>.empty();
+});

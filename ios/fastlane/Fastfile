@@ -63,7 +63,7 @@ platform :ios do
 
       archive(method: "app-store")
       upload_to_testflight(
-        skip_waiting_for_build_processing: true,
+        skip_waiting_for_build_processing: false,
       )
       # send_success_slack_message(platform, flavor)
     rescue => exception

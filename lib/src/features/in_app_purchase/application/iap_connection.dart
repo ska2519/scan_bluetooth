@@ -11,7 +11,8 @@ class IAPConnection {
   Future<List<PurchasableProduct>> fetchPurchasableProduct(
       Set<String> ids) async {
     final response = await _instance!.queryProductDetails(ids);
-    logger.i('fetchPurchasableProduct response: ${response.productDetails}');
+    logger
+        .i('response.productDetails.length: ${response.productDetails.length}');
     return response.productDetails.map(PurchasableProduct.new).toList();
   }
 }

@@ -3,6 +3,10 @@ import 'package:logger/logger.dart';
 
 import 'app_exception.dart';
 
+final loggerProvider = Provider<ErrorLogger>((ref) {
+  return ErrorLogger();
+});
+
 final logger = Logger(
   printer: PrettyPrinter(
     printTime: true,
@@ -24,7 +28,3 @@ class ErrorLogger {
     logger.e('$exception');
   }
 }
-
-final loggerProvider = Provider<ErrorLogger>((ref) {
-  return ErrorLogger();
-});

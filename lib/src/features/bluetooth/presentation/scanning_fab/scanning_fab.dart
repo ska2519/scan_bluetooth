@@ -6,9 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../constants/resources.dart';
 import '../../../../exceptions/error_logger.dart';
-import '../../../../utils/async_value_ui.dart';
 import '../../../../utils/toast_context.dart';
-import '../../../admob/application/admob_service.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
 import '../../application/scan_bluetooth_service.dart';
 import 'animation_scanning_icon.dart';
@@ -32,16 +30,19 @@ class ScanningFAB extends HookConsumerWidget {
     Future<void> submit(scanning) async {
       if (scanning) {
         ref.read(scanBluetoothServiceProvider).updateBluetoothListEmpty();
-        ref.read(nativeAdStateProvider.notifier).state = false;
+        // ref.read(nativeAdStateProvider.notifier).state = false;
       } else {
-        ref.read(nativeAdStateProvider.notifier).state = true;
+        // ref.read(nativeAdStateProvider.notifier).state = true;
+        await ref
+            .read(scanningFABControllerProvider.notifier)
+            .showInterstitialAd(scanning);
       }
       ref.read(scanBluetoothServiceProvider).submitScanning(scanning);
       ref.read(scanFABStateProvider.notifier).update((state) => scanning);
       ref.read(scanBluetoothServiceProvider).toggleStopWatch(scanning);
-      await ref
-          .read(scanningFABControllerProvider.notifier)
-          .showInterstitialAd(scanning);
+      // if (!ref.watch(removeAdsUpgradeProvider)) {
+
+      // }
     }
 
     useEffect(() {

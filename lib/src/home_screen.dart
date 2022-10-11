@@ -3,12 +3,11 @@ import 'dart:io';
 import 'common_widgets/notice_screen.dart';
 import 'constants/resources.dart';
 import 'exceptions/error_logger.dart';
-import 'features/admob/application/admob_service.dart';
 import 'features/bluetooth/data/scan_bluetooth_repository.dart';
 import 'features/bluetooth/presentation/bluetooth_grid/bluetooth_grid_screen.dart';
 import 'features/permission/application/permission_service.dart';
 
-GlobalKey globalKey = GlobalKey();
+final globalKey = GlobalKey();
 
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({super.key});
@@ -38,7 +37,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         ref.refresh(isBTAvailableProvider);
         ref.refresh(
             requestPermissionListProvider(defaultBluetoothPermissionList));
-        ref.read(interstitialAdStateProvider.notifier).update((state) => false);
+        // ref.read(interstitialAdStateProvider.notifier).update((state) => false);
       }
     }
   }

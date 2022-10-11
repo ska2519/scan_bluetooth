@@ -1,13 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../../constants/resources.dart';
+import '../../../../exceptions/error_logger.dart';
 import '../../../../utils/destination_item_index.dart';
 import '../../../../utils/dismiss_on_screen_keyboard.dart';
-import '../../../admob/application/admob_service.dart';
 import '../../../admob/presentation/native_ad_card.dart';
+import '../../../in_app_purchase/application/purchases_service.dart';
 import '../../application/bluetooth_service.dart';
 import '../../application/scan_bluetooth_service.dart';
 import '../../domain/bluetooth.dart';
@@ -18,6 +18,8 @@ import 'bluetooth_layout_grid.dart';
 
 class BluetoothGrid extends HookConsumerWidget {
   const BluetoothGrid({super.key});
+
+  static const bluetootGridKey = Key('bluetooth-grid');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,16 +35,13 @@ class BluetoothGrid extends HookConsumerWidget {
       value: ref.watch(bluetoothListStreamProvider),
       data: (bluetoothList) {
         final scanning = ref.watch(scanFABStateProvider);
-        final interstitialAdState = ref.watch(interstitialAdStateProvider);
-        late final NativeAd? nativeAd;
-        if (!scanning) {
-          nativeAd = ref.watch(nativeAdProvider(key));
-        }
+        // final interstitialAdState = ref.watch(interstitialAdStateProvider);
+        // final nativeAdState = ref.watch(nativeAdStateProvider);
 
-        final nativeAdState = ref.watch(nativeAdStateProvider);
-
+        final removeAdsUpgrade = ref.watch(removeAdsUpgradeProvider);
+        logger.i('BluetoothGrid removeAdsUpgrade: $removeAdsUpgrade');
         var kAdIndex = 1;
-        if (bluetoothList.isNotEmpty && !scanning && nativeAd != null) {
+        if (bluetoothList.isNotEmpty && !scanning && !removeAdsUpgrade) {
           kAdIndex = Random()
               .nextInt(bluetoothList.length >= 7 ? 7 : bluetoothList.length);
         }
@@ -57,19 +56,23 @@ class BluetoothGrid extends HookConsumerWidget {
                 ),
               )
             : BluetoothLayoutGrid(
-                itemCount: !scanning && !interstitialAdState && nativeAd != null
+                itemCount: !scanning &&
+                        // !interstitialAdState &&
+                        !removeAdsUpgrade
                     ? bluetoothList.length + adLength
                     : bluetoothList.length,
                 itemBuilder: (_, index) {
-                  final i = !scanning
+                  final i = !scanning &&
+                          // !interstitialAdState &&
+                          !removeAdsUpgrade
                       ? getDestinationItemIndex(kAdIndex, index)
                       : index;
 
-                  return nativeAdState &&
-                          !interstitialAdState &&
-                          nativeAd != null &&
+                  return !scanning &&
+                          // !interstitialAdState &&
+                          !removeAdsUpgrade &&
                           index == kAdIndex
-                      ? NativeAdCard(nativeAd)
+                      ? const NativeAdCard(key: bluetootGridKey)
                       : BluetoothCard(
                           onTapLabelEdit: () async => await ref
                               .read(bluetoothGridScreenControllerProvider

@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../localization/string_hardcoded.dart';
-import '../../../../routing/app_router.dart';
-import '../../../authentication/domain/app_user.dart';
+import '../../../../constants/resources.dart';
+import '../../../authentication/application/auth_service.dart';
 
 enum PopupMenuOption {
   signIn,
@@ -11,9 +10,8 @@ enum PopupMenuOption {
   account,
 }
 
-class MoreMenuButton extends StatelessWidget {
-  const MoreMenuButton({super.key, this.user});
-  final AppUser? user;
+class MoreMenuButton extends ConsumerWidget {
+  const MoreMenuButton({super.key});
 
   // * Keys for testing using find.byKey()
   static const signInKey = Key('menuSignIn');
@@ -21,34 +19,31 @@ class MoreMenuButton extends StatelessWidget {
   static const accountKey = Key('menuAccount');
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authStateChangesProvider).value;
     return PopupMenuButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      // three vertical dots icon (to reveal menu options)
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       icon: const Icon(Icons.more_vert),
-      itemBuilder: (_) {
-        // show all the options based on conditional logic
-        return user != null && !user!.isAnonymous!
-            ? <PopupMenuEntry<PopupMenuOption>>[
-                PopupMenuItem(
-                  key: accountKey,
-                  value: PopupMenuOption.account,
-                  child: Text('Account'.hardcoded),
-                ),
-              ]
-            : <PopupMenuEntry<PopupMenuOption>>[
-                PopupMenuItem(
-                  key: purchaseKey,
-                  value: PopupMenuOption.purchase,
-                  child: Text('Purchase'.hardcoded),
-                ),
-                PopupMenuItem(
-                  key: signInKey,
-                  value: PopupMenuOption.signIn,
-                  child: Text('Sign In'.hardcoded),
-                ),
-              ];
-      },
+      itemBuilder: (_) => <PopupMenuEntry<PopupMenuOption>>[
+        if (!kReleaseMode)
+          PopupMenuItem(
+            key: purchaseKey,
+            value: PopupMenuOption.purchase,
+            child: Text('Purchase'.hardcoded),
+          ),
+        if (user != null && !user.isAnonymous!)
+          PopupMenuItem(
+            key: accountKey,
+            value: PopupMenuOption.account,
+            child: Text('Account'.hardcoded),
+          )
+        else
+          PopupMenuItem(
+            key: signInKey,
+            value: PopupMenuOption.signIn,
+            child: Text('Sign In'.hardcoded),
+          ),
+      ],
       onSelected: (option) {
         // push to different routes based on selected option
         switch (option) {

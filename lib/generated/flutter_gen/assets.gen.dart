@@ -42,6 +42,9 @@ class $AssetsLogoGen {
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
+  /// File path: assets/svg/apple_white.svg
+  SvgGenImage get appleWhite => const SvgGenImage('assets/svg/apple_white.svg');
+
   /// File path: assets/svg/google.svg
   SvgGenImage get google => const SvgGenImage('assets/svg/google.svg');
 

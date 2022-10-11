@@ -41,9 +41,9 @@ class PastPurchase {
     switch (productId) {
       case storeKeyConsumable:
         return 'Consumable';
-      case storeKeySubscription_1m:
+      case storeKeySubscription1m:
         return 'Subscription 1m';
-      case storeKeySubscription_1y:
+      case storeKeySubscription1y:
         return 'Subscription 1y';
       default:
         return productId;

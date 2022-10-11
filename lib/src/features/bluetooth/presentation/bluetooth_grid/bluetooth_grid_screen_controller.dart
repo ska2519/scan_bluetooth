@@ -30,6 +30,7 @@ class BluetoothGridScreenController extends StateNotifier<AsyncValue<void>> {
 
       if (newState.hasError) {
         state = AsyncError(newState.error!);
+        // state = AsyncError(newState.error!, newState.stackTrace!);
       } else {
         state = newState;
       }

@@ -25,19 +25,6 @@ bool shouldUseFirestoreEmulator = false;
 
 class AppStartup {
   static Future<void> run(Flavor flavor) async {
-    late ErrorLogger errorLogger;
-
-    PlatformDispatcher.instance.onError = (error, stack) {
-      if (kReleaseMode) {
-        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      }
-      errorLogger.e(error, stack);
-      return true;
-    };
-
-    FirebaseAnalytics? analytics;
-    // * For more info on error handling, see:
-    // * https://docs.flutter.dev/testing/errors
     WidgetsFlutterBinding.ensureInitialized();
     GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
 
@@ -46,17 +33,38 @@ class AppStartup {
           ? DefaultFirebaseOptions.currentPlatform
           : DefaultFirebaseOptionsDev.currentPlatform,
     );
+    final analytics = kReleaseMode ? FirebaseAnalytics.instance : null;
+    final crashlytics = kReleaseMode ? FirebaseCrashlytics.instance : null;
+
     if (shouldUseFirestoreEmulator) {
       // FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
       // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
     }
 
+    logger.i(
+        'AppStartup kReleaseMode: $kReleaseMode/ analytics: $analytics/ crashlytics: $crashlytics');
+
+    // * This code will present some error UI if any uncaught exception happens
+    FlutterError.onError = (FlutterErrorDetails details) {
+      // * custom error handler in order to see the logs in the console as well.
+      if (kReleaseMode) {
+        FlutterError.onError = crashlytics!.recordFlutterFatalError;
+      } else {
+        FlutterError.presentError(details);
+      }
+    };
+
+    PlatformDispatcher.instance.onError = (error, stack) {
+      if (kReleaseMode) {
+        crashlytics!.recordError(error, stack, fatal: true);
+      }
+      logger.e(error, stack);
+      return true;
+    };
+
     if (kReleaseMode) {
-      analytics = FirebaseAnalytics.instance;
-      await analytics.logAppOpen();
+      await analytics!.logAppOpen();
       await analytics.logEvent(name: 'app_start');
-      FlutterError.onError =
-          FirebaseCrashlytics.instance.recordFlutterFatalError;
     }
 
     final appStartupContainer = ProviderContainer(
@@ -64,17 +72,17 @@ class AppStartup {
       overrides: [
         // !! This is setup Google Ads [ADType]
         // !! chnage ADType.real when release app in app market
-        adTypeProvider.overrideWithProvider(Provider((ref) => ADType.sample)),
+        adTypeProvider.overrideWithProvider(Provider((ref) => ADType.real)),
         flavorProvider.overrideWithProvider(Provider((ref) => flavor)),
       ],
     );
-    errorLogger = appStartupContainer.read(loggerProvider);
+    appStartupContainer.read(loggerProvider);
 
     // FirebaseCrashlytics.instance.crash();
     // FirebaseCrashlytics.instance.log('test crash');
     if (Platform.isAndroid || Platform.isIOS) {
-      appStartupContainer.read(admobServiceProvider);
       appStartupContainer.read(purchasesServiceProvider);
+      appStartupContainer.read(admobServiceProvider);
     } else if (Platform.isMacOS) {
       appStartupContainer.read(setWindowSizeProvider);
     }
@@ -85,24 +93,15 @@ class AppStartup {
       child: const MyApp(),
     ));
 
-    // * This code will present some error UI if any uncaught exception happens
-    FlutterError.onError = (FlutterErrorDetails details) {
-      // * custom error handler in order to see the logs in the console as well.
-      if (kReleaseMode) {
-        FlutterError.onError =
-            FirebaseCrashlytics.instance.recordFlutterFatalError;
-      } else {
-        FlutterError.presentError(details);
-      }
-    };
-
     ErrorWidget.builder = (FlutterErrorDetails details) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
           title: Text('An error occurred'.hardcoded),
         ),
-        body: Center(child: Text(details.toString())),
+        body: Center(
+          child: Text(details.toString()),
+        ),
       );
     };
   }

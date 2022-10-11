@@ -1,6 +1,4 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../../../localization/string_hardcoded.dart';
+import '../../../../../constants/resources.dart';
 import 'string_validators.dart';
 
 /// Form type for email & password authentication

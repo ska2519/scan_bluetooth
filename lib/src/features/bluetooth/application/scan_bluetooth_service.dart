@@ -6,11 +6,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../exceptions/error_logger.dart';
 import '../../../utils/current_date_provider.dart';
-import '../data/bluetooth_repo.dart';
 import '../data/scan_bluetooth_repository.dart';
 import '../domain/bluetooth.dart';
 import '../domain/label.dart';
 import '../presentation/scanning_fab/scanning_fab_controller.dart';
+import 'bluetooth_service.dart';
 
 final scanBluetoothServiceProvider =
     Provider<ScanBluetoothService>(ScanBluetoothService.new);
@@ -65,7 +65,13 @@ class ScanBluetoothService {
         rssi: bluetooth.rssi,
         scannedAt: ref.watch(currentDateBuilderProvider).call(),
       );
+      // logger
+      //     .i('scanBluetooth: ${scanBluetooth.deviceId}: ${scanBluetooth.rssi}');
 
+      // ** prevent rssi number positive value
+      if (scanBluetooth.rssi > 0) {
+        return;
+      }
       if (bluetoothList.isEmpty) {
         bluetoothList.add(scanBluetooth);
       } else {
@@ -80,22 +86,31 @@ class ScanBluetoothService {
         }
       }
 
-      for (var label in labelList) {
-        for (var i = 0; i < bluetoothList.length; i++) {
-          if (bluetoothList[i].deviceId == label.deviceId) {
-            bluetoothList[i] = bluetoothList[i].copyWith(
-              userLabel: label,
-            );
-            break;
+      if (labelList.isNotEmpty) {
+        for (var label in labelList) {
+          for (var i = 0; i < bluetoothList.length; i++) {
+            if (bluetoothList[i].deviceId == label.deviceId) {
+              bluetoothList[i] = bluetoothList[i].copyWith(
+                userLabel: label,
+              );
+              break;
+            }
           }
         }
+        ref.read(userLabelCountProvider.notifier).update((state) =>
+            bluetoothList
+                .where((bluetooth) => bluetooth.userLabel != null)
+                .toList()
+                .length);
       }
 
       bluetoothList.sort((a, b) => b.rssi.compareTo(a.rssi));
 
       if (labelFirst) {
-        bluetoothList.sort((a, b) => b.userLabel != null ? 1 : -1);
+        bluetoothList.sort((a, b) => b.userLabel != null ? 1 : 0);
+        // bluetoothList.sort((a, b) => b.userLabel != null ? 1 : -1);
       }
+
       ref.read(bluetoothListProvider.notifier).update((state) => bluetoothList);
     });
 
@@ -129,9 +144,10 @@ final unknownBtsCountProvider = StateProvider<int>(
 final bluetoothListProvider = StateProvider<List<Bluetooth>>((ref) => []);
 
 final labelFirstProvider = StateProvider<bool>((ref) => true);
+final userLabelCountProvider = StateProvider<int>((ref) => 0);
 
 final bluetoothListStreamProvider = StreamProvider<List<Bluetooth>>((ref) {
-  final bluetoothList = ref.read(bluetoothListProvider);
+  final bluetoothList = ref.watch(bluetoothListProvider);
   final labelList = ref.watch(userLabelListProvider);
   final labelFirst = ref.watch(labelFirstProvider);
   return ref

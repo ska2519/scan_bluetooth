@@ -21,6 +21,8 @@ class AppColors {
   static const Color naverGreenColor = Color(0xFF03C75A);
   static const Color kakaoYellowColor = Color(0xFFFEE500);
   static const Color kakaoBlackColor = Color(0xFF181600);
+
+  static const Color blueberryColor = Color(0xFF324c7b);
 }
 
 const Color shrinePink50 = Color(0xFFFEEAE6);

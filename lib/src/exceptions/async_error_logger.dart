@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../features/authentication/presentation/sign_in/email_password_sign_in_state.dart';
+import '../features/authentication/presentation/sign_in/email_password/email_password_sign_in_state.dart';
 import 'app_exception.dart';
 import 'error_logger.dart';
 

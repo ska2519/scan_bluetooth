@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../authentication/application/auth_service.dart';
 import '../../authentication/domain/app_user.dart';
 import '../../firebase/cloud_firestore.dart';
 import '../../firebase/firebase_path.dart';
@@ -20,3 +21,16 @@ class IAPRepo {
     );
   }
 }
+
+final pastPurchasesStreamProvider = StreamProvider<List<PastPurchase>>((ref) {
+  final iapRepo = ref.read(iapRepoProvider);
+  final user = ref.watch(authStateChangesProvider).value;
+  // final trySignOut = ref.watch(trySignOutProvider);
+  // logger.i('pastPurchasesStreamProvider trySignOut: $trySignOut');
+
+  return
+      // trySignOut ||
+      user == null || user.isAnonymous!
+          ? const Stream<List<PastPurchase>>.empty()
+          : iapRepo.watchPurchases(user.uid);
+});

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../constants/resources.dart';
 import '../../../authentication/application/auth_service.dart';

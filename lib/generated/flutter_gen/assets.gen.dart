@@ -121,6 +121,10 @@ class $AssetsSvgGen {
   SvgGenImage get icons8Bluetooth =>
       const SvgGenImage('assets/svg/icons8-bluetooth.svg');
 
+  /// File path: assets/svg/icons8-community.svg
+  SvgGenImage get icons8Community =>
+      const SvgGenImage('assets/svg/icons8-community.svg');
+
   /// File path: assets/svg/icons8-edit.svg
   SvgGenImage get icons8Edit => const SvgGenImage('assets/svg/icons8-edit.svg');
 

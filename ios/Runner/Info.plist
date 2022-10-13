@@ -69,6 +69,11 @@
 		</dict>
 	</array>
 	<!-- End of the Google Sign-in Section -->
-	
+	<key>FirebaseDynamicLinksCustomDomains</key>
+	<array>
+		<string>https://fruitshop.app/promos</string>
+		<string>https://fruitshop.app/link</string>
+		<string>https://fruitshop.app/link/share</string>
+	</array>
 </dict>
 </plist>

@@ -2,6 +2,12 @@ import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+final windowSizeRepositoryProvider =
+    Provider<WindowSizeRepository>((ref) => WindowSizeRepository());
+
+final setWindowSizeProvider = FutureProvider.autoDispose((ref) async =>
+    await ref.read(windowSizeRepositoryProvider).setWindowSize());
+
 class WindowSizeRepository {
   Future<void> setWindowSize() async {
     await DesktopWindow.setWindowSize(const Size(1280, 800));
@@ -14,11 +20,3 @@ class WindowSizeRepository {
   // final size = await DesktopWindow.getWindowSize();
   //  return size;
 }
-
-final windowSizeRepositoryProvider = Provider<WindowSizeRepository>(
-  (ref) => WindowSizeRepository(),
-);
-
-final setWindowSizeProvider = FutureProvider.autoDispose(
-  (ref) async => await ref.read(windowSizeRepositoryProvider).setWindowSize(),
-);

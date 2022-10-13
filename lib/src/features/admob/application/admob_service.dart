@@ -3,18 +3,13 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../constants/resources.dart';
-import '../../../exceptions/error_logger.dart';
 import '../data/admob_repository.dart';
 import 'ad_helper.dart';
 
 final admobServiceProvider = Provider<AdmobService>(AdmobService.new);
-
 final adTypeProvider = Provider<ADType>((ref) => throw UnimplementedError());
 
 final interstitialAdProvider = StateProvider<InterstitialAd?>((ref) => null);
-
-// final interstitialAdStateProvider =
-//     StateProvider.autoDispose<bool>((ref) => false);
 
 class AdmobService {
   AdmobService(this.ref) {
@@ -25,8 +20,7 @@ class AdmobService {
 
   Future<void> _init() async {
     final admobStatus = await _initAdmob();
-    logger.i(
-        'AdmobService _init: ${admobStatus.adapterStatuses.values.first.state}');
+    logger.i('AdmobService _init: ${admobStatus.adapterStatuses.toString()}');
     _createInterstitialAd();
   }
 

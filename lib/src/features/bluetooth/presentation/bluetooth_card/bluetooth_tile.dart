@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:string_to_color/string_to_color.dart';
 
 import '../../../../constants/resources.dart';
-import '../../../../exceptions/error_logger.dart';
 import '../../application/scan_bluetooth_service.dart';
 import '../../domain/bluetooth.dart';
 import '../scanning_fab/scanning_fab_controller.dart';

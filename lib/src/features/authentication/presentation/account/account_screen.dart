@@ -7,6 +7,7 @@ import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../localization/string_hardcoded.dart';
 import '../../../../utils/async_value_ui.dart';
+import '../../../firebase/dynamic_link.dart';
 import '../../application/auth_service.dart';
 import '../sign_in/email_password/email_password_sign_in_screen.dart';
 import 'account_screen_controller.dart';
@@ -23,30 +24,34 @@ class AccountScreen extends HookConsumerWidget {
     );
     final state = ref.watch(accountScreenControllerProvider);
     final user = ref.watch(authStateChangesProvider).value;
+    final isLoggedIn =
+        user != null && user.isAnonymous != null && !user.isAnonymous!;
+
     return Scaffold(
       appBar: AppBar(
         title: state.isLoading
             ? const CircularProgressIndicator()
             : Text('Account'.hardcoded),
         actions: [
-          ActionTextButton(
-            text: 'Logout'.hardcoded,
-            onPressed: state.isLoading
-                ? null
-                : () async {
-                    final logout = await showAlertDialog(
-                      context: context,
-                      title: 'Are you sure?'.hardcoded,
-                      cancelActionText: 'Cancel'.hardcoded,
-                      defaultActionText: 'Logout'.hardcoded,
-                    );
-                    if (logout == true) {
-                      await ref
-                          .read(accountScreenControllerProvider.notifier)
-                          .signOut();
-                    }
-                  },
-          ),
+          if (isLoggedIn)
+            ActionTextButton(
+              text: 'Logout'.hardcoded,
+              onPressed: state.isLoading
+                  ? null
+                  : () async {
+                      final logout = await showAlertDialog(
+                        context: context,
+                        title: 'Are you sure?'.hardcoded,
+                        cancelActionText: 'Cancel'.hardcoded,
+                        defaultActionText: 'Logout'.hardcoded,
+                      );
+                      if (logout == true) {
+                        await ref
+                            .read(accountScreenControllerProvider.notifier)
+                            .signOut();
+                      }
+                    },
+            ),
         ],
       ),
       body: ResponsiveCenter(
@@ -56,9 +61,17 @@ class AccountScreen extends HookConsumerWidget {
             gapH16,
             Text(user?.email ?? ''),
             gapH16,
-            ...user!.providerData!.map((e) => Text(e.providerId!)).toList(),
+            if (user?.providerData != null)
+              ...user!.providerData!
+                  .map((e) => Text(e.providerId ?? ''))
+                  .toList(),
             gapH16,
+            // if (!isLoggedIn)
             const SignInButtonList(),
+            ElevatedButton(
+              onPressed: ref.read(dynamicLinkProvider).createDynamicLink,
+              child: Text('share application'.hardcoded),
+            ),
           ],
         ),
       ),

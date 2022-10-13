@@ -1,7 +1,6 @@
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../constants/resources.dart';
-import '../exceptions/error_logger.dart';
 
 final fToastProvider = StateProvider<FToast>((ref) => FToast());
 

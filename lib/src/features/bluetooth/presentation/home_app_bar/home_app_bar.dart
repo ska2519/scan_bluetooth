@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../common_widgets/action_text_button.dart';
 import '../../../../constants/resources.dart';

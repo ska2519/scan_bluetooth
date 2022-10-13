@@ -1,5 +1,4 @@
 import '../../../constants/resources.dart';
-import '../../../exceptions/error_logger.dart';
 import '../../authentication/application/auth_service.dart';
 import '../../authentication/data/auth_repository.dart';
 import '../../authentication/domain/app_user.dart';

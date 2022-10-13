@@ -6,6 +6,7 @@ class NoticeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.i('NoticeScreen build');
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../constants/resources.dart';
-import '../../../../exceptions/error_logger.dart';
 import '../../../../utils/destination_item_index.dart';
 import '../../../../utils/dismiss_on_screen_keyboard.dart';
 import '../../../admob/presentation/native_ad_card.dart';
@@ -35,9 +34,6 @@ class BluetoothGrid extends HookConsumerWidget {
       value: ref.watch(bluetoothListStreamProvider),
       data: (bluetoothList) {
         final scanning = ref.watch(scanFABStateProvider);
-        // final interstitialAdState = ref.watch(interstitialAdStateProvider);
-        // final nativeAdState = ref.watch(nativeAdStateProvider);
-
         final removeAdsUpgrade = ref.watch(removeAdsUpgradeProvider);
         var kAdIndex = 1;
         if (bluetoothList.isNotEmpty && !scanning && !removeAdsUpgrade) {
@@ -55,22 +51,15 @@ class BluetoothGrid extends HookConsumerWidget {
                 ),
               )
             : BluetoothLayoutGrid(
-                itemCount: !scanning &&
-                        // !interstitialAdState &&
-                        !removeAdsUpgrade
+                itemCount: !scanning && !removeAdsUpgrade
                     ? bluetoothList.length + adLength
                     : bluetoothList.length,
                 itemBuilder: (_, index) {
-                  final i = !scanning &&
-                          // !interstitialAdState &&
-                          !removeAdsUpgrade
+                  final i = !scanning && !removeAdsUpgrade
                       ? getDestinationItemIndex(kAdIndex, index)
                       : index;
 
-                  return !scanning &&
-                          // !interstitialAdState &&
-                          !removeAdsUpgrade &&
-                          index == kAdIndex
+                  return !scanning && !removeAdsUpgrade && index == kAdIndex
                       ? const NativeAdCard(key: bluetootGridKey)
                       : BluetoothCard(
                           onTapLabelEdit: () async => await ref

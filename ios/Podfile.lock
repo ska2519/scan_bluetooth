@@ -629,6 +629,9 @@ PODS:
   - Firebase/Crashlytics (9.3.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 9.3.0)
+  - Firebase/DynamicLinks (9.3.0):
+    - Firebase/CoreOnly
+    - FirebaseDynamicLinks (~> 9.3.0)
   - Firebase/Firestore (9.3.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 9.3.0)
@@ -648,6 +651,10 @@ PODS:
     - Flutter
   - firebase_crashlytics (2.8.6):
     - Firebase/Crashlytics (= 9.3.0)
+    - firebase_core
+    - Flutter
+  - firebase_dynamic_links (4.3.11):
+    - Firebase/DynamicLinks (= 9.3.0)
     - firebase_core
     - Flutter
   - FirebaseAnalytics (9.3.0):
@@ -696,6 +703,8 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (~> 2.1)
+  - FirebaseDynamicLinks (9.3.0):
+    - FirebaseCore (~> 9.0)
   - FirebaseFirestore (9.3.0):
     - abseil/algorithm (~> 1.20211102.0)
     - abseil/base (~> 1.20211102.0)
@@ -867,6 +876,8 @@ PODS:
   - PromisesObjC (2.1.1)
   - quick_blue (0.0.1):
     - Flutter
+  - shared_preferences_ios (0.0.1):
+    - Flutter
   - sign_in_with_apple (0.0.1):
     - Flutter
   - Toast (4.0.0)
@@ -878,6 +889,7 @@ DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
+  - firebase_dynamic_links (from `.symlinks/plugins/firebase_dynamic_links/ios`)
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
@@ -889,6 +901,7 @@ DEPENDENCIES:
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - quick_blue (from `.symlinks/plugins/quick_blue/ios`)
+  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
 
 SPEC REPOS:
@@ -906,6 +919,7 @@ SPEC REPOS:
     - FirebaseCoreExtension
     - FirebaseCoreInternal
     - FirebaseCrashlytics
+    - FirebaseDynamicLinks
     - FirebaseFirestore
     - FirebaseFunctions
     - FirebaseInstallations
@@ -940,6 +954,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_crashlytics:
     :path: ".symlinks/plugins/firebase_crashlytics/ios"
+  firebase_dynamic_links:
+    :path: ".symlinks/plugins/firebase_dynamic_links/ios"
   Flutter:
     :path: Flutter
   flutter_native_splash:
@@ -962,6 +978,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   quick_blue:
     :path: ".symlinks/plugins/quick_blue/ios"
+  shared_preferences_ios:
+    :path: ".symlinks/plugins/shared_preferences_ios/ios"
   sign_in_with_apple:
     :path: ".symlinks/plugins/sign_in_with_apple/ios"
 
@@ -976,6 +994,7 @@ SPEC CHECKSUMS:
   firebase_auth: e9a024f4cd147a81064a1fb202b70eecb43cfda2
   firebase_core: 96214f90497b808a2cf2a24517084c5f6de37b53
   firebase_crashlytics: cdba3f556462dd5ee25cc7d28790ff2de2c0edcf
+  firebase_dynamic_links: 1caaef84be724df9b8718457ad7f9eedf2878aaf
   FirebaseAnalytics: bf46f5163f44097ce2c789de0b3e6f87f1da834a
   FirebaseAppCheckInterop: d5ecda0c09f8069406643d6e0fa12c09d1b736e3
   FirebaseAuth: 9ebc3577fe0acf9092df21ac314024b70aebf21e
@@ -985,6 +1004,7 @@ SPEC CHECKSUMS:
   FirebaseCoreExtension: e83465d1236b166d1d445bbf0e82b65acb30b73b
   FirebaseCoreInternal: bca76517fe1ed381e989f5e7d8abb0da8d85bed3
   FirebaseCrashlytics: 65a5b349e664e986e6c7486b0a9b5ed8c11d0491
+  FirebaseDynamicLinks: af0acc2d1fa117a074e84a3c06a1d9f817443490
   FirebaseFirestore: 5a72aa925528f67469b16a54a6cfc369467197e4
   FirebaseFunctions: 817616e838ef76f985314d0e1e8caa0bb5c19daf
   FirebaseInstallations: 0a115432c4e223c5ab20b0dbbe4cbefa793a0e8e
@@ -1015,6 +1035,7 @@ SPEC CHECKSUMS:
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   quick_blue: 3786c0eccb373bf9799ec1b42f495f77199a4e7e
+  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
 

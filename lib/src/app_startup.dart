@@ -8,6 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../flavors.dart';
 import 'app.dart';
@@ -22,6 +24,11 @@ import 'localization/string_hardcoded.dart';
 import 'utils/window_size_provider.dart';
 
 bool shouldUseFirestoreEmulator = false;
+
+final sharedPreferencesProvider =
+    Provider<SharedPreferences>((ref) => throw UnimplementedError());
+final packageInfoProvider =
+    Provider<PackageInfo>((ref) => throw UnimplementedError());
 
 class AppStartup {
   static Future<void> run(Flavor flavor) async {
@@ -66,20 +73,21 @@ class AppStartup {
       await analytics!.logAppOpen();
       await analytics.logEvent(name: 'app_start');
     }
+    const adType = kReleaseMode ? ADType.real : ADType.sample;
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final packageInfo = await PackageInfo.fromPlatform();
 
     final appStartupContainer = ProviderContainer(
       observers: [AsyncErrorLogger()],
       overrides: [
-        // !! This is setup Google Ads [ADType]
-        // !! chnage ADType.real when release app in app market
-        adTypeProvider.overrideWithProvider(Provider((ref) => ADType.real)),
-        flavorProvider.overrideWithProvider(Provider((ref) => flavor)),
+        flavorProvider.overrideWithValue(flavor),
+        adTypeProvider.overrideWithValue(adType),
+        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+        packageInfoProvider.overrideWithValue(packageInfo),
       ],
     );
     appStartupContainer.read(loggerProvider);
 
-    // FirebaseCrashlytics.instance.crash();
-    // FirebaseCrashlytics.instance.log('test crash');
     if (Platform.isAndroid || Platform.isIOS) {
       appStartupContainer.read(purchasesServiceProvider);
       appStartupContainer.read(admobServiceProvider);

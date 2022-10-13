@@ -839,6 +839,8 @@ PODS:
   - PromisesObjC (2.1.1)
   - quick_blue_macos (0.0.1):
     - FlutterMacOS
+  - shared_preferences_macos (0.0.1):
+    - FlutterMacOS
   - sign_in_with_apple (0.0.1):
     - FlutterMacOS
 
@@ -854,6 +856,7 @@ DEPENDENCIES:
   - package_info_plus_macos (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus_macos/macos`)
   - path_provider_macos (from `Flutter/ephemeral/.symlinks/plugins/path_provider_macos/macos`)
   - quick_blue_macos (from `Flutter/ephemeral/.symlinks/plugins/quick_blue_macos/macos`)
+  - shared_preferences_macos (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_macos/macos`)
   - sign_in_with_apple (from `Flutter/ephemeral/.symlinks/plugins/sign_in_with_apple/macos`)
 
 SPEC REPOS:
@@ -909,6 +912,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_macos/macos
   quick_blue_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/quick_blue_macos/macos
+  shared_preferences_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/shared_preferences_macos/macos
   sign_in_with_apple:
     :path: Flutter/ephemeral/.symlinks/plugins/sign_in_with_apple/macos
 
@@ -951,6 +956,7 @@ SPEC CHECKSUMS:
   path_provider_macos: 3c0c3b4b0d4a76d2bf989a913c2de869c5641a19
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   quick_blue_macos: b7808bfaa3524fbf1edbba0d8b080908299c3541
+  shared_preferences_macos: a64dc611287ed6cbe28fd1297898db1336975727
   sign_in_with_apple: a9e97e744e8edc36aefc2723111f652102a7a727
 
 PODFILE CHECKSUM: c7161fcf45d4fd9025dc0f48a76d6e64e52f8176

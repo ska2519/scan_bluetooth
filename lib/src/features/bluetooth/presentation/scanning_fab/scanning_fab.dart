@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:duration/duration.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../constants/resources.dart';
-import '../../../../exceptions/error_logger.dart';
 import '../../../../utils/toast_context.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
 import '../../application/scan_bluetooth_service.dart';

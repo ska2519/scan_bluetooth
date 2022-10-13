@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/resources.dart';
-import '../../../../home_screen.dart';
+import '../../../../routing/scaffold_with_nav_bar.dart';
 import '../../../../utils/dismiss_on_screen_keyboard.dart';
 import '../../../../utils/toast_context.dart';
 import '../../../permission/application/permission_service.dart';
@@ -31,7 +29,7 @@ class BluetoothGridScreen extends HookConsumerWidget {
     final state = ref.watch(bluetoothGridScreenControllerProvider);
 
     useEffect(() {
-      ref.read(fToastProvider).init(globalKey.currentState!.context);
+      ref.read(fToastProvider).init(scaffoldGlobalKey.currentState!.context);
       return null;
     }, []);
 

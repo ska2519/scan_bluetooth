@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:go_router/go_router.dart';
-
 import '../../../constants/resources.dart';
 import '../../authentication/data/auth_repository.dart';
 import '../application/purchases_service.dart';

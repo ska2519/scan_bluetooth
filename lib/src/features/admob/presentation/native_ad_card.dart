@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../constants/resources.dart';
-import '../../../exceptions/error_logger.dart';
 import '../../in_app_purchase/application/purchases_service.dart';
 import '../application/ad_helper.dart';
 import '../application/admob_service.dart';

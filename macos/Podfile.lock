@@ -627,6 +627,9 @@ PODS:
   - Firebase/Crashlytics (9.3.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 9.3.0)
+  - Firebase/Database (9.3.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (~> 9.3.0)
   - Firebase/Firestore (9.3.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 9.3.0)
@@ -648,6 +651,11 @@ PODS:
   - firebase_crashlytics (2.8.6):
     - Firebase/CoreOnly (~> 9.3.0)
     - Firebase/Crashlytics (~> 9.3.0)
+    - firebase_core
+    - FlutterMacOS
+  - firebase_database (9.1.7):
+    - Firebase/CoreOnly (~> 9.3.0)
+    - Firebase/Database (~> 9.3.0)
     - firebase_core
     - FlutterMacOS
   - FirebaseAnalytics (9.3.0):
@@ -696,6 +704,9 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (~> 2.1)
+  - FirebaseDatabase (9.3.0):
+    - FirebaseCore (~> 9.0)
+    - leveldb-library (~> 1.22)
   - FirebaseFirestore (9.3.0):
     - abseil/algorithm (~> 1.20211102.0)
     - abseil/base (~> 1.20211102.0)
@@ -852,6 +863,7 @@ DEPENDENCIES:
   - firebase_auth (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos`)
   - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
   - firebase_crashlytics (from `Flutter/ephemeral/.symlinks/plugins/firebase_crashlytics/macos`)
+  - firebase_database (from `Flutter/ephemeral/.symlinks/plugins/firebase_database/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - package_info_plus_macos (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus_macos/macos`)
   - path_provider_macos (from `Flutter/ephemeral/.symlinks/plugins/path_provider_macos/macos`)
@@ -873,6 +885,7 @@ SPEC REPOS:
     - FirebaseCoreExtension
     - FirebaseCoreInternal
     - FirebaseCrashlytics
+    - FirebaseDatabase
     - FirebaseFirestore
     - FirebaseFunctions
     - FirebaseInstallations
@@ -904,6 +917,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_core/macos
   firebase_crashlytics:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_crashlytics/macos
+  firebase_database:
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_database/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
   package_info_plus_macos:
@@ -928,6 +943,7 @@ SPEC CHECKSUMS:
   firebase_auth: 605dd4b2eddfb7c7b64415820f9d59840622c9b7
   firebase_core: 30cff5dc3d110360ba97895b6bdb6fe70b4b4060
   firebase_crashlytics: 21b98b122d93d2d5ab68ebb74309838a53fa2b81
+  firebase_database: baab8f67144824aadc25d59123dc4d4f17060380
   FirebaseAnalytics: bf46f5163f44097ce2c789de0b3e6f87f1da834a
   FirebaseAppCheckInterop: 8e95b4329809e3c06fb425acb3839dcadfe23673
   FirebaseAuth: 9ebc3577fe0acf9092df21ac314024b70aebf21e
@@ -937,6 +953,7 @@ SPEC CHECKSUMS:
   FirebaseCoreExtension: 2904492b693a6871ddbd1088c9d1fe6e54384050
   FirebaseCoreInternal: 50a8e39cae8abf72d5145d07ea34c3244f70862b
   FirebaseCrashlytics: 65a5b349e664e986e6c7486b0a9b5ed8c11d0491
+  FirebaseDatabase: 92350185966ddd283842aa9ca07e188691f3b8ad
   FirebaseFirestore: 5a72aa925528f67469b16a54a6cfc369467197e4
   FirebaseFunctions: 817616e838ef76f985314d0e1e8caa0bb5c19daf
   FirebaseInstallations: 41f811b530c41dd90973d0174381cdb3fcb5e839

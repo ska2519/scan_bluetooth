@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../exceptions/error_logger.dart';
 import '../features/authentication/application/auth_service.dart';
 import '../features/authentication/presentation/account/account_screen.dart';
-import '../features/authentication/presentation/sign_in/sign_in_screen.dart';
 import '../features/bluetooth/presentation/bluetooth_screen.dart';
 import '../features/community/presentation/community_screen.dart';
 import '../features/in_app_purchase/presentation/purchase_screen.dart';
@@ -18,8 +17,8 @@ enum AppRoute {
   bluetooth,
   purchase,
   account,
-  signIn,
   community,
+  // signIn,
 }
 
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -62,9 +61,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       logger.i('isLoggedIn: $isLoggedIn / state.location: ${state.location}');
 
       if (isLoggedIn) {
-        if (state.location == 'signIn') {
-          return '/bluetooth';
+        if (state.location == '/bluetooth') {
+          return null;
         }
+        // if (state.location == 'signIn') {
+        //   return '/bluetooth';
+        // }
       } else {}
       return null;
     },
@@ -97,11 +99,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               child: AccountScreen(),
             ),
             routes: [
-              GoRoute(
-                path: 'signIn',
-                name: AppRoute.signIn.name,
-                builder: (context, state) => const SignInScreen(),
-              ),
+              // GoRoute(
+              //   path: 'signIn',
+              //   name: AppRoute.signIn.name,
+              //   builder: (context, state) => const SignInScreen(),
+              // ),
               GoRoute(
                 path: 'purchase',
                 name: AppRoute.purchase.name,

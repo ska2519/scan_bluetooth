@@ -46,9 +46,9 @@ class MoreMenuButton extends ConsumerWidget {
       onSelected: (option) {
         // push to different routes based on selected option
         switch (option) {
-          case PopupMenuOption.signIn:
-            context.pushNamed(AppRoute.signIn.name);
-            break;
+          // case PopupMenuOption.signIn:
+          //   context.pushNamed(AppRoute.signIn.name);
+          //   break;
           case PopupMenuOption.purchase:
             context.pushNamed(AppRoute.purchase.name);
             break;

@@ -2,10 +2,10 @@ import { PurchaseHandler } from "./purchase-handler";
 import { ProductData, productDataMap } from "./products";
 import { APP_STORE_SHARED_SECRET, CLOUD_REGION } from "./constants";
 import { IapRepository } from "./iap.repository";
-import * as firebase from "firebase-admin";
+import * as admin from "firebase-admin";
 import * as Functions from "firebase-functions";
 import * as appleReceiptVerify from "node-apple-receipt-verify";
-import Timestamp = firebase.firestore.Timestamp;
+import Timestamp = admin.firestore.Timestamp;
 import { groupBy } from "lodash";
 
 
@@ -16,7 +16,7 @@ declare module "node-apple-receipt-verify" {
   }
 }
 
-const firestore = firebase.firestore;
+const firestore = admin.firestore;
 const functions = Functions.region(CLOUD_REGION);
 
 export class AppStorePurchaseHandler extends PurchaseHandler {

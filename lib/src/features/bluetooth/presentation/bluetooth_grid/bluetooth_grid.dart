@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../constants/resources.dart';
 import '../../../../utils/destination_item_index.dart';
-import '../../../../utils/dismiss_on_screen_keyboard.dart';
 import '../../../admob/presentation/native_ad_card.dart';
 import '../../../in_app_purchase/application/purchases_service.dart';
 import '../../application/bluetooth_service.dart';
@@ -22,6 +21,12 @@ class BluetoothGrid extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void dismissOnScreenKeyboard(BuildContext context) {
+      if (FocusScope.of(context).hasFocus) {
+        FocusScope.of(context).unfocus();
+      }
+    }
+
     useEffect(() {
       ref
           .read(bluetoothServiceProvider)

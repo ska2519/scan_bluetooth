@@ -19,6 +19,7 @@ dependencies:
   firebase_auth: ^3.6.4
   firebase_core: ^1.20.0
   firebase_crashlytics: ^2.8.6
+  firebase_database: ^9.1.7
   firebase_dynamic_links: ^4.3.11
   flex_color_scheme: ^5.1.0
   flutter:

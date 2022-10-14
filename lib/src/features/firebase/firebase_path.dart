@@ -32,6 +32,8 @@ class FirebasePath {
   static String bluetoothes({String? deviceId}) => 'bluetoothes/$deviceId';
   static String labels({required String deviceId, required String uid}) =>
       'bluetoothes/$deviceId/labels/$uid';
-  static String collectionGrouplabels() => 'labels';
+  static String collectionGroupLabels() => 'labels';
+  static String status({String? uid}) => 'status/$uid';
+  static String collectionStatus() => 'status';
   static String collectionPurchases() => 'purchases';
 }

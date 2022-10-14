@@ -5,7 +5,6 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/resources.dart';
 import '../../../../routing/scaffold_with_nav_bar.dart';
-import '../../../../utils/dismiss_on_screen_keyboard.dart';
 import '../../../../utils/toast_context.dart';
 import '../../../permission/application/permission_service.dart';
 import '../../application/bluetooth_service.dart';
@@ -32,6 +31,12 @@ class BluetoothGridScreen extends HookConsumerWidget {
       ref.read(fToastProvider).init(scaffoldGlobalKey.currentState!.context);
       return null;
     }, []);
+
+    void dismissOnScreenKeyboard(BuildContext context) {
+      if (FocusScope.of(context).hasFocus) {
+        FocusScope.of(context).unfocus();
+      }
+    }
 
     final scrollController = useScrollController()
       ..addListener(() => dismissOnScreenKeyboard(context));

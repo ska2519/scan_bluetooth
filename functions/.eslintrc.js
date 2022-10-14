@@ -23,9 +23,12 @@ module.exports = {
   plugins: ["@typescript-eslint", "import"],
   rules: {
     // severity level: 0 = off, 1 = warn, 2 = error
-    "max-len": [2, { code: 80, ignorePattern: "^import\\W.*" }],
+    "max-len": [0, { code: 80, ignorePattern: "^import\\W.*" }],
     "quotes": [0, "double", { avoidEscape: true }],
     "require-jsdoc": 0,
+    "eol-last": 1,
+    // "@typescript-eslint/no-unused-vars": 0,
+    "no-trailing-spaces": 0,
     "indent": "off",
     "operator-linebreak": 0,
     "object-curly-spacing": 0,

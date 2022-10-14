@@ -17,8 +17,8 @@ import {
   SubscriptionPurchase,
   SubscriptionStatus,
 } from "./iap.repository";
-import * as firebase from "firebase-admin";
-const firestore = firebase.firestore;
+import * as admin from "firebase-admin";
+const firestore = admin.firestore;
 import * as Functions from "firebase-functions";
 const functions = Functions.region(CLOUD_REGION);
 

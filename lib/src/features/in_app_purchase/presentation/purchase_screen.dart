@@ -37,7 +37,7 @@ class PurchaseScreen extends HookConsumerWidget {
       appBar: AppBar(title: const Text('Upgrade features')),
       body: GestureDetector(
         onTap: currentUser != null && currentUser.isAnonymous!
-            ? () => context.pushNamed(AppRoute.signIn.name)
+            ? () => context.pushNamed(AppRoute.account.name)
             : null,
         child: AbsorbPointer(
           absorbing: currentUser != null && currentUser.isAnonymous!,

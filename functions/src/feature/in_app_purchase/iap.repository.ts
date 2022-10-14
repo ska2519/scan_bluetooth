@@ -1,5 +1,5 @@
-import * as firebase from "firebase-admin";
-import Timestamp = firebase.firestore.Timestamp;
+import * as admin from "firebase-admin";
+import Timestamp = admin.firestore.Timestamp;
 
 export type NonSubscriptionStatus = "PENDING" | "COMPLETED" | "CANCELLED";
 export type SubscriptionStatus = "PENDING" | "ACTIVE" | "EXPIRED";
@@ -12,7 +12,7 @@ export interface BasePurchase {
   orderId: string;
   productId: string;
   userId: string;
-  purchaseDate: firebase.firestore.Timestamp;
+  purchaseDate: admin.firestore.Timestamp;
 }
 
 export interface NonSubscriptionPurchase extends BasePurchase {
@@ -22,7 +22,7 @@ export interface NonSubscriptionPurchase extends BasePurchase {
 
 export interface SubscriptionPurchase extends BasePurchase {
   type: "SUBSCRIPTION";
-  expiryDate: firebase.firestore.Timestamp;
+  expiryDate: admin.firestore.Timestamp;
   status: SubscriptionStatus;
 }
 

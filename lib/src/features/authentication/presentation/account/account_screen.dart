@@ -7,7 +7,6 @@ import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/app_sizes.dart';
 import '../../../../localization/string_hardcoded.dart';
 import '../../../../utils/async_value_ui.dart';
-import '../../../firebase/dynamic_link.dart';
 import '../../application/auth_service.dart';
 import '../sign_in/email_password/email_password_sign_in_screen.dart';
 import 'account_screen_controller.dart';
@@ -66,12 +65,13 @@ class AccountScreen extends HookConsumerWidget {
                   .map((e) => Text(e.providerId ?? ''))
                   .toList(),
             gapH16,
-            // if (!isLoggedIn)
             const SignInButtonList(),
-            ElevatedButton(
-              onPressed: ref.read(dynamicLinkProvider).createDynamicLink,
-              child: Text('share application'.hardcoded),
-            ),
+            gapH16,
+            // ElevatedButton.icon(
+            //   icon: const Icon(Icons.share_outlined),
+            //   onPressed: ref.read(dynamicLinkProvider).createDynamicLink,
+            //   label: Text('share app'.hardcoded),
+            // ),
           ],
         ),
       ),

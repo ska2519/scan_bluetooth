@@ -1,12 +1,9 @@
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart';
-
-import '../../../../common_widgets/action_text_button.dart';
 import '../../../../constants/resources.dart';
 import '../../../authentication/application/auth_service.dart';
+import '../../../presence_user/presentation/online_user_count.dart';
 import '../../application/scan_bluetooth_service.dart';
-import 'more_menu_button.dart';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and
 /// [ProductScreen].
@@ -30,35 +27,42 @@ class HomeAppBar extends HookConsumerWidget with PreferredSizeWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth < Breakpoint.tablet) {
       return AppBar(
-        title: const BluetoothCountInfo(),
+        title: Stack(
+          children: const [
+            OnlineUserCount(),
+            Center(child: BluetoothCountInfo()),
+          ],
+        ),
         actions: const [
           // const ShoppingCartIcon(),
-          MoreMenuButton(),
+          // MoreMenuButton(),
         ],
       );
     } else {
       return AppBar(
         title: const BluetoothCountInfo(),
-        actions: [
+        actions: const [
           // const ShoppingCartIcon(),
-          if (user != null && !user.isAnonymous!) ...[
-            if (!kReleaseMode)
-              ActionTextButton(
-                key: MoreMenuButton.purchaseKey,
-                text: 'Purchase'.hardcoded,
-                onPressed: () => context.pushNamed(AppRoute.purchase.name),
-              ),
-            ActionTextButton(
-              key: MoreMenuButton.accountKey,
-              text: 'Account'.hardcoded,
-              onPressed: () => context.pushNamed(AppRoute.account.name),
-            ),
-          ] else
-            ActionTextButton(
-              key: MoreMenuButton.signInKey,
-              text: 'Sign In'.hardcoded,
-              onPressed: () => context.pushNamed(AppRoute.signIn.name),
-            )
+          // if (user != null && !user.isAnonymous!) ...[
+          //   if (!kReleaseMode)
+          //     ActionTextButton(
+          //       key: MoreMenuButton.purchaseKey,
+          //       text: 'Purchase'.hardcoded,
+          //       onPressed: () => context.pushNamed(AppRoute.purchase.name),
+          //     ),
+          //   ActionTextButton(
+          //     key: MoreMenuButton.accountKey,
+          //     text: 'Account'.hardcoded,
+          //     onPressed: () => context.pushNamed(AppRoute.account.name),
+          //   ),
+          // ]
+
+          // else
+          //   ActionTextButton(
+          //     key: MoreMenuButton.signInKey,
+          //     text: 'Sign In'.hardcoded,
+          //     onPressed: () => context.pushNamed(AppRoute.signIn.name),
+          //   )
         ],
       );
     }

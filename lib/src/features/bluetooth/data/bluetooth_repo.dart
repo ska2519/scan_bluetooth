@@ -45,7 +45,7 @@ class BluetoothRepo {
 
   Stream<List<Label>> labelsStream(String uid) {
     return _firestore.collectionGroupStream<Label>(
-      path: FirebasePath.collectionGrouplabels(),
+      path: FirebasePath.collectionGroupLabels(),
       queryBuilder: (query) => query
           .where('uid', isEqualTo: uid)
           .orderBy('createdAt', descending: true),

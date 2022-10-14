@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import '../../../../../common_widgets/custom_text_button.dart';
 import '../../../../../common_widgets/primary_button.dart';
 import '../../../../../constants/resources.dart';
+import '../../../application/auth_service.dart';
 import '../sign_in_button.dart';
 import '../sign_in_type.dart';
 import 'email_password_sign_in_controller.dart';
@@ -176,19 +177,34 @@ class _EmailPasswordSignInScreenState
   }
 }
 
-class SignInButtonList extends StatelessWidget {
-  const SignInButtonList({super.key});
+class SignInButtonList extends ConsumerWidget {
+  const SignInButtonList();
 
   @override
-  Widget build(BuildContext context) {
-    var signInTypes = SignInType.values.toList();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authStateChangesProvider).value;
+    var loggedInApple = false;
+    var loggedInGoogle = false;
+    var signInType = SignInType.values.toList();
+
     if (Platform.isIOS || Platform.isMacOS) {
-      signInTypes.sort((a, b) => a == SignInType.apple ? -1 : 1);
+      signInType.sort((a, b) => a == SignInType.apple ? -1 : 1);
     }
+    if (user?.providerData != null) {
+      loggedInApple =
+          user!.providerData!.any((e) => e.providerId == 'apple.com');
+      loggedInGoogle =
+          user.providerData!.any((e) => e.providerId == 'google.com');
+    }
+    logger.i('user: $user');
+    logger.i('loggedInApple: $loggedInApple / loggedInGoogle: $loggedInGoogle');
+
+    if (loggedInApple) signInType.remove(SignInType.apple);
+    if (loggedInGoogle) signInType.remove(SignInType.google);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: signInTypes.map(SignInButton.new).toList(),
+      children: signInType.map(SignInButton.new).toList(),
     );
   }
 }

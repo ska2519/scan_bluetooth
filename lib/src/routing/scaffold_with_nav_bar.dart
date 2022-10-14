@@ -20,7 +20,6 @@ class ScaffoldWithNavBar extends StatefulHookConsumerWidget {
 class _HidableBottomNavigationBarState extends ConsumerState<ScaffoldWithNavBar>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
-
   int _currentIndex = 0;
   List<ScaffoldWithNavBarTabItem> get tabs => widget.tabs;
 

@@ -22,17 +22,16 @@ class DynamicLink {
 
   Future<ShortDynamicLink?> createDynamicLink({
     String link = 'https://fruitshop.app/',
-    String uriPrefix = 'links',
+    String uriPrefix = 'https://fruitshop.app/links',
     String title = 'title',
     String description = 'description',
     String? imageUrl,
   }) async {
     try {
       final packageInfo = ref.read(packageInfoProvider);
-      logger.i('DynamicLink createDynamicLink uriPrefix: ${'$link$uriPrefix'}');
       final dynamicLinkParams = DynamicLinkParameters(
         link: Uri.parse(link),
-        uriPrefix: '$link$uriPrefix',
+        uriPrefix: uriPrefix,
         androidParameters:
             AndroidParameters(packageName: packageInfo.packageName),
         iosParameters: IOSParameters(bundleId: packageInfo.packageName),
@@ -55,7 +54,7 @@ class DynamicLink {
         shortLinkType: ShortDynamicLinkType.unguessable,
       );
       logger.i(
-          'DynamicLink unguessableDynamicLink: ${unguessableDynamicLink.toString()}');
+          'DynamicLink unguessableDynamicLink: ${unguessableDynamicLink.shortUrl}');
       return unguessableDynamicLink;
     } catch (e) {
       logger.i('createDynamicLink e: $e');

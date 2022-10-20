@@ -13,6 +13,15 @@ enum OnlineState { online, offline }
 final presenceUserServiceProvider =
     Provider<PresenceUserService>(PresenceUserService.new);
 
+final statusStateOnlineStreamProvider = StreamProvider<List<UserState>>((ref) {
+  final presenceUserRepo = ref.read(presenceUserRepoProvider);
+  final user = ref.watch(authStateChangesProvider).value;
+
+  return user == null
+      ? const Stream<List<UserState>>.empty()
+      : presenceUserRepo.userStateStream();
+});
+
 class PresenceUserService {
   PresenceUserService(this.ref) {
     _init();
@@ -29,62 +38,68 @@ class PresenceUserService {
       final previousUser = previous?.value;
       final user = next.value;
       logger.i('PresenceUserService _init user: $user');
-      if (previousUser != user && user != null) {
-        logger.i('PresenceUserService previousUser != user && user != null');
-        _updatePresence();
+      if (user != null && previousUser?.uid != user.uid) {
+        logger.i(
+            'PresenceUserService user != null && previousUser?.uid != user.uid');
+        _updatePresence(user);
       }
     });
   }
 
-  void _updatePresence() {
-    logger.i('PresenceUserService _updatePresence');
-    final user = ref.read(authStateChangesProvider).value!;
-    final uid = user.uid;
+  void _updatePresence(AppUser user) {
+    try {
+      final uid = user.uid;
+      logger.i('PresenceUserService _updatePresence uid: $uid');
 
-    final isOfflineForDatabase = {
-      'state': OnlineState.offline.name,
-      'is_anonymous': user.isAnonymous,
-      'last_changed': ServerValue.timestamp
-    };
-    final isOnlineForDatabase = {
-      'state': OnlineState.online.name,
-      'is_anonymous': user.isAnonymous,
-      'last_changed': ServerValue.timestamp
-    };
+      final isOfflineForDatabase = {
+        'state': OnlineState.offline.name,
+        'is_anonymous': user.isAnonymous,
+        'last_changed': ServerValue.timestamp
+      };
+      final isOnlineForDatabase = {
+        'state': OnlineState.online.name,
+        'is_anonymous': user.isAnonymous,
+        'last_changed': ServerValue.timestamp
+      };
 
-    final database = FirebaseDatabase.instance;
-    final userStatusDatabaseRef = database.ref('/status/$uid');
+      final database = FirebaseDatabase.instance;
+      final userStatusDatabaseRef = database.ref('/status/$uid');
 
-    final firestore = FirebaseFirestore.instance;
-    final userStatusFirestoreRef = firestore.doc('/status/$uid');
+      final firestore = FirebaseFirestore.instance;
+      final userStatusFirestoreRef = firestore.doc('/status/$uid');
 
-    var isOfflineForFirestore = {
-      'state': OnlineState.offline.name,
-      'is_anonymous': user.isAnonymous,
-      'last_changed': FieldValue.serverTimestamp(),
-    };
+      var isOfflineForFirestore = {
+        'state': OnlineState.offline.name,
+        'is_anonymous': user.isAnonymous,
+        'last_changed': FieldValue.serverTimestamp(),
+      };
 
-    var isOnlineForFirestore = {
-      'state': OnlineState.online.name,
-      'is_anonymous': user.isAnonymous,
-      'last_changed': FieldValue.serverTimestamp(),
-    };
+      var isOnlineForFirestore = {
+        'state': OnlineState.online.name,
+        'is_anonymous': user.isAnonymous,
+        'last_changed': FieldValue.serverTimestamp(),
+      };
 
-    database.ref('.info/connected').onValue.listen((event) {
-      if (event.snapshot.value == false) {
-        userStatusFirestoreRef.set(isOfflineForFirestore);
-        return;
-      }
+      database.ref('.info/connected').onValue.listen((event) {
+        logger.i(
+            'PresenceUserService .info/connected event: ${event.snapshot.value}');
+        if (event.snapshot.value == false) {
+          userStatusFirestoreRef.set(isOfflineForFirestore);
+          return;
+        }
 
-      userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then((_) {
-        userStatusDatabaseRef.set(isOnlineForDatabase);
-        userStatusFirestoreRef.set(isOnlineForFirestore);
+        userStatusDatabaseRef
+            .onDisconnect()
+            .set(isOfflineForDatabase)
+            .then((_) {
+          logger.i(
+              'PresenceUserService userStatusDatabaseRef.onDisconnect().set().then((_)');
+          userStatusDatabaseRef.set(isOnlineForDatabase);
+          userStatusFirestoreRef.set(isOnlineForFirestore);
+        });
       });
-    });
+    } catch (e) {
+      logger.e('PresenceUserService _updatePresence e: $e');
+    }
   }
 }
-
-final statusStateOnlineStreamProvider = StreamProvider<List<UserState>>((ref) {
-  final presenceUserRepo = ref.read(presenceUserRepoProvider);
-  return presenceUserRepo.userStateStream();
-});

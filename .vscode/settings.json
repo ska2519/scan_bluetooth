@@ -1,9 +1,12 @@
 {
-    "dart.flutterSdkPath": "/Users/ska/fvm/versions/stable",
-    "cSpell.words": [
-        "fastlane",
-        "fruitlab",
-        "fruitshop",
-        "xcconfig"
-    ]
+    "dart.flutterSdkPath": ".fvm/flutter_sdk",
+    // Remove .fvm files from search
+    "search.exclude": {
+      "**/.fvm": true
+    },
+    // Remove from file watching
+    "files.watcherExclude": {
+      "**/.fvm": true
+    }
 }
+

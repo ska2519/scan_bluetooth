@@ -4,9 +4,10 @@ import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart'
+    show PlatformDispatcher, kIsWeb, kReleaseMode;
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,16 +34,26 @@ final packageInfoProvider =
 
 class AppStartup {
   static Future<void> run(Flavor flavor) async {
+    if (kIsWeb) usePathUrlStrategy();
     WidgetsFlutterBinding.ensureInitialized();
-    GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
+    // logger.i('Firebase.initializeApp kIsWeb: $kIsWeb /flavor: $flavor');
+    // if (Firebase.apps.isNotEmpty) {
+    try {
+      await Firebase.initializeApp(
+        options: flavor == Flavor.PROD
+            ? DefaultFirebaseOptions.currentPlatform
+            : DefaultFirebaseOptionsDev.currentPlatform,
+      );
+    } catch (e) {
+      logger.i('Firebase initializeApp e: $e');
+    }
 
-    await Firebase.initializeApp(
-      options: flavor == Flavor.PROD
-          ? DefaultFirebaseOptions.currentPlatform
-          : DefaultFirebaseOptionsDev.currentPlatform,
-    );
+    // }
+
+    logger.i('after await Firebase.initializeApp: ');
     final analytics = kReleaseMode ? FirebaseAnalytics.instance : null;
-    final crashlytics = kReleaseMode ? FirebaseCrashlytics.instance : null;
+    final crashlytics =
+        kReleaseMode && !kIsWeb ? FirebaseCrashlytics.instance : null;
 
     if (shouldUseFirestoreEmulator) {
       // FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
@@ -55,7 +66,7 @@ class AppStartup {
     // * This code will present some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {
       // * custom error handler in order to see the logs in the console as well.
-      if (kReleaseMode) {
+      if (kReleaseMode && !kIsWeb) {
         FlutterError.onError = crashlytics!.recordFlutterFatalError;
       } else {
         FlutterError.presentError(details);
@@ -63,10 +74,10 @@ class AppStartup {
     };
 
     PlatformDispatcher.instance.onError = (error, stack) {
-      if (kReleaseMode) {
+      if (kReleaseMode && !kIsWeb) {
         crashlytics!.recordError(error, stack, fatal: true);
       }
-      logger.e(error, stack);
+      logger.e(error);
       return true;
     };
 
@@ -75,7 +86,7 @@ class AppStartup {
       await analytics.logEvent(name: 'app_start');
     }
     const adType = kReleaseMode ? ADType.real : ADType.sample;
-    final sharedPreferences = await SharedPreferences.getInstance();
+    // final sharedPreferences = await SharedPreferences.getInstance();
     final packageInfo = await PackageInfo.fromPlatform();
 
     final appStartupContainer = ProviderContainer(
@@ -83,20 +94,20 @@ class AppStartup {
       overrides: [
         flavorProvider.overrideWithValue(flavor),
         adTypeProvider.overrideWithValue(adType),
-        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+        // sharedPreferencesProvider.overrideWithValue(sharedPreferences),
         packageInfoProvider.overrideWithValue(packageInfo),
       ],
     );
     appStartupContainer.read(loggerProvider);
-    appStartupContainer.read(presenceUserServiceProvider);
 
     if (Platform.isAndroid || Platform.isIOS) {
+      appStartupContainer.read(presenceUserServiceProvider);
       appStartupContainer.read(purchasesServiceProvider);
       appStartupContainer.read(admobServiceProvider);
     } else if (Platform.isMacOS) {
       appStartupContainer.read(setWindowSizeProvider);
     }
-
+    logger.i('appStartupContainer state: $appStartupContainer');
     // * Entry point of the app
     runApp(UncontrolledProviderScope(
       container: appStartupContainer,

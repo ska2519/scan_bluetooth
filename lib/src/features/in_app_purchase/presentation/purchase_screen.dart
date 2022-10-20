@@ -1,9 +1,12 @@
-import 'dart:math';
+import 'package:intl/intl.dart';
 
 import '../../../constants/resources.dart';
+import '../../../utils/date_formatter.dart';
+import '../../../utils/toast_context.dart';
 import '../../authentication/data/auth_repository.dart';
 import '../application/purchases_service.dart';
 import '../constants.dart';
+import '../domain/past_purchase.dart';
 import '../domain/purchasable_product.dart';
 import '../domain/store_state.dart';
 
@@ -37,26 +40,35 @@ class PurchaseScreen extends HookConsumerWidget {
       appBar: AppBar(title: const Text('Upgrade features')),
       body: GestureDetector(
         onTap: currentUser != null && currentUser.isAnonymous!
-            ? () => context.pushNamed(AppRoute.account.name)
+            ? () {
+                ref.read(fToastProvider).showToast(
+                        child: const ToastContext(
+                      'Need to Login🚪 to Features Purchases',
+                    ));
+                context.push('/account/purchase/account');
+              }
             : null,
         child: AbsorbPointer(
           absorbing: currentUser != null && currentUser.isAnonymous!,
           child: Padding(
             padding: const EdgeInsets.all(Sizes.p4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                storeWidget,
-                if (pastPurchases.isNotEmpty)
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 0.0),
-                    child: Text(
-                      'Past purchases',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  storeWidget,
+                  if (pastPurchases.isNotEmpty)
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(16, 8, 0, 0),
+                      child: Text(
+                        'Past purchases',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                const PastPurchasesWidget(),
-              ],
+                  const PastPurchasesWidget(),
+                ],
+              ),
             ),
           ),
         ),
@@ -82,7 +94,7 @@ class _PurchasesNotAvailable extends StatelessWidget {
 class _PurchaseList extends HookConsumerWidget {
   @override
   Widget build(BuildContext contex, WidgetRef ref) {
-    final products = ref.watch(productsProvider);
+    final products = ref.watch(purchasableproductsProvider);
     return Column(
       children: products.map((product) {
         return _PurchaseWidget(
@@ -93,26 +105,6 @@ class _PurchaseList extends HookConsumerWidget {
     );
   }
 }
-
-const fruits = [
-  '🍇',
-  '🍈',
-  '🍉',
-  '🍊',
-  '🍋',
-  '🍌',
-  '🍍',
-  '🥭',
-  '🍎',
-  '🍏',
-  '🍐',
-  '🍑',
-  '🍒',
-  '🍓',
-  '🥝',
-  '🍅',
-  '🥥'
-];
 
 String removeAndroidAppName(String text) {
   final temptext = text.replaceAll('(스캔 블루투스)', '');
@@ -133,13 +125,17 @@ class _PurchaseWidget extends HookConsumerWidget {
     if (product.status == ProductStatus.purchased) {
       title += ' (purchased)';
     }
+
     const storeKeyUpgrade = 'remove_ads_upgrade';
     const storeKeySubscription_1m = 'support_member_subscription_1month';
     const storeKeySubscription_1y = 'support_member_subscription_1year';
 
     switch (product.id) {
       case storeKeyConsumable:
-        title = '${fruits[Random().nextInt(fruits.length)]} $title';
+        title = '${fruit()} $title';
+        break;
+      case storeKeyConsumableMax:
+        title = '${fruit()} $title';
         break;
       case storeKeyUpgrade:
         title = '␡ $title';
@@ -164,9 +160,18 @@ class _PurchaseWidget extends HookConsumerWidget {
   }
 
   String _trailing() {
+    final currencySymbol = '${product.price.substring(0, 1)} ';
+    final noSymbolPrice = product.price.substring(1);
+
+    logger.i('currencySymbolL $currencySymbol / noSymbolPrice: $noSymbolPrice');
     switch (product.status) {
       case ProductStatus.purchasable:
-        return product.price;
+        return Platform.isIOS || Platform.isMacOS
+            ? currencySymbol +
+                NumberFormat.currency(symbol: '', decimalDigits: 0)
+                    .format(int.tryParse(noSymbolPrice))
+            : currencySymbol + noSymbolPrice;
+
       case ProductStatus.purchased:
         return 'purchased';
       case ProductStatus.pending:
@@ -178,26 +183,76 @@ class _PurchaseWidget extends HookConsumerWidget {
 class PastPurchasesWidget extends HookConsumerWidget {
   const PastPurchasesWidget({super.key});
 
+  String title(PastPurchase product) {
+    switch (product.productId) {
+      case storeKeyConsumable:
+        return fruit();
+      case storeKeyConsumableMax:
+        return 'King ${fruit()}';
+      case storeKeyUpgrade:
+        return '␡ remove ads upgrade';
+      case storeKeySubscription1m:
+        return 'Subscription 1 month';
+      case storeKeySubscription1y:
+        return 'Subscription 1 year';
+      default:
+        return product.productId;
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pastPurchases = ref.watch(pastPurchaseListProvider);
+    final unExpiredPurchases =
+        pastPurchases.where((e) => e.status != Status.expired).toList();
+    unExpiredPurchases.sort((a, b) => b.purchaseDate.compareTo(a.purchaseDate));
+
     return ListView.separated(
+      primary: false,
       shrinkWrap: true,
-      itemCount: pastPurchases.length,
+      itemCount: unExpiredPurchases.length,
       itemBuilder: (context, index) {
-        final purchase = pastPurchases[index];
+        final purchase = unExpiredPurchases[index];
+
+        final purchasedateFormatted =
+            ref.watch(dateFormatterProvider).format(purchase.purchaseDate);
+        String? expiryDateFormatted;
+        logger.i('purchase.expiryDate: ${purchase.expiryDate}');
+        if (purchase.expiryDate != null) {
+          expiryDateFormatted =
+              ref.watch(dateFormatterProvider).format(purchase.expiryDate!);
+        }
+
         return ListTile(
-          title: Text(purchase.title),
+          title: Row(
+            children: [
+              Text(title(purchase)),
+              if (purchase.quantity != null)
+                Text('x ${purchase.quantity.toString()} '),
+            ],
+          ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(purchase.status.toString()),
               Row(
                 children: [
-                  const Text('purchaseDate: '),
-                  Text(purchase.purchaseDate.toString()),
+                  const Text('Status: '),
+                  Text(purchase.status.toString().replaceAll('Status.', '')),
                 ],
               ),
+              Row(
+                children: [
+                  const Text('Purchase Date: '),
+                  Text(purchasedateFormatted),
+                ],
+              ),
+              if (expiryDateFormatted != null)
+                Row(
+                  children: [
+                    const Text('Expiry Date: '),
+                    Text(purchasedateFormatted),
+                  ],
+                ),
               // Text(purchase.expiryDate.toString()),
             ],
           ),

@@ -57,6 +57,7 @@ export class GooglePlayPurchaseHandler extends PurchaseHandler {
         type: "NON_SUBSCRIPTION",
         iapSource: "google_play",
         orderId: response.data.orderId,
+        quantity: response.data.quantity ?? 1,
         productId: productData.productId,
         purchaseDate: firestore.Timestamp.fromMillis(
           parseInt(response.data.purchaseTimeMillis ?? "0", 10)

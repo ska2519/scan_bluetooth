@@ -16,6 +16,7 @@ class ConnectButton extends ConsumerWidget {
     return Visibility(
       visible: false,
       child: Tooltip(
+        triggerMode: TooltipTriggerMode.tap,
         message: 'CONNECT',
         child: Row(
           children: [

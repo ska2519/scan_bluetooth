@@ -13,14 +13,14 @@ _$_Bluetooth _$$_BluetoothFromJson(Map json) => _$_Bluetooth(
       manufacturerData: json['manufacturerData'] as List<dynamic>,
       rssi: json['rssi'] as int,
       previousRssi: json['previousRssi'] as int?,
-      scannedAt: const TimestampConverter().fromJson(json['scannedAt']),
-      createdAt: const TimestampConverter().fromJson(json['createdAt']),
-      updatedAt: const TimestampConverter().fromJson(json['updatedAt']),
-      labelCount: json['labelCount'] as int?,
-      lastUpdatedLabel: json['lastUpdatedLabel'] == null
+      scannedAt: const TimestampNullableConverter().fromJson(json['scannedAt']),
+      createdAt: const TimestampNullableConverter().fromJson(json['createdAt']),
+      updatedAt: const TimestampNullableConverter().fromJson(json['updatedAt']),
+      labelCount: json['labelCount'] as int? ?? 0,
+      firstUpdatedLabel: json['firstUpdatedLabel'] == null
           ? null
           : Label.fromJson(
-              Map<String, dynamic>.from(json['lastUpdatedLabel'] as Map)),
+              Map<String, dynamic>.from(json['firstUpdatedLabel'] as Map)),
       userLabel: json['userLabel'] == null
           ? null
           : Label.fromJson(Map<String, dynamic>.from(json['userLabel'] as Map)),
@@ -34,10 +34,13 @@ Map<String, dynamic> _$$_BluetoothToJson(_$_Bluetooth instance) =>
       'manufacturerData': instance.manufacturerData,
       'rssi': instance.rssi,
       'previousRssi': instance.previousRssi,
-      'scannedAt': const TimestampConverter().toJson(instance.scannedAt),
-      'createdAt': const TimestampConverter().toJson(instance.createdAt),
-      'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
+      'scannedAt':
+          const TimestampNullableConverter().toJson(instance.scannedAt),
+      'createdAt':
+          const TimestampNullableConverter().toJson(instance.createdAt),
+      'updatedAt':
+          const TimestampNullableConverter().toJson(instance.updatedAt),
       'labelCount': instance.labelCount,
-      'lastUpdatedLabel': instance.lastUpdatedLabel?.toJson(),
+      'firstUpdatedLabel': instance.firstUpdatedLabel?.toJson(),
       'userLabel': instance.userLabel?.toJson(),
     };

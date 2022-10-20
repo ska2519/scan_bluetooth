@@ -10,7 +10,9 @@ part 'user_state.freezed.dart';
 class UserState with _$UserState {
   const factory UserState({
     required String state,
-    @JsonKey(name: 'last_changed') @TimestampConverter() DateTime? lastCanged,
+    @JsonKey(name: 'last_changed')
+    @TimestampNullableConverter()
+        DateTime? lastCanged,
     @JsonKey(name: 'is_anonymous') required bool isAnonymous,
     UserId? uid,
   }) = _UserState;

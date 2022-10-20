@@ -3,14 +3,11 @@ targets:
     builders:
       json_serializable:
         options:
-          # allowed-types:
-          #     - name: Timestamp
-          #         source: "package:cloud_firestore/cloud_firestore.dart"
-#           # Options configure how source code is generated for every
 #           # `@JsonSerializable`-annotated class in the package.
 #           #
 #           # The default value for each is listed.
           any_map: true
 #           disallow_unrecognized_keys: false
           explicit_to_json: true
-#           generic_argument_factories: false
+          generic_argument_factories: false
+          

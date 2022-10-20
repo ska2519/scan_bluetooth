@@ -9,8 +9,12 @@
     "appAssociation": "AUTO",
     "rewrites": [
       {
+        "source": "/privacy.html",
+        "destination": "/public/privacy.html"
+      },
+      {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "/public/index.html"
       },
       {
         "source": "/promos/**",

@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../firebase/firestore_json_converter.dart';
+
 part 'app_user.g.dart';
 part 'app_user.freezed.dart';
 
@@ -21,9 +23,9 @@ class AppUser with _$AppUser {
     List<UserInfo>? providerData,
     String? refreshToken,
     String? tenantId,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    DateTime? lastSignIn,
+    @TimestampNullableConverter() DateTime? createdAt,
+    @TimestampNullableConverter() DateTime? updatedAt,
+    @TimestampNullableConverter() DateTime? lastSignIn,
   }) = _AppUser;
 
   factory AppUser.transformFirebaseUser(User user, {String? displayName}) {

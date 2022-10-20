@@ -1,7 +1,4 @@
-
-
 import * as admin from "firebase-admin";
-// import {CLOUD_REGION} from "./feature/in_app_purchase/constants";
 import * as Functions from "firebase-functions";
 // import {CLOUD_REGION} from "./feature/in_app_purchase/constants";
 
@@ -17,3 +14,7 @@ export {expireSubscriptions} from './feature/in_app_purchase/in_app_purchase';
 
 // presence_users
 export {onUserStatusChanged} from './feature/presence_user/presence_user';
+
+// bluetooth
+export {increaseLabelCount} from './feature/bluetooth/bluetooth';
+export {decreaseLabelCount} from './feature/bluetooth/bluetooth';

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:badges/badges.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:string_to_color/string_to_color.dart';
 
@@ -139,9 +140,8 @@ class BluetoothTile extends HookConsumerWidget {
                         maxLines: 1,
                       ),
                       if (bluetooth.userLabel != null &&
-                          ref
-                                  .read(scanBluetoothServiceProvider)
-                                  .rssiCalculate(bluetooth.userLabel!.rssi) >
+                          ref.read(scanBluetoothServiceProvider).rssiCalculate(
+                                  bluetooth.userLabel!.bluetooth.rssi) >
                               70)
                         Padding(
                           padding: const EdgeInsets.only(left: Sizes.p4),
@@ -169,19 +169,35 @@ class BluetoothTile extends HookConsumerWidget {
           ],
         ),
         if (intRssi > 50)
-          FloatingActionButton(
+          Badge(
+            showBadge: bluetooth.userLabel != null
+                ? bluetooth.userLabel!.bluetooth.labelCount > 0
+                : false,
+            animationType: BadgeAnimationType.scale,
             elevation: 1,
-            onPressed: onTapLabelEdit,
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black87,
-            mini: true,
-            heroTag: null,
-            shape: const CircleBorder(),
-            splashColor: Colors.lightBlueAccent,
-            child: bluetooth.userLabel != null
-                ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p28)
-                : Assets.svg.icons8AddTag.svg(width: Sizes.p28),
+            badgeColor: theme.colorScheme.primaryContainer,
+            position: BadgePosition.bottomEnd(bottom: 0, end: 0),
+            badgeContent: Text(
+              bluetooth.labelCount > 0 ? bluetooth.labelCount.toString() : '',
+              style: textTheme.caption!.copyWith(
+                color: theme.colorScheme.onPrimaryContainer,
+              ),
+            ),
+            child: FloatingActionButton(
+              elevation: 1,
+              onPressed: onTapLabelEdit,
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black87,
+              mini: true,
+              heroTag: null,
+              shape: const CircleBorder(),
+              splashColor: Colors.lightBlueAccent,
+              child: bluetooth.userLabel != null
+                  ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p28)
+                  : Assets.svg.icons8AddTag.svg(width: Sizes.p28),
+            ),
           ),
+
         // Row(
         //   children: [
         //     if (bluetooth.name.isNotEmpty)

@@ -26,6 +26,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
       verbose: false,
       secret: APP_STORE_SHARED_SECRET,
       extended: true,
+      //TODO: environment ['production'] or ['sandbox']
       environment: ["sandbox"], // Optional, defaults to ['production'],
       excludeOldTransactions: true,
     });
@@ -83,7 +84,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
             userId,
             purchaseDate: firestore.Timestamp.fromMillis(product.purchaseDate),
             expiryDate: firestore.Timestamp.fromMillis(
-              product.expirationDate ?? 0
+              product.expirationDate ?? 0,
             ),
             status:
               (product.expirationDate ?? 0) <= Date.now()
@@ -98,6 +99,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
             orderId: product.originalTransactionId,
             productId: product.productId,
             userId,
+            quantity: product.quantity ?? 1,
             purchaseDate: firestore.Timestamp.fromMillis(product.purchaseDate),
             status: "COMPLETED",
           });

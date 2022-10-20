@@ -31,8 +31,11 @@ mixin _$AppUser {
   List<UserInfo>? get providerData => throw _privateConstructorUsedError;
   String? get refreshToken => throw _privateConstructorUsedError;
   String? get tenantId => throw _privateConstructorUsedError;
+  @TimestampNullableConverter()
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  @TimestampNullableConverter()
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  @TimestampNullableConverter()
   DateTime? get lastSignIn => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,7 +46,8 @@ mixin _$AppUser {
 /// @nodoc
 abstract class $AppUserCopyWith<$Res> {
   factory $AppUserCopyWith(AppUser value, $Res Function(AppUser) then) =
-      _$AppUserCopyWithImpl<$Res>;
+      _$AppUserCopyWithImpl<$Res, AppUser>;
+  @useResult
   $Res call(
       {String uid,
       String? email,
@@ -55,22 +59,25 @@ abstract class $AppUserCopyWith<$Res> {
       List<UserInfo>? providerData,
       String? refreshToken,
       String? tenantId,
-      DateTime? createdAt,
-      DateTime? updatedAt,
-      DateTime? lastSignIn});
+      @TimestampNullableConverter() DateTime? createdAt,
+      @TimestampNullableConverter() DateTime? updatedAt,
+      @TimestampNullableConverter() DateTime? lastSignIn});
 }
 
 /// @nodoc
-class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
+class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
+    implements $AppUserCopyWith<$Res> {
   _$AppUserCopyWithImpl(this._value, this._then);
 
-  final AppUser _value;
   // ignore: unused_field
-  final $Res Function(AppUser) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? uid = freezed,
+    Object? uid = null,
     Object? email = freezed,
     Object? displayName = freezed,
     Object? emailVerified = freezed,
@@ -85,59 +92,59 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
     Object? lastSignIn = freezed,
   }) {
     return _then(_value.copyWith(
-      uid: uid == freezed
+      uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      email: email == freezed
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      displayName: displayName == freezed
+      displayName: freezed == displayName
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
               as String?,
-      emailVerified: emailVerified == freezed
+      emailVerified: freezed == emailVerified
           ? _value.emailVerified
           : emailVerified // ignore: cast_nullable_to_non_nullable
               as bool?,
-      isAnonymous: isAnonymous == freezed
+      isAnonymous: freezed == isAnonymous
           ? _value.isAnonymous
           : isAnonymous // ignore: cast_nullable_to_non_nullable
               as bool?,
-      phoneNumber: phoneNumber == freezed
+      phoneNumber: freezed == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String?,
-      photoURL: photoURL == freezed
+      photoURL: freezed == photoURL
           ? _value.photoURL
           : photoURL // ignore: cast_nullable_to_non_nullable
               as String?,
-      providerData: providerData == freezed
+      providerData: freezed == providerData
           ? _value.providerData
           : providerData // ignore: cast_nullable_to_non_nullable
               as List<UserInfo>?,
-      refreshToken: refreshToken == freezed
+      refreshToken: freezed == refreshToken
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
               as String?,
-      tenantId: tenantId == freezed
+      tenantId: freezed == tenantId
           ? _value.tenantId
           : tenantId // ignore: cast_nullable_to_non_nullable
               as String?,
-      createdAt: createdAt == freezed
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      updatedAt: updatedAt == freezed
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      lastSignIn: lastSignIn == freezed
+      lastSignIn: freezed == lastSignIn
           ? _value.lastSignIn
           : lastSignIn // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -147,6 +154,7 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
           _$_AppUser value, $Res Function(_$_AppUser) then) =
       __$$_AppUserCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String uid,
       String? email,
@@ -158,23 +166,22 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       List<UserInfo>? providerData,
       String? refreshToken,
       String? tenantId,
-      DateTime? createdAt,
-      DateTime? updatedAt,
-      DateTime? lastSignIn});
+      @TimestampNullableConverter() DateTime? createdAt,
+      @TimestampNullableConverter() DateTime? updatedAt,
+      @TimestampNullableConverter() DateTime? lastSignIn});
 }
 
 /// @nodoc
-class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
+class __$$_AppUserCopyWithImpl<$Res>
+    extends _$AppUserCopyWithImpl<$Res, _$_AppUser>
     implements _$$_AppUserCopyWith<$Res> {
   __$$_AppUserCopyWithImpl(_$_AppUser _value, $Res Function(_$_AppUser) _then)
-      : super(_value, (v) => _then(v as _$_AppUser));
+      : super(_value, _then);
 
-  @override
-  _$_AppUser get _value => super._value as _$_AppUser;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? uid = freezed,
+    Object? uid = null,
     Object? email = freezed,
     Object? displayName = freezed,
     Object? emailVerified = freezed,
@@ -189,55 +196,55 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
     Object? lastSignIn = freezed,
   }) {
     return _then(_$_AppUser(
-      uid: uid == freezed
+      uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
-      email: email == freezed
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      displayName: displayName == freezed
+      displayName: freezed == displayName
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
               as String?,
-      emailVerified: emailVerified == freezed
+      emailVerified: freezed == emailVerified
           ? _value.emailVerified
           : emailVerified // ignore: cast_nullable_to_non_nullable
               as bool?,
-      isAnonymous: isAnonymous == freezed
+      isAnonymous: freezed == isAnonymous
           ? _value.isAnonymous
           : isAnonymous // ignore: cast_nullable_to_non_nullable
               as bool?,
-      phoneNumber: phoneNumber == freezed
+      phoneNumber: freezed == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String?,
-      photoURL: photoURL == freezed
+      photoURL: freezed == photoURL
           ? _value.photoURL
           : photoURL // ignore: cast_nullable_to_non_nullable
               as String?,
-      providerData: providerData == freezed
+      providerData: freezed == providerData
           ? _value._providerData
           : providerData // ignore: cast_nullable_to_non_nullable
               as List<UserInfo>?,
-      refreshToken: refreshToken == freezed
+      refreshToken: freezed == refreshToken
           ? _value.refreshToken
           : refreshToken // ignore: cast_nullable_to_non_nullable
               as String?,
-      tenantId: tenantId == freezed
+      tenantId: freezed == tenantId
           ? _value.tenantId
           : tenantId // ignore: cast_nullable_to_non_nullable
               as String?,
-      createdAt: createdAt == freezed
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      updatedAt: updatedAt == freezed
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      lastSignIn: lastSignIn == freezed
+      lastSignIn: freezed == lastSignIn
           ? _value.lastSignIn
           : lastSignIn // ignore: cast_nullable_to_non_nullable
               as DateTime?,
@@ -259,9 +266,9 @@ class _$_AppUser implements _AppUser {
       final List<UserInfo>? providerData,
       this.refreshToken,
       this.tenantId,
-      this.createdAt,
-      this.updatedAt,
-      this.lastSignIn})
+      @TimestampNullableConverter() this.createdAt,
+      @TimestampNullableConverter() this.updatedAt,
+      @TimestampNullableConverter() this.lastSignIn})
       : _providerData = providerData;
 
   factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
@@ -297,10 +304,13 @@ class _$_AppUser implements _AppUser {
   @override
   final String? tenantId;
   @override
+  @TimestampNullableConverter()
   final DateTime? createdAt;
   @override
+  @TimestampNullableConverter()
   final DateTime? updatedAt;
   @override
+  @TimestampNullableConverter()
   final DateTime? lastSignIn;
 
   @override
@@ -313,48 +323,53 @@ class _$_AppUser implements _AppUser {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AppUser &&
-            const DeepCollectionEquality().equals(other.uid, uid) &&
-            const DeepCollectionEquality().equals(other.email, email) &&
-            const DeepCollectionEquality()
-                .equals(other.displayName, displayName) &&
-            const DeepCollectionEquality()
-                .equals(other.emailVerified, emailVerified) &&
-            const DeepCollectionEquality()
-                .equals(other.isAnonymous, isAnonymous) &&
-            const DeepCollectionEquality()
-                .equals(other.phoneNumber, phoneNumber) &&
-            const DeepCollectionEquality().equals(other.photoURL, photoURL) &&
+            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.displayName, displayName) ||
+                other.displayName == displayName) &&
+            (identical(other.emailVerified, emailVerified) ||
+                other.emailVerified == emailVerified) &&
+            (identical(other.isAnonymous, isAnonymous) ||
+                other.isAnonymous == isAnonymous) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
+            (identical(other.photoURL, photoURL) ||
+                other.photoURL == photoURL) &&
             const DeepCollectionEquality()
                 .equals(other._providerData, _providerData) &&
-            const DeepCollectionEquality()
-                .equals(other.refreshToken, refreshToken) &&
-            const DeepCollectionEquality().equals(other.tenantId, tenantId) &&
-            const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
-            const DeepCollectionEquality().equals(other.updatedAt, updatedAt) &&
-            const DeepCollectionEquality()
-                .equals(other.lastSignIn, lastSignIn));
+            (identical(other.refreshToken, refreshToken) ||
+                other.refreshToken == refreshToken) &&
+            (identical(other.tenantId, tenantId) ||
+                other.tenantId == tenantId) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.lastSignIn, lastSignIn) ||
+                other.lastSignIn == lastSignIn));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(uid),
-      const DeepCollectionEquality().hash(email),
-      const DeepCollectionEquality().hash(displayName),
-      const DeepCollectionEquality().hash(emailVerified),
-      const DeepCollectionEquality().hash(isAnonymous),
-      const DeepCollectionEquality().hash(phoneNumber),
-      const DeepCollectionEquality().hash(photoURL),
+      uid,
+      email,
+      displayName,
+      emailVerified,
+      isAnonymous,
+      phoneNumber,
+      photoURL,
       const DeepCollectionEquality().hash(_providerData),
-      const DeepCollectionEquality().hash(refreshToken),
-      const DeepCollectionEquality().hash(tenantId),
-      const DeepCollectionEquality().hash(createdAt),
-      const DeepCollectionEquality().hash(updatedAt),
-      const DeepCollectionEquality().hash(lastSignIn));
+      refreshToken,
+      tenantId,
+      createdAt,
+      updatedAt,
+      lastSignIn);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_AppUserCopyWith<_$_AppUser> get copyWith =>
       __$$_AppUserCopyWithImpl<_$_AppUser>(this, _$identity);
 
@@ -378,9 +393,9 @@ abstract class _AppUser implements AppUser {
       final List<UserInfo>? providerData,
       final String? refreshToken,
       final String? tenantId,
-      final DateTime? createdAt,
-      final DateTime? updatedAt,
-      final DateTime? lastSignIn}) = _$_AppUser;
+      @TimestampNullableConverter() final DateTime? createdAt,
+      @TimestampNullableConverter() final DateTime? updatedAt,
+      @TimestampNullableConverter() final DateTime? lastSignIn}) = _$_AppUser;
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
 
@@ -405,10 +420,13 @@ abstract class _AppUser implements AppUser {
   @override
   String? get tenantId;
   @override
+  @TimestampNullableConverter()
   DateTime? get createdAt;
   @override
+  @TimestampNullableConverter()
   DateTime? get updatedAt;
   @override
+  @TimestampNullableConverter()
   DateTime? get lastSignIn;
   @override
   @JsonKey(ignore: true)
@@ -438,7 +456,8 @@ mixin _$UserInfo {
 /// @nodoc
 abstract class $UserInfoCopyWith<$Res> {
   factory $UserInfoCopyWith(UserInfo value, $Res Function(UserInfo) then) =
-      _$UserInfoCopyWithImpl<$Res>;
+      _$UserInfoCopyWithImpl<$Res, UserInfo>;
+  @useResult
   $Res call(
       {String? displayName,
       String? email,
@@ -449,13 +468,16 @@ abstract class $UserInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$UserInfoCopyWithImpl<$Res> implements $UserInfoCopyWith<$Res> {
+class _$UserInfoCopyWithImpl<$Res, $Val extends UserInfo>
+    implements $UserInfoCopyWith<$Res> {
   _$UserInfoCopyWithImpl(this._value, this._then);
 
-  final UserInfo _value;
   // ignore: unused_field
-  final $Res Function(UserInfo) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? displayName = freezed,
@@ -466,31 +488,31 @@ class _$UserInfoCopyWithImpl<$Res> implements $UserInfoCopyWith<$Res> {
     Object? uid = freezed,
   }) {
     return _then(_value.copyWith(
-      displayName: displayName == freezed
+      displayName: freezed == displayName
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
               as String?,
-      email: email == freezed
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      phoneNumber: phoneNumber == freezed
+      phoneNumber: freezed == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String?,
-      photoURL: photoURL == freezed
+      photoURL: freezed == photoURL
           ? _value.photoURL
           : photoURL // ignore: cast_nullable_to_non_nullable
               as String?,
-      providerId: providerId == freezed
+      providerId: freezed == providerId
           ? _value.providerId
           : providerId // ignore: cast_nullable_to_non_nullable
               as String?,
-      uid: uid == freezed
+      uid: freezed == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -500,6 +522,7 @@ abstract class _$$_UserInfoCopyWith<$Res> implements $UserInfoCopyWith<$Res> {
           _$_UserInfo value, $Res Function(_$_UserInfo) then) =
       __$$_UserInfoCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String? displayName,
       String? email,
@@ -510,15 +533,14 @@ abstract class _$$_UserInfoCopyWith<$Res> implements $UserInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_UserInfoCopyWithImpl<$Res> extends _$UserInfoCopyWithImpl<$Res>
+class __$$_UserInfoCopyWithImpl<$Res>
+    extends _$UserInfoCopyWithImpl<$Res, _$_UserInfo>
     implements _$$_UserInfoCopyWith<$Res> {
   __$$_UserInfoCopyWithImpl(
       _$_UserInfo _value, $Res Function(_$_UserInfo) _then)
-      : super(_value, (v) => _then(v as _$_UserInfo));
+      : super(_value, _then);
 
-  @override
-  _$_UserInfo get _value => super._value as _$_UserInfo;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? displayName = freezed,
@@ -529,27 +551,27 @@ class __$$_UserInfoCopyWithImpl<$Res> extends _$UserInfoCopyWithImpl<$Res>
     Object? uid = freezed,
   }) {
     return _then(_$_UserInfo(
-      displayName: displayName == freezed
+      displayName: freezed == displayName
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
               as String?,
-      email: email == freezed
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      phoneNumber: phoneNumber == freezed
+      phoneNumber: freezed == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String?,
-      photoURL: photoURL == freezed
+      photoURL: freezed == photoURL
           ? _value.photoURL
           : photoURL // ignore: cast_nullable_to_non_nullable
               as String?,
-      providerId: providerId == freezed
+      providerId: freezed == providerId
           ? _value.providerId
           : providerId // ignore: cast_nullable_to_non_nullable
               as String?,
-      uid: uid == freezed
+      uid: freezed == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -594,30 +616,26 @@ class _$_UserInfo implements _UserInfo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserInfo &&
-            const DeepCollectionEquality()
-                .equals(other.displayName, displayName) &&
-            const DeepCollectionEquality().equals(other.email, email) &&
-            const DeepCollectionEquality()
-                .equals(other.phoneNumber, phoneNumber) &&
-            const DeepCollectionEquality().equals(other.photoURL, photoURL) &&
-            const DeepCollectionEquality()
-                .equals(other.providerId, providerId) &&
-            const DeepCollectionEquality().equals(other.uid, uid));
+            (identical(other.displayName, displayName) ||
+                other.displayName == displayName) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
+            (identical(other.photoURL, photoURL) ||
+                other.photoURL == photoURL) &&
+            (identical(other.providerId, providerId) ||
+                other.providerId == providerId) &&
+            (identical(other.uid, uid) || other.uid == uid));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(displayName),
-      const DeepCollectionEquality().hash(email),
-      const DeepCollectionEquality().hash(phoneNumber),
-      const DeepCollectionEquality().hash(photoURL),
-      const DeepCollectionEquality().hash(providerId),
-      const DeepCollectionEquality().hash(uid));
+      runtimeType, displayName, email, phoneNumber, photoURL, providerId, uid);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_UserInfoCopyWith<_$_UserInfo> get copyWith =>
       __$$_UserInfoCopyWithImpl<_$_UserInfo>(this, _$identity);
 

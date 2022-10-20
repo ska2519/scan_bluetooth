@@ -19,15 +19,10 @@ _$_AppUser _$$_AppUserFromJson(Map json) => _$_AppUser(
           .toList(),
       refreshToken: json['refreshToken'] as String?,
       tenantId: json['tenantId'] as String?,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
-      lastSignIn: json['lastSignIn'] == null
-          ? null
-          : DateTime.parse(json['lastSignIn'] as String),
+      createdAt: const TimestampNullableConverter().fromJson(json['createdAt']),
+      updatedAt: const TimestampNullableConverter().fromJson(json['updatedAt']),
+      lastSignIn:
+          const TimestampNullableConverter().fromJson(json['lastSignIn']),
     );
 
 Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
@@ -42,9 +37,12 @@ Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
       'providerData': instance.providerData?.map((e) => e.toJson()).toList(),
       'refreshToken': instance.refreshToken,
       'tenantId': instance.tenantId,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
-      'lastSignIn': instance.lastSignIn?.toIso8601String(),
+      'createdAt':
+          const TimestampNullableConverter().toJson(instance.createdAt),
+      'updatedAt':
+          const TimestampNullableConverter().toJson(instance.updatedAt),
+      'lastSignIn':
+          const TimestampNullableConverter().toJson(instance.lastSignIn),
     };
 
 _$_UserInfo _$$_UserInfoFromJson(Map json) => _$_UserInfo(

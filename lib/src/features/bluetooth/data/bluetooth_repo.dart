@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../authentication/domain/app_user.dart';
 import '../../firebase/cloud_firestore.dart';
 import '../../firebase/firebase_path.dart';
 import '../domain/bluetooth.dart';
@@ -28,7 +29,7 @@ class BluetoothRepo {
     await _firestore.setData(
       path: FirebasePath.bluetoothes(deviceId: bluetooth.deviceId),
       data: bluetooth.toJson(),
-      // merge: true,
+      merge: true,
     );
   }
 
@@ -42,6 +43,12 @@ class BluetoothRepo {
       merge: true,
     );
   }
+
+  Future<void> deleteLabel(
+          {required String deviceId, required UserId uid}) async =>
+      await _firestore.deleteDoc(
+        path: FirebasePath.labels(deviceId: deviceId, uid: uid),
+      );
 
   Stream<List<Label>> labelsStream(String uid) {
     return _firestore.collectionGroupStream<Label>(

@@ -157,7 +157,6 @@ class _EmailPasswordSignInScreenState
             gapH8,
             PrimaryButton(
               text: state.primaryButtonText,
-              height: 45,
               isLoading: state.isLoading,
               onPressed: state.isLoading ? null : () => _submit(state),
             ),
@@ -196,7 +195,6 @@ class SignInButtonList extends ConsumerWidget {
       loggedInGoogle =
           user.providerData!.any((e) => e.providerId == 'google.com');
     }
-    logger.i('user: $user');
     logger.i('loggedInApple: $loggedInApple / loggedInGoogle: $loggedInGoogle');
 
     if (loggedInApple) signInType.remove(SignInType.apple);

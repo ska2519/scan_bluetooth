@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import '../../../../constants/resources.dart';
-import '../../../presence_user/presentation/online_user_count.dart';
+import '../../../presence_user/presentation/user_count.dart';
 import '../../application/scan_bluetooth_service.dart';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and
@@ -27,7 +27,7 @@ class HomeAppBar extends HookConsumerWidget with PreferredSizeWidget {
     return AppBar(
       title: Stack(
         children: const [
-          OnlineUserCount(),
+          UserCount(),
           Center(child: BluetoothCountInfo()),
         ],
       ),

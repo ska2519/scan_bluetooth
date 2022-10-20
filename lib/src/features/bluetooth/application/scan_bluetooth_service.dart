@@ -89,7 +89,7 @@ class ScanBluetoothService {
       if (labelList.isNotEmpty) {
         for (var label in labelList) {
           for (var i = 0; i < bluetoothList.length; i++) {
-            if (bluetoothList[i].deviceId == label.deviceId) {
+            if (bluetoothList[i].deviceId == label.bluetooth.deviceId) {
               bluetoothList[i] = bluetoothList[i].copyWith(
                 userLabel: label,
               );

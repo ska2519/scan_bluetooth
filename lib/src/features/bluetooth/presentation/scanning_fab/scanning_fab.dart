@@ -47,6 +47,8 @@ class ScanningFAB extends HookConsumerWidget {
           'ScanningFAB useEffect requestPermissionList: $requestPermissionList');
       if ((requestPermissionList != null && requestPermissionList!.isEmpty) ||
           (Platform.isAndroid || Platform.isIOS) == false) {
+        logger.i(
+            '(Platform.isAndroid || Platform.isIOS) == false: ${(Platform.isAndroid || Platform.isIOS) == false}');
         // WidgetsBinding.instance.addPostFrameCallback((_) => ref
         //     .read(scanningFABControllerProvider.notifier)
         //     .submitScanning(true));
@@ -54,7 +56,8 @@ class ScanningFAB extends HookConsumerWidget {
           submit(true);
         });
       }
-      return null;
+
+      return;
     }, [requestPermissionList?.length]);
 
     return Consumer(

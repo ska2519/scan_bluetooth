@@ -5,7 +5,7 @@ import '../../authentication/domain/app_user.dart';
 import '../data/bluetooth_repo.dart';
 import '../domain/bluetooth.dart';
 import '../domain/label.dart';
-import '../presentation/bluetooth_label/label_dialog.dart';
+import '../presentation/label/label_dialog.dart';
 
 final bluetoothServiceProvider =
     Provider<BluetoothService>(BluetoothService.new);
@@ -21,18 +21,16 @@ class BluetoothService {
     textEditingCtr = TextEditingController();
   }
 
-  Future<Bluetooth?> fetchBluetooth(Bluetooth bluetooth) async {
-    Bluetooth? firestoreBluetooth;
+  Future<Bluetooth?> featchBluetooth(Bluetooth bluetooth) async {
     try {
-      firestoreBluetooth = await ref
+      final fetchBluetooth = await ref
           .read(bluetoothRepoProvider)
           .fetchBluetooth(deviceId: bluetooth.deviceId);
-      logger.i('BluetoothService/firestoreBluetooth: $firestoreBluetooth');
-      return firestoreBluetooth;
+      return fetchBluetooth;
     } catch (e) {
-      logger.i('BluetoothService fetchBluetooth e: ${e.toString()}');
-      return null;
+      logger.i('fetchBluetooth e: $e');
     }
+    return null;
   }
 
   // Future<void> createLabel(Bluetooth bluetooth) async {
@@ -43,56 +41,64 @@ class BluetoothService {
 
   Future<void> updateLabel(Bluetooth bluetooth) async {
     final user = ref.read(authRepositoryProvider).currentUser;
-    logger.i('updateLabel Start user: $user');
-    final label = _stateLabel(bluetooth, user);
-    logger.i('bluetooth.userLabel: ${bluetooth.userLabel}');
-//TODO : Cloud functions 으로 대체
-    var firestoreBluetooth = await fetchBluetooth(bluetooth);
 
-    final setBluetooth = bluetooth.copyWith(
-      userLabel: null,
-      lastUpdatedLabel: label,
-      labelCount: firestoreBluetooth == null ? 1 : null,
-    );
-    await ref.read(bluetoothRepoProvider).setBluetooth(
-          bluetooth: setBluetooth,
-        );
-    logger.i('Finish setBluetooth');
-//TODO : 여기까지
+    try {
+      if (textEditingCtr.text.isEmpty) {
+        await ref.read(bluetoothRepoProvider).deleteLabel(
+              deviceId: bluetooth.deviceId,
+              uid: user!.uid,
+            );
+        return;
+      }
+      final fetchBluetooth = await featchBluetooth(bluetooth);
 
-    await ref.read(bluetoothRepoProvider).setLabel(
-          deviceId: bluetooth.deviceId,
-          label: label,
-        );
-    logger.i('updated setLabel');
+      var label = _stateLabel(bluetooth, user);
+      if (fetchBluetooth == null) {
+        await ref.read(bluetoothRepoProvider).setBluetooth(
+              bluetooth: bluetooth.copyWith(firstUpdatedLabel: label),
+            );
+      } else {
+        label = _stateLabel(
+            bluetooth.copyWith(labelCount: fetchBluetooth.labelCount), user);
+      }
+
+      await ref.read(bluetoothRepoProvider).setLabel(
+            deviceId: bluetooth.deviceId,
+            label: label,
+          );
+    } catch (e) {
+      logger.i('updateLabel e: ${e.toString()}');
+    }
   }
 
   Label _stateLabel(Bluetooth bluetooth, AppUser? user) {
     return Label(
-      bluetoothName: bluetooth.name,
-      deviceId: bluetooth.deviceId,
+      bluetooth: bluetooth.copyWith(previousRssi: null),
       uid: user!.uid,
       name: textEditingCtr.text,
-      rssi: bluetooth.rssi,
       user: user,
       createdAt: bluetooth.userLabel?.createdAt,
     );
   }
 
-  Future<bool?> openLabelDialog(
-    Bluetooth bluetooth,
-    BuildContext context,
-  ) async {
+  Future<bool?> openLabelDialog({
+    required BuildContext context,
+    Bluetooth? bluetooth,
+  }) async {
     logger.i('openLabelDialog bluetooth: $bluetooth');
-    textEditingCtr.text = bluetooth.userLabel?.name ?? bluetooth.name;
-    return await labelDialog(context, textEditingCtr, bluetooth);
+    textEditingCtr.text = bluetooth?.userLabel?.name ?? bluetooth?.name ?? '';
+    return await labelDialog(
+      context: context,
+      textEditingCtr: textEditingCtr,
+      bluetooth: bluetooth,
+    );
   }
 
-  Stream<List<Bluetooth>> createUserLabelListStream(
-    List<Bluetooth> bluetoothList,
-    List<Label> labelList,
-    bool labelFirst,
-  ) async* {}
+  // Stream<List<Bluetooth>> createUserLabelListStream(
+  //   List<Bluetooth> bluetoothList,
+  //   List<Label> labelList,
+  //   bool labelFirst,
+  // ) async* {}
 }
 
 final userLabelListProvider = StateProvider<List<Label>>((ref) {

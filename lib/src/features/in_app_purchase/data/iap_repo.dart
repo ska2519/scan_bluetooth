@@ -1,14 +1,13 @@
 import 'dart:async';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+import '../../../constants/resources.dart';
 import '../../authentication/application/auth_service.dart';
 import '../../authentication/domain/app_user.dart';
 import '../../firebase/cloud_firestore.dart';
 import '../../firebase/firebase_path.dart';
 import '../domain/past_purchase.dart';
 
-final iapRepoProvider = Provider.autoDispose<IAPRepo>((ref) => IAPRepo());
+final iapRepoProvider = Provider<IAPRepo>((ref) => IAPRepo());
 
 class IAPRepo {
   final _firestore = CloudFirestore();
@@ -17,7 +16,10 @@ class IAPRepo {
     return _firestore.collectionStream<PastPurchase>(
       path: FirebasePath.collectionPurchases(),
       queryBuilder: (query) => query.where('userId', isEqualTo: uid),
-      builder: (data, documentID) => PastPurchase.fromJson(data!),
+      builder: (data, documentID) {
+        logger.i('PurchasesService data: $data');
+        return PastPurchase.fromJson(data!);
+      },
     );
   }
 }
@@ -25,7 +27,6 @@ class IAPRepo {
 final pastPurchasesStreamProvider = StreamProvider<List<PastPurchase>>((ref) {
   final iapRepo = ref.read(iapRepoProvider);
   final user = ref.watch(authStateChangesProvider).value;
-
   return user == null || user.isAnonymous!
       ? const Stream<List<PastPurchase>>.empty()
       : iapRepo.watchPurchases(user.uid);

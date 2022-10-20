@@ -1,4 +1,4 @@
-// import * as Functions from "firebase-functions";
+import * as Functions from "firebase-functions";
 import * as admin from 'firebase-admin';
 
 import { productDataMap } from './products';
@@ -10,7 +10,7 @@ import {
   IapRepository,
   IAPSource,
 } from "./iap.repository";
-import { HttpsError } from "firebase-functions/lib/providers/https";
+// import { HttpsError } from "firebase-functions/lib/providers/https";
 import { functions } from '../../index';
 // const functions = Functions.region(CLOUD_REGION);
 
@@ -37,7 +37,7 @@ export const verifyPurchase = functions.https.onCall(
     // Check authentication
     if (!context.auth) {
       console.warn("verifyPurchase called when not authenticated");
-      throw new HttpsError("unauthenticated", "Request was not authenticated.");
+      throw new Functions.https.HttpsError("unauthenticated", "Request was not authenticated.");
     }
     // Get the product data from the map
     const productData = productDataMap[data.productId];

@@ -6,7 +6,6 @@ import '../../../../constants/resources.dart';
 import '../../../../utils/destination_item_index.dart';
 import '../../../admob/presentation/native_ad_card.dart';
 import '../../../in_app_purchase/application/purchases_service.dart';
-import '../../application/bluetooth_service.dart';
 import '../../application/scan_bluetooth_service.dart';
 import '../../domain/bluetooth.dart';
 import '../bluetooth_card/bluetooth_card.dart';
@@ -19,20 +18,20 @@ class BluetoothGrid extends HookConsumerWidget {
 
   static const bluetootGridKey = Key('bluetooth-grid');
 
+  void dismissOnScreenKeyboard(BuildContext context) {
+    if (FocusScope.of(context).hasFocus) {
+      FocusScope.of(context).unfocus();
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void dismissOnScreenKeyboard(BuildContext context) {
-      if (FocusScope.of(context).hasFocus) {
-        FocusScope.of(context).unfocus();
-      }
-    }
-
     useEffect(() {
-      ref
-          .read(bluetoothServiceProvider)
-          .textEditingCtr
-          .addListener(() => dismissOnScreenKeyboard(context));
-      return null;
+      // ref
+      //     .read(bluetoothServiceProvider)
+      //     .textEditingCtr
+      //     .addListener(() => dismissOnScreenKeyboard(context));
+      return;
     }, []);
 
     return AsyncValueWidget<List<Bluetooth>>(

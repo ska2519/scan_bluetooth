@@ -16,9 +16,12 @@ class PrimaryButton extends StatelessWidget {
     this.foregroundColor,
     this.backgroundColor,
     this.isLoading = false,
-    this.height = Sizes.p36,
+    this.height = Sizes.p44,
     this.onPressed,
     this.svgAsset,
+    this.radius,
+    this.elevation,
+    this.style,
   });
   final String text;
   final Color? foregroundColor;
@@ -26,6 +29,9 @@ class PrimaryButton extends StatelessWidget {
   final String? svgAsset;
   final bool isLoading;
   final double height;
+  final double? radius;
+  final double? elevation;
+  final TextStyle? style;
   final VoidCallback? onPressed;
 
   @override
@@ -37,6 +43,13 @@ class PrimaryButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           foregroundColor: foregroundColor,
           backgroundColor: backgroundColor,
+          textStyle: style,
+          shape: radius == null
+              ? null
+              : RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(radius!),
+                ),
+          elevation: elevation,
         ),
         child: isLoading
             ? const CircularProgressIndicator()

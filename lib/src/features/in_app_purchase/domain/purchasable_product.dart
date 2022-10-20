@@ -1,4 +1,28 @@
+import 'dart:math';
+
 import 'package:in_app_purchase/in_app_purchase.dart';
+
+String fruit() => fruits[Random().nextInt(fruits.length)];
+
+const fruits = [
+  '🍇',
+  '🍈',
+  '🍉',
+  '🍊',
+  '🍋',
+  '🍌',
+  '🍍',
+  '🥭',
+  '🍎',
+  '🍏',
+  '🍐',
+  '🍑',
+  '🍒',
+  '🍓',
+  '🥝',
+  '🍅',
+  '🥥'
+];
 
 enum ProductStatus {
   purchasable,

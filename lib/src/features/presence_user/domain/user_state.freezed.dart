@@ -22,7 +22,7 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
 mixin _$UserState {
   String get state => throw _privateConstructorUsedError;
   @JsonKey(name: 'last_changed')
-  @TimestampConverter()
+  @TimestampNullableConverter()
   DateTime? get lastCanged => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_anonymous')
   bool get isAnonymous => throw _privateConstructorUsedError;
@@ -37,47 +37,54 @@ mixin _$UserState {
 /// @nodoc
 abstract class $UserStateCopyWith<$Res> {
   factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
-      _$UserStateCopyWithImpl<$Res>;
+      _$UserStateCopyWithImpl<$Res, UserState>;
+  @useResult
   $Res call(
       {String state,
-      @JsonKey(name: 'last_changed') @TimestampConverter() DateTime? lastCanged,
-      @JsonKey(name: 'is_anonymous') bool isAnonymous,
+      @JsonKey(name: 'last_changed')
+      @TimestampNullableConverter()
+          DateTime? lastCanged,
+      @JsonKey(name: 'is_anonymous')
+          bool isAnonymous,
       String? uid});
 }
 
 /// @nodoc
-class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
+class _$UserStateCopyWithImpl<$Res, $Val extends UserState>
+    implements $UserStateCopyWith<$Res> {
   _$UserStateCopyWithImpl(this._value, this._then);
 
-  final UserState _value;
   // ignore: unused_field
-  final $Res Function(UserState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? state = freezed,
+    Object? state = null,
     Object? lastCanged = freezed,
-    Object? isAnonymous = freezed,
+    Object? isAnonymous = null,
     Object? uid = freezed,
   }) {
     return _then(_value.copyWith(
-      state: state == freezed
+      state: null == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
               as String,
-      lastCanged: lastCanged == freezed
+      lastCanged: freezed == lastCanged
           ? _value.lastCanged
           : lastCanged // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      isAnonymous: isAnonymous == freezed
+      isAnonymous: null == isAnonymous
           ? _value.isAnonymous
           : isAnonymous // ignore: cast_nullable_to_non_nullable
               as bool,
-      uid: uid == freezed
+      uid: freezed == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -87,44 +94,47 @@ abstract class _$$_UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
           _$_UserState value, $Res Function(_$_UserState) then) =
       __$$_UserStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String state,
-      @JsonKey(name: 'last_changed') @TimestampConverter() DateTime? lastCanged,
-      @JsonKey(name: 'is_anonymous') bool isAnonymous,
+      @JsonKey(name: 'last_changed')
+      @TimestampNullableConverter()
+          DateTime? lastCanged,
+      @JsonKey(name: 'is_anonymous')
+          bool isAnonymous,
       String? uid});
 }
 
 /// @nodoc
-class __$$_UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
+class __$$_UserStateCopyWithImpl<$Res>
+    extends _$UserStateCopyWithImpl<$Res, _$_UserState>
     implements _$$_UserStateCopyWith<$Res> {
   __$$_UserStateCopyWithImpl(
       _$_UserState _value, $Res Function(_$_UserState) _then)
-      : super(_value, (v) => _then(v as _$_UserState));
+      : super(_value, _then);
 
-  @override
-  _$_UserState get _value => super._value as _$_UserState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? state = freezed,
+    Object? state = null,
     Object? lastCanged = freezed,
-    Object? isAnonymous = freezed,
+    Object? isAnonymous = null,
     Object? uid = freezed,
   }) {
     return _then(_$_UserState(
-      state: state == freezed
+      state: null == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
               as String,
-      lastCanged: lastCanged == freezed
+      lastCanged: freezed == lastCanged
           ? _value.lastCanged
           : lastCanged // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      isAnonymous: isAnonymous == freezed
+      isAnonymous: null == isAnonymous
           ? _value.isAnonymous
           : isAnonymous // ignore: cast_nullable_to_non_nullable
               as bool,
-      uid: uid == freezed
+      uid: freezed == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -137,8 +147,11 @@ class __$$_UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
 class _$_UserState implements _UserState {
   const _$_UserState(
       {required this.state,
-      @JsonKey(name: 'last_changed') @TimestampConverter() this.lastCanged,
-      @JsonKey(name: 'is_anonymous') required this.isAnonymous,
+      @JsonKey(name: 'last_changed')
+      @TimestampNullableConverter()
+          this.lastCanged,
+      @JsonKey(name: 'is_anonymous')
+          required this.isAnonymous,
       this.uid});
 
   factory _$_UserState.fromJson(Map<String, dynamic> json) =>
@@ -148,7 +161,7 @@ class _$_UserState implements _UserState {
   final String state;
   @override
   @JsonKey(name: 'last_changed')
-  @TimestampConverter()
+  @TimestampNullableConverter()
   final DateTime? lastCanged;
   @override
   @JsonKey(name: 'is_anonymous')
@@ -166,25 +179,22 @@ class _$_UserState implements _UserState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserState &&
-            const DeepCollectionEquality().equals(other.state, state) &&
-            const DeepCollectionEquality()
-                .equals(other.lastCanged, lastCanged) &&
-            const DeepCollectionEquality()
-                .equals(other.isAnonymous, isAnonymous) &&
-            const DeepCollectionEquality().equals(other.uid, uid));
+            (identical(other.state, state) || other.state == state) &&
+            (identical(other.lastCanged, lastCanged) ||
+                other.lastCanged == lastCanged) &&
+            (identical(other.isAnonymous, isAnonymous) ||
+                other.isAnonymous == isAnonymous) &&
+            (identical(other.uid, uid) || other.uid == uid));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(state),
-      const DeepCollectionEquality().hash(lastCanged),
-      const DeepCollectionEquality().hash(isAnonymous),
-      const DeepCollectionEquality().hash(uid));
+  int get hashCode =>
+      Object.hash(runtimeType, state, lastCanged, isAnonymous, uid);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_UserStateCopyWith<_$_UserState> get copyWith =>
       __$$_UserStateCopyWithImpl<_$_UserState>(this, _$identity);
 
@@ -200,7 +210,7 @@ abstract class _UserState implements UserState {
   const factory _UserState(
       {required final String state,
       @JsonKey(name: 'last_changed')
-      @TimestampConverter()
+      @TimestampNullableConverter()
           final DateTime? lastCanged,
       @JsonKey(name: 'is_anonymous')
           required final bool isAnonymous,
@@ -213,7 +223,7 @@ abstract class _UserState implements UserState {
   String get state;
   @override
   @JsonKey(name: 'last_changed')
-  @TimestampConverter()
+  @TimestampNullableConverter()
   DateTime? get lastCanged;
   @override
   @JsonKey(name: 'is_anonymous')

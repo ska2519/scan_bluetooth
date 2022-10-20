@@ -20,7 +20,6 @@ class SignInButton extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: PrimaryButton(
-        height: 45,
         text: signInType.buttonTitle,
         foregroundColor: signInType.textColor,
         backgroundColor: signInType.backgroundColor,

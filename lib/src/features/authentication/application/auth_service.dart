@@ -50,7 +50,7 @@ class AuthService {
     try {
       await Future.delayed(const Duration(seconds: 1), () async {});
       await ref.read(authRepositoryProvider).signOut();
-      refreshAuthStateChangesProvider();
+      // refreshAuthStateChangesProvider();
     } catch (e) {
       logger.i('signOut e: e');
     }

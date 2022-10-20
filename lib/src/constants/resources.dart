@@ -17,5 +17,5 @@ export 'app_sizes.dart';
 export 'breakpoints.dart';
 
 ThemeData theme(BuildContext context) => Theme.of(context);
-
+TextTheme textTheme(BuildContext context) => Theme.of(context).textTheme;
 ColorScheme colorScheme(BuildContext context) => Theme.of(context).colorScheme;

@@ -16,6 +16,7 @@ class MyApp extends StatefulHookConsumerWidget {
 class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
+    logger.i('MyApp');
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }

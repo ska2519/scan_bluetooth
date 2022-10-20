@@ -17,11 +17,11 @@ class Bluetooth with _$Bluetooth {
     required List<dynamic> manufacturerData,
     required int rssi,
     int? previousRssi,
-    @TimestampConverter() DateTime? scannedAt,
-    @TimestampConverter() DateTime? createdAt,
-    @TimestampConverter() DateTime? updatedAt,
-    int? labelCount,
-    Label? lastUpdatedLabel,
+    @TimestampNullableConverter() DateTime? scannedAt,
+    @TimestampNullableConverter() DateTime? createdAt,
+    @TimestampNullableConverter() DateTime? updatedAt,
+    @Default(0) int labelCount,
+    Label? firstUpdatedLabel,
     Label? userLabel,
   }) = _Bluetooth;
 

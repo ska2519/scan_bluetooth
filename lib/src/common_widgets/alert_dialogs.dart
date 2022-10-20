@@ -13,6 +13,7 @@ Future<bool?> showAlertDialog({
   String? cancelActionText,
   String? defaultActionText = 'OK',
   Widget? defaultActionWidget,
+  VoidCallback? onPressed,
 }) async {
   return showDialog(
     context: context,
@@ -26,15 +27,16 @@ Future<bool?> showAlertDialog({
             child: Text(cancelActionText),
             onPressed: () => Navigator.of(context).pop(false),
           ),
-        defaultActionWidget ??
-            ElevatedButton(
-              key: kDialogDefaultKey,
-              child: Text(
+        // defaultActionWidget ??
+        ElevatedButton(
+          key: kDialogDefaultKey,
+          onPressed: onPressed ?? () => Navigator.of(context).pop(true),
+          child: defaultActionWidget ??
+              Text(
                 defaultActionText!,
                 style: const TextStyle(fontWeight: FontWeight.w600),
               ),
-              onPressed: () => Navigator.of(context).pop(true),
-            ),
+        ),
       ],
     ),
   );

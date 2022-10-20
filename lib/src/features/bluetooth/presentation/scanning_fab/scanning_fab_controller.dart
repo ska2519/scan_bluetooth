@@ -36,7 +36,8 @@ class ScanningFABController extends StateNotifier<AsyncValue<void>> {
 final scanFABStateProvider = StateProvider<bool>((ref) => false);
 
 final scanningFABControllerProvider =
-    StateNotifierProvider<ScanningFABController, AsyncValue<void>>((ref) {
+    StateNotifierProvider.autoDispose<ScanningFABController, AsyncValue<void>>(
+        (ref) {
   final removeAdsUpgrade = ref.watch(removeAdsUpgradeProvider);
   logger.i('scanningFABControllerProvider removeAdsUpgrade: $removeAdsUpgrade');
   return ScanningFABController(

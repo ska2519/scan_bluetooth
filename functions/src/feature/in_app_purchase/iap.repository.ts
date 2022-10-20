@@ -18,6 +18,7 @@ export interface BasePurchase {
 export interface NonSubscriptionPurchase extends BasePurchase {
   type: "NON_SUBSCRIPTION";
   status: NonSubscriptionStatus;
+  quantity: number;
 }
 
 export interface SubscriptionPurchase extends BasePurchase {

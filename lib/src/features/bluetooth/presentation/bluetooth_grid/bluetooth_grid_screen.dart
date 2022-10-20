@@ -1,7 +1,7 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../../common_widgets/loading_animation.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/resources.dart';
 import '../../../../routing/scaffold_with_nav_bar.dart';
@@ -19,6 +19,12 @@ class BluetoothGridScreen extends HookConsumerWidget {
   const BluetoothGridScreen(this.isBluetoothAvailable, {super.key});
   final bool isBluetoothAvailable;
 
+  void dismissOnScreenKeyboard(BuildContext context) {
+    if (FocusScope.of(context).hasFocus) {
+      FocusScope.of(context).unfocus();
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AsyncValue>(
@@ -32,18 +38,11 @@ class BluetoothGridScreen extends HookConsumerWidget {
       return null;
     }, []);
 
-    void dismissOnScreenKeyboard(BuildContext context) {
-      if (FocusScope.of(context).hasFocus) {
-        FocusScope.of(context).unfocus();
-      }
-    }
-
     final scrollController = useScrollController()
       ..addListener(() => dismissOnScreenKeyboard(context));
 
     final labelList = ref.watch(userLabelListProvider);
     final userLabelCount = ref.watch(userLabelCountProvider);
-    final theme = Theme.of(context);
 
     return Scaffold(
       floatingActionButton: Platform.isAndroid || Platform.isIOS
@@ -96,13 +95,7 @@ class BluetoothGridScreen extends HookConsumerWidget {
               ),
             ],
           ),
-          if (state.isLoading)
-            Center(
-              child: LoadingAnimationWidget.staggeredDotsWave(
-                color: theme.colorScheme.primary,
-                size: 50,
-              ),
-            ),
+          if (state.isLoading) const LoadingAnimation(),
         ],
       ),
     );

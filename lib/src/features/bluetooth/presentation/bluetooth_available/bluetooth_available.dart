@@ -16,6 +16,7 @@ class _ScanButtonsRowState extends ConsumerState<BluetoothAvailable> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Sizes.p8),
       child: Tooltip(
+        triggerMode: TooltipTriggerMode.tap,
         message: isBluetoothAvailable ? 'Available' : 'Not available',
         child: isBluetoothAvailable
             ? Assets.svg.icons8Bluetooth.svg(width: 24)

@@ -50,39 +50,37 @@ class ServerTimestampConverter implements JsonConverter<DateTime?, Object?> {
       date == null ? null : FieldValue.serverTimestamp();
 }
 
-class TimestampConverter implements JsonConverter<DateTime?, Object?> {
+class TimestampNullableConverter implements JsonConverter<DateTime?, Object?> {
+  const TimestampNullableConverter();
+
+  // @override
+  // DateTime? fromJson(Object? timestamp) {
+  //   if (timestamp is Timestamp) {
+  //     return timestamp.toDate();
+  //   } else {
+  //     return null;
+  //   }
+  // }
+
+  // @override
+  // Object? toJson(DateTime? date) =>
+  //     date == null ? null : Timestamp.fromDate(date);
+  @override
+  DateTime? fromJson(Object? json) => json is Timestamp ? json.toDate() : null;
+
+  @override
+  Object? toJson(DateTime? object) =>
+      object is DateTime ? Timestamp.fromDate(object) : null;
+}
+
+class TimestampConverter implements JsonConverter<DateTime, Timestamp> {
   const TimestampConverter();
 
   @override
-  DateTime? fromJson(Object? timestamp) {
-    if (timestamp is Timestamp) {
-      return timestamp.toDate();
-    } else {
-      return null;
-    }
-  }
+  DateTime fromJson(Timestamp timestamp) => timestamp.toDate();
 
   @override
-  Object? toJson(DateTime? date) =>
-      date == null ? null : Timestamp.fromDate(date);
-  // @override
-  // DateTime? fromJson(Object? json) => json is Timestamp ? json.toDate() : null;
-
-  // @override
-  // Object? toJson(DateTime? object) =>
-  //     object is DateTime ? Timestamp.fromDate(object) : null;
-}
-
-class TimestampNullableConverter
-    implements JsonConverter<DateTime?, Timestamp?> {
-  const TimestampNullableConverter();
-
-  @override
-  DateTime? fromJson(Timestamp? json) => json?.toDate();
-
-  @override
-  Timestamp? toJson(DateTime? object) =>
-      object == null ? null : Timestamp.fromDate(object);
+  Timestamp toJson(DateTime dateTime) => Timestamp.fromDate(dateTime);
 }
 
 class FieldValueIncrementConverter implements JsonConverter<int?, Object?> {

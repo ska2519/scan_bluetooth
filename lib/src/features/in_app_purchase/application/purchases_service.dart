@@ -17,7 +17,8 @@ import 'iap_connection.dart';
 final purchasesServiceProvider =
     Provider<PurchasesService>(PurchasesService.new);
 final pastPurchaseListProvider = StateProvider<List<PastPurchase>>((ref) => []);
-final productsProvider = StateProvider<List<PurchasableProduct>>((ref) => []);
+final purchasableproductsProvider =
+    StateProvider<List<PurchasableProduct>>((ref) => []);
 final removeAdsUpgradeProvider = StateProvider<bool>((ref) => false);
 
 class PurchasesService {
@@ -31,13 +32,17 @@ class PurchasesService {
   bool _removeAdsUpgrade = false;
   bool hasActiveSubscription = false;
   bool hasUpgrade = false;
+  List<PastPurchase> purchases = [];
+  late final purchasableProducts = ref.watch(purchasableproductsProvider);
+  late final iapConnection = ref.read(iAPConnectionProvider);
+  late final inAppPurchase = iapConnection.instance;
 
   Future<void> _init() async {
     logger.i('PurchasesService _init start!');
     await _loadPurchases();
+    await updatePurchases();
     _listenToLogin();
-    final iapConnection = ref.read(iAPConnectionProvider);
-    final inAppPurchase = iapConnection.instance;
+
     final purchaseUpdated = inAppPurchase.purchaseStream;
     _subscription = purchaseUpdated.listen(
       _onPurchaseUpdate,
@@ -46,91 +51,98 @@ class PurchasesService {
     );
   }
 
-  void _listenToLogin() {
+  void _listenToLogin() async {
     ref.listen<AsyncValue<AppUser?>>(authStateChangesProvider,
         (previous, next) async {
-      final previousUser = previous?.value;
       final user = next.value;
-      logger.i('PurchasesService _init user: $user');
-      if (previousUser != user) {
-        logger.i('PurchasesService previousUser != user');
-        await updatePurchases();
-      }
+      logger.i('PurchasesService _listenToLogin user: $user');
+      await updatePurchases();
     });
   }
 
   Future<void> _loadPurchases() async {
-    final iapConnection = ref.read(iAPConnectionProvider);
-    final available = await iapConnection.instance.isAvailable();
-    if (!available) {
-      ref
-          .read(storeStateProvider.state)
-          .update((state) => StoreState.notAvailable);
-      return;
-    }
+    try {
+      final available = await inAppPurchase.isAvailable();
+      if (!available) {
+        ref
+            .read(storeStateProvider.notifier)
+            .update((state) => StoreState.notAvailable);
+        return;
+      }
 
-    await fetchPurchasableProduct();
-    ref.read(storeStateProvider.state).update((state) => StoreState.available);
+      await fetchPurchasableProduct();
+      ref
+          .read(storeStateProvider.notifier)
+          .update((state) => StoreState.available);
+    } catch (e) {
+      logger.i('_loadPurchases e: $e');
+    }
   }
 
   Future<void> fetchPurchasableProduct() async {
-    final iapConnection = ref.read(iAPConnectionProvider);
-    const ids = <String>{
-      storeKeyConsumable,
-      storeKeyUpgrade,
-      storeKeySubscription1m,
-      storeKeySubscription1y,
-    };
-    final products = await iapConnection.fetchPurchasableProduct(ids);
-    logger.i(
-        'PurchasesService fetchPurchasableProduct() products.length: ${products.length}');
+    try {
+      final products = await iapConnection.fetchPurchasableProduct(ids);
+      logger.i(
+          'PurchasesService fetchPurchasableProduct() products.length: ${products.length}');
 
-    ref.read(productsProvider.notifier).update((state) => products);
+      ref
+          .read(purchasableproductsProvider.notifier)
+          .update((state) => products);
+    } catch (e) {
+      logger.i('fetchPurchasableProduct e: $e');
+    }
   }
 
   Future<void> updatePurchases() async {
-    final user = ref.read(authStateChangesProvider).value;
-    logger.i('PurchasesService updatePurchases uid: ${user?.uid}');
+    try {
+      final user = ref.read(authStateChangesProvider).value;
+      logger.i('PurchasesService updatePurchases uid: ${user?.uid}');
 
-    if (user == null || user.isAnonymous!) {
-      logger.i('PurchasesService if (user == null || user.isAnonymous!)');
-      hasActiveSubscription = false;
-      hasUpgrade = false;
-      ref.read(pastPurchaseListProvider.notifier).update((state) => []);
-      return await purchasesUpdate();
-    } else if (!user.isAnonymous!) {
-      logger.i('PurchasesService !user.isAnonymous!');
-      final pastPurchasesStream = ref.watch(pastPurchasesStreamProvider);
-      pastPurchasesStream.whenData((purchases) async {
-        logger.i('PurchasesService purchases: $purchases');
-        ref
-            .read(pastPurchaseListProvider.notifier)
-            .update((state) => purchases);
+      if (user == null || user.isAnonymous!) {
+        logger.i('PurchasesService if (user == null || user.isAnonymous!)');
+        hasActiveSubscription = false;
+        hasUpgrade = false;
 
-        hasActiveSubscription = purchases.any((element) =>
-            (element.productId == storeKeySubscription1m ||
-                element.productId == storeKeySubscription1y) &&
-            element.status != Status.expired);
+        ref.read(pastPurchaseListProvider.notifier).update((state) => []);
+        return await purchasesUpdate();
+      } else if (!user.isAnonymous!) {
+        logger.i('PurchasesService !user.isAnonymous!');
 
-        hasUpgrade = purchases.any(
-          (element) => element.productId == storeKeyUpgrade,
-        );
-        logger.i(
-            'PurchasesService updatePurchases hasActiveSubscription: $hasActiveSubscription /  hasUpgrade: $hasUpgrade');
-        await purchasesUpdate();
-      });
+        ref.watch(pastPurchasesStreamProvider.stream).listen((purchases) async {
+          purchases = purchases;
+          logger.i('PurchasesService purchases.length: ${purchases.length}');
+
+          hasActiveSubscription = purchases.any((element) =>
+              (element.productId == storeKeySubscription1m ||
+                  element.productId == storeKeySubscription1y) &&
+              element.status != Status.expired);
+
+          hasUpgrade = purchases.any(
+            (element) => element.productId == storeKeyUpgrade,
+          );
+          logger.i(
+              'PurchasesService updatePurchases hasActiveSubscription: $hasActiveSubscription /  hasUpgrade: $hasUpgrade');
+          await purchasesUpdate();
+          ref
+              .read(pastPurchaseListProvider.notifier)
+              .update((state) => purchases);
+        });
+      }
+    } catch (e) {
+      logger.i('updatePurchases e: $e');
     }
   }
 
   Future<void> buy(PurchasableProduct product) async {
     try {
-      final iapConnection = ref.read(iAPConnectionProvider);
-      final inAppPurchase = iapConnection.instance;
       logger.i('PurchasesService buy product: $product');
       final purchaseParam =
           PurchaseParam(productDetails: product.productDetails);
       switch (product.id) {
         case storeKeyConsumable:
+          await inAppPurchase.buyConsumable(purchaseParam: purchaseParam);
+          break;
+        case storeKeyConsumableMax:
           await inAppPurchase.buyConsumable(purchaseParam: purchaseParam);
           break;
         case storeKeyUpgrade:
@@ -158,11 +170,10 @@ class PurchasesService {
     for (var purchaseDetails in purchaseDetailsList) {
       await _handlePurchase(purchaseDetails);
     }
+    await purchasesUpdate();
   }
 
   Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
-    final iapConnection = ref.read(iAPConnectionProvider);
-    final inAppPurchase = iapConnection.instance;
     logger.i(
         'PurchasesService purchaseDetails.status : ${purchaseDetails.status}');
     if (purchaseDetails.status == PurchaseStatus.purchased) {
@@ -212,55 +223,61 @@ class PurchasesService {
   }
 
   Future<void> purchasesUpdate() async {
-    logger.i('PurchasesService purchasesUpdate start');
-    var subscriptions = <PurchasableProduct>[];
-    var upgrades = <PurchasableProduct>[];
-    // Get a list of purchasable products for the subscription and upgrade.
-    // This should be 1 per type.
-    final products = ref.read(productsProvider);
-    logger.i('PurchasesService purchasesUpdate products: $products');
-    if (products.isNotEmpty) {
-      subscriptions = products
-          .where((element) =>
-              element.productDetails.id == storeKeySubscription1m ||
-              element.productDetails.id == storeKeySubscription1y)
-          .toList();
-      upgrades = products
-          .where((element) => element.productDetails.id == storeKeyUpgrade)
-          .toList();
-      logger.i(
-          'PurchasesService purchasesUpdate subscriptions: ${subscriptions.length} / upgrades: ${upgrades.length}');
-      logger.i(
-          'PurchasesService purchasesUpdate hasActiveSubscription: $hasActiveSubscription / hasUpgrade: $hasUpgrade');
-    }
+    try {
+      var subscriptions = <PurchasableProduct>[];
+      var upgrades = <PurchasableProduct>[];
+      // Get a list of purchasable products for the subscription and upgrade.
+      // This should be 1 per type.
+      // final products = ref.read(productsProvider);
+      logger
+          .i('PurchasesService purchasesUpdate products: $purchasableProducts');
+      if (purchasableProducts.isNotEmpty) {
+        subscriptions = purchasableProducts
+            .where((element) =>
+                element.productDetails.id == storeKeySubscription1m ||
+                element.productDetails.id == storeKeySubscription1y)
+            .toList();
+        upgrades = purchasableProducts
+            .where((element) => element.productDetails.id == storeKeyUpgrade)
+            .toList();
+        logger.i(
+            'PurchasesService subscriptions: ${subscriptions.length} / upgrades: ${upgrades.length}');
+        logger.i(
+            'PurchasesService hasActiveSubscription: $hasActiveSubscription / hasUpgrade: $hasUpgrade');
+      }
 
-    // Set the subscription in the counter logic and show/hide purchased on the
-    // purchases page.
-    if (hasActiveSubscription) {
-      ref.read(removeAdsUpgradeProvider.notifier).update((state) => true);
-      for (final element in subscriptions) {
-        _updateStatus(element, ProductStatus.purchased);
+      // Set the subscription in the counter logic and show/hide purchased on the
+      // purchases page.
+      if (hasActiveSubscription) {
+        for (final element in subscriptions) {
+          _updateStatus(element, ProductStatus.purchased);
+        }
+        ref.read(removeAdsUpgradeProvider.notifier).update((state) => true);
+      } else {
+        for (final element in subscriptions) {
+          _updateStatus(element, ProductStatus.purchasable);
+        }
+        ref.read(removeAdsUpgradeProvider.notifier).update((state) => false);
       }
-    } else {
-      ref.read(removeAdsUpgradeProvider.notifier).update((state) => false);
-      for (final element in subscriptions) {
-        _updateStatus(element, ProductStatus.purchasable);
-      }
-    }
-    logger.i(
-        'PurchasesService purchasesUpdate hasUpgrade: $hasUpgrade /_removeAdsUpgrade: $_removeAdsUpgrade ');
-    // Set the Remove Ads
-    if (hasUpgrade != _removeAdsUpgrade) {
-      _removeAdsUpgrade = hasUpgrade;
+      logger.i(
+          'PurchasesService hasUpgrade: $hasUpgrade /_removeAdsUpgrade: $_removeAdsUpgrade');
+      // Set the Remove Ads
+      if (hasUpgrade != _removeAdsUpgrade) {
+        _removeAdsUpgrade = hasUpgrade;
 
-      ref.read(removeAdsUpgradeProvider.notifier).update((state) => hasUpgrade);
-      for (final element in upgrades) {
-        _updateStatus(
-            element,
-            _removeAdsUpgrade
-                ? ProductStatus.purchased
-                : ProductStatus.purchasable);
+        for (final element in upgrades) {
+          _updateStatus(
+              element,
+              _removeAdsUpgrade
+                  ? ProductStatus.purchased
+                  : ProductStatus.purchasable);
+        }
+        ref
+            .read(removeAdsUpgradeProvider.notifier)
+            .update((state) => hasUpgrade);
       }
+    } catch (e) {
+      logger.i('PurchasesService purchasesUpdate e: $e');
     }
   }
 

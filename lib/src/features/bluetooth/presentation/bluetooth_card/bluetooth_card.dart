@@ -32,6 +32,7 @@ class BluetoothCard extends HookConsumerWidget {
       child: InkWell(
         onTap: () => pageFlipKey.currentState?.flip(),
         child: Card(
+          elevation: 0.4,
           child: Padding(
             padding: const EdgeInsets.all(Sizes.p8),
             child: PageFlipBuilder(

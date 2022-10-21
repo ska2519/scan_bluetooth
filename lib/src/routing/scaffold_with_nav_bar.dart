@@ -14,10 +14,10 @@ class ScaffoldWithNavBar extends StatefulHookConsumerWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _HidableBottomNavigationBarState();
+      _ScaffoldWithNavBarState();
 }
 
-class _HidableBottomNavigationBarState extends ConsumerState<ScaffoldWithNavBar>
+class _ScaffoldWithNavBarState extends ConsumerState<ScaffoldWithNavBar>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   int _currentIndex = 0;

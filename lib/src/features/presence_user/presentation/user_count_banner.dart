@@ -27,7 +27,6 @@ class UserCountBanner extends HookConsumerWidget {
         final countList = [onlineSignInCount, onlineCount, totalCount];
         const countListTitle = ['🫐 Sign In', '🟢 Online', '🔴 Total'];
         return Card(
-          elevation: 0.4,
           child: Padding(
             padding: const EdgeInsets.all(4),
             child: Row(

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../exceptions/error_logger.dart';
+
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
 final cloudFirestoreProvider =
@@ -121,35 +123,39 @@ class CloudFirestore {
     Function(T result)? unOrdDeepEq,
     Function(T result)? containsAll,
   }) {
+    Stream<List<T>> streamDocs;
+    try {} catch (e) {
+      logger.e('collectionStream e: $e');
+    }
     Query query = _instance.collection(path);
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }
     final snapshots = query.snapshots();
     return snapshots.map((snapshot) {
-      final result = snapshot.docs
+      final streamDocs = snapshot.docs
           .map((snapshot) =>
               builder(snapshot.data() as Map<String, dynamic>?, snapshot.id))
           .where((value) => value != null)
           .toList();
 
-      if (sort != null) result.sort(sort);
-
+      if (sort != null) streamDocs.sort(sort);
+// TODO:  streamDocs.map((e){}); check orderResult & containsAll function
       if (unOrdDeepEq != null) {
         final orderResult = <T>[];
-        result.map((e) {
+        streamDocs.map((e) {
           if (unOrdDeepEq(e) == true) orderResult.add(e);
         }).toList();
         return orderResult;
       }
       if (containsAll != null) {
         final containsResult = <T>[];
-        result.map((e) {
+        streamDocs.map((e) {
           if (containsAll(e) == true) containsResult.add(e);
         }).toList();
         return containsResult;
       }
-      return result;
+      return streamDocs;
     });
   }
 

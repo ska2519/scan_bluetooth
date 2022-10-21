@@ -14,8 +14,8 @@ class BluetoothDetailTile extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          bluetooth.deviceId,
-          style: textTheme.bodySmall,
+          '🆔 ${bluetooth.deviceId}',
+          style: textTheme.bodyMedium,
         ),
         RichText(
           text: TextSpan(

@@ -1,3 +1,4 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants/resources.dart';
@@ -42,7 +43,8 @@ class PurchaseScreen extends HookConsumerWidget {
         onTap: currentUser != null && currentUser.isAnonymous!
             ? () {
                 ref.read(fToastProvider).showToast(
-                        child: const ToastContext(
+                    gravity: ToastGravity.TOP,
+                    child: const ToastContext(
                       'Need to Login🚪 to Features Purchases',
                     ));
                 context.push('/account/purchase/account');
@@ -151,6 +153,7 @@ class _PurchaseWidget extends HookConsumerWidget {
     return InkWell(
         onTap: onPressed,
         child: Card(
+          elevation: 0.4,
           child: ListTile(
             title: Text(title),
             subtitle: Text(product.description),

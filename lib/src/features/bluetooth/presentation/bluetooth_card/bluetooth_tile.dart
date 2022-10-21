@@ -125,10 +125,10 @@ class BluetoothTile extends HookConsumerWidget {
                                     ? '🆔 ${bluetooth.deviceId.substring(0, 8)}'
                                     : '🆔 ${bluetooth.deviceId}',
                         style: bluetooth.userLabel != null
-                            ? textTheme.titleMedium!
+                            ? textTheme.bodyLarge!
                             : bluetooth.name.isNotEmpty
-                                ? textTheme.titleSmall
-                                : textTheme.titleSmall!.copyWith(
+                                ? textTheme.bodyMedium
+                                : textTheme.bodyMedium!.copyWith(
                                     color: ColorUtils.stringToColor(
                                       bluetooth.deviceId,
                                     ),

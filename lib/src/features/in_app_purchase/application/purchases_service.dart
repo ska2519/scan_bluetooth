@@ -19,7 +19,9 @@ final purchasesServiceProvider =
 final pastPurchaseListProvider = StateProvider<List<PastPurchase>>((ref) => []);
 final purchasableproductsProvider =
     StateProvider<List<PurchasableProduct>>((ref) => []);
+
 final removeAdsUpgradeProvider = StateProvider<bool>((ref) => false);
+final preventScanTimeProvider = StateProvider<int>((ref) => 4);
 
 class PurchasesService {
   PurchasesService(this.ref) {
@@ -253,11 +255,13 @@ class PurchasesService {
           _updateStatus(element, ProductStatus.purchased);
         }
         ref.read(removeAdsUpgradeProvider.notifier).update((state) => true);
+        ref.read(preventScanTimeProvider.notifier).update((state) => 0);
       } else {
         for (final element in subscriptions) {
           _updateStatus(element, ProductStatus.purchasable);
         }
         ref.read(removeAdsUpgradeProvider.notifier).update((state) => false);
+        ref.read(preventScanTimeProvider.notifier).update((state) => 4);
       }
       logger.i(
           'PurchasesService hasUpgrade: $hasUpgrade /_removeAdsUpgrade: $_removeAdsUpgrade');

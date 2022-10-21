@@ -90,7 +90,7 @@ class AccountScreen extends HookConsumerWidget {
               ),
               gapH16,
               const SignInButtonList(),
-              const Divider(height: 32, thickness: 0.5),
+              gapH20,
               PrimaryButton(
                 onPressed: () => context.goNamed(AppRoute.purchase.name),
                 text: 'Feature Purchases',
@@ -99,7 +99,7 @@ class AccountScreen extends HookConsumerWidget {
                 backgroundColor: colorScheme(context).onPrimary,
                 foregroundColor: AppColors.figmaOrangeColor,
               ),
-              gapH32,
+              gapH24,
               const LabelScreen(),
               // ElevatedButton.icon(
               //   icon: const Icon(Icons.share_outlined),

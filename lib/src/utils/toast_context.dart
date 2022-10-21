@@ -10,14 +10,11 @@ class ToastContext extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    logger.i('ToastContext text: $text');
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.0),
-        color: theme.colorScheme.errorContainer,
+        color: colorScheme(context).errorContainer,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

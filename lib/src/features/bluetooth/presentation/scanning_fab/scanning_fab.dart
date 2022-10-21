@@ -1,9 +1,11 @@
 import 'package:duration/duration.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../constants/resources.dart';
 import '../../../../utils/toast_context.dart';
+import '../../../in_app_purchase/application/purchases_service.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
 import '../../application/scan_bluetooth_service.dart';
 import 'animation_scanning_icon.dart';
@@ -27,9 +29,7 @@ class ScanningFAB extends HookConsumerWidget {
     Future<void> submit(scanning) async {
       if (scanning) {
         ref.read(scanBluetoothServiceProvider).updateBluetoothListEmpty();
-        // ref.read(nativeAdStateProvider.notifier).state = false;
       } else {
-        // ref.read(nativeAdStateProvider.notifier).state = true;
         await ref
             .read(scanningFABControllerProvider.notifier)
             .showInterstitialAd(scanning);
@@ -37,9 +37,6 @@ class ScanningFAB extends HookConsumerWidget {
       ref.read(scanBluetoothServiceProvider).submitScanning(scanning);
       ref.read(scanFABStateProvider.notifier).update((state) => scanning);
       ref.read(scanBluetoothServiceProvider).toggleStopWatch(scanning);
-      // if (!ref.watch(removeAdsUpgradeProvider)) {
-
-      // }
     }
 
     useEffect(() {
@@ -47,14 +44,7 @@ class ScanningFAB extends HookConsumerWidget {
           'ScanningFAB useEffect requestPermissionList: $requestPermissionList');
       if ((requestPermissionList != null && requestPermissionList!.isEmpty) ||
           (Platform.isAndroid || Platform.isIOS) == false) {
-        logger.i(
-            '(Platform.isAndroid || Platform.isIOS) == false: ${(Platform.isAndroid || Platform.isIOS) == false}');
-        // WidgetsBinding.instance.addPostFrameCallback((_) => ref
-        //     .read(scanningFABControllerProvider.notifier)
-        //     .submitScanning(true));
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          submit(true);
-        });
+        WidgetsBinding.instance.addPostFrameCallback((_) => submit(true));
       }
 
       return;
@@ -63,12 +53,13 @@ class ScanningFAB extends HookConsumerWidget {
     return Consumer(
       builder: (context, ref, child) {
         final elapsed = ref.watch(elapsedProvider);
-        if (elapsed.inSeconds == 4) {
+        final preventScanTime = ref.watch(preventScanTimeProvider);
+        if (elapsed.inSeconds == preventScanTime) {
           fToast.removeQueuedCustomToasts();
         }
 
         return FloatingActionButton.extended(
-          backgroundColor: elapsed.inSeconds < 4
+          backgroundColor: elapsed.inSeconds < preventScanTime
               ? theme.errorColor
               : !scanning
                   ? theme.primaryColorLight
@@ -76,9 +67,10 @@ class ScanningFAB extends HookConsumerWidget {
           tooltip: 'Search Bluetooth',
           onPressed: state.isLoading
               ? null
-              : scanning && elapsed.inSeconds < 4
+              : scanning && elapsed.inSeconds < preventScanTime
                   ? () => fToast.showToast(
-                          child: const ToastContext(
+                      gravity: ToastGravity.TOP,
+                      child: const ToastContext(
                         'Scan minumun time 4s ⌛️',
                       ))
                   : requestPermissionList != null &&

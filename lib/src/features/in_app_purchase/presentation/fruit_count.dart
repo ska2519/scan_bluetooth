@@ -17,25 +17,26 @@ class FruitCount extends ConsumerWidget {
         pastPurchases.where((e) => e.productId == storeKeyConsumableMax);
     fruits.map((e) => fruitCount += e.quantity!).toList();
     aFruit.map((e) => aFruitCount += e.quantity!).toList();
-    return Card(
-      elevation: 0.4,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            if (fruitCount > 0)
-              Text(
-                'Donate ${fruit()} x ${fruitCount.toString()}',
+    return fruitCount <= 0 && aFruitCount <= 0
+        ? const SizedBox()
+        : Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  if (fruitCount > 0)
+                    Text(
+                      'Donate ${fruit()} x ${fruitCount.toString()}',
+                    ),
+                  if (aFruitCount > 0)
+                    Text(
+                      'King Donate ${fruit()} x ${aFruitCount.toString()}',
+                      style: textTheme(context).bodyLarge,
+                    ),
+                ],
               ),
-            if (aFruitCount > 0)
-              Text(
-                'King Donate ${fruit()} x ${aFruitCount.toString()}',
-                style: textTheme(context).bodyLarge,
-              ),
-          ],
-        ),
-      ),
-    );
+            ),
+          );
   }
 }

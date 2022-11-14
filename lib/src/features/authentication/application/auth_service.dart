@@ -43,7 +43,8 @@ class AuthService {
 
   void refreshAuthStateChangesProvider() {
     logger.i('refreshAuthStateChangesProvider');
-    ref.refresh(authStateChangesProvider);
+    ref.invalidate(authStateChangesProvider);
+    // ref.refresh(authStateChangesProvider);
   }
 
   Future<void> signOut() async {

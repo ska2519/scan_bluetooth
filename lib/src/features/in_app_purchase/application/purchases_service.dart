@@ -135,27 +135,28 @@ class PurchasesService {
     }
   }
 
-  Future<void> buy(PurchasableProduct product) async {
+  Future<bool> buy(PurchasableProduct product) async {
     try {
       logger.i('PurchasesService buy product: $product');
       final purchaseParam =
           PurchaseParam(productDetails: product.productDetails);
       switch (product.id) {
         case storeKeyConsumable:
-          await inAppPurchase.buyConsumable(purchaseParam: purchaseParam);
-          break;
+          return await inAppPurchase.buyConsumable(
+              purchaseParam: purchaseParam);
+
         case storeKeyConsumableMax:
-          await inAppPurchase.buyConsumable(purchaseParam: purchaseParam);
-          break;
+          return await inAppPurchase.buyConsumable(
+              purchaseParam: purchaseParam);
         case storeKeyUpgrade:
-          await inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
-          break;
+          return await inAppPurchase.buyNonConsumable(
+              purchaseParam: purchaseParam);
         case storeKeySubscription1m:
-          await inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
-          break;
+          return await inAppPurchase.buyNonConsumable(
+              purchaseParam: purchaseParam);
         case storeKeySubscription1y:
-          await inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
-          break;
+          return await inAppPurchase.buyNonConsumable(
+              purchaseParam: purchaseParam);
         default:
           throw ArgumentError.value(
               product.productDetails, '${product.id} is not a known product');
@@ -163,6 +164,7 @@ class PurchasesService {
     } catch (e) {
       logger.i('PurchasesService buy e: ${e.toString()}');
     }
+    return false;
   }
 
   Future<void> _onPurchaseUpdate(

@@ -8,9 +8,10 @@ import '../../../exceptions/error_logger.dart';
 import '../../../utils/current_date_provider.dart';
 import '../data/scan_bluetooth_repository.dart';
 import '../domain/bluetooth.dart';
-import '../domain/label.dart';
 import '../presentation/scanning_fab/scanning_fab_controller.dart';
-import 'bluetooth_service.dart';
+
+final scanBluetoothStreamProvider = StreamProvider<Bluetooth?>(
+    (ref) => ref.watch(scanBluetoothServiceProvider).scanBluetoothStream());
 
 final scanBluetoothServiceProvider =
     Provider<ScanBluetoothService>(ScanBluetoothService.new);
@@ -38,90 +39,39 @@ class ScanBluetoothService {
 
   void toggleStopWatch(bool scanning) => ref.read(stopWatchProvider(scanning));
 
-  void submitScanning(bool scanning) => scanning ? startScan() : stopScan();
+  Stream<Bluetooth?> scanBluetoothStream() {
+    Bluetooth? scanBluetooth;
+    try {
+      ref.watch(scanResultStreamProvider).whenData((bluetooth) {
+        scanBluetooth = Bluetooth(
+          deviceId: bluetooth.deviceId,
+          manufacturerData: bluetooth.manufacturerData,
+          manufacturerDataHead: bluetooth.manufacturerDataHead,
+          name: bluetooth.name,
+          rssi: bluetooth.rssi,
+          scannedAt: ref.watch(currentDateBuilderProvider).call(),
+        );
+      });
+    } catch (e) {
+      logger.i('ScanBluetoothService scanBluetoothStream e: $e');
+    }
+    return Stream.value(scanBluetooth);
+  }
 
-  void updateBluetoothListEmpty() async =>
-      ref.read(bluetoothListProvider.notifier).update((state) => []);
+  void submitScanning(bool scanning) => (scanning) ? startScan() : stopScan();
 
   Future<void> connect(String deviceId) async {
     logger.i('QuickBlue.connect');
     ref.read(btRepoProvider).connect(deviceId);
   }
 
-  int unknownBtsCount() =>
-      ref.watch(bluetoothListProvider).where((bt) => bt.name.isEmpty).length;
+  // createExampleDate(bluetoothList);
+  //!! ExmapleData 사용 시 주석 해제
+  // ref.read(bluetoothListProvider.notifier).state =
+  //     exampleData2.map(Bluetooth.fromJson).toList();
+  // bluetoothList = exampleData2.map(Bluetooth.fromJson).toList();
 
-  Stream<List<Bluetooth>> createBluetoothListStream(
-    List<Bluetooth> bluetoothList,
-    List<Label> labelList,
-    bool labelFirst,
-  ) async* {
-    ref.watch(scanResultStreamProvider).whenData((bluetooth) {
-      final scanBluetooth = Bluetooth(
-        deviceId: bluetooth.deviceId,
-        manufacturerData: bluetooth.manufacturerData,
-        manufacturerDataHead: bluetooth.manufacturerDataHead,
-        name: bluetooth.name,
-        rssi: bluetooth.rssi,
-        scannedAt: ref.watch(currentDateBuilderProvider).call(),
-      );
-      // logger
-      //     .i('scanBluetooth: ${scanBluetooth.deviceId}: ${scanBluetooth.rssi}');
-
-      // ** prevent rssi number positive value
-      if (scanBluetooth.rssi > 0) {
-        return;
-      }
-      if (bluetoothList.isEmpty) {
-        bluetoothList.add(scanBluetooth);
-      } else {
-        for (var i = 0; i < bluetoothList.length; i++) {
-          if (bluetoothList[i].deviceId == scanBluetooth.deviceId) {
-            bluetoothList[i] =
-                scanBluetooth.copyWith(previousRssi: bluetoothList[i].rssi);
-            break;
-          } else if (i == bluetoothList.length - 1) {
-            bluetoothList.add(scanBluetooth);
-          }
-        }
-      }
-
-      if (labelList.isNotEmpty) {
-        for (var label in labelList) {
-          for (var i = 0; i < bluetoothList.length; i++) {
-            if (bluetoothList[i].deviceId == label.bluetooth.deviceId) {
-              bluetoothList[i] = bluetoothList[i].copyWith(
-                userLabel: label,
-              );
-              break;
-            }
-          }
-        }
-        ref.read(userLabelCountProvider.notifier).update((state) =>
-            bluetoothList
-                .where((bluetooth) => bluetooth.userLabel != null)
-                .toList()
-                .length);
-      }
-
-      bluetoothList.sort((a, b) => b.rssi.compareTo(a.rssi));
-
-      if (labelFirst) {
-        bluetoothList.sort((a, b) => b.userLabel != null ? 1 : 0);
-        // bluetoothList.sort((a, b) => b.userLabel != null ? 1 : -1);
-      }
-
-      ref.read(bluetoothListProvider.notifier).update((state) => bluetoothList);
-    });
-
-    // createExampleDate(bluetoothList);
-    //!! ExmapleData 사용 시 주석 해제
-    // ref.read(bluetoothListProvider.notifier).state =
-    //     exampleData2.map(Bluetooth.fromJson).toList();
-    // bluetoothList = exampleData2.map(Bluetooth.fromJson).toList();
-
-    yield bluetoothList;
-  }
+  // return bluetoothList;
 
   void createExampleDate(List<Bluetooth> bluetoothList) {
     final file = File('example_bluetooth_list.txt');
@@ -136,21 +86,4 @@ final stopWatchProvider = Provider.family.autoDispose<void, bool>((ref, start) {
   final ticker = Ticker(
       (onTick) => ref.read(elapsedProvider.notifier).update((state) => onTick));
   start ? ticker.start() : ticker.stop();
-});
-
-final unknownBtsCountProvider = StateProvider<int>(
-  (ref) => ref.watch(scanBluetoothServiceProvider).unknownBtsCount(),
-);
-final bluetoothListProvider = StateProvider<List<Bluetooth>>((ref) => []);
-
-final labelFirstProvider = StateProvider<bool>((ref) => true);
-final userLabelCountProvider = StateProvider<int>((ref) => 0);
-
-final bluetoothListStreamProvider = StreamProvider<List<Bluetooth>>((ref) {
-  final bluetoothList = ref.watch(bluetoothListProvider);
-  final labelList = ref.watch(userLabelListProvider);
-  final labelFirst = ref.watch(labelFirstProvider);
-  return ref
-      .watch(scanBluetoothServiceProvider)
-      .createBluetoothListStream(bluetoothList, labelList, labelFirst);
 });

@@ -39,6 +39,7 @@ class BluetoothLayoutGrid extends StatelessWidget {
       return LayoutGrid(
         columnSizes: columnSizes,
         rowSizes: rowSizes,
+        //TODO: key를 적용시켜 볼까?
         // rowGap: Sizes.p4, // equivalent to mainAxisSpacing
         // columnGap: Sizes.p24, // equivalent to crossAxisSpacing
         children: [

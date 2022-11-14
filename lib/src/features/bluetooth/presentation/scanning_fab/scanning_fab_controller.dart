@@ -4,14 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../exceptions/error_logger.dart';
 import '../../../admob/application/admob_service.dart';
 import '../../../in_app_purchase/application/purchases_service.dart';
-import '../../application/scan_bluetooth_service.dart';
 
 class ScanningFABController extends StateNotifier<AsyncValue<void>> {
   ScanningFABController({
-    required this.bluetoothService,
     this.admobService,
   }) : super(const AsyncData(null));
-  final ScanBluetoothService bluetoothService;
   final AdmobService? admobService;
 
   Future<void> showInterstitialAd(
@@ -41,7 +38,6 @@ final scanningFABControllerProvider =
   final removeAdsUpgrade = ref.watch(removeAdsUpgradeProvider);
   logger.i('scanningFABControllerProvider removeAdsUpgrade: $removeAdsUpgrade');
   return ScanningFABController(
-    bluetoothService: ref.read(scanBluetoothServiceProvider),
     admobService: (Platform.isAndroid || Platform.isIOS) && !removeAdsUpgrade
         ? ref.read(admobServiceProvider)
         : null,

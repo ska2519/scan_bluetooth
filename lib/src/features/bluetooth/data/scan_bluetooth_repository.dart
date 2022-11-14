@@ -1,7 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quick_blue/models.dart';
 
-import '../../../exceptions/error_logger.dart';
 import 'quick_blue_bluetooth_repo.dart';
 
 /// API for reading, watching and writing local cart data (guest user)
@@ -13,17 +12,11 @@ abstract class ScanBlueToothRepository {
   void connect(String deviceId);
 }
 
-final btRepoProvider = Provider<ScanBlueToothRepository>(
-  (ref) => QuickBlueBluetoothRepo(),
-);
+final btRepoProvider =
+    Provider<ScanBlueToothRepository>((ref) => QuickBlueBluetoothRepo());
 
-final isBTAvailableProvider = FutureProvider.autoDispose<bool>((ref) async {
-  final isBluetoothAvailable =
-      await ref.read(btRepoProvider).isBluetoothAvailable();
-  logger.i('isBluetoothAvailable: $isBluetoothAvailable');
-  return isBluetoothAvailable;
-});
+final isBTAvailableProvider = FutureProvider.autoDispose<bool>(
+    (ref) async => await ref.read(btRepoProvider).isBluetoothAvailable());
 
 final scanResultStreamProvider = StreamProvider<BlueScanResult>(
-  (ref) => ref.read(btRepoProvider).scanResultStream(),
-);
+    (ref) => ref.watch(btRepoProvider).scanResultStream());

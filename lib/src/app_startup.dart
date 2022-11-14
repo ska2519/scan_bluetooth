@@ -7,6 +7,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart'
     show PlatformDispatcher, kIsWeb, kReleaseMode;
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -93,13 +94,13 @@ class AppStartup {
       observers: [AsyncErrorLogger()],
       overrides: [
         flavorProvider.overrideWithValue(flavor),
+        // scanBluetoothStreamProvider.overrideWithValue(null),
         adTypeProvider.overrideWithValue(adType),
         // sharedPreferencesProvider.overrideWithValue(sharedPreferences),
         packageInfoProvider.overrideWithValue(packageInfo),
       ],
     );
     appStartupContainer.read(loggerProvider);
-
     if (Platform.isAndroid || Platform.isIOS) {
       appStartupContainer.read(presenceUserServiceProvider);
       appStartupContainer.read(purchasesServiceProvider);

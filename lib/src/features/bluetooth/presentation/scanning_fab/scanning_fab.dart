@@ -8,6 +8,7 @@ import '../../../../utils/toast_context.dart';
 import '../../../in_app_purchase/application/purchases_service.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
 import '../../application/scan_bluetooth_service.dart';
+import '../../domain/bluetooth.dart';
 import 'animation_scanning_icon.dart';
 import 'scanning_fab_controller.dart';
 
@@ -26,9 +27,9 @@ class ScanningFAB extends HookConsumerWidget {
     final fToast = ref.read(fToastProvider);
     final scanning = ref.watch(scanFABStateProvider);
 
-    Future<void> submit(scanning) async {
+    Future<void> submit(bool scanning) async {
       if (scanning) {
-        ref.read(scanBluetoothServiceProvider).updateBluetoothListEmpty();
+        ref.read(bluetoothListProvider.notifier).removeAll();
       } else {
         await ref
             .read(scanningFABControllerProvider.notifier)

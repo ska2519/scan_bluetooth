@@ -55,11 +55,15 @@ class LabelScreen extends HookConsumerWidget {
                             .bluetooth
                             .copyWith(userLabel: labelList[i]);
                         return BluetoothCard(
+                          canDelete: true,
                           bluetooth: bluetooth,
                           index: i,
-                          onTapLabelEdit: () async => await ref
-                              .read(labelScreenControllerProvider.notifier)
-                              .onTapTile(bluetooth, context),
+                          onTapLabelEdit: () async {
+                            logger.i('onTapLabelEdit');
+                            await ref
+                                .read(labelScreenControllerProvider.notifier)
+                                .onTapLabelEdit(bluetooth, context);
+                          },
                         );
                       },
                     ),

@@ -33,6 +33,11 @@ class BluetoothRepo {
     );
   }
 
+  Future<void> deleteBluetooth({required Bluetooth bluetooth}) async =>
+      await _firestore.deleteDoc(
+        path: FirebasePath.bluetoothes(deviceId: bluetooth.deviceId),
+      );
+
   Future<void> setLabel({
     required String deviceId,
     required Label label,

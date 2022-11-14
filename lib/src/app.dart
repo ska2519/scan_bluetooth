@@ -31,8 +31,11 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
     if (!isBackgroud) {
       logger.i('Platform: ${Platform.operatingSystem}');
       if (Platform.isAndroid || Platform.isIOS) {
-        ref.refresh(isBTAvailableProvider);
-        ref.refresh(
+        // ref.refresh(isBTAvailableProvider);
+        // ref.refresh(
+        //     requestPermissionListProvider(defaultBluetoothPermissionList));
+        ref.invalidate(isBTAvailableProvider);
+        ref.invalidate(
             requestPermissionListProvider(defaultBluetoothPermissionList));
       }
     }

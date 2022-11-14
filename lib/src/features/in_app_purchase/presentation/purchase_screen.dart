@@ -10,17 +10,17 @@ import '../constants.dart';
 import '../domain/past_purchase.dart';
 import '../domain/purchasable_product.dart';
 import '../domain/store_state.dart';
+import 'purchase_screen_controller.dart';
 
 class PurchaseScreen extends HookConsumerWidget {
   const PurchaseScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // ref.listen<AsyncValue<void>>(purchaseScreenControllerProvider, (_, state) {
-    //   logger.i('shoppingCartScreenControllerProvider state: $state');
-    //   return state.showAlertDialogOnError(context);
-    // });
-    // final state = ref.watch(purchaseScreenControllerProvider);
+    ref.listen<AsyncValue<void>>(purchaseScreenControllerProvider, (_, state) {
+      return state.showAlertDialogOnError(context);
+    });
+    final state = ref.watch(purchaseScreenControllerProvider);
     final storeState = ref.watch(storeStateProvider);
     final currentUser = ref.watch(authRepositoryProvider).currentUser;
     final pastPurchases = ref.watch(pastPurchaseListProvider);
@@ -37,6 +37,7 @@ class PurchaseScreen extends HookConsumerWidget {
         break;
     }
 
+    logger.i('PurchaseScreen.isLoading: ${state.isLoading}');
     return Scaffold(
       appBar: AppBar(title: const Text('Upgrade features')),
       body: GestureDetector(
@@ -52,27 +53,29 @@ class PurchaseScreen extends HookConsumerWidget {
             : null,
         child: AbsorbPointer(
           absorbing: currentUser != null && currentUser.isAnonymous!,
-          child: Padding(
-            padding: const EdgeInsets.all(Sizes.p4),
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  storeWidget,
-                  if (pastPurchases.isNotEmpty)
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(16, 8, 0, 0),
-                      child: Text(
-                        'Past purchases',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
+          child: state.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Padding(
+                  padding: const EdgeInsets.all(Sizes.p4),
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        storeWidget,
+                        if (pastPurchases.isNotEmpty)
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(16, 8, 0, 0),
+                            child: Text(
+                              'Past purchases',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        const PastPurchasesWidget(),
+                      ],
                     ),
-                  const PastPurchasesWidget(),
-                ],
-              ),
-            ),
-          ),
+                  ),
+                ),
         ),
       ),
     );
@@ -98,12 +101,14 @@ class _PurchaseList extends HookConsumerWidget {
   Widget build(BuildContext contex, WidgetRef ref) {
     final products = ref.watch(purchasableproductsProvider);
     return Column(
-      children: products.map((product) {
-        return _PurchaseWidget(
-          product: product,
-          onPressed: () => ref.read(purchasesServiceProvider).buy(product),
-        );
-      }).toList(),
+      children: products
+          .map((product) => _PurchaseWidget(
+                product: product,
+                onPressed: () => ref
+                    .read(purchaseScreenControllerProvider.notifier)
+                    .buyPurchase(product),
+              ))
+          .toList(),
     );
   }
 }
@@ -166,7 +171,6 @@ class _PurchaseWidget extends HookConsumerWidget {
     final currencySymbol = '${product.price.substring(0, 1)} ';
     final noSymbolPrice = product.price.substring(1);
 
-    logger.i('currencySymbolL $currencySymbol / noSymbolPrice: $noSymbolPrice');
     switch (product.status) {
       case ProductStatus.purchasable:
         return Platform.isIOS || Platform.isMacOS

@@ -1,6 +1,5 @@
 import '../../../constants/resources.dart';
 import '../../authentication/application/auth_service.dart';
-import '../../authentication/data/auth_repository.dart';
 import '../../authentication/domain/app_user.dart';
 import '../data/bluetooth_repo.dart';
 import '../domain/bluetooth.dart';
@@ -17,7 +16,8 @@ class BluetoothService {
   final Ref ref;
   late final TextEditingController textEditingCtr;
 
-  Future<void> _init() async {
+  void _init() {
+    logger.i('BluetoothService _init');
     textEditingCtr = TextEditingController();
   }
 
@@ -40,8 +40,9 @@ class BluetoothService {
   // }
 
   Future<void> updateLabel(Bluetooth bluetooth) async {
-    final user = ref.read(authRepositoryProvider).currentUser;
+    final user = ref.watch(authStateChangesProvider).value;
 
+    logger.i('updateLabel start');
     try {
       if (textEditingCtr.text.isEmpty) {
         await ref.read(bluetoothRepoProvider).deleteLabel(
@@ -94,20 +95,10 @@ class BluetoothService {
     );
   }
 
-  // Stream<List<Bluetooth>> createUserLabelListStream(
-  //   List<Bluetooth> bluetoothList,
-  //   List<Label> labelList,
-  //   bool labelFirst,
-  // ) async* {}
+  Future<void> deleteLabel(Bluetooth bluetooth) async => await ref
+      .read(bluetoothRepoProvider)
+      .deleteLabel(deviceId: bluetooth.deviceId, uid: bluetooth.userLabel!.uid);
 }
-
-final userLabelListProvider = StateProvider<List<Label>>((ref) {
-  return ref.watch(userLabelListStreamProvider).when(
-        data: (data) => data,
-        error: (error, stackTrace) => [],
-        loading: () => [],
-      );
-});
 
 final userLabelListStreamProvider = StreamProvider<List<Label>>((ref) {
   final bluetoothRepo = ref.read(bluetoothRepoProvider);
@@ -116,4 +107,14 @@ final userLabelListStreamProvider = StreamProvider<List<Label>>((ref) {
   return user != null
       ? bluetoothRepo.labelsStream(user.uid)
       : const Stream<List<Label>>.empty();
+});
+
+final labelFirstProvider = StateProvider<bool>((ref) => true);
+
+final userLabelCountProvider = Provider.autoDispose<int>((ref) {
+  return ref
+      .watch(bluetoothListProvider)
+      .where((bluetooth) => bluetooth.userLabel != null)
+      .toList()
+      .length;
 });

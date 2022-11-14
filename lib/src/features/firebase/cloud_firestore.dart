@@ -123,7 +123,7 @@ class CloudFirestore {
     Function(T result)? unOrdDeepEq,
     Function(T result)? containsAll,
   }) {
-    Stream<List<T>> streamDocs;
+    // Stream<List<T>> streamDocs;
     try {} catch (e) {
       logger.e('collectionStream e: $e');
     }

@@ -1,5 +1,4 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+import '../../../constants/resources.dart';
 import '../../authentication/data/auth_repository.dart';
 import '../application/purchases_service.dart';
 
@@ -11,9 +10,9 @@ class PurchaseScreenController extends StateNotifier<AsyncValue<void>> {
   final PurchasesService purchasesService;
   final AuthRepository authRepository;
 
-  Future<void> purchasesUpdate() async {
+  Future<void> buyPurchase(product) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(purchasesService.purchasesUpdate);
+    state = await AsyncValue.guard(() => purchasesService.buy(product));
   }
 }
 

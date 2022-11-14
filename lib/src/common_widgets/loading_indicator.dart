@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 
 import 'platform_widget.dart';
 
+const double defaultStrokeWidth = 2.5;
+
 class LoadingIndicator extends PlatformWidget {
   const LoadingIndicator({
     super.key,
-    required this.size,
-    required this.borderWidth,
+    this.size = 20,
+    this.borderWidth = defaultStrokeWidth,
     this.color,
   });
-  final double size;
-  final double borderWidth;
+  final double? size;
+  final double? borderWidth;
   final Color? color;
 
   @override
@@ -35,7 +37,7 @@ class LoadingIndicator extends PlatformWidget {
     final color = this.color ?? Theme.of(context).colorScheme.secondary;
 
     return CircularProgressIndicator(
-      strokeWidth: borderWidth * 2,
+      strokeWidth: borderWidth! * 2,
       valueColor: AlwaysStoppedAnimation<Color>(color),
     );
   }

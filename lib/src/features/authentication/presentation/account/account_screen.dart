@@ -4,6 +4,8 @@ import '../../../../common_widgets/primary_button.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/resources.dart';
 import '../../../bluetooth/presentation/label/label_screen.dart';
+import '../../../in_app_purchase/presentation/fruit_count.dart';
+import '../../../presence_user/presentation/user_count_banner.dart';
 import '../../application/auth_service.dart';
 import '../sign_in/email_password/email_password_sign_in_screen.dart';
 import 'account_screen_controller.dart';
@@ -54,10 +56,12 @@ class AccountScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: ResponsiveCenter(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.p8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              gapH8,
+              const UserCountBanner(),
               gapH16,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -88,7 +92,7 @@ class AccountScreen extends HookConsumerWidget {
                   Text(user?.email ?? ''),
                 ],
               ),
-              gapH12,
+              gapH8,
               const SignInButtonList(),
               gapH24,
               PrimaryButton(
@@ -99,7 +103,9 @@ class AccountScreen extends HookConsumerWidget {
                 backgroundColor: colorScheme(context).onPrimary,
                 foregroundColor: AppColors.figmaOrangeColor,
               ),
-              gapH48,
+              gapH4,
+              const FruitCount(),
+              gapH24,
               const LabelScreen(),
               // ElevatedButton.icon(
               //   icon: const Icon(Icons.share_outlined),

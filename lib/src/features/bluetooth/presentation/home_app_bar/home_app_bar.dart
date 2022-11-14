@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import '../../../../constants/resources.dart';
 import '../../../presence_user/presentation/user_count.dart';
-import '../../application/scan_bluetooth_service.dart';
 import '../../domain/bluetooth.dart';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and

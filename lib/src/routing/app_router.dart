@@ -8,7 +8,6 @@ import '../features/authentication/application/auth_service.dart';
 import '../features/authentication/presentation/account/account_screen.dart';
 import '../features/bluetooth/data/scan_bluetooth_repository.dart';
 import '../features/bluetooth/presentation/bluetooth_screen.dart';
-import '../features/community/presentation/community_screen.dart';
 import '../features/in_app_purchase/presentation/purchase_screen.dart';
 import '../flutter_icons/custom_flutter_icon_icons.dart';
 import 'home_screen.dart';
@@ -31,8 +30,8 @@ String tempLocaion = '';
 final goRouterProvider = Provider<GoRouter>((ref) {
   final bluetoothNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'BluetoothNav');
-  final communityNavigatorKey =
-      GlobalKey<NavigatorState>(debugLabel: 'CommunityNav');
+  // final communityNavigatorKey =
+  //     GlobalKey<NavigatorState>(debugLabel: 'CommunityNav');
   final accountNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'AccountNav');
 
@@ -43,12 +42,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       icon: const Icon(Icons.bluetooth),
       label: AppRoute.bluetooth.name,
     ),
-    ScaffoldWithNavBarTabItem(
-      rootRoutePath: '/community',
-      navigatorKey: communityNavigatorKey,
-      icon: const Icon(CustomFlutterIcon.group),
-      label: AppRoute.community.name,
-    ),
+    // ScaffoldWithNavBarTabItem(
+    //   rootRoutePath: '/community',
+    //   navigatorKey: communityNavigatorKey,
+    //   icon: const Icon(CustomFlutterIcon.group),
+    //   label: AppRoute.community.name,
+    // ),
     ScaffoldWithNavBarTabItem(
       rootRoutePath: '/account',
       navigatorKey: accountNavigatorKey,
@@ -121,13 +120,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     child: BluetoothScreen(),
                   ),
                 ),
-                GoRoute(
-                  path: '/community',
-                  name: AppRoute.community.name,
-                  pageBuilder: (context, state) => const NoTransitionPage(
-                    child: CommunityScreen(),
-                  ),
-                ),
+                // GoRoute(
+                //   path: '/community',
+                //   name: AppRoute.community.name,
+                //   pageBuilder: (context, state) => const NoTransitionPage(
+                //     child: CommunityScreen(),
+                //   ),
+                // ),
                 GoRoute(
                   path: '/account',
                   name: AppRoute.account.name,

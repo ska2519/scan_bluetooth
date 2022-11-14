@@ -144,20 +144,13 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
         .toList();
   }
 
-  // int unknownBtsCount() =>
-  //     ref.watch(bluetoothListProvider.notifier).unknownBtsCount();
-
-  int unknownBtsCount() {
-    final unknownBtsCount =
-        state.where((bt) => bt.name.isEmpty).toList().length;
-    logger.i('unknownBtsCount: $unknownBtsCount');
-    return unknownBtsCount;
-  }
-
   void removeAll() => state = [];
+
+  int get unknownBtsCount =>
+      state.where((bt) => bt.name.isEmpty).toList().length;
 }
 
 final unknownBtsCountProvider = StateProvider.autoDispose<int>((ref) {
   ref.watch(bluetoothListProvider);
-  return ref.read(bluetoothListProvider.notifier).unknownBtsCount();
+  return ref.read(bluetoothListProvider.notifier).unknownBtsCount;
 });

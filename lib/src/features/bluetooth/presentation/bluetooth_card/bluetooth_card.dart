@@ -51,7 +51,7 @@ class BluetoothCard extends HookConsumerWidget {
                     final fToast = ref.read(fToastProvider);
                     fToast.showToast(
                         child: const ToastContext(
-                      '␡ dismissed',
+                      '␡ Deleted Label!',
                     ));
                   },
                   background: Container(

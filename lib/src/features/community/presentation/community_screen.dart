@@ -15,10 +15,6 @@ class CommunityScreen extends ConsumerWidget {
           physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: const [
-              UserCountBanner(),
-              FruitCount(),
-            ],
           ),
         ),
       ),

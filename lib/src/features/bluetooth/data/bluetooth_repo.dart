@@ -41,16 +41,17 @@ class BluetoothRepo {
   Future<void> setLabel({
     required String deviceId,
     required Label label,
-  }) async {
-    await _firestore.setData(
-      path: FirebasePath.labels(deviceId: deviceId, uid: label.user.uid),
-      data: label.toJson(),
-      merge: true,
-    );
-  }
+  }) async =>
+      await _firestore.setData(
+        path: FirebasePath.labels(deviceId: deviceId, uid: label.user.uid),
+        data: label.toJson(),
+        merge: true,
+      );
 
-  Future<void> deleteLabel(
-          {required String deviceId, required UserId uid}) async =>
+  Future<void> deleteLabel({
+    required String deviceId,
+    required UserId uid,
+  }) async =>
       await _firestore.deleteDoc(
         path: FirebasePath.labels(deviceId: deviceId, uid: uid),
       );

@@ -25,10 +25,13 @@ class HomeAppBar extends HookConsumerWidget with PreferredSizeWidget {
     // final screenWidth = MediaQuery.of(context).size.width;
     // if (screenWidth < Breakpoint.tablet) {
     return AppBar(
-      title: Stack(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: const [
           UserCount(),
           Center(child: BluetoothCountInfo()),
+          SizedBox(width: 40),
         ],
       ),
       actions: const [

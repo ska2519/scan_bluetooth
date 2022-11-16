@@ -1,6 +1,4 @@
 import '../../../constants/resources.dart';
-import '../../in_app_purchase/presentation/fruit_count.dart';
-import '../../presence_user/presentation/user_count_banner.dart';
 
 class CommunityScreen extends ConsumerWidget {
   const CommunityScreen({super.key});

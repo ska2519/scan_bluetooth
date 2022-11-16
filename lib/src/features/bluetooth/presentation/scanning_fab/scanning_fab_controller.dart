@@ -35,7 +35,7 @@ final scanFABStateProvider = StateProvider<bool>((ref) => false);
 final scanningFABControllerProvider =
     StateNotifierProvider.autoDispose<ScanningFABController, AsyncValue<void>>(
         (ref) {
-  final removeAdsUpgrade = ref.watch(removeAdsUpgradeProvider);
+  final removeAdsUpgrade = ref.watch(removeAdsProvider);
   logger.i('scanningFABControllerProvider removeAdsUpgrade: $removeAdsUpgrade');
   return ScanningFABController(
     admobService: (Platform.isAndroid || Platform.isIOS) && !removeAdsUpgrade

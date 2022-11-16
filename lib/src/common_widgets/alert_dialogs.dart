@@ -21,9 +21,9 @@ Future<bool?> showAlertDialog({
     builder: (context) => AlertDialog(
       title: title != null ? Text(title) : titleWidget,
       content: content,
-      titlePadding: const EdgeInsets.all(12),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-      actionsPadding: const EdgeInsets.all(12),
+      // titlePadding: const EdgeInsets.all(12),
+      // contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+      // actionsPadding: const EdgeInsets.all(16),
       actions: <Widget>[
         if (cancelActionText != null)
           TextButton(

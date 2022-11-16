@@ -20,11 +20,11 @@ class BluetoothGrid extends HookConsumerWidget {
     /// ** google Ads package support only 1 ADS now. **
     const adLength = 1;
     final scanning = ref.watch(scanFABStateProvider);
-    final removeAdsUpgrade = ref.watch(removeAdsUpgradeProvider);
+    final removeAds = ref.watch(removeAdsProvider);
     final bluetoothList = ref.watch(bluetoothListProvider);
 
     var kAdIndex = 1;
-    if (bluetoothList.isNotEmpty && !scanning && !removeAdsUpgrade) {
+    if (bluetoothList.isNotEmpty && !scanning) {
       kAdIndex = Random()
           .nextInt(bluetoothList.length >= 7 ? 7 : bluetoothList.length);
     }
@@ -60,20 +60,17 @@ class BluetoothGrid extends HookConsumerWidget {
                 }
               });
 
-              // WidgetsBinding.instance.addPostFrameCallback((_) {
-              // });
-
               return BluetoothLayoutGrid(
                 key: bluetootGridKey,
-                itemCount: !scanning && !removeAdsUpgrade
+                itemCount: !removeAds && !scanning
                     ? bluetoothList.length + adLength
                     : bluetoothList.length,
                 itemBuilder: (_, index) {
-                  final i = !scanning && !removeAdsUpgrade
-                      ? getDestinationItemIndex(kAdIndex, index)
+                  final i = !removeAds && !scanning
+                      ? getItemIndex(kAdIndex, index)
                       : index;
 
-                  return !scanning && !removeAdsUpgrade && index == kAdIndex
+                  return !scanning && (index == kAdIndex && !removeAds)
                       ? const NativeAdCard()
                       : BluetoothCard(
                           onTapLabelEdit: () async {

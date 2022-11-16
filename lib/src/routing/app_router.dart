@@ -109,7 +109,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             ShellRoute(
               navigatorKey: _shellNavigatorKey,
               builder: (context, state, child) {
-                logger.i('ShellRoute state: ${state.location}');
+                logger.i('GoRouter ShellRoute state: ${state.location}');
                 return ScaffoldWithNavBar(tabs: tabs, child: child);
               },
               routes: [

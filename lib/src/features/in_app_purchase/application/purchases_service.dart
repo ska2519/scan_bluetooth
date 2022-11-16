@@ -20,7 +20,7 @@ final pastPurchaseListProvider = StateProvider<List<PastPurchase>>((ref) => []);
 final purchasableproductsProvider =
     StateProvider<List<PurchasableProduct>>((ref) => []);
 
-final removeAdsUpgradeProvider = StateProvider<bool>((ref) => false);
+final removeAdsProvider = StateProvider<bool>((ref) => false);
 final preventScanTimeProvider = StateProvider<int>((ref) => 4);
 
 class PurchasesService {
@@ -190,13 +190,13 @@ class PurchasesService {
             // counter.addBoughtDashes(2000);
             break;
           case storeKeyUpgrade:
-            ref.read(removeAdsUpgradeProvider.notifier).update((state) => true);
+            ref.read(removeAdsProvider.notifier).update((state) => true);
             break;
           case storeKeySubscription1m:
-            ref.read(removeAdsUpgradeProvider.notifier).update((state) => true);
+            ref.read(removeAdsProvider.notifier).update((state) => true);
             break;
           case storeKeySubscription1y:
-            ref.read(removeAdsUpgradeProvider.notifier).update((state) => true);
+            ref.read(removeAdsProvider.notifier).update((state) => true);
             break;
         }
       }
@@ -256,13 +256,13 @@ class PurchasesService {
         for (final element in subscriptions) {
           _updateStatus(element, ProductStatus.purchased);
         }
-        ref.read(removeAdsUpgradeProvider.notifier).update((state) => true);
+        ref.read(removeAdsProvider.notifier).update((state) => true);
         ref.read(preventScanTimeProvider.notifier).update((state) => 0);
       } else {
         for (final element in subscriptions) {
           _updateStatus(element, ProductStatus.purchasable);
         }
-        ref.read(removeAdsUpgradeProvider.notifier).update((state) => false);
+        ref.read(removeAdsProvider.notifier).update((state) => false);
         ref.read(preventScanTimeProvider.notifier).update((state) => 4);
       }
       logger.i(
@@ -278,9 +278,7 @@ class PurchasesService {
                   ? ProductStatus.purchased
                   : ProductStatus.purchasable);
         }
-        ref
-            .read(removeAdsUpgradeProvider.notifier)
-            .update((state) => hasUpgrade);
+        ref.read(removeAdsProvider.notifier).update((state) => hasUpgrade);
       }
     } catch (e) {
       logger.i('PurchasesService purchasesUpdate e: $e');

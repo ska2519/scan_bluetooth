@@ -69,21 +69,31 @@ class AccountScreen extends HookConsumerWidget {
                   if (isLoggedIn &&
                       user.providerData != null &&
                       user.providerData!.isNotEmpty)
-                    ...user.providerData!.map((e) {
-                      logger.i('providerData e: $e');
-                      switch (e.providerId) {
+                    ...user.providerData!.map((userInfo) {
+                      switch (userInfo.providerId) {
                         case 'apple.com':
-                          return Tooltip(
-                            triggerMode: TooltipTriggerMode.tap,
-                            message: e.email ?? 'apple.com',
-                            child: Assets.svg.appleWhite
-                                .svg(width: 24, height: 24),
+                          return Row(
+                            children: [
+                              Tooltip(
+                                triggerMode: TooltipTriggerMode.tap,
+                                message: userInfo.email ?? 'apple.com',
+                                child: Assets.svg.appleWhite
+                                    .svg(width: 24, height: 24),
+                              ),
+                              gapW8,
+                            ],
                           );
                         case 'google.com':
-                          return Tooltip(
-                            triggerMode: TooltipTriggerMode.tap,
-                            message: e.email ?? 'google.com',
-                            child: Assets.svg.google.svg(width: 24, height: 24),
+                          return Row(
+                            children: [
+                              Tooltip(
+                                triggerMode: TooltipTriggerMode.tap,
+                                message: userInfo.email ?? 'google.com',
+                                child: Assets.svg.google
+                                    .svg(width: 24, height: 24),
+                              ),
+                              gapW8,
+                            ],
                           );
                       }
                       return const SizedBox();
@@ -92,8 +102,14 @@ class AccountScreen extends HookConsumerWidget {
                   Text(user?.email ?? ''),
                 ],
               ),
-              gapH8,
-              const SignInButtonList(),
+
+              if (!isLoggedIn)
+                Column(
+                  children: const [
+                    gapH8,
+                    SignInButtonList(),
+                  ],
+                ),
               gapH24,
               PrimaryButton(
                 onPressed: () => context.goNamed(AppRoute.purchase.name),

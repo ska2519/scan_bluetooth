@@ -13,7 +13,7 @@ class NativeAdCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final removeAdsUpgrade = ref.watch(removeAdsUpgradeProvider);
+    final removeAdsUpgrade = ref.watch(removeAdsProvider);
     final adWidget = ref.watch(nativeAdWidgetProvider);
     logger.i('NativeAdCard removeAdsUpgrade: $removeAdsUpgrade');
 

@@ -24,6 +24,6 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final auth = FirebaseAuthRepository(ref.read(authServiceProvider));
   // !! macos singout test 시 필요 https://github.com/FirebaseExtended/flutterfire/issues/4661
   // auth.signOut();
-  ref.onDispose(auth.dispose);
+  // ref.onDispose(auth.dispose);
   return auth;
 });

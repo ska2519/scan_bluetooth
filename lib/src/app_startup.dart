@@ -37,8 +37,6 @@ class AppStartup {
   static Future<void> run(Flavor flavor) async {
     if (kIsWeb) usePathUrlStrategy();
     WidgetsFlutterBinding.ensureInitialized();
-    // logger.i('Firebase.initializeApp kIsWeb: $kIsWeb /flavor: $flavor');
-    // if (Firebase.apps.isNotEmpty) {
     try {
       await Firebase.initializeApp(
         options: flavor == Flavor.PROD
@@ -49,9 +47,6 @@ class AppStartup {
       logger.i('Firebase initializeApp e: $e');
     }
 
-    // }
-
-    logger.i('after await Firebase.initializeApp: ');
     final analytics = kReleaseMode ? FirebaseAnalytics.instance : null;
     final crashlytics =
         kReleaseMode && !kIsWeb ? FirebaseCrashlytics.instance : null;
@@ -82,8 +77,8 @@ class AppStartup {
       return true;
     };
 
-    if (kReleaseMode) {
-      await analytics!.logAppOpen();
+    if (kReleaseMode && analytics != null) {
+      await analytics.logAppOpen();
       await analytics.logEvent(name: 'app_start');
     }
     const adType = kReleaseMode ? ADType.real : ADType.sample;
@@ -94,7 +89,6 @@ class AppStartup {
       observers: [AsyncErrorLogger()],
       overrides: [
         flavorProvider.overrideWithValue(flavor),
-        // scanBluetoothStreamProvider.overrideWithValue(null),
         adTypeProvider.overrideWithValue(adType),
         // sharedPreferencesProvider.overrideWithValue(sharedPreferences),
         packageInfoProvider.overrideWithValue(packageInfo),
@@ -108,7 +102,7 @@ class AppStartup {
     } else if (Platform.isMacOS) {
       appStartupContainer.read(setWindowSizeProvider);
     }
-    logger.i('appStartupContainer state: $appStartupContainer');
+
     // * Entry point of the app
     runApp(UncontrolledProviderScope(
       container: appStartupContainer,

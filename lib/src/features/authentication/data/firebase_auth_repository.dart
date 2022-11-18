@@ -64,7 +64,6 @@ class FirebaseAuthRepository implements AuthRepository {
           userLinkWithCredential.user != null) {
         logger.i('_linkWithCredential user: ${userLinkWithCredential.user}');
         await _setAppUser(userLinkWithCredential.user!);
-        // await _firebaseAuth.currentUser?.reload();
         authService.refreshAuthStateChangesProvider();
       }
     } on FirebaseAuthException catch (e) {

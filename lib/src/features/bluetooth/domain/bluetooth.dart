@@ -36,6 +36,11 @@ final bluetoothListProvider =
     StateNotifierProvider.autoDispose<BluetoothList, List<Bluetooth>>(
         BluetoothList.new);
 
+final unknownBtsCountProvider = StateProvider.autoDispose<int>((ref) {
+  ref.watch(bluetoothListProvider);
+  return ref.read(bluetoothListProvider.notifier).unknownBtsCount;
+});
+
 /// An object that controls a list of [Bluetooth].
 class BluetoothList extends StateNotifier<List<Bluetooth>> {
   BluetoothList(this.ref, {List<Bluetooth>? initalList})
@@ -149,8 +154,3 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
   int get unknownBtsCount =>
       state.where((bt) => bt.name.isEmpty).toList().length;
 }
-
-final unknownBtsCountProvider = StateProvider.autoDispose<int>((ref) {
-  ref.watch(bluetoothListProvider);
-  return ref.read(bluetoothListProvider.notifier).unknownBtsCount;
-});

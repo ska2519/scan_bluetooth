@@ -57,21 +57,21 @@ class AppStartup {
     }
 
     logger.i(
-        'AppStartup kReleaseMode: $kReleaseMode/ analytics: $analytics/ crashlytics: $crashlytics');
+        'AppStartup analytics: ${analytics != null}/ crashlytics: ${crashlytics != null}');
 
     // * This code will present some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {
       // * custom error handler in order to see the logs in the console as well.
-      if (kReleaseMode && !kIsWeb) {
-        FlutterError.onError = crashlytics!.recordFlutterFatalError;
+      if (kReleaseMode && !kIsWeb && crashlytics != null) {
+        FlutterError.onError = crashlytics.recordFlutterFatalError;
       } else {
         FlutterError.presentError(details);
       }
     };
 
     PlatformDispatcher.instance.onError = (error, stack) {
-      if (kReleaseMode && !kIsWeb) {
-        crashlytics!.recordError(error, stack, fatal: true);
+      if (kReleaseMode && !kIsWeb && crashlytics != null) {
+        crashlytics.recordError(error, stack, fatal: true);
       }
       logger.e(error);
       return true;

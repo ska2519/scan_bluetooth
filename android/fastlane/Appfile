@@ -1,0 +1,4 @@
+fastlane_require 'dotenv'
+
+json_key_file(ENV['AUTHENTICATE_GOOGLE_JSON_FILE_PATH'])
+package_name ("#{ENV['ANDROID_SCHEME']}.fruitshop.bomb")

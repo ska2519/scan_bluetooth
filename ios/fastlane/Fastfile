@@ -1,0 +1,73 @@
+# Firebase App Distribution deploy 명령어: bundle exec fastlane deploy_dev --env dev
+# testflight deploy 명령어: bundle exec fastlane deploy_testflight --env prod
+update_fastlane
+
+import "../../scripts/Fastfile"
+fastlane_require 'dotenv'
+
+default_platform(:ios)
+
+
+platform :ios do
+  platform = "ios"
+  flavor = ENV['IOS_SCHEME']
+  # Updates Xcode project settings to use a different code signing based on method
+  private_lane :archive do |options|
+    method = options[:method]  
+    is_prod = flavor == "prod"
+    configuration = is_prod ? "Release-prod" : "Release-dev"
+
+    update_code_signing_settings(
+      build_configurations: configuration,
+      use_automatic_signing: true,
+    )
+    cert()
+    sigh(force: true)
+
+
+    build_app(
+      output_directory: "#{root_path}/build/ios",
+      build_path: "#{root_path}/build/ios",
+      archive_path: "#{root_path}/build/ios",
+      export_method: method,
+      scheme: flavor,
+      configuration: configuration,
+      # xcargs: "-allowProvisioningUpdates"
+    )
+  end
+
+  desc "Deploy a ad-hoc build to Firebase Distribution"
+  lane :deploy_adhoc do
+    begin
+      service_credentials_file = "#{root_path}/.firebase/#{flavor}/bomb-fruitshop.json"
+      # send_start_slack_message(platform, flavor)
+      archive(method: "ad-hoc")
+      firebase_app_distribution(
+        app: ENV['IOS_FIREBASE_APP_DISTRIBUTION_APP'],
+        service_credentials_file:service_credentials_file,
+        release_notes: ENV['IOS_FIREBASE_APP_DISTRIBUTION_RELEASE_NOTES'],
+        testers:ENV['IOS_FIREBASE_APP_DISTRIBUTION_TESTER'],
+        # groups: ENV['IOS_FIREBASE_APP_DISTRIBUTION_TESTER_GROUPS'],
+      )
+      # send_success_slack_message(platform, flavor)
+    rescue => exception
+      on_error(exception, platform, flavor)
+    end
+  end
+
+  desc "Deploy a iOS build to TestFlight"
+  lane :deploy_testflight do
+    begin
+      # send_start_slack_message(platform, flavor)
+     
+
+      archive(method: "app-store")
+      upload_to_testflight(
+        skip_waiting_for_build_processing: false,
+      )
+      # send_success_slack_message(platform, flavor)
+    rescue => exception
+      on_error(exception, platform, flavor)
+    end
+  end
+end

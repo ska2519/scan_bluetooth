@@ -1,0 +1,104 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "🛠🧑‍💻 debug macos dev",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_dev.dart",
+            "flutterMode": "debug",
+            "args": [
+                "-v",
+            ]
+        },
+        {
+            "name": "🛠🧑‍💻 debug dev",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_dev.dart",
+            "flutterMode": "debug",
+            "args": [
+                // "-t",
+                // "lib/main_dev.dart",
+                "--flavor",
+                "dev",
+                "-v",
+            ]
+        },
+        {
+            "name": "🛠🛍 debug prod",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_prod.dart",
+            "flutterMode": "debug",
+            "args": [
+                "--flavor",
+                "prod",
+                "-v",
+            ]
+        },
+        {
+            "name": "🧑‍💻📱 release dev",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_dev.dart",
+            "flutterMode": "release",
+            "args": [
+                "--flavor",
+                "dev",
+                "-v",
+            ]
+        },
+        {
+            "name": "🛍📱 release macos prod",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_prod.dart",
+            "flutterMode": "release",
+            "args": [
+                "-v",
+            ]
+        },
+        {
+            "name": "🛍📱 release prod",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_prod.dart",
+            "flutterMode": "release",
+            "args": [
+                "--flavor",
+                "prod",
+                // "-v",
+            ]
+        },
+        {
+            "name": "🕵️‍♂️🧑‍💻 profile dev",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_dev.dart",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor",
+                "dev",
+                "-v",
+            ]
+        },
+        {
+            "name": "🕵️‍♂️🛍 profile prod",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main_prod.dart",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor",
+                "prod",
+                "-v",
+            ]
+        },
+    ]
+}
+
+// /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -configuration Debug-dev VERBOSE_SCRIPT_LOGGING=YES DEVELOPMENT_TEAM=33BU599YAS -allowProvisioningUpdates -allowProvisioningDeviceRegistration -workspace Runner.xcworkspace -scheme dev BUILD_DIR=/Users/ska/Coding/Projects/BOMB/build/ios -sdk iphoneos -destination id=00008110-001C09510C44801E ONLY_ACTIVE_ARCH=YES ARCHS=arm64 -resultBundlePath /var/folders/6g/tvqwd2m96ss9qs762rwsfgvm0000gn/T/flutter_tools.4td9U3/flutter_ios_build_temp_dirpPPNb6/temporary_xcresult_bundle -resultBundleVersion 3 FLUTTER_SUPPRESS_ANALYTICS=true COMPILER_INDEX_STORE_ENABLE=NO

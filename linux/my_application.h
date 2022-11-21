@@ -7,7 +7,7 @@ G_DECLARE_FINAL_TYPE(MyApplication, my_application, MY, APPLICATION,
                      GtkApplication)
 
 /**
- * my_application_new:
+ * my_application_new:x
  *
  * Creates a new Flutter-based application.
  *

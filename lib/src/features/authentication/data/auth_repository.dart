@@ -16,12 +16,19 @@ abstract class AuthRepository {
   Future<void> signInWithEmailAndPassword(String email, String password);
   Future<void> createUserWithEmailAndPassword(String email, String password);
   Future<void> signOut();
-  Future<AppUser?> getAppUser(String uid);
+  Future<AppUser?> getAppUser(UserId uid);
   void dispose();
 }
 
+final fetchAppUserProvider =
+    FutureProvider.family<AppUser?, UserId>((ref, uid) async {
+  final auth = ref.watch(authRepositoryProvider);
+  return await auth.getAppUser(uid);
+});
+
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  final auth = FirebaseAuthRepository(ref.read(authServiceProvider));
+  final authService = ref.read(authServiceProvider);
+  final auth = FirebaseAuthRepository(authService);
   // !! macos singout test 시 필요 https://github.com/FirebaseExtended/flutterfire/issues/4661
   // auth.signOut();
   // ref.onDispose(auth.dispose);

@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../exceptions/error_logger.dart';
-import '../../in_app_purchase/data/iap_repo.dart';
-import '../../presence_user/application/presence_user_service.dart';
 import '../data/auth_repository.dart';
 import '../domain/app_user.dart';
 
@@ -50,9 +48,6 @@ class AuthService {
 
   Future<void> signOut() async {
     try {
-      ref.invalidate(statusStateOnlineStreamProvider);
-      ref.invalidate(pastPurchasesStreamProvider);
-      await Future.delayed(const Duration(seconds: 1), () async {});
       await ref.read(authRepositoryProvider).signOut();
     } catch (e) {
       logger.i('signOut e: e');

@@ -379,6 +379,7 @@ coverage/
 # Symbols
 app.*.symbols
 
+**/Info.plist
 **/firebase_app_id_file.json
 **/GoogleService-Info*.plist
 **/GoogleService-Info.plist

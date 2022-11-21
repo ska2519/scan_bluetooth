@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'platform_widget.dart';
 
-const double defaultStrokeWidth = 2.5;
-
 class LoadingIndicator extends PlatformWidget {
   const LoadingIndicator({
     super.key,
     this.size = 20,
-    this.borderWidth = defaultStrokeWidth,
+    this.borderWidth = 2.5,
     this.color,
   });
   final double? size;

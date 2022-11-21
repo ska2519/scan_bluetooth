@@ -2,8 +2,8 @@
 
 import '../../../../common_widgets/primary_button.dart';
 import '../../../../constants/resources.dart';
-import 'sign_in_button_controller.dart';
-import 'sign_in_type.dart';
+import '../../domain/sign_in_type.dart';
+import '../account/account_screen_controller.dart';
 
 class SignInButton extends ConsumerWidget {
   final SignInType signInType;
@@ -12,10 +12,10 @@ class SignInButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AsyncValue>(
-      signInButtonControllerProvider,
+      accountScreenControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final state = ref.watch(signInButtonControllerProvider);
+    final state = ref.watch(accountScreenControllerProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -24,11 +24,10 @@ class SignInButton extends ConsumerWidget {
         foregroundColor: signInType.textColor,
         backgroundColor: signInType.backgroundColor,
         svgAsset: signInType.svgAsset,
-        isLoading: state.isLoading,
         onPressed: state.isLoading
             ? null
             : () => ref
-                .read(signInButtonControllerProvider.notifier)
+                .read(accountScreenControllerProvider.notifier)
                 .signInWith(signInType),
       ),
     );

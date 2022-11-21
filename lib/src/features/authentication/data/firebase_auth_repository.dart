@@ -110,12 +110,16 @@ class FirebaseAuthRepository implements AuthRepository {
         scopes: ['email'],
       ).signIn();
       logger.i('signInWithGoogle googleUser: $googleUser');
+      if (googleUser == null) {
+        logger.e('signInWithGoogle googleUser: $googleUser');
+        return;
+      }
 
-      final googleAuth = await googleUser?.authentication;
+      final googleAuth = await googleUser.authentication;
 
       final oauthCredential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
       logger.i('signInWithGoogle oauthCredential: $oauthCredential');
@@ -224,7 +228,5 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
-  }
+  Future<void> signOut() => _firebaseAuth.signOut();
 }

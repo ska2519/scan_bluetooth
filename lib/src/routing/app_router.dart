@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../exceptions/error_logger.dart';
 import '../features/authentication/application/auth_service.dart';
 import '../features/authentication/presentation/account/account_screen.dart';
+import '../features/authentication/presentation/profile/profile_screen.dart';
 import '../features/bluetooth/data/scan_bluetooth_repository.dart';
 import '../features/bluetooth/presentation/bluetooth_screen.dart';
 import '../features/in_app_purchase/presentation/purchase_screen.dart';
@@ -20,6 +21,7 @@ enum AppRoute {
   purchase,
   account,
   community,
+  profile,
   // signIn,
 }
 
@@ -139,6 +141,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     //   name: AppRoute.signIn.name,
                     //   builder: (context, state) => const SignInScreen(),
                     // ),
+                    GoRoute(
+                      path: 'profile:uid',
+                      name: AppRoute.profile.name,
+                      builder: (context, state) {
+                        final uid = state.params['uid']!;
+                        return ProfileScreen(uid);
+                      },
+                    ),
                     GoRoute(
                         path: 'purchase',
                         name: AppRoute.purchase.name,

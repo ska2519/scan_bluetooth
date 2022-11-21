@@ -13,7 +13,7 @@ class UserCount extends HookConsumerWidget {
         final onlineUserStateList =
             userStateList.where((e) => e.state == 'online').toList();
         final onlineSignInUserStateList = userStateList
-            .where((e) => e.state == 'online' && e.isAnonymous)
+            .where((e) => e.state == 'online' && !e.isAnonymous)
             .toList();
         return SizedBox(
           width: 30,

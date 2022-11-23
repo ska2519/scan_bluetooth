@@ -56,7 +56,6 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
       final scanBluetooth = next.value;
       // ** prevent rssi number positive value
       if (scanBluetooth != null) {
-        // logger.i('state scanBluetooth: $scanBluetooth');
         if (scanBluetooth.rssi > 0) {
           return;
         }
@@ -66,15 +65,12 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
           for (var i = 0; i < state.length; i++) {
             if (state[i].deviceId == scanBluetooth.deviceId) {
               state[i] = scanBluetooth.copyWith(previousRssi: state[i].rssi);
-
               break;
             } else if (i == state.length - 1) {
               state.add(scanBluetooth);
             }
           }
-          state.sort((a, b) => b.rssi.compareTo(a.rssi));
         }
-
         state = [...state];
       }
     });
@@ -117,7 +113,10 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
     }
   }
 
-  //
+  void sort() {
+    state.sort((a, b) => b.rssi.compareTo(a.rssi));
+    state = [...state];
+  }
 
   // void toggle(String deviceId) {
   //   state = [

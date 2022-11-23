@@ -1,5 +1,6 @@
 import '../constants/resources.dart';
 import 'error_message_widget.dart';
+import 'loading_animation.dart';
 
 class AsyncValueWidget<T> extends StatelessWidget {
   const AsyncValueWidget({
@@ -20,8 +21,7 @@ class AsyncValueWidget<T> extends StatelessWidget {
       data: data,
       error: (e, st) =>
           error ?? Center(child: ErrorMessageWidget(e.toString())),
-      loading: () => loading ?? const SizedBox(),
-      // loading ?? const Center(child: CircularProgressIndicator()),
+      loading: () => loading ?? const LoadingAnimation(),
     );
   }
 }

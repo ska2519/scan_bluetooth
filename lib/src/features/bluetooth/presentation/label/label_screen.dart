@@ -23,7 +23,11 @@ class LabelScreen extends HookConsumerWidget {
           ? Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Assets.svg.icons8Tag.svg(height: 16, width: 16),
+                CircleAvatar(
+                  radius: 14,
+                  backgroundColor: Colors.white,
+                  child: Assets.svg.icons8Tag.svg(height: 20, width: 20),
+                ),
                 gapW4,
                 Text(
                   'No Labels'.hardcoded,
@@ -32,47 +36,67 @@ class LabelScreen extends HookConsumerWidget {
                 ),
               ],
             )
-          : Stack(
+          : Column(
               children: [
-                Column(
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        Assets.svg.icons8Tag.svg(height: 24, width: 24),
-                        gapW8,
-                        Text(
-                          'My Labels'.hardcoded,
-                          style: Theme.of(context).textTheme.titleLarge,
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                    CircleAvatar(
+                      radius: 16,
+                      backgroundColor: Colors.white,
+                      child: Assets.svg.icons8Tag.svg(height: 24, width: 24),
                     ),
-                    gapH8,
-                    BluetoothLayoutGrid(
-                      itemCount: labelList.length,
-                      itemBuilder: (_, i) {
-                        final bluetooth = labelList[i]
-                            .bluetooth
-                            .copyWith(userLabel: labelList[i]);
-                        return BluetoothCard(
-                          canDelete: true,
-                          bluetooth: bluetooth,
-                          index: i,
-                          onTapLabelEdit: () async {
-                            logger.i('onTapLabelEdit');
-                            await ref
-                                .read(labelScreenControllerProvider.notifier)
-                                .onTapLabelEdit(bluetooth, context);
-                          },
-                        );
-                      },
+                    gapW8,
+                    Text(
+                      'My Labels'.hardcoded,
+                      style: Theme.of(context).textTheme.titleLarge,
+                      textAlign: TextAlign.center,
                     ),
-                    gapH8,
                   ],
                 ),
-                if (state.isLoading) const LoadingAnimation(),
+                gapH8,
+                BluetoothLayoutGrid(
+                  itemCount: labelList.length,
+                  itemBuilder: (_, i) {
+                    final bluetooth = labelList[i]
+                        .bluetooth
+                        .copyWith(userLabel: labelList[i]);
+                    return BluetoothCard(
+                      canDelete: true,
+                      bluetooth: bluetooth,
+                      index: i,
+                      onTapLabelEdit: () async {
+                        logger.i('onTapLabelEdit');
+                        await ref
+                            .read(labelScreenControllerProvider.notifier)
+                            .onTapLabelEdit(bluetooth, context);
+                      },
+                    );
+                  },
+                ),
+                gapH8,
               ],
             ),
+    );
+  }
+}
+
+class AsyncValueStackLoadingAnimation extends StatelessWidget {
+  const AsyncValueStackLoadingAnimation({
+    super.key,
+    required this.state,
+    required this.child,
+  });
+
+  final AsyncValue<void> state;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        child,
+        if (state.isLoading) const LoadingAnimation(),
+      ],
     );
   }
 }

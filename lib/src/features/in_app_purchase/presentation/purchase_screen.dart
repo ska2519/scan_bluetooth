@@ -39,7 +39,9 @@ class PurchaseScreen extends HookConsumerWidget {
 
     logger.i('PurchaseScreen.isLoading: ${state.isLoading}');
     return Scaffold(
-      appBar: AppBar(title: const Text('Upgrade features')),
+      appBar: AppBar(
+        title: const Text('Upgrade features'),
+      ),
       body: GestureDetector(
         onTap: currentUser != null && currentUser.isAnonymous!
             ? () {

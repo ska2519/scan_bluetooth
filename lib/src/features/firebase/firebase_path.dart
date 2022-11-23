@@ -1,15 +1,17 @@
+import '../authentication/domain/app_user.dart';
+
 class FirebasePath {
   FirebasePath._();
 
   static String firebaseUser(int id) => 'users/$id';
 
-  static String profileImages(int userId) => 'profileImages/$userId';
-  static String postImages(int userId, String fileName) =>
-      'postImages/$userId/$fileName';
+  static String profileImages(UserId uid) => 'profileImages/$uid';
+  static String postImages(UserId uid, String fileName) =>
+      'postImages/$uid/$fileName';
   static String chatImages(String chatId, String fileName) =>
       'chatImages/$chatId/$fileName';
-  static String verificationImages(int userId, String fileName) =>
-      'verificationImages/$userId/$fileName';
+  static String verificationImages(UserId uid, String fileName) =>
+      'verificationImages/$uid/$fileName';
   static String stockImages(String stockCode) => 'stockImages/$stockCode.png';
 
   static String chatList() => 'chats';
@@ -25,7 +27,7 @@ class FirebasePath {
   static String items() => 'data/items';
   static String templates() => 'data/templates';
   static String faqs() => 'data/FAQs';
-  static String users({String? uid}) => 'users/$uid';
+  static String users({UserId? uid}) => 'users/$uid';
   static String estimates({String? estimatesId}) => 'estimates/$estimatesId';
   static String faqCategories() => 'data/FAQCategories';
 
@@ -33,7 +35,7 @@ class FirebasePath {
   static String labels({required String deviceId, required String uid}) =>
       'bluetoothes/$deviceId/labels/$uid';
   static String collectionGroupLabels() => 'labels';
-  static String status({String? uid}) => 'status/$uid';
+  static String status({UserId? uid}) => 'status/$uid';
   static String collectionStatus() => 'status';
   static String collectionPurchases() => 'purchases';
 }

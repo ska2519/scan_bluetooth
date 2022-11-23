@@ -125,7 +125,7 @@ class FirebaseAuthRepository implements AuthRepository {
       logger.i('signInWithGoogle oauthCredential: $oauthCredential');
       return await _linkWithCredential(oauthCredential);
     } catch (e) {
-      logger.i('signInWithGoogle e: $e');
+      logger.e('signInWithGoogle e: $e');
     }
   }
 
@@ -181,16 +181,29 @@ class FirebaseAuthRepository implements AuthRepository {
       );
       return await _linkWithCredential(oauthCredential);
     } catch (e) {
-      logger.i('signInWithApple e: $e');
+      logger.e('signInWithApple e: $e');
     }
   }
 
   Future<void> _setAppUser(User user) async {
     try {
-      logger.i('setAppUser user: $user');
+      logger.i('Auth setAppUser: $user');
       await _firestore.setData(
         path: FirebasePath.users(uid: user.uid),
         data: AppUser.transformFirebaseUser(user).toJson(),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> updateAppUser(AppUser user) async {
+    try {
+      logger.d('updateAppUser: $user');
+      await _firestore.setData(
+        path: FirebasePath.users(uid: user.uid),
+        data: user.toJson(),
       );
     } catch (e) {
       rethrow;

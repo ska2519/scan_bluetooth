@@ -18,10 +18,10 @@ import 'scaffold_with_nav_bar.dart';
 enum AppRoute {
   home,
   bluetooth,
-  purchase,
   account,
-  community,
   profile,
+  purchase,
+  community,
   // signIn,
 }
 
@@ -129,6 +129,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 //     child: CommunityScreen(),
                 //   ),
                 // ),
+
                 GoRoute(
                   path: '/account',
                   name: AppRoute.account.name,
@@ -150,15 +151,20 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                       },
                     ),
                     GoRoute(
-                        path: 'purchase',
-                        name: AppRoute.purchase.name,
-                        builder: (context, state) => const PurchaseScreen(),
-                        routes: [
-                          GoRoute(
-                            path: 'account',
-                            builder: (context, state) => const AccountScreen(),
-                          ),
-                        ]),
+                      path: 'purchase',
+                      name: AppRoute.purchase.name,
+                      builder: (context, state) => const PurchaseScreen(),
+                      // pageBuilder: (context, state) => const MaterialPage(
+                      //   child: PurchaseScreen(),
+                      //   fullscreenDialog: true,
+                      // ),
+                      routes: [
+                        GoRoute(
+                          path: 'account',
+                          builder: (context, state) => const AccountScreen(),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ],

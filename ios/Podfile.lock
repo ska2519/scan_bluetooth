@@ -642,6 +642,9 @@ PODS:
   - Firebase/Functions (10.2.0):
     - Firebase/CoreOnly
     - FirebaseFunctions (~> 10.2.0)
+  - Firebase/Storage (10.2.0):
+    - Firebase/CoreOnly
+    - FirebaseStorage (~> 10.2.0)
   - firebase_analytics (10.0.6):
     - Firebase/Analytics (= 10.2.0)
     - firebase_core
@@ -663,6 +666,10 @@ PODS:
     - Flutter
   - firebase_dynamic_links (5.0.6):
     - Firebase/DynamicLinks (= 10.2.0)
+    - firebase_core
+    - Flutter
+  - firebase_storage (11.0.6):
+    - Firebase/Storage (= 10.2.0)
     - firebase_core
     - Flutter
   - FirebaseAnalytics (10.2.0):
@@ -738,6 +745,12 @@ PODS:
     - PromisesObjC (~> 2.1)
   - FirebaseMessagingInterop (10.2.0)
   - FirebaseSharedSwift (10.2.0)
+  - FirebaseStorage (10.2.0):
+    - FirebaseAppCheckInterop (~> 10.0)
+    - FirebaseAuthInterop (~> 10.0)
+    - FirebaseCore (~> 10.0)
+    - FirebaseCoreExtension (~> 10.0)
+    - GTMSessionFetcher/Core (< 4.0, >= 2.1)
   - Flutter (1.0.0)
   - flutter_native_splash (0.0.1):
     - Flutter
@@ -859,6 +872,8 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 3.0, >= 1.5)
   - GTMSessionFetcher/Core (2.3.0)
+  - image_picker_ios (0.0.1):
+    - Flutter
   - in_app_purchase_storekit (0.0.1):
     - Flutter
   - integration_test (0.0.1):
@@ -906,11 +921,13 @@ DEPENDENCIES:
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - firebase_dynamic_links (from `.symlinks/plugins/firebase_dynamic_links/ios`)
+  - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - google_mobile_ads (from `.symlinks/plugins/google_mobile_ads/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - in_app_purchase_storekit (from `.symlinks/plugins/in_app_purchase_storekit/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -944,6 +961,7 @@ SPEC REPOS:
     - FirebaseInstallations
     - FirebaseMessagingInterop
     - FirebaseSharedSwift
+    - FirebaseStorage
     - FMDB
     - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
@@ -978,6 +996,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_database/ios"
   firebase_dynamic_links:
     :path: ".symlinks/plugins/firebase_dynamic_links/ios"
+  firebase_storage:
+    :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
     :path: Flutter
   flutter_native_splash:
@@ -988,6 +1008,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_mobile_ads/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   in_app_purchase_storekit:
     :path: ".symlinks/plugins/in_app_purchase_storekit/ios"
   integration_test:
@@ -1024,6 +1046,7 @@ SPEC CHECKSUMS:
   firebase_crashlytics: 70150805355d1e11e2fbbfa379fc9e776d05e5ad
   firebase_database: d079ef5f8044ff121d39ab2a9e7eabbcd9017aea
   firebase_dynamic_links: ad4928c1112e7cfbe2d14553cb34fedde4448481
+  firebase_storage: c08af1e9ef906c05586b91cb52adc759dddee96e
   FirebaseAnalytics: 24a15e58e505abcedc3017b6f7c206fbfa964580
   FirebaseAppCheckInterop: af164d9c623f82174e3ffa54394dee189587c601
   FirebaseAuth: 08e7739244eeae5216d0a3f8d9f16a76be9c252e
@@ -1039,6 +1062,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 004915af170935e3a583faefd5f8bc851afc220f
   FirebaseMessagingInterop: b46e7fcf39c0e9b16841e258645a320a154af240
   FirebaseSharedSwift: a160b39d4ce77be922b3d6ff009099c7294e36e5
+  FirebaseStorage: e7b3fdc90b579cda35e5a0e4c6b206325766e75a
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   fluttertoast: 74526702fea2c060ea55dde75895b7e1bde1c86b
@@ -1055,6 +1079,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 943e491cb0d45598b0b0eb9e910c88080369290b
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
+  image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   in_app_purchase_storekit: d7fcf4646136ec258e237872755da8ea6c1b6096
   integration_test: a1e7d09bd98eca2fc37aefd79d4f41ad37bdbbe5
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729

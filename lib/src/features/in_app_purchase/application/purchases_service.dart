@@ -77,7 +77,7 @@ class PurchasesService {
           .read(storeStateProvider.notifier)
           .update((state) => StoreState.available);
     } catch (e) {
-      logger.i('_loadPurchases e: $e');
+      logger.e('_loadPurchases e: $e');
     }
   }
 
@@ -91,7 +91,7 @@ class PurchasesService {
           .read(purchasableproductsProvider.notifier)
           .update((state) => products);
     } catch (e) {
-      logger.i('fetchPurchasableProduct e: $e');
+      logger.e('PurchasesService fetchPurchasableProduct e: $e');
     }
   }
 
@@ -131,7 +131,7 @@ class PurchasesService {
         });
       }
     } catch (e) {
-      logger.i('updatePurchases e: $e');
+      logger.e('PurchasesService updatePurchases e: $e');
     }
   }
 
@@ -162,7 +162,7 @@ class PurchasesService {
               product.productDetails, '${product.id} is not a known product');
       }
     } catch (e) {
-      logger.i('PurchasesService buy e: ${e.toString()}');
+      logger.e('PurchasesService buy e: ${e.toString()}');
     }
     return false;
   }
@@ -281,7 +281,7 @@ class PurchasesService {
         ref.read(removeAdsProvider.notifier).update((state) => hasUpgrade);
       }
     } catch (e) {
-      logger.i('PurchasesService purchasesUpdate e: $e');
+      logger.e('PurchasesService purchasesUpdate e: $e');
     }
   }
 

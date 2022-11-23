@@ -1,14 +1,17 @@
+import 'package:fluttertoast/fluttertoast.dart';
+
 import '../../../../common_widgets/action_text_button.dart';
 import '../../../../common_widgets/alert_dialogs.dart';
 import '../../../../common_widgets/loading_stack_body.dart';
 import '../../../../common_widgets/primary_button.dart';
 import '../../../../common_widgets/responsive_center.dart';
-import '../../../../common_widgets/user_avatar.dart';
 import '../../../../constants/resources.dart';
+import '../../../../utils/toast_context.dart';
 import '../../../bluetooth/presentation/label/label_screen.dart';
 import '../../../in_app_purchase/presentation/fruit_count.dart';
 import '../../../presence_user/presentation/user_count_banner.dart';
 import '../../application/auth_service.dart';
+import '../profile/go_profile_screen_user_avatar.dart';
 import '../sign_in/sign_in_button_list.dart';
 import 'account_screen_controller.dart';
 
@@ -33,10 +36,21 @@ class AccountScreen extends HookConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Account'.hardcoded),
-          leading: UserAvatar(
-            user: user,
-            size: 36,
-            placeholderColor: theme.colorScheme.primary,
+          leading: Center(
+            child: GoProfileScreenUserAvatar(
+              user: user,
+              onTap: user != null && !user.isAnonymous!
+                  ? () => context.goNamed(
+                        AppRoute.profile.name,
+                        params: {'uid': user.uid},
+                      )
+                  : () => ref.read(fToastProvider).showToast(
+                        gravity: ToastGravity.TOP,
+                        child: const ToastContext(
+                          'Need Login 🚪 to Profile',
+                        ),
+                      ),
+            ),
           ),
           actions: [
             if (isLoggedIn)
@@ -84,8 +98,11 @@ class AccountScreen extends HookConsumerWidget {
                                   Tooltip(
                                     triggerMode: TooltipTriggerMode.tap,
                                     message: userInfo.email ?? 'apple.com',
-                                    child: Assets.svg.appleWhite
-                                        .svg(width: 24, height: 24),
+                                    child: CircleAvatar(
+                                      radius: 16,
+                                      child: Assets.svg.appleWhite
+                                          .svg(width: 24, height: 24),
+                                    ),
                                   ),
                                   gapW8,
                                 ],
@@ -96,8 +113,12 @@ class AccountScreen extends HookConsumerWidget {
                                   Tooltip(
                                     triggerMode: TooltipTriggerMode.tap,
                                     message: userInfo.email ?? 'google.com',
-                                    child: Assets.svg.google
-                                        .svg(width: 24, height: 24),
+                                    child: CircleAvatar(
+                                      radius: 16,
+                                      backgroundColor: Colors.white,
+                                      child: Assets.svg.google
+                                          .svg(width: 24, height: 24),
+                                    ),
                                   ),
                                   gapW8,
                                 ],

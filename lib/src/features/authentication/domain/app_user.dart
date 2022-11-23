@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../firebase/firestore_json_converter.dart';
+import 'profile.dart';
 
 part 'app_user.g.dart';
 part 'app_user.freezed.dart';
@@ -26,6 +27,7 @@ class AppUser with _$AppUser {
     @TimestampNullableConverter() DateTime? createdAt,
     @TimestampNullableConverter() DateTime? updatedAt,
     @TimestampNullableConverter() DateTime? lastSignIn,
+    @Default([]) List<Profile> profiles,
   }) = _AppUser;
 
   factory AppUser.transformFirebaseUser(User user, {String? displayName}) {

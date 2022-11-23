@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,6 +17,9 @@ class $AssetsImageGen {
   /// File path: assets/image/request_location_permission.png
   AssetGenImage get requestLocationPermission =>
       const AssetGenImage('assets/image/request_location_permission.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [requestLocationPermission];
 }
 
 class $AssetsLogoGen {
@@ -37,6 +40,10 @@ class $AssetsLogoGen {
   /// File path: assets/logo/bomb_ios_1024.jpg
   AssetGenImage get bombIos1024 =>
       const AssetGenImage('assets/logo/bomb_ios_1024.jpg');
+
+  /// List of all assets
+  List<AssetGenImage> get values =>
+      [bomb1024, bomb1024White, bombDev1024, bombIos1024];
 }
 
 class $AssetsSvgGen {
@@ -146,6 +153,38 @@ class $AssetsSvgGen {
   /// File path: assets/svg/icons8-verified-account.svg
   SvgGenImage get icons8VerifiedAccount =>
       const SvgGenImage('assets/svg/icons8-verified-account.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [
+        appleWhite,
+        google,
+        gpsLocation128,
+        icSignalFairSka144,
+        icSignalGoodSka144,
+        icSignalSka144,
+        icSignalStrongSka144,
+        icSignalWeakSka144,
+        iconDart,
+        iconDayMode,
+        iconFigma,
+        iconFirebase,
+        iconFlutterWhite,
+        iconFlutter,
+        iconNightMode,
+        iconStar,
+        icons8AddTag,
+        icons8AndroidOs,
+        icons8AppleLogo,
+        icons8BluetoothRed,
+        icons8Bluetooth,
+        icons8Community,
+        icons8Edit,
+        icons8IphoneX,
+        icons8TagYellow,
+        icons8Tag,
+        icons8UpdateTag,
+        icons8VerifiedAccount
+      ];
 }
 
 class Assets {
@@ -214,6 +253,8 @@ class AssetGenImage {
     );
   }
 
+  ImageProvider provider() => AssetImage(_assetName);
+
   String get path => _assetName;
 
   String get keyName => _assetName;
@@ -266,4 +307,6 @@ class SvgGenImage {
   }
 
   String get path => _assetName;
+
+  String get keyName => _assetName;
 }

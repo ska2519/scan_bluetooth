@@ -23,6 +23,11 @@ _$_AppUser _$$_AppUserFromJson(Map json) => _$_AppUser(
       updatedAt: const TimestampNullableConverter().fromJson(json['updatedAt']),
       lastSignIn:
           const TimestampNullableConverter().fromJson(json['lastSignIn']),
+      profiles: (json['profiles'] as List<dynamic>?)
+              ?.map(
+                  (e) => Profile.fromJson(Map<String, dynamic>.from(e as Map)))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
@@ -43,6 +48,7 @@ Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
           const TimestampNullableConverter().toJson(instance.updatedAt),
       'lastSignIn':
           const TimestampNullableConverter().toJson(instance.lastSignIn),
+      'profiles': instance.profiles.map((e) => e.toJson()).toList(),
     };
 
 _$_UserInfo _$$_UserInfoFromJson(Map json) => _$_UserInfo(

@@ -17,12 +17,13 @@ abstract class AuthRepository {
   Future<void> createUserWithEmailAndPassword(String email, String password);
   Future<void> signOut();
   Future<AppUser?> getAppUser(UserId uid);
+  Future<void> updateAppUser(AppUser user);
   void dispose();
 }
 
 final fetchAppUserProvider =
-    FutureProvider.family<AppUser?, UserId>((ref, uid) async {
-  final auth = ref.watch(authRepositoryProvider);
+    FutureProvider.family.autoDispose<AppUser?, UserId>((ref, uid) async {
+  final auth = ref.read(authRepositoryProvider);
   return await auth.getAppUser(uid);
 });
 

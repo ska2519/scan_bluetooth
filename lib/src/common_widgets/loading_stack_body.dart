@@ -9,10 +9,15 @@ class LoadingStackBody extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final size = MediaQuery.of(context).size;
     return Stack(
       children: [
         child,
-        if (isLoading) const LoadingAnimation(),
+        if (isLoading)
+          SizedBox(
+            height: size.height / 1.2,
+            child: const LoadingAnimation(),
+          ),
       ],
     );
   }

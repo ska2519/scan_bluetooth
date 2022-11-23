@@ -14,15 +14,15 @@ _$_Profile _$$_ProfileFromJson(Map json) => _$_Profile(
           ? null
           : DateTime.parse(json['birthday'] as String),
       interests: (json['interests'] as List<dynamic>?)
-              ?.map((e) => e as String)
+              ?.map((e) => e as String?)
               .toList() ??
           const [],
       languages: (json['languages'] as List<dynamic>?)
-              ?.map((e) => e as String)
+              ?.map((e) => e as String?)
               .toList() ??
           const [],
       photoUrls: (json['photoUrls'] as List<dynamic>?)
-              ?.map((e) => e as String)
+              ?.map((e) => e as String?)
               .toList() ??
           const [],
       location: _$JsonConverterFromJson<GeoPoint, GeoPoint>(

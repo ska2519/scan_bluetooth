@@ -1,5 +1,6 @@
 import '../../../../constants/resources.dart';
 import '../../application/bluetooth_service.dart';
+import '../../data/scan_bluetooth_repository.dart';
 import '../../domain/bluetooth.dart';
 
 class BluetoothGridScreenController extends StateNotifier<AsyncValue<void>> {
@@ -14,35 +15,21 @@ class BluetoothGridScreenController extends StateNotifier<AsyncValue<void>> {
     Bluetooth bluetooth,
     BuildContext context,
   ) async {
-    final isUpdate = await bluetoothService.openLabelDialog(
+    final isUpdateLabel = await bluetoothService.openLabelDialog(
       context: context,
       bluetooth: bluetooth,
     );
-    logger.i('isUpdate: $isUpdate');
-    if (isUpdate != null && isUpdate) {
-      // state = const AsyncLoading();
-      // if (bluetooth.userLabel == null) {
-      // } else {
-      //   await AsyncValue.guard(() => bluetoothService.updateLabel(bluetooth));
-      // }
-      // final newState =
-      //     await AsyncValue.guard(() =>
-      await bluetoothService.updateLabel(bluetooth);
-      //  );
-
-      // if (newState.hasError) {
-      //   // state = AsyncError(newState.error!);
-      //   state = AsyncError(newState.error!, newState.stackTrace!);
-      // } else {
-      //   state = newState;
-      // }
+    logger.i('isUpdate: $isUpdateLabel');
+    if (isUpdateLabel != null && isUpdateLabel) {
+      await AsyncValue.guard(() => bluetoothService.updateLabel(bluetooth));
     }
   }
 }
 
 final bluetoothGridScreenControllerProvider = StateNotifierProvider.autoDispose<
-    BluetoothGridScreenController, AsyncValue<void>>(
-  (ref) => BluetoothGridScreenController(
+    BluetoothGridScreenController, AsyncValue<void>>((ref) {
+  ref.onDispose(() => ref.read(btRepoProvider).stopScan());
+  return BluetoothGridScreenController(
     bluetoothService: ref.read(bluetoothServiceProvider),
-  ),
-);
+  );
+});

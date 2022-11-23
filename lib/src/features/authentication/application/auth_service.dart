@@ -15,22 +15,25 @@ class AuthService {
   final Ref ref;
 
   Stream<AppUser?> authStateChanges() {
-    User? tempUser;
-    logger.i('authStateChanges tempUser1: $tempUser');
+    User? previousUser;
+    logger.i('authStateChanges tempUser1: $previousUser');
     final auth = ref.watch(authRepositoryProvider);
     final authStateChanges = auth.authStateChanges();
     return authStateChanges.asyncMap((user) async {
       logger.i('authStateChanges user: $user');
       try {
-        if (user == null || user != tempUser) {
-          tempUser = user;
-          logger.i('authStateChanges tempUser2: $tempUser');
+        if (user == null || user != previousUser) {
+          previousUser = user;
+          logger.i('authStateChanges tempUser2: $previousUser');
           if (user == null) {
             await auth.signInAnonymously();
-            logger.i('authStateChanges called auth.signInAnonymously();');
           } else {
             final appUser = await auth.getAppUser(user.uid);
-            logger.w('authStateChanges appUser: $appUser');
+            logger.i('authStateChanges appUser: $appUser');
+            if (appUser == null) {
+              await auth.setAppUser(user);
+              return await auth.getAppUser(user.uid);
+            }
             return appUser;
           }
         }

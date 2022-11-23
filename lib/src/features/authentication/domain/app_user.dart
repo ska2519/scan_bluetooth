@@ -27,7 +27,7 @@ class AppUser with _$AppUser {
     @TimestampNullableConverter() DateTime? createdAt,
     @TimestampNullableConverter() DateTime? updatedAt,
     @TimestampNullableConverter() DateTime? lastSignIn,
-    @Default([]) List<Profile> profiles,
+    @Default([]) List<Profile?> profiles,
   }) = _AppUser;
 
   factory AppUser.transformFirebaseUser(User user, {String? displayName}) {

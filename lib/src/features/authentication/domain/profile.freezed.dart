@@ -24,9 +24,9 @@ mixin _$Profile {
   String? get nickname => throw _privateConstructorUsedError;
   String? get aboutMe => throw _privateConstructorUsedError;
   DateTime? get birthday => throw _privateConstructorUsedError;
-  List<String> get interests => throw _privateConstructorUsedError;
-  List<String> get languages => throw _privateConstructorUsedError;
-  List<String> get photoUrls => throw _privateConstructorUsedError;
+  List<String?> get interests => throw _privateConstructorUsedError;
+  List<String?> get languages => throw _privateConstructorUsedError;
+  List<String?> get photoUrls => throw _privateConstructorUsedError;
   @FirestoreGeoPointConverter()
   GeoPoint? get location => throw _privateConstructorUsedError;
   bool get verified => throw _privateConstructorUsedError;
@@ -46,9 +46,9 @@ abstract class $ProfileCopyWith<$Res> {
       String? nickname,
       String? aboutMe,
       DateTime? birthday,
-      List<String> interests,
-      List<String> languages,
-      List<String> photoUrls,
+      List<String?> interests,
+      List<String?> languages,
+      List<String?> photoUrls,
       @FirestoreGeoPointConverter() GeoPoint? location,
       bool verified});
 }
@@ -96,15 +96,15 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
       interests: null == interests
           ? _value.interests
           : interests // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String?>,
       languages: null == languages
           ? _value.languages
           : languages // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String?>,
       photoUrls: null == photoUrls
           ? _value.photoUrls
           : photoUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String?>,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -129,9 +129,9 @@ abstract class _$$_ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
       String? nickname,
       String? aboutMe,
       DateTime? birthday,
-      List<String> interests,
-      List<String> languages,
-      List<String> photoUrls,
+      List<String?> interests,
+      List<String?> languages,
+      List<String?> photoUrls,
       @FirestoreGeoPointConverter() GeoPoint? location,
       bool verified});
 }
@@ -176,15 +176,15 @@ class __$$_ProfileCopyWithImpl<$Res>
       interests: null == interests
           ? _value._interests
           : interests // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String?>,
       languages: null == languages
           ? _value._languages
           : languages // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String?>,
       photoUrls: null == photoUrls
           ? _value._photoUrls
           : photoUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String?>,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -205,9 +205,9 @@ class _$_Profile implements _Profile {
       this.nickname,
       this.aboutMe,
       this.birthday,
-      final List<String> interests = const [],
-      final List<String> languages = const [],
-      final List<String> photoUrls = const [],
+      final List<String?> interests = const [],
+      final List<String?> languages = const [],
+      final List<String?> photoUrls = const [],
       @FirestoreGeoPointConverter() this.location,
       this.verified = false})
       : _interests = interests,
@@ -225,26 +225,26 @@ class _$_Profile implements _Profile {
   final String? aboutMe;
   @override
   final DateTime? birthday;
-  final List<String> _interests;
+  final List<String?> _interests;
   @override
   @JsonKey()
-  List<String> get interests {
+  List<String?> get interests {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_interests);
   }
 
-  final List<String> _languages;
+  final List<String?> _languages;
   @override
   @JsonKey()
-  List<String> get languages {
+  List<String?> get languages {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_languages);
   }
 
-  final List<String> _photoUrls;
+  final List<String?> _photoUrls;
   @override
   @JsonKey()
-  List<String> get photoUrls {
+  List<String?> get photoUrls {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_photoUrls);
   }
@@ -318,9 +318,9 @@ abstract class _Profile implements Profile {
       final String? nickname,
       final String? aboutMe,
       final DateTime? birthday,
-      final List<String> interests,
-      final List<String> languages,
-      final List<String> photoUrls,
+      final List<String?> interests,
+      final List<String?> languages,
+      final List<String?> photoUrls,
       @FirestoreGeoPointConverter() final GeoPoint? location,
       final bool verified}) = _$_Profile;
 
@@ -335,11 +335,11 @@ abstract class _Profile implements Profile {
   @override
   DateTime? get birthday;
   @override
-  List<String> get interests;
+  List<String?> get interests;
   @override
-  List<String> get languages;
+  List<String?> get languages;
   @override
-  List<String> get photoUrls;
+  List<String?> get photoUrls;
   @override
   @FirestoreGeoPointConverter()
   GeoPoint? get location;

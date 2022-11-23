@@ -161,11 +161,11 @@ class CloudFirestore {
 
   Future<T> getDoc<T>({
     required String path,
-    required T Function(Map<String, dynamic> data, String documentID) builder,
+    required T Function(Map<String, dynamic>? data, String documentID) builder,
   }) async {
     final ref = _instance.doc(path);
     final DocumentSnapshot snapshot = await ref.get();
-    final data = snapshot.data() as Map<String, dynamic>;
+    final data = snapshot.data() as Map<String, dynamic>?;
     return builder(data, snapshot.id);
   }
 

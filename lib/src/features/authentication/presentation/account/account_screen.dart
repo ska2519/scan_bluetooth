@@ -21,13 +21,13 @@ class AccountScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authStateChangesProvider).value;
     ref.listen<AsyncValue>(
       accountScreenControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
 
     final state = ref.watch(accountScreenControllerProvider);
-    final user = ref.watch(authStateChangesProvider).value;
     final isLoggedIn = user != null && !user.isAnonymous!;
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
@@ -38,7 +38,6 @@ class AccountScreen extends HookConsumerWidget {
           title: Text('Account'.hardcoded),
           leading: Center(
             child: GoProfileScreenUserAvatar(
-              user: user,
               onTap: user != null && !user.isAnonymous!
                   ? () => context.goNamed(
                         AppRoute.profile.name,

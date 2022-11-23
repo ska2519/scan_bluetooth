@@ -17,8 +17,8 @@ class BluetoothRepo {
     return await _firestore.getDoc(
       path: FirebasePath.bluetoothes(deviceId: deviceId),
       builder: (data, documentId) {
-        data.addAll({'documentId': documentId});
-        return Bluetooth.fromJson(data);
+        data?.addAll({'documentId': documentId});
+        return Bluetooth.fromJson(data!);
       },
     );
   }

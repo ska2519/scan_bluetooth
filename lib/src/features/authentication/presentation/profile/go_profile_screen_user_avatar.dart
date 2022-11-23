@@ -2,28 +2,30 @@
 
 import '../../../../common_widgets/avatar.dart';
 import '../../../../constants/resources.dart';
+import '../../application/auth_service.dart';
 import '../../domain/app_user.dart';
 
 ///  프로필 이미지를 보여주는 서클 아바타 위젯
 ///
 ///  노 프로필 아이콘이 placeholder와 errorWidget에 설정되어 있음
-class GoProfileScreenUserAvatar extends StatelessWidget {
+class GoProfileScreenUserAvatar extends HookConsumerWidget {
   const GoProfileScreenUserAvatar({
     super.key,
-    required this.user,
+    // required this.user,
     this.uid,
     this.radius = 20,
     this.imageUrl,
     required this.onTap,
   });
-  final AppUser? user;
+  // final AppUser? user;
   final String? imageUrl;
   final UserId? uid;
   final double radius;
   final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authStateChangesProvider).value;
     return user == null
         ? const SizedBox()
         : InkWell(
@@ -32,8 +34,10 @@ class GoProfileScreenUserAvatar extends StatelessWidget {
             child: Avatar(
               radius: radius,
               photoUrl: imageUrl ??
-                  (user!.profiles.isNotEmpty
-                      ? user?.profiles[0].photoUrls[0]
+                  (!user.isAnonymous! &&
+                          user.profiles.isNotEmpty &&
+                          user.profiles[0]!.photoUrls.isNotEmpty
+                      ? user.profiles[0]!.photoUrls[0]!
                       : null),
             ),
           );

@@ -56,9 +56,6 @@ class AppStartup {
       // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
     }
 
-    logger.i(
-        'AppStartup analytics: ${analytics != null}/ crashlytics: ${crashlytics != null}');
-
     // * This code will present some error UI if any uncaught exception happens
     FlutterError.onError = (FlutterErrorDetails details) {
       // * custom error handler in order to see the logs in the console as well.

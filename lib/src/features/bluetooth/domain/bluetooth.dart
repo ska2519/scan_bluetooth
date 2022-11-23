@@ -37,8 +37,11 @@ final bluetoothListProvider =
         BluetoothList.new);
 
 final unknownBtsCountProvider = StateProvider.autoDispose<int>((ref) {
-  ref.watch(bluetoothListProvider);
-  return ref.read(bluetoothListProvider.notifier).unknownBtsCount;
+  return ref
+      .watch(bluetoothListProvider)
+      .where((bt) => bt.name.isEmpty)
+      .toList()
+      .length;
 });
 
 /// An object that controls a list of [Bluetooth].
@@ -49,31 +52,35 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
     init();
   }
   void init() {
-    if (!mounted) return;
+    try {
+      if (!mounted) return;
 
-    ref.listen<AsyncValue<Bluetooth?>>(scanBluetoothStreamProvider,
-        (previous, next) {
-      final scanBluetooth = next.value;
-      // ** prevent rssi number positive value
-      if (scanBluetooth != null) {
-        if (scanBluetooth.rssi > 0) {
-          return;
-        }
-        if (state.isEmpty) {
-          state.add(scanBluetooth);
-        } else {
-          for (var i = 0; i < state.length; i++) {
-            if (state[i].deviceId == scanBluetooth.deviceId) {
-              state[i] = scanBluetooth.copyWith(previousRssi: state[i].rssi);
-              break;
-            } else if (i == state.length - 1) {
-              state.add(scanBluetooth);
+      ref.listen<AsyncValue<Bluetooth?>>(scanBluetoothStreamProvider,
+          (previous, next) {
+        final scanBluetooth = next.value;
+        // ** prevent rssi number positive value
+        if (scanBluetooth != null) {
+          if (scanBluetooth.rssi > 0) {
+            return;
+          }
+          if (state.isEmpty) {
+            state.add(scanBluetooth);
+          } else {
+            for (var i = 0; i < state.length; i++) {
+              if (state[i].deviceId == scanBluetooth.deviceId) {
+                state[i] = scanBluetooth.copyWith(previousRssi: state[i].rssi);
+                break;
+              } else if (i == state.length - 1) {
+                state.add(scanBluetooth);
+              }
             }
           }
+          state = [...state];
         }
-        state = [...state];
-      }
-    });
+      });
+    } catch (e) {
+      logger.e('init e: $e');
+    }
   }
 
   Ref ref;
@@ -149,7 +156,4 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
   }
 
   void removeAll() => state = [];
-
-  int get unknownBtsCount =>
-      state.where((bt) => bt.name.isEmpty).toList().length;
 }

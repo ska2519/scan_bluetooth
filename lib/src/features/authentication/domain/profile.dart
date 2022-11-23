@@ -14,9 +14,9 @@ class Profile with _$Profile {
     String? nickname,
     String? aboutMe,
     DateTime? birthday,
-    @Default([]) List<String> interests,
-    @Default([]) List<String> languages,
-    @Default([]) List<String> photoUrls,
+    @Default([]) List<String?> interests,
+    @Default([]) List<String?> languages,
+    @Default([]) List<String?> photoUrls,
     @FirestoreGeoPointConverter() GeoPoint? location,
     @Default(false) bool verified,
   }) = _Profile;

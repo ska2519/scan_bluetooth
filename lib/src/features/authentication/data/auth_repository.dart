@@ -7,7 +7,6 @@ import 'firebase_auth_repository.dart';
 
 abstract class AuthRepository {
   Stream<User?> authStateChanges();
-  // Stream<AppUser?> authStateChanges();
   AppUser? get currentUser;
   void userChanges();
   Future<void> signInAnonymously();
@@ -17,6 +16,7 @@ abstract class AuthRepository {
   Future<void> createUserWithEmailAndPassword(String email, String password);
   Future<void> signOut();
   Future<AppUser?> getAppUser(UserId uid);
+  Future<void> setAppUser(User user);
   Future<void> updateAppUser(AppUser user);
   void dispose();
 }

@@ -7,7 +7,6 @@ import '../exceptions/error_logger.dart';
 import '../features/authentication/application/auth_service.dart';
 import '../features/authentication/presentation/account/account_screen.dart';
 import '../features/authentication/presentation/profile/profile_screen.dart';
-import '../features/bluetooth/data/scan_bluetooth_repository.dart';
 import '../features/bluetooth/presentation/bluetooth_screen.dart';
 import '../features/in_app_purchase/presentation/purchase_screen.dart';
 import '../flutter_icons/custom_flutter_icon_icons.dart';
@@ -72,15 +71,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
       logger
           .i('GoRouter isLoggedIn: $isLoggedIn / location: ${state.location}');
-      if (state.location != '/bluetooth') {
-        ref.read(btRepoProvider).stopScan();
-      }
+      // if (state.location != '/bluetooth') {
+      //   ref.read(btRepoProvider).stopScan();
+      // }
 
       if (state.location == '/account/purchase/account') {
         tempLocaion = '/account/purchase';
       } else if (state.location == '/account') {
         tempLocaion = '/account';
       }
+
       return null;
     },
     //   // if (isLoggedIn) {

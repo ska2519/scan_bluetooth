@@ -42,7 +42,13 @@ class FirebaseAuthRepository implements AuthRepository {
     try {
       final userCredential = await _firebaseAuth.signInAnonymously();
       logger.i('signInAnonymously userCredential: $userCredential');
-      if (userCredential.user != null) await _setAppUser(userCredential.user!);
+      if (userCredential.user != null) {
+        final appUser = await getAppUser(userCredential.user!.uid);
+        logger.i('signInAnonymously appUser: $appUser');
+        if (appUser == null) {
+          await setAppUser(userCredential.user!);
+        }
+      }
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'operation-not-allowed':
@@ -63,7 +69,11 @@ class FirebaseAuthRepository implements AuthRepository {
       if (userLinkWithCredential != null &&
           userLinkWithCredential.user != null) {
         logger.i('_linkWithCredential user: ${userLinkWithCredential.user}');
-        await _setAppUser(userLinkWithCredential.user!);
+        final appUser = await getAppUser(userLinkWithCredential.user!.uid);
+        if (appUser == null) {
+          await setAppUser(userLinkWithCredential.user!);
+        }
+
         authService.refreshAuthStateChangesProvider();
       }
     } on FirebaseAuthException catch (e) {
@@ -96,7 +106,10 @@ class FirebaseAuthRepository implements AuthRepository {
           await _firebaseAuth.signInWithCredential(credential);
       if (userLinkWithCredential.user != null) {
         logger.i('_signInWithCredential user: ${userLinkWithCredential.user}');
-        await _setAppUser(userLinkWithCredential.user!);
+        final appUser = await getAppUser(userLinkWithCredential.user!.uid);
+        if (appUser == null) {
+          await setAppUser(userLinkWithCredential.user!);
+        }
       }
     } catch (e) {
       rethrow;
@@ -185,12 +198,14 @@ class FirebaseAuthRepository implements AuthRepository {
     }
   }
 
-  Future<void> _setAppUser(User user) async {
+  @override
+  Future<void> setAppUser(User user) async {
     try {
       logger.i('Auth setAppUser: $user');
       await _firestore.setData(
         path: FirebasePath.users(uid: user.uid),
         data: AppUser.transformFirebaseUser(user).toJson(),
+        merge: true,
       );
     } catch (e) {
       rethrow;
@@ -216,10 +231,11 @@ class FirebaseAuthRepository implements AuthRepository {
       return await _firestore.getDoc(
         path: FirebasePath.users(uid: uid),
         builder: (data, documentId) =>
-            data.isEmpty ? null : AppUser.fromJson(data),
+            data == null ? null : AppUser.fromJson(data),
       );
     } catch (e) {
-      rethrow;
+      logger.e('getAppUser e: $e');
+      return null;
     }
   }
 

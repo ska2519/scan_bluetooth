@@ -87,4 +87,10 @@ class FakeAuthRepository implements AuthRepository {
     // TODO: implement updateAppUser
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> setAppUser(User user) {
+    // TODO: implement setAppUser
+    throw UnimplementedError();
+  }
 }

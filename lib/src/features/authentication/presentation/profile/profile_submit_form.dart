@@ -23,7 +23,7 @@ class ProfileSubmitForm extends StatefulHookConsumerWidget {
 class _ProfileSubmitFormState extends ConsumerState<ProfileSubmitForm> {
   final _formKey = GlobalKey<FormState>();
   AppUser get user => widget.user;
-  List<Profile> profiles = [];
+  List<Profile?> profiles = [];
 
   File? _pickedImage;
   bool _submitted = false;
@@ -47,8 +47,8 @@ class _ProfileSubmitFormState extends ConsumerState<ProfileSubmitForm> {
         await controller.updatProfile(
           user.copyWith(
             profiles: [
-              user.profiles.isNotEmpty
-                  ? user.profiles[0].copyWith(
+              profiles.isNotEmpty
+                  ? profiles[0]?.copyWith(
                       nickname: profileService.nicknameEditingCtr.text,
                       aboutMe: profileService.aboutMeEditingCtr.text)
                   : Profile(
@@ -80,7 +80,8 @@ class _ProfileSubmitFormState extends ConsumerState<ProfileSubmitForm> {
               user: user,
               filePath: _pickedImage!.path,
             );
-        _pickedImage = null;
+        // _pickedImage = null;
+
       }
     } catch (e) {
       logger.e('_pickProfileImage e: $e');
@@ -103,25 +104,23 @@ class _ProfileSubmitFormState extends ConsumerState<ProfileSubmitForm> {
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               gapH24,
-              Center(
-                child: _pickedImage?.path != null
-                    ? CircleAvatar(
-                        radius: 80,
-                        backgroundColor: Colors.transparent,
-                        foregroundImage: FileImage(File(_pickedImage!.path)),
-                      )
-                    : Avatar(
-                        radius: 80,
-                        imageFilePath: _pickedImage?.path,
-                        photoUrl: user.profiles.isNotEmpty
-                            ? user.profiles[0].photoUrls[0]
-                            : null,
-                        onTap: _pickProfileImage,
-                      ),
-              ),
+              _pickedImage?.path != null
+                  ? CircleAvatar(
+                      radius: 80,
+                      backgroundColor: Colors.transparent,
+                      foregroundImage: FileImage(File(_pickedImage!.path)),
+                    )
+                  : Avatar(
+                      radius: 80,
+                      imageFilePath: _pickedImage?.path,
+                      photoUrl: profiles.isNotEmpty &&
+                              profiles[0]!.photoUrls.isNotEmpty
+                          ? profiles[0]!.photoUrls[0]!
+                          : null,
+                      onTap: _pickProfileImage,
+                    ),
               gapH24,
               Focus(
                 onFocusChange: (hasFocus) {
@@ -129,7 +128,8 @@ class _ProfileSubmitFormState extends ConsumerState<ProfileSubmitForm> {
                 },
                 child: ProfileTextField(
                   submitted: _submitted,
-                  initialValue: profiles.isNotEmpty ? profiles[0].nickname : '',
+                  initialValue:
+                      profiles.isNotEmpty ? profiles[0]?.nickname ?? '' : '',
                   labelText: 'Nickname',
                   controller: profileService.nicknameEditingCtr,
                 ),
@@ -141,7 +141,8 @@ class _ProfileSubmitFormState extends ConsumerState<ProfileSubmitForm> {
                 },
                 child: ProfileTextField(
                   submitted: _submitted,
-                  initialValue: profiles.isNotEmpty ? profiles[0].aboutMe : '',
+                  initialValue:
+                      profiles.isNotEmpty ? profiles[0]?.aboutMe ?? '' : '',
                   labelText: 'About Me',
                   controller: profileService.aboutMeEditingCtr,
                   maxLines: 8,

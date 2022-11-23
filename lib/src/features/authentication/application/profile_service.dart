@@ -37,7 +37,7 @@ class ProfileService {
         user.copyWith(
           profiles: [
             user.profiles.isNotEmpty
-                ? user.profiles[0].copyWith(photoUrls: [newImageUrl])
+                ? user.profiles[0]!.copyWith(photoUrls: [newImageUrl])
                 : Profile(photoUrls: [newImageUrl])
           ],
         ),

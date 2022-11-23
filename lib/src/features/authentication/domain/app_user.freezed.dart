@@ -37,7 +37,7 @@ mixin _$AppUser {
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   @TimestampNullableConverter()
   DateTime? get lastSignIn => throw _privateConstructorUsedError;
-  List<Profile> get profiles => throw _privateConstructorUsedError;
+  List<Profile?> get profiles => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -63,7 +63,7 @@ abstract class $AppUserCopyWith<$Res> {
       @TimestampNullableConverter() DateTime? createdAt,
       @TimestampNullableConverter() DateTime? updatedAt,
       @TimestampNullableConverter() DateTime? lastSignIn,
-      List<Profile> profiles});
+      List<Profile?> profiles});
 }
 
 /// @nodoc
@@ -150,7 +150,7 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
       profiles: null == profiles
           ? _value.profiles
           : profiles // ignore: cast_nullable_to_non_nullable
-              as List<Profile>,
+              as List<Profile?>,
     ) as $Val);
   }
 }
@@ -176,7 +176,7 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       @TimestampNullableConverter() DateTime? createdAt,
       @TimestampNullableConverter() DateTime? updatedAt,
       @TimestampNullableConverter() DateTime? lastSignIn,
-      List<Profile> profiles});
+      List<Profile?> profiles});
 }
 
 /// @nodoc
@@ -260,7 +260,7 @@ class __$$_AppUserCopyWithImpl<$Res>
       profiles: null == profiles
           ? _value._profiles
           : profiles // ignore: cast_nullable_to_non_nullable
-              as List<Profile>,
+              as List<Profile?>,
     ));
   }
 }
@@ -282,7 +282,7 @@ class _$_AppUser implements _AppUser {
       @TimestampNullableConverter() this.createdAt,
       @TimestampNullableConverter() this.updatedAt,
       @TimestampNullableConverter() this.lastSignIn,
-      final List<Profile> profiles = const []})
+      final List<Profile?> profiles = const []})
       : _providerData = providerData,
         _profiles = profiles;
 
@@ -327,10 +327,10 @@ class _$_AppUser implements _AppUser {
   @override
   @TimestampNullableConverter()
   final DateTime? lastSignIn;
-  final List<Profile> _profiles;
+  final List<Profile?> _profiles;
   @override
   @JsonKey()
-  List<Profile> get profiles {
+  List<Profile?> get profiles {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_profiles);
   }
@@ -420,7 +420,7 @@ abstract class _AppUser implements AppUser {
       @TimestampNullableConverter() final DateTime? createdAt,
       @TimestampNullableConverter() final DateTime? updatedAt,
       @TimestampNullableConverter() final DateTime? lastSignIn,
-      final List<Profile> profiles}) = _$_AppUser;
+      final List<Profile?> profiles}) = _$_AppUser;
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
 
@@ -454,7 +454,7 @@ abstract class _AppUser implements AppUser {
   @TimestampNullableConverter()
   DateTime? get lastSignIn;
   @override
-  List<Profile> get profiles;
+  List<Profile?> get profiles;
   @override
   @JsonKey(ignore: true)
   _$$_AppUserCopyWith<_$_AppUser> get copyWith =>

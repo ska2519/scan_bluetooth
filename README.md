@@ -29,6 +29,7 @@ This project implement [Riverpod](https://riverpod.dev) state management techniq
 - Authentication
 - Google Admob
 - iOS, Android In App Purchase
+- Connect bluetooth
 
 
 **Combining Flutter, Firebase, and Riverpod to create reusable, multi-platform apps.**
@@ -46,6 +47,7 @@ This project implement [Riverpod](https://riverpod.dev) state management techniq
 - [x] Label
   - [x] Save bluetooth device info to database
   - [x] Delete bluetooth device info to database
+- [ ] Connect bluetooth
 
 
 #### Google Admob

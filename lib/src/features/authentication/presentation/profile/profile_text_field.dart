@@ -42,7 +42,6 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     // See this article for more info about how to use [ValueListenableBuilder]
     // with TextField:
     // https://codewithandrea.com/articles/flutter-text-field-form-validation/

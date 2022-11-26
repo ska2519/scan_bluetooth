@@ -4,10 +4,12 @@ import '../domain/user_state.dart';
 
 class UserCount extends HookConsumerWidget {
   const UserCount({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AsyncValueWidget<List<UserState>>(
       error: const SizedBox(),
+      loading: const SizedBox(),
       value: ref.watch(statusStateOnlineStreamProvider),
       data: (userStateList) {
         final onlineUserStateList =

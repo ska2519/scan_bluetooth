@@ -1,4 +1,6 @@
-import 'package:quick_blue/models.dart';
+import 'dart:typed_data';
+
+import 'package:quick_blue/quick_blue.dart';
 
 import '../../../constants/test_scan_result.dart';
 import '../../../utils/in_memory_store.dart';
@@ -31,7 +33,71 @@ class FakeScanBluetoothRepo implements ScanBlueToothRepository {
   }
 
   @override
+  void setConnectionHandler() {
+    // TODO: implement setConnectionHandler
+  }
+
+  @override
   void connect(String deviceId) {
     // TODO: implement connect
+  }
+
+  @override
+  void disconnect(String deviceId) {
+    // TODO: implement disconnect
+  }
+
+  @override
+  void setServiceHandler(String deviceId) {
+    // TODO: implement setServiceHandler
+  }
+
+  @override
+  void handleConnectionChange(String deviceId, BlueConnectionState state) {
+    // TODO: implement handleConnectionChange
+  }
+
+  @override
+  void discoverServices(String deviceId) {
+    // TODO: implement discoverServices
+  }
+
+  @override
+  void handleServiceDiscovery(String deviceId, String serviceId) {
+    // TODO: implement handleServiceDiscovery
+  }
+
+  @override
+  void handleValueChange(
+      String deviceId, String characteristicId, Uint8List value) {
+    // TODO: implement handleValueChange
+  }
+
+  @override
+  void readValue(String deviceId, String serviceId, String characteristicId) {
+    // TODO: implement readValue
+  }
+
+  @override
+  void writeValue(
+      {required String deviceId,
+      required String serviceId,
+      required String characteristicId,
+      required Uint8List value,
+      required BleOutputProperty bleOutputProperty}) {
+    // TODO: implement writeValue
+  }
+  @override
+  void setNotifiable(
+      {required String deviceId,
+      required String serviceId,
+      required String characteristicId,
+      required BleInputProperty bleInputProperty}) {
+    // TODO: implement setNotifiable
+  }
+
+  @override
+  void setValueHandler(String deviceId) {
+    // TODO: implement setValueHandler
   }
 }

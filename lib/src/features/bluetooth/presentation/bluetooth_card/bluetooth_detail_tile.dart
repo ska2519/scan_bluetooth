@@ -1,3 +1,8 @@
+// ignore_for_file: depend_on_referenced_packages
+
+import 'package:convert/convert.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:quick_blue/quick_blue.dart';
 
 import '../../../../constants/resources.dart';
@@ -8,8 +13,36 @@ import 'connect_button.dart';
 class BluetoothDetailTile extends HookConsumerWidget {
   const BluetoothDetailTile(this.bluetooth, {super.key});
   final Bluetooth bluetooth;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void handleConnectionChange(String deviceId, BlueConnectionState state) {
+      logger.i('handleConnectionChange $deviceId, ${state.value}');
+      if (state.value == BlueConnectionState.connected.value) {
+        ref.read(scanBluetoothRepoProvider).discoverServices(deviceId);
+      }
+    }
+
+    void handleServiceDiscovery(
+        String deviceId, String serviceId, List<String> characteristicIds) {
+      logger.i('handleServiceDiscovery $deviceId, $serviceId');
+      logger.i(
+          'handleServiceDiscovery characteristicIds ${characteristicIds.map((e) => e).toList()}');
+    }
+
+    void handleValueChange(
+        String deviceId, String characteristicId, Uint8List value) {
+      logger.i(
+          'handleValueChange $deviceId, $characteristicId, ${hex.encode(value)}');
+    }
+
+    useEffect(() {
+      QuickBlue.setConnectionHandler(handleConnectionChange);
+      QuickBlue.setServiceHandler(handleServiceDiscovery);
+      QuickBlue.setValueHandler(handleValueChange);
+      return null;
+    }, [bluetooth.deviceId]);
+
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
@@ -42,15 +75,11 @@ class BluetoothDetailTile extends HookConsumerWidget {
             ],
           ),
         ),
-        AsyncValueWidget<BlueConnectionState>(
-            value: ref.watch(blueConnectionStateStreamProvider),
-            data: (connectionState) {
-              logger.i('connectionState: ${connectionState.value}');
-              return ConnectButton(
-                bluetooth: bluetooth,
-                blueConnectionState: connectionState,
-              );
-            }),
+        ConnectButton(
+          bluetooth: bluetooth,
+          connected:
+              true, // blueConnectionState == BlueConnectionState.disconnected,
+        ),
       ],
     );
   }

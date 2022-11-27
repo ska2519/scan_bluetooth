@@ -15,11 +15,17 @@ abstract class ScanBlueToothRepository {
   void setConnectionHandler(
       Function(String deviceId, BlueConnectionState state) onConnectionChanged);
   Stream<BlueConnectionState> blueConnectionStateStream();
+
   void handleConnectionChange(String deviceId, BlueConnectionState state);
   void setServiceHandler(Function(String, String) onServiceDiscovered);
-  void handleServiceDiscovery(String deviceId, String serviceId);
+  void handleServiceDiscovery(
+      String deviceId, String serviceId, List<String> characteristicIds);
   void discoverServices(String deviceId);
-  void readValue(String deviceId, String serviceId, String characteristicId);
+  Future<void> readValue({
+    required String deviceId,
+    required String serviceId,
+    required String characteristic,
+  });
   void writeValue({
     required String deviceId,
     required String serviceId,

@@ -14,14 +14,14 @@ import 'rssi_icon.dart';
 class BluetoothTile extends HookConsumerWidget {
   const BluetoothTile({
     super.key,
-    required this.index,
+    this.index,
     required this.bluetooth,
-    required this.onTapLabelEdit,
+    this.onTapLabelEdit,
   });
 
-  final int index;
+  final int? index;
   final Bluetooth bluetooth;
-  final VoidCallback onTapLabelEdit;
+  final VoidCallback? onTapLabelEdit;
 
   Color? get rssiAnimationColor => bluetooth.previousRssi != null
       ? bluetooth.rssi > bluetooth.previousRssi!
@@ -79,15 +79,17 @@ class BluetoothTile extends HookConsumerWidget {
         Row(
           children: [
             Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  ' ${index + 1}.',
-                  style: textTheme.bodyText2!.copyWith(
-                    fontWeight: FontWeight.bold,
+                if (index != null)
+                  Text(
+                    ' ${index! + 1}.',
+                    style: textTheme.bodyText2!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
                 AnimatedBuilder(
                   animation: controller,
                   builder: (context, child) => Container(
@@ -109,7 +111,7 @@ class BluetoothTile extends HookConsumerWidget {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Flexible(
                   child: Row(
@@ -190,29 +192,6 @@ class BluetoothTile extends HookConsumerWidget {
                   : Assets.svg.icons8AddTag.svg(width: Sizes.p28),
             ),
           ),
-
-        // Row(
-        //   children: [
-        //     if (bluetooth.name.isNotEmpty)
-        //       Column(
-        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //         children: [
-        //           IconButton(
-        //             tooltip: 'Change Name',
-        //             padding: const EdgeInsets.symmetric(
-        //               horizontal: Sizes.p8,
-        //             ),
-        //             splashRadius: 20,
-        //             constraints: const BoxConstraints(),
-        //             icon: const Icon(Icons.change_circle_outlined),
-        //             onPressed: () => showID.value = !showID.value,
-        //           ),
-        //           const SizedBox(height: 1),
-        //         ],
-        //       ),
-        //     gapW64,
-        //   ],
-        // ),
       ],
     );
   }

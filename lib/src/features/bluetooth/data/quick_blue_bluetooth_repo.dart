@@ -74,11 +74,12 @@ class QuickBlueBluetoothRepo implements ScanBlueToothRepository {
   //* https://pub.dev/packages/quick_blue#discover-services-of-ble-peripheral
 
   @override
-  void setServiceHandler(void Function(String, String)? onServiceDiscovered) =>
+  void setServiceHandler(onServiceDiscovered) =>
       QuickBlue.setServiceHandler(handleServiceDiscovery);
 
   @override
-  void handleServiceDiscovery(String deviceId, String serviceId) {
+  void handleServiceDiscovery(
+      String deviceId, String serviceId, List<String> characteristicIds) {
     logger.i(
         'QuickBlueBluetoothRepo handleServiceDiscovery $deviceId, $serviceId');
   }
@@ -92,18 +93,14 @@ class QuickBlueBluetoothRepo implements ScanBlueToothRepository {
   // Data would receive from value handler of `QuickBlue.setValueHandler`
 
   @override
-  void readValue(String deviceId, String serviceId, String characteristicId) =>
-      QuickBlue.readValue(deviceId, serviceId, characteristicId);
-
-  @override
   void writeValue({
     required String deviceId,
     required String serviceId,
     required String characteristicId,
     required Uint8List value,
     required BleOutputProperty bleOutputProperty,
-  }) =>
-      QuickBlue.writeValue(
+  }) async =>
+      await QuickBlue.writeValue(
           deviceId, serviceId, characteristicId, value, bleOutputProperty);
   //* Receive data from peripheral of deviceId
   @override
@@ -131,4 +128,11 @@ class QuickBlueBluetoothRepo implements ScanBlueToothRepository {
         characteristicId,
         bleInputProperty,
       );
+
+  @override
+  Future<void> readValue(
+          {required String deviceId,
+          required String serviceId,
+          required String characteristic}) =>
+      QuickBlue.readValue(deviceId, serviceId, characteristic);
 }

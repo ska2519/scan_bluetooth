@@ -1,5 +1,3 @@
-import 'package:quick_blue/quick_blue.dart';
-
 import '../../../../constants/resources.dart';
 import '../../application/scan_bluetooth_service.dart';
 import '../../domain/bluetooth.dart';
@@ -9,11 +7,11 @@ class ConnectButton extends ConsumerWidget {
   const ConnectButton({
     super.key,
     required this.bluetooth,
-    required this.blueConnectionState,
+    this.connected = false,
   });
 
   final Bluetooth bluetooth;
-  final BlueConnectionState blueConnectionState;
+  final bool connected;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,7 +28,7 @@ class ConnectButton extends ConsumerWidget {
               onTapLabelEdit: () => ref
                   .read(scanBluetoothServiceProvider)
                   .connect(bluetooth.deviceId),
-              child: blueConnectionState == BlueConnectionState.disconnected
+              child: connected
                   ? Assets.svg.icons8Disconnected.svg(width: Sizes.p28)
                   : Assets.svg.icons8Connected.svg(width: Sizes.p28),
             ),

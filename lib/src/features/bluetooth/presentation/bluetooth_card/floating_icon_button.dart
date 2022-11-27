@@ -7,7 +7,7 @@ class FloatingIconButton extends StatelessWidget {
     required this.child,
   });
 
-  final VoidCallback onTapLabelEdit;
+  final VoidCallback? onTapLabelEdit;
   final Widget child;
 
   @override

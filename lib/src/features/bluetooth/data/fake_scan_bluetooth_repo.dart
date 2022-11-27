@@ -63,7 +63,8 @@ class FakeScanBluetoothRepo implements ScanBlueToothRepository {
   }
 
   @override
-  void handleServiceDiscovery(String deviceId, String serviceId) {
+  void handleServiceDiscovery(
+      String deviceId, String serviceId, List<String> characteristicIds) {
     // TODO: implement handleServiceDiscovery
   }
 
@@ -71,11 +72,6 @@ class FakeScanBluetoothRepo implements ScanBlueToothRepository {
   void handleValueChange(
       String deviceId, String characteristicId, Uint8List value) {
     // TODO: implement handleValueChange
-  }
-
-  @override
-  void readValue(String deviceId, String serviceId, String characteristicId) {
-    // TODO: implement readValue
   }
 
   @override
@@ -94,6 +90,14 @@ class FakeScanBluetoothRepo implements ScanBlueToothRepository {
       required String characteristicId,
       required BleInputProperty bleInputProperty}) {
     // TODO: implement setNotifiable
+  }
+  @override
+  Future<void> readValue(
+      {required String deviceId,
+      required String serviceId,
+      required String characteristic}) {
+    // TODO: implement readValue
+    throw UnimplementedError();
   }
 
   @override

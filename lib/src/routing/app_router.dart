@@ -7,6 +7,8 @@ import '../exceptions/error_logger.dart';
 import '../features/authentication/application/auth_service.dart';
 import '../features/authentication/presentation/account/account_screen.dart';
 import '../features/authentication/presentation/profile/profile_screen.dart';
+import '../features/bluetooth/domain/bluetooth.dart';
+import '../features/bluetooth/presentation/bluetooth_detail_screen/bluetooth_detail_page.dart';
 import '../features/bluetooth/presentation/bluetooth_screen.dart';
 import '../features/in_app_purchase/presentation/purchase_screen.dart';
 import '../flutter_icons/custom_flutter_icon_icons.dart';
@@ -21,6 +23,7 @@ enum AppRoute {
   profile,
   purchase,
   community,
+  detail,
   // signIn,
 }
 
@@ -121,6 +124,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   pageBuilder: (context, state) => const NoTransitionPage(
                     child: BluetoothScreen(),
                   ),
+                  routes: [
+                    GoRoute(
+                      path: 'detail:deviceId',
+                      name: AppRoute.detail.name,
+                      builder: (context, state) {
+                        final bluetooth = state.extra as Bluetooth;
+                        return BluetoothDetailPage(bluetooth);
+                      },
+                    ),
+                  ],
                 ),
                 // GoRoute(
                 //   path: '/community',

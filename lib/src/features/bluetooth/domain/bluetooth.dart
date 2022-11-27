@@ -27,6 +27,7 @@ class Bluetooth with _$Bluetooth {
     @Default(0) int labelCount,
     Label? firstUpdatedLabel,
     Label? userLabel,
+    @Default(false) bool canConnect,
   }) = _Bluetooth;
 
   factory Bluetooth.fromJson(Map<String, dynamic> json) =>
@@ -97,10 +98,10 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
               state.add(scanBluetooth);
             }
           }
-          // if (userLabelList != null) updateStateUserLabel(userLabelList!);
+          if (userLabelList != null) updateStateUserLabel(userLabelList!);
           sort();
-          state = [...state];
           ref.read(tempBluetoothListProvider.notifier).state = state;
+          state = [...state];
         }
       });
     } catch (e) {

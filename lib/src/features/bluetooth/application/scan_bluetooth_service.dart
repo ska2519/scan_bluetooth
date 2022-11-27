@@ -65,15 +65,9 @@ class ScanBluetoothService {
 
   void disconnect(String deviceId) => scanBluetoothRepo.disconnect(deviceId);
 
-  void discoverServices(String deviceId) {
-    scanBluetoothRepo.discoverServices(deviceId);
-  }
-  // Stream<BlueConnectionState> handleConnectionChange(String deviceId) async* {
-  //   ref.read(btRepoProvider).setConnectionHandler();
+  void discoverServices(String deviceId) =>
+      scanBluetoothRepo.discoverServices(deviceId);
 
-  //   yield blueConnectionState;
-  // }
-  // createExampleDate(bluetoothList);
   //!! ExmapleData 사용 시 주석 해제
   // ref.read(bluetoothListProvider.notifier).state =
   //     exampleData2.map(Bluetooth.fromJson).toList();

@@ -24,6 +24,7 @@ _$_Bluetooth _$$_BluetoothFromJson(Map json) => _$_Bluetooth(
       userLabel: json['userLabel'] == null
           ? null
           : Label.fromJson(Map<String, dynamic>.from(json['userLabel'] as Map)),
+      canConnect: json['canConnect'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$_BluetoothToJson(_$_Bluetooth instance) =>
@@ -43,4 +44,5 @@ Map<String, dynamic> _$$_BluetoothToJson(_$_Bluetooth instance) =>
       'labelCount': instance.labelCount,
       'firstUpdatedLabel': instance.firstUpdatedLabel?.toJson(),
       'userLabel': instance.userLabel?.toJson(),
+      'canConnect': instance.canConnect,
     };

@@ -35,6 +35,7 @@ mixin _$Bluetooth {
   int get labelCount => throw _privateConstructorUsedError;
   Label? get firstUpdatedLabel => throw _privateConstructorUsedError;
   Label? get userLabel => throw _privateConstructorUsedError;
+  bool get canConnect => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -59,7 +60,8 @@ abstract class $BluetoothCopyWith<$Res> {
       @TimestampNullableConverter() DateTime? updatedAt,
       int labelCount,
       Label? firstUpdatedLabel,
-      Label? userLabel});
+      Label? userLabel,
+      bool canConnect});
 
   $LabelCopyWith<$Res>? get firstUpdatedLabel;
   $LabelCopyWith<$Res>? get userLabel;
@@ -90,6 +92,7 @@ class _$BluetoothCopyWithImpl<$Res, $Val extends Bluetooth>
     Object? labelCount = null,
     Object? firstUpdatedLabel = freezed,
     Object? userLabel = freezed,
+    Object? canConnect = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -140,6 +143,10 @@ class _$BluetoothCopyWithImpl<$Res, $Val extends Bluetooth>
           ? _value.userLabel
           : userLabel // ignore: cast_nullable_to_non_nullable
               as Label?,
+      canConnect: null == canConnect
+          ? _value.canConnect
+          : canConnect // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -187,7 +194,8 @@ abstract class _$$_BluetoothCopyWith<$Res> implements $BluetoothCopyWith<$Res> {
       @TimestampNullableConverter() DateTime? updatedAt,
       int labelCount,
       Label? firstUpdatedLabel,
-      Label? userLabel});
+      Label? userLabel,
+      bool canConnect});
 
   @override
   $LabelCopyWith<$Res>? get firstUpdatedLabel;
@@ -218,6 +226,7 @@ class __$$_BluetoothCopyWithImpl<$Res>
     Object? labelCount = null,
     Object? firstUpdatedLabel = freezed,
     Object? userLabel = freezed,
+    Object? canConnect = null,
   }) {
     return _then(_$_Bluetooth(
       name: null == name
@@ -268,6 +277,10 @@ class __$$_BluetoothCopyWithImpl<$Res>
           ? _value.userLabel
           : userLabel // ignore: cast_nullable_to_non_nullable
               as Label?,
+      canConnect: null == canConnect
+          ? _value.canConnect
+          : canConnect // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -287,7 +300,8 @@ class _$_Bluetooth implements _Bluetooth {
       @TimestampNullableConverter() this.updatedAt,
       this.labelCount = 0,
       this.firstUpdatedLabel,
-      this.userLabel})
+      this.userLabel,
+      this.canConnect = false})
       : _manufacturerDataHead = manufacturerDataHead,
         _manufacturerData = manufacturerData;
 
@@ -332,10 +346,13 @@ class _$_Bluetooth implements _Bluetooth {
   final Label? firstUpdatedLabel;
   @override
   final Label? userLabel;
+  @override
+  @JsonKey()
+  final bool canConnect;
 
   @override
   String toString() {
-    return 'Bluetooth(name: $name, deviceId: $deviceId, manufacturerDataHead: $manufacturerDataHead, manufacturerData: $manufacturerData, rssi: $rssi, previousRssi: $previousRssi, scannedAt: $scannedAt, createdAt: $createdAt, updatedAt: $updatedAt, labelCount: $labelCount, firstUpdatedLabel: $firstUpdatedLabel, userLabel: $userLabel)';
+    return 'Bluetooth(name: $name, deviceId: $deviceId, manufacturerDataHead: $manufacturerDataHead, manufacturerData: $manufacturerData, rssi: $rssi, previousRssi: $previousRssi, scannedAt: $scannedAt, createdAt: $createdAt, updatedAt: $updatedAt, labelCount: $labelCount, firstUpdatedLabel: $firstUpdatedLabel, userLabel: $userLabel, canConnect: $canConnect)';
   }
 
   @override
@@ -364,7 +381,9 @@ class _$_Bluetooth implements _Bluetooth {
             (identical(other.firstUpdatedLabel, firstUpdatedLabel) ||
                 other.firstUpdatedLabel == firstUpdatedLabel) &&
             (identical(other.userLabel, userLabel) ||
-                other.userLabel == userLabel));
+                other.userLabel == userLabel) &&
+            (identical(other.canConnect, canConnect) ||
+                other.canConnect == canConnect));
   }
 
   @JsonKey(ignore: true)
@@ -382,7 +401,8 @@ class _$_Bluetooth implements _Bluetooth {
       updatedAt,
       labelCount,
       firstUpdatedLabel,
-      userLabel);
+      userLabel,
+      canConnect);
 
   @JsonKey(ignore: true)
   @override
@@ -411,7 +431,8 @@ abstract class _Bluetooth implements Bluetooth {
       @TimestampNullableConverter() final DateTime? updatedAt,
       final int labelCount,
       final Label? firstUpdatedLabel,
-      final Label? userLabel}) = _$_Bluetooth;
+      final Label? userLabel,
+      final bool canConnect}) = _$_Bluetooth;
 
   factory _Bluetooth.fromJson(Map<String, dynamic> json) =
       _$_Bluetooth.fromJson;
@@ -443,6 +464,8 @@ abstract class _Bluetooth implements Bluetooth {
   Label? get firstUpdatedLabel;
   @override
   Label? get userLabel;
+  @override
+  bool get canConnect;
   @override
   @JsonKey(ignore: true)
   _$$_BluetoothCopyWith<_$_Bluetooth> get copyWith =>

@@ -10,7 +10,7 @@ class UserLabelCount extends HookConsumerWidget {
     return labelList.when(
       data: (labelList) => labelList.isEmpty
           ? const SizedBox()
-          : FilterChip(
+          : Chip(
               label: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -19,10 +19,6 @@ class UserLabelCount extends HookConsumerWidget {
                   Text('Label ($userLabelCount/${labelList.length})'),
                 ],
               ),
-              selected: ref.watch(labelFirstProvider),
-              onSelected: (onSelected) => ref
-                  .read(labelFirstProvider.notifier)
-                  .update((state) => onSelected),
             ),
       error: (error, stackTrace) => const SizedBox(),
       loading: () => const SizedBox(),

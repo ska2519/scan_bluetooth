@@ -45,11 +45,9 @@ final bluetoothListProvider =
     ref
         .watch(userLabelListStreamProvider)
         .whenData((list) => userLabelList = list);
-    final labelFirst = ref.watch(labelFirstProvider);
     final tempBluetoothList = ref.read(tempBluetoothListProvider);
     return BluetoothList(
       ref,
-      labelFirst,
       userLabelList,
       initalList: tempBluetoothList,
     );
@@ -68,14 +66,12 @@ final unknownBtsCountProvider = StateProvider.autoDispose<int>((ref) {
 class BluetoothList extends StateNotifier<List<Bluetooth>> {
   BluetoothList(
     this.ref,
-    this.labelFirst,
     this.userLabelList, {
     List<Bluetooth>? initalList,
   }) : super(initalList ?? []) {
     _bluetoothListInit();
   }
 
-  final bool labelFirst;
   final List<Label>? userLabelList;
 
   void _bluetoothListInit() {
@@ -101,9 +97,8 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
               state.add(scanBluetooth);
             }
           }
-          if (userLabelList != null) pasteUserLabelList(userLabelList!);
-          labelFirst ? labelFirstSort() : sort();
-
+          // if (userLabelList != null) updateStateUserLabel(userLabelList!);
+          sort();
           state = [...state];
           ref.read(tempBluetoothListProvider.notifier).state = state;
         }
@@ -125,9 +120,9 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
     logger.i('BluetoothList change state.length: ${state.length}');
   }
 
-  void pasteUserLabelList(List<Label> labelList) {
+  void updateStateUserLabel(List<Label> labelList) {
     logger.i(
-        'labelFirst: $labelFirst / labelList.length: ${labelList.length} / state.length: ${state.length}');
+        'labelList.length: ${labelList.length} / state.length: ${state.length}');
     if (labelList.isNotEmpty) {
       for (var label in labelList) {
         for (var i = 0; i < state.length; i++) {

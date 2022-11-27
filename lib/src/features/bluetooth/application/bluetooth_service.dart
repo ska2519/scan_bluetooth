@@ -108,8 +108,6 @@ final userLabelListStreamProvider = StreamProvider<List<Label>>((ref) {
       : const Stream<List<Label>>.empty();
 });
 
-final labelFirstProvider = StateProvider<bool>((ref) => true);
-
 final userLabelCountProvider = Provider.autoDispose<int>((ref) {
   return ref
       .watch(bluetoothListProvider)

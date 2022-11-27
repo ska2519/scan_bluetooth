@@ -31,10 +31,10 @@ class FakeScanBluetoothRepo implements ScanBlueToothRepository {
   void stopScan() {
     // TODO: implement stopScan
   }
-
   @override
-  void setConnectionHandler() {
+  Stream<BlueConnectionState> blueConnectionStateStream() {
     // TODO: implement setConnectionHandler
+    throw UnimplementedError();
   }
 
   @override
@@ -48,7 +48,7 @@ class FakeScanBluetoothRepo implements ScanBlueToothRepository {
   }
 
   @override
-  void setServiceHandler(String deviceId) {
+  void setServiceHandler(void Function(String, String)? onServiceDiscovered) {
     // TODO: implement setServiceHandler
   }
 
@@ -97,7 +97,15 @@ class FakeScanBluetoothRepo implements ScanBlueToothRepository {
   }
 
   @override
-  void setValueHandler(String deviceId) {
+  void setValueHandler(
+      void Function(String, String, Uint8List)? onValueChanged) {
     // TODO: implement setValueHandler
+  }
+
+  @override
+  void setConnectionHandler(
+      void Function(String deviceId, BlueConnectionState state)?
+          onConnectionChanged) {
+    // TODO: implement setConnectionHandler
   }
 }

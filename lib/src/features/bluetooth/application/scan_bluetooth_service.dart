@@ -19,20 +19,21 @@ final scanBluetoothServiceProvider =
 class ScanBluetoothService {
   ScanBluetoothService(this.ref);
   final Ref ref;
+  late final scanBluetoothRepo = ref.read(scanBluetoothRepoProvider);
 
   int rssiCalculate(int rssi) => (120 - rssi.abs());
 
   Future<bool> isBluetoothAvailable() async =>
-      await ref.read(btRepoProvider).isBluetoothAvailable();
+      await ref.read(scanBluetoothRepoProvider).isBluetoothAvailable();
 
   void startScan() {
-    ref.read(btRepoProvider).startScan();
+    ref.read(scanBluetoothRepoProvider).startScan();
 
     // TODO: 이게 꼭 필요한지 고민해보자 예)주위에 블루투스가 하나도 없을 때
     //본인 폰도 안잡힐때 리스트가 리셋이 될까?
   }
 
-  void stopScan() => ref.read(btRepoProvider).stopScan();
+  void stopScan() => ref.read(scanBluetoothRepoProvider).stopScan();
 
   void updateScanFABState(bool scanning) =>
       ref.read(scanFABStateProvider.notifier).update((state) => scanning);
@@ -60,11 +61,18 @@ class ScanBluetoothService {
 
   void submitScanning(bool scanning) => (scanning) ? startScan() : stopScan();
 
-  Future<void> connect(String deviceId) async {
-    logger.i('QuickBlue.connect');
-    ref.read(btRepoProvider).connect(deviceId);
-  }
+  void connect(String deviceId) => scanBluetoothRepo.connect(deviceId);
 
+  void disconnect(String deviceId) => scanBluetoothRepo.disconnect(deviceId);
+
+  void discoverServices(String deviceId) {
+    scanBluetoothRepo.discoverServices(deviceId);
+  }
+  // Stream<BlueConnectionState> handleConnectionChange(String deviceId) async* {
+  //   ref.read(btRepoProvider).setConnectionHandler();
+
+  //   yield blueConnectionState;
+  // }
   // createExampleDate(bluetoothList);
   //!! ExmapleData 사용 시 주석 해제
   // ref.read(bluetoothListProvider.notifier).state =

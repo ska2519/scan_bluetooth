@@ -132,6 +132,14 @@ class $AssetsSvgGen {
   SvgGenImage get icons8Community =>
       const SvgGenImage('assets/svg/icons8-community.svg');
 
+  /// File path: assets/svg/icons8-connected.svg
+  SvgGenImage get icons8Connected =>
+      const SvgGenImage('assets/svg/icons8-connected.svg');
+
+  /// File path: assets/svg/icons8-disconnected.svg
+  SvgGenImage get icons8Disconnected =>
+      const SvgGenImage('assets/svg/icons8-disconnected.svg');
+
   /// File path: assets/svg/icons8-edit.svg
   SvgGenImage get icons8Edit => const SvgGenImage('assets/svg/icons8-edit.svg');
 
@@ -178,6 +186,8 @@ class $AssetsSvgGen {
         icons8BluetoothRed,
         icons8Bluetooth,
         icons8Community,
+        icons8Connected,
+        icons8Disconnected,
         icons8Edit,
         icons8IphoneX,
         icons8TagYellow,

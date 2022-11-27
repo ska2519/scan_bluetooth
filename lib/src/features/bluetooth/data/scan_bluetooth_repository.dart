@@ -12,9 +12,11 @@ abstract class ScanBlueToothRepository {
   Stream<BlueScanResult> scanResultStream();
   void connect(String deviceId);
   void disconnect(String deviceId);
-  void setConnectionHandler();
+  void setConnectionHandler(
+      Function(String deviceId, BlueConnectionState state) onConnectionChanged);
+  Stream<BlueConnectionState> blueConnectionStateStream();
   void handleConnectionChange(String deviceId, BlueConnectionState state);
-  void setServiceHandler(String deviceId);
+  void setServiceHandler(Function(String, String) onServiceDiscovered);
   void handleServiceDiscovery(String deviceId, String serviceId);
   void discoverServices(String deviceId);
   void readValue(String deviceId, String serviceId, String characteristicId);
@@ -25,7 +27,8 @@ abstract class ScanBlueToothRepository {
     required Uint8List value,
     required BleOutputProperty bleOutputProperty,
   });
-  void setValueHandler(String deviceId);
+  void setValueHandler(
+      void Function(String, String, Uint8List)? onValueChanged);
   void handleValueChange(
       String deviceId, String characteristicId, Uint8List value);
   void setNotifiable({
@@ -36,11 +39,14 @@ abstract class ScanBlueToothRepository {
   });
 }
 
-final btRepoProvider =
+final scanBluetoothRepoProvider =
     Provider<ScanBlueToothRepository>((ref) => QuickBlueBluetoothRepo());
 
 final isBTAvailableProvider = FutureProvider.autoDispose<bool>(
-    (ref) async => await ref.read(btRepoProvider).isBluetoothAvailable());
+    (ref) => ref.read(scanBluetoothRepoProvider).isBluetoothAvailable());
 
 final scanResultStreamProvider = StreamProvider<BlueScanResult>(
-    (ref) => ref.watch(btRepoProvider).scanResultStream());
+    (ref) => ref.watch(scanBluetoothRepoProvider).scanResultStream());
+
+final blueConnectionStateStreamProvider = StreamProvider<BlueConnectionState>(
+    (ref) => ref.watch(scanBluetoothRepoProvider).blueConnectionStateStream());

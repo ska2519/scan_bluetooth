@@ -103,7 +103,6 @@ class BluetoothService {
 final userLabelListStreamProvider = StreamProvider<List<Label>>((ref) {
   final bluetoothRepo = ref.read(bluetoothRepoProvider);
   final user = ref.watch(authStateChangesProvider).value;
-
   return user != null
       ? bluetoothRepo.labelsStream(user.uid)
       : const Stream<List<Label>>.empty();

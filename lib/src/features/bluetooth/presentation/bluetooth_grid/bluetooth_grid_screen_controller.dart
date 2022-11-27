@@ -28,7 +28,7 @@ class BluetoothGridScreenController extends StateNotifier<AsyncValue<void>> {
 
 final bluetoothGridScreenControllerProvider = StateNotifierProvider.autoDispose<
     BluetoothGridScreenController, AsyncValue<void>>((ref) {
-  ref.onDispose(() => ref.read(btRepoProvider).stopScan());
+  ref.onDispose(() => ref.read(scanBluetoothRepoProvider).stopScan());
   return BluetoothGridScreenController(
     bluetoothService: ref.read(bluetoothServiceProvider),
   );

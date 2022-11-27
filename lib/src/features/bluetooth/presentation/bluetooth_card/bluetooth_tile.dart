@@ -8,6 +8,7 @@ import '../../../../constants/resources.dart';
 import '../../application/scan_bluetooth_service.dart';
 import '../../domain/bluetooth.dart';
 import '../scanning_fab/scanning_fab_controller.dart';
+import 'floating_icon_button.dart';
 import 'rssi_icon.dart';
 
 class BluetoothTile extends HookConsumerWidget {
@@ -163,7 +164,6 @@ class BluetoothTile extends HookConsumerWidget {
                     //   Text(bluetooth.userLabel.labelCount.toString()),
                   ],
                 ),
-                // ConnectButton(bluetooth: bluetooth),
               ],
             ),
           ],
@@ -183,15 +183,8 @@ class BluetoothTile extends HookConsumerWidget {
                 color: theme.colorScheme.onPrimaryContainer,
               ),
             ),
-            child: FloatingActionButton(
-              elevation: 1,
-              onPressed: onTapLabelEdit,
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black87,
-              mini: true,
-              heroTag: null,
-              shape: const CircleBorder(),
-              splashColor: Colors.lightBlueAccent,
+            child: FloatingIconButton(
+              onTapLabelEdit: onTapLabelEdit,
               child: bluetooth.userLabel != null
                   ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p28)
                   : Assets.svg.icons8AddTag.svg(width: Sizes.p28),

@@ -38,7 +38,7 @@ class ScanningFAB extends HookConsumerWidget {
       ref.read(scanBluetoothServiceProvider).submitScanning(scanning);
       ref.read(scanFABStateProvider.notifier).update((state) => scanning);
       ref.read(scanBluetoothServiceProvider).toggleStopWatch(scanning);
-      ref.read(bluetoothListProvider.notifier).sort();
+      // ref.read(bluetoothListProvider.notifier).sort();
     }
 
     useEffect(() {

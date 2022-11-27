@@ -5,7 +5,6 @@ import '../../../../constants/resources.dart';
 import '../../../../utils/destination_item_index.dart';
 import '../../../admob/presentation/native_ad_card.dart';
 import '../../../in_app_purchase/application/purchases_service.dart';
-import '../../application/bluetooth_service.dart';
 import '../../domain/bluetooth.dart';
 import '../bluetooth_card/bluetooth_card.dart';
 import '../scanning_fab/scanning_fab_controller.dart';
@@ -29,9 +28,9 @@ class BluetoothGrid extends HookConsumerWidget {
     final scanning = ref.watch(scanFABStateProvider);
     final removeAds = ref.watch(removeAdsProvider);
     final bluetoothList = ref.watch(bluetoothListProvider);
-
+    // final blueConnectionStateStream = ref.watch(blueConnectionStateStreamProvider);
     var kAdIndex = 1;
-    if (bluetoothList.isNotEmpty && !scanning) {
+    if (!scanning && bluetoothList.isNotEmpty) {
       kAdIndex = Random()
           .nextInt(bluetoothList.length >= 7 ? 7 : bluetoothList.length);
     }
@@ -45,55 +44,26 @@ class BluetoothGrid extends HookConsumerWidget {
           )
         : LoadingStackBody(
             isLoading: state.isLoading,
-            child: Consumer(
-              builder: (context, ref, child) {
-                final labelFirst = ref.watch(labelFirstProvider);
-                final labelList = ref.watch(userLabelListStreamProvider);
+            child: BluetoothLayoutGrid(
+              key: bluetootGridKey,
+              itemCount: !scanning && !removeAds
+                  ? bluetoothList.length + adLength
+                  : bluetoothList.length,
+              itemBuilder: (_, index) {
+                final i = !scanning && !removeAds
+                    ? getItemIndex(kAdIndex, index)
+                    : index;
 
-                labelList.whenData((labelList) {
-                  if (labelList.isNotEmpty) {
-                    for (var label in labelList) {
-                      for (var i = 0; i < bluetoothList.length; i++) {
-                        if (bluetoothList[i].deviceId ==
-                            label.bluetooth.deviceId) {
-                          bluetoothList[i] = bluetoothList[i].copyWith(
-                            userLabel: label,
-                          );
-                          break;
-                        }
-                      }
-                    }
-                  }
-                  if (labelFirst) {
-                    bluetoothList.sort((a, b) => b.userLabel != null ? 1 : 0);
-                  }
-                });
-
-                return BluetoothLayoutGrid(
-                  key: bluetootGridKey,
-                  itemCount: !removeAds && !scanning
-                      ? bluetoothList.length + adLength
-                      : bluetoothList.length,
-                  itemBuilder: (_, index) {
-                    final i = !removeAds && !scanning
-                        ? getItemIndex(kAdIndex, index)
-                        : index;
-
-                    return !scanning && (index == kAdIndex && !removeAds)
-                        ? const NativeAdCard()
-                        : BluetoothCard(
-                            onTapLabelEdit: () async {
-                              logger.i('onTapLabelEdit');
-                              await ref
-                                  .read(bluetoothGridScreenControllerProvider
-                                      .notifier)
-                                  .onTapTile(bluetoothList[i], context);
-                            },
-                            bluetooth: bluetoothList[i],
-                            index: i,
-                          );
-                  },
-                );
+                return !scanning && (index == kAdIndex && !removeAds)
+                    ? const NativeAdCard()
+                    : BluetoothCard(
+                        onTapLabelEdit: () async => await ref
+                            .read(
+                                bluetoothGridScreenControllerProvider.notifier)
+                            .onTapTile(bluetoothList[i], context),
+                        bluetooth: bluetoothList[i],
+                        index: i,
+                      );
               },
             ),
           );

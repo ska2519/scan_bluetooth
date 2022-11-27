@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../exceptions/error_logger.dart';
 import '../../firebase/firestore_json_converter.dart';
+import '../application/bluetooth_service.dart';
 import '../application/scan_bluetooth_service.dart';
 import 'label.dart';
 
@@ -30,11 +31,30 @@ class Bluetooth with _$Bluetooth {
 
   factory Bluetooth.fromJson(Map<String, dynamic> json) =>
       _$BluetoothFromJson(json);
+
+  //  int rssiCalculate(int rssi) => (120 - rssi.abs());
+
 }
 
+final tempBluetoothListProvider = StateProvider<List<Bluetooth>>((ref) => []);
+
 final bluetoothListProvider =
-    StateNotifierProvider.autoDispose<BluetoothList, List<Bluetooth>>(
-        BluetoothList.new);
+    StateNotifierProvider<BluetoothList, List<Bluetooth>>(
+  (ref) {
+    List<Label>? userLabelList;
+    ref
+        .watch(userLabelListStreamProvider)
+        .whenData((list) => userLabelList = list);
+    final labelFirst = ref.watch(labelFirstProvider);
+    final tempBluetoothList = ref.read(tempBluetoothListProvider);
+    return BluetoothList(
+      ref,
+      labelFirst,
+      userLabelList,
+      initalList: tempBluetoothList,
+    );
+  },
+);
 
 final unknownBtsCountProvider = StateProvider.autoDispose<int>((ref) {
   return ref
@@ -46,18 +66,25 @@ final unknownBtsCountProvider = StateProvider.autoDispose<int>((ref) {
 
 /// An object that controls a list of [Bluetooth].
 class BluetoothList extends StateNotifier<List<Bluetooth>> {
-  BluetoothList(this.ref, {List<Bluetooth>? initalList})
-      : super(initalList ?? []) {
-    logger.i('BluetoothList start');
-    init();
+  BluetoothList(
+    this.ref,
+    this.labelFirst,
+    this.userLabelList, {
+    List<Bluetooth>? initalList,
+  }) : super(initalList ?? []) {
+    _bluetoothListInit();
   }
-  void init() {
+
+  final bool labelFirst;
+  final List<Label>? userLabelList;
+
+  void _bluetoothListInit() {
     try {
       if (!mounted) return;
 
       ref.listen<AsyncValue<Bluetooth?>>(scanBluetoothStreamProvider,
-          (previous, next) {
-        final scanBluetooth = next.value;
+          (previous, next) async {
+        var scanBluetooth = next.value;
         // ** prevent rssi number positive value
         if (scanBluetooth != null) {
           if (scanBluetooth.rssi > 0) {
@@ -66,16 +93,19 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
           if (state.isEmpty) {
             state.add(scanBluetooth);
           } else {
-            for (var i = 0; i < state.length; i++) {
-              if (state[i].deviceId == scanBluetooth.deviceId) {
-                state[i] = scanBluetooth.copyWith(previousRssi: state[i].rssi);
-                break;
-              } else if (i == state.length - 1) {
-                state.add(scanBluetooth);
-              }
+            final i = state.indexWhere(
+                (state) => state.deviceId == scanBluetooth.deviceId);
+            if (i >= 0) {
+              state[i] = scanBluetooth.copyWith(previousRssi: state[i].rssi);
+            } else {
+              state.add(scanBluetooth);
             }
           }
+          if (userLabelList != null) pasteUserLabelList(userLabelList!);
+          labelFirst ? labelFirstSort() : sort();
+
           state = [...state];
+          ref.read(tempBluetoothListProvider.notifier).state = state;
         }
       });
     } catch (e) {
@@ -84,7 +114,6 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
   }
 
   Ref ref;
-  void setVal(String val) {}
 
   void add(Bluetooth bluetooth) {
     logger.i('bluetoothService add bluetooth: $bluetooth');
@@ -96,34 +125,25 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
     logger.i('BluetoothList change state.length: ${state.length}');
   }
 
-  void labelFrist(
-    bool labelFirst,
-    List<Label> labelList,
-  ) {
+  void pasteUserLabelList(List<Label> labelList) {
     logger.i(
         'labelFirst: $labelFirst / labelList.length: ${labelList.length} / state.length: ${state.length}');
     if (labelList.isNotEmpty) {
       for (var label in labelList) {
         for (var i = 0; i < state.length; i++) {
           if (state[i].deviceId == label.bluetooth.deviceId) {
-            state[i] = state[i].copyWith(
-              userLabel: label,
-            );
+            state[i] = state[i].copyWith(userLabel: label);
             break;
           }
         }
       }
-      if (labelFirst) {
-        state.sort((a, b) => b.userLabel != null ? 1 : 0);
-      }
-      state = [...state];
     }
   }
 
-  void sort() {
-    state.sort((a, b) => b.rssi.compareTo(a.rssi));
-    state = [...state];
-  }
+  void sort() => state.sort((a, b) => b.rssi.compareTo(a.rssi));
+
+  void labelFirstSort() =>
+      state.sort((a, b) => b.userLabel != null ? 1 : b.rssi.compareTo(a.rssi));
 
   // void toggle(String deviceId) {
   //   state = [

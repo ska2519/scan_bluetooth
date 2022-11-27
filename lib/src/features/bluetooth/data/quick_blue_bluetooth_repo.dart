@@ -31,32 +31,56 @@ class QuickBlueBluetoothRepo implements ScanBlueToothRepository {
   //* https://pub.dev/packages/quick_blue#connect-ble-peripheral
 
   @override
-  void setConnectionHandler() =>
+  void setConnectionHandler(
+          Function(String deviceId, BlueConnectionState state)
+              onConnectionChanged) =>
       QuickBlue.setConnectionHandler(handleConnectionChange);
 
   @override
   void handleConnectionChange(String deviceId, BlueConnectionState state) {
-    logger
-        .i('QuickBlueBluetoothRepo _handleConnectionChange $deviceId, $state');
+    logger.i(
+        'QuickBlueBluetoothRepo handleConnectionChange $deviceId, ${state.value}');
   }
 
   @override
-  void connect(String deviceId) => QuickBlue.connect(deviceId);
+  Stream<BlueConnectionState> blueConnectionStateStream() async* {
+    var connectionStream =
+        Stream<BlueConnectionState>.value(BlueConnectionState.disconnected);
+    QuickBlue.setConnectionHandler((deviceId, state) {
+      connectionStream = Stream.value(state);
+    });
+    logger.i('connectionStream: $connectionStream');
+    yield* connectionStream;
+  }
+
+  // @override
+  // void handleConnectionChange(String deviceId, BlueConnectionState state) {
+  //   logger.i(
+  //       'QuickBlueBluetoothRepo _handleConnectionChange $deviceId, ${state.value}');
+  // }
+  @override
+  void connect(String deviceId) {
+    QuickBlue.connect(deviceId);
+    logger.i('QuickBlueBluetoothRepo connect deviceId: $deviceId');
+  }
 
   @override
-  void disconnect(String deviceId) => QuickBlue.disconnect(deviceId);
+  void disconnect(String deviceId) {
+    QuickBlue.disconnect(deviceId);
+    logger.i('QuickBlueBluetoothRepo disconnect deviceId: $deviceId');
+  }
 
   //* Discover services of BLE peripheral #
   //* https://pub.dev/packages/quick_blue#discover-services-of-ble-peripheral
 
   @override
-  void setServiceHandler(String deviceId) =>
+  void setServiceHandler(void Function(String, String)? onServiceDiscovered) =>
       QuickBlue.setServiceHandler(handleServiceDiscovery);
 
   @override
   void handleServiceDiscovery(String deviceId, String serviceId) {
     logger.i(
-        'QuickBlueBluetoothRepo _handleServiceDiscovery $deviceId, $serviceId');
+        'QuickBlueBluetoothRepo handleServiceDiscovery $deviceId, $serviceId');
   }
 
   @override
@@ -83,14 +107,15 @@ class QuickBlueBluetoothRepo implements ScanBlueToothRepository {
           deviceId, serviceId, characteristicId, value, bleOutputProperty);
   //* Receive data from peripheral of deviceId
   @override
-  void setValueHandler(String deviceId) =>
+  void setValueHandler(
+          void Function(String, String, Uint8List)? onValueChanged) =>
       QuickBlue.setValueHandler(handleValueChange);
 
   @override
   void handleValueChange(
       String deviceId, String characteristicId, Uint8List value) {
     logger.i(
-        'QuickBlueBluetoothRepo _handleValueChange $deviceId, $characteristicId, ${hex.encode(value)}');
+        'QuickBlueBluetoothRepo handleValueChange $deviceId, $characteristicId, ${hex.encode(value)}');
   }
 
   @override

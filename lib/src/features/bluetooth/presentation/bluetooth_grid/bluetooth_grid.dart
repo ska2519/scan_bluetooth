@@ -56,7 +56,7 @@ class BluetoothGrid extends HookConsumerWidget {
                           ? ref.read(fToastProvider).showToast(
                                 gravity: ToastGravity.CENTER,
                                 child: const ToastContext(
-                                  'Need to purchase Support Membership to add more labels',
+                                  'Need Support membership to add Labels 🏷',
                                 ),
                               )
                           : await ref

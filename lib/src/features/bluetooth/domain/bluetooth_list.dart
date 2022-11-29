@@ -44,7 +44,8 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
 
   final List<Label?> userLabelList;
 
-  void _init() {
+  void _init() async {
+    await updateStateUserLabel(userLabelList);
     try {
       if (!mounted) return;
 
@@ -67,7 +68,7 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
               state.add(scanBluetooth);
             }
           }
-          updateStateUserLabel(userLabelList);
+          await updateStateUserLabel(userLabelList);
           sort();
           ref.read(tempBluetoothListProvider.notifier).state = state;
           state = [...state];
@@ -90,7 +91,7 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
     logger.i('BluetoothList change state.length: ${state.length}');
   }
 
-  void updateStateUserLabel(List<Label?> labelList) {
+  Future<void> updateStateUserLabel(List<Label?> labelList) async {
     if (labelList.isEmpty) return;
 
     for (var label in labelList) {

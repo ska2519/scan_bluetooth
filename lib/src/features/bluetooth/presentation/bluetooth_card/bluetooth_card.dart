@@ -33,10 +33,12 @@ class BluetoothCard extends HookConsumerWidget {
     return SizedBox(
       height: 84,
       child: InkWell(
-        onTap: () => context.pushNamed(
-          AppRoute.detail.name,
-          extra: bluetooth,
-        ),
+        onTap: canDelete
+            ? null
+            : () => context.pushNamed(
+                  AppRoute.detail.name,
+                  extra: bluetooth,
+                ),
         // onTap: () => pageFlipKey.currentState?.flip(),
         child: Card(
           elevation: 0.4,
@@ -49,7 +51,7 @@ class BluetoothCard extends HookConsumerWidget {
                     final fToast = ref.read(fToastProvider);
                     fToast.showToast(
                         child: const ToastContext(
-                      '␡ Deleted Label!',
+                      '␡ Deleted Label 🏷',
                     ));
                   },
                   background: Container(

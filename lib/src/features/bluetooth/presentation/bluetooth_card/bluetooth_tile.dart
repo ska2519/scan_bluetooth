@@ -31,7 +31,7 @@ class BluetoothTile extends HookConsumerWidget {
               : bluetooth.rssi == bluetooth.previousRssi
                   ? null
                   : null
-      : null;
+      : Colors.blueAccent.withOpacity(0.1);
 
   Color? get rssiColor => bluetooth.previousRssi != null
       ? bluetooth.rssi > bluetooth.previousRssi!
@@ -41,7 +41,7 @@ class BluetoothTile extends HookConsumerWidget {
               : bluetooth.rssi == bluetooth.previousRssi
                   ? null
                   : null
-      : null;
+      : Colors.blueAccent;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,21 +50,21 @@ class BluetoothTile extends HookConsumerWidget {
     final controller = useAnimationController(
       duration: const Duration(seconds: 1),
     );
-    controller.addStatusListener((status) {
-      if (bluetooth.previousRssi != null) {
-        logger.i('bluetooth.previousRssi != null');
-        controller.forward();
-      }
-      if (status == AnimationStatus.completed) {
-        logger.i('status == AnimationStatus.completed');
-        controller.reset();
-      }
-    });
 
     final animationColor =
         useAnimation(ColorTween(begin: rssiAnimationColor).animate(controller));
 
     useEffect(() {
+      controller.addStatusListener((status) {
+        if (bluetooth.previousRssi != null) {
+          logger.i('bluetooth.previousRssi != null');
+          controller.forward();
+        }
+        if (status == AnimationStatus.completed) {
+          logger.i('status == AnimationStatus.completed');
+          controller.reset();
+        }
+      });
       return null;
     }, [bluetooth.previousRssi]);
 
@@ -170,28 +170,28 @@ class BluetoothTile extends HookConsumerWidget {
             ),
           ],
         ),
-        if (intRssi > 50)
-          Badge(
-            showBadge: bluetooth.userLabel != null
-                ? bluetooth.userLabel!.bluetooth.labelCount > 0
-                : false,
-            animationType: BadgeAnimationType.scale,
-            elevation: 1,
-            badgeColor: theme.colorScheme.primaryContainer,
-            position: BadgePosition.bottomEnd(bottom: 0, end: 0),
-            badgeContent: Text(
-              bluetooth.labelCount > 0 ? bluetooth.labelCount.toString() : '',
-              style: textTheme.caption!.copyWith(
-                color: theme.colorScheme.onPrimaryContainer,
-              ),
-            ),
-            child: FloatingIconButton(
-              onTapLabelEdit: onTapLabelEdit,
-              child: bluetooth.userLabel != null
-                  ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p28)
-                  : Assets.svg.icons8AddTag.svg(width: Sizes.p28),
+        Badge(
+          showBadge: false,
+          // showBadge: bluetooth.userLabel != null
+          //     ? bluetooth.userLabel!.bluetooth.labelCount > 0
+          //     : false,
+          animationType: BadgeAnimationType.scale,
+          elevation: 1,
+          badgeColor: theme.colorScheme.primaryContainer,
+          position: BadgePosition.bottomEnd(bottom: 0, end: 0),
+          badgeContent: Text(
+            bluetooth.labelCount > 0 ? bluetooth.labelCount.toString() : '',
+            style: textTheme.caption!.copyWith(
+              color: theme.colorScheme.onPrimaryContainer,
             ),
           ),
+          child: FloatingIconButton(
+            onTapLabelEdit: onTapLabelEdit,
+            child: bluetooth.userLabel != null
+                ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p28)
+                : Assets.svg.icons8AddTag.svg(width: Sizes.p28),
+          ),
+        ),
       ],
     );
   }

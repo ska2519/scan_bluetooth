@@ -17,8 +17,8 @@ class BluetoothRepo {
     return await _firestore.getDoc(
       path: FirebasePath.bluetoothes(deviceId: deviceId),
       builder: (data, documentId) {
-        data?.addAll({'documentId': documentId});
-        return Bluetooth.fromJson(data!);
+        if (data != null) data.addAll({'documentId': documentId});
+        return data != null ? Bluetooth.fromJson(data) : null;
       },
     );
   }
@@ -56,15 +56,15 @@ class BluetoothRepo {
         path: FirebasePath.labels(deviceId: deviceId, uid: uid),
       );
 
-  Stream<List<Label>> labelsStream(String uid) {
-    return _firestore.collectionGroupStream<Label>(
+  Stream<List<Label?>> labelsStream(String uid) {
+    return _firestore.collectionGroupStream<Label?>(
       path: FirebasePath.collectionGroupLabels(),
       queryBuilder: (query) => query
           .where('uid', isEqualTo: uid)
           .orderBy('createdAt', descending: true),
       builder: (data, documentId) {
-        data!.addAll({'documentId': documentId});
-        return Label.fromJson(data);
+        if (data != null) data.addAll({'documentId': documentId});
+        return data != null ? Label.fromJson(data) : null;
       },
     );
   }

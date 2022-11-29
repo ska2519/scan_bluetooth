@@ -16,10 +16,11 @@ class LabelScreen extends HookConsumerWidget {
       (_, state) => state.showAlertDialogOnError(context),
     );
     final state = ref.watch(labelScreenControllerProvider);
-
+    logger.i(
+        'ref.watch(userLabelListCountProvider): ${ref.watch(userLabelListCountProvider)}');
     return LoadingStackBody(
       isLoading: state.isLoading,
-      child: AsyncValueWidget<List<Label>>(
+      child: AsyncValueWidget<List<Label?>>(
         error: const SizedBox(),
         value: ref.watch(userLabelListStreamProvider),
         data: (labelList) => labelList.isEmpty
@@ -60,7 +61,7 @@ class LabelScreen extends HookConsumerWidget {
                   BluetoothLayoutGrid(
                     itemCount: labelList.length,
                     itemBuilder: (_, i) {
-                      final bluetooth = labelList[i]
+                      final bluetooth = labelList[i]!
                           .bluetooth
                           .copyWith(userLabel: labelList[i]);
                       return BluetoothCard(

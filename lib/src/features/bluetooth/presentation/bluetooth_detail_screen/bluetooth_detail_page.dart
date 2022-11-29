@@ -3,11 +3,9 @@
 import 'dart:typed_data';
 
 import 'package:convert/convert.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quick_blue/quick_blue.dart';
 
 import '../../../../constants/resources.dart';
-import '../../../../utils/toast_context.dart';
 import '../../data/scan_bluetooth_repository.dart';
 import '../../domain/bluetooth.dart';
 import '../bluetooth_card/bluetooth_tile.dart';
@@ -28,7 +26,6 @@ const WOODEMI_MTU_WUART = 247;
 
 class BluetoothDetailPage extends StatefulHookConsumerWidget {
   const BluetoothDetailPage(this.bluetooth);
-  // final String deviceId;
   final Bluetooth bluetooth;
 
   @override
@@ -41,7 +38,7 @@ class _BluetoothDetailPageState extends ConsumerState<BluetoothDetailPage> {
   String get deviceId => widget.bluetooth.deviceId;
   bool connected = false;
   bool showID = false;
-
+  Map<String, List<String>> serviceIdsCharacteristicIds = {};
   @override
   void initState() {
     super.initState();
@@ -70,12 +67,12 @@ class _BluetoothDetailPageState extends ConsumerState<BluetoothDetailPage> {
 
   void handleServiceDiscovery(
       String deviceId, String serviceId, List<String> characteristicIds) {
-    logger
-        .i('handleServiceDiscovery deviceId: $deviceId, serviceId: $serviceId');
-
-    for (var characteristicId in characteristicIds) {
-      logger.i('characteristicId: $characteristicId');
-    }
+    setState(() =>
+        serviceIdsCharacteristicIds.addAll({serviceId: characteristicIds}));
+    logger.i(
+        'handleServiceDiscovery serviceIdsCharacteristicIds: ${serviceIdsCharacteristicIds.toString()}');
+    logger.i(
+        'handleServiceDiscovery serviceIdsCharacteristicIds.length: ${serviceIdsCharacteristicIds.length}');
   }
 
   void handleValueChange(
@@ -92,11 +89,42 @@ class _BluetoothDetailPageState extends ConsumerState<BluetoothDetailPage> {
   final binaryCode = TextEditingController(
       text: hex.encode([0x01, 0x0A, 0x00, 0x00, 0x00, 0x01]));
 
+  Future<void> sendValue({
+    required String serviceId,
+    required String characteristicId,
+    required TextEditingController binaryCode,
+  }) async {
+    try {
+      final value = Uint8List.fromList(hex.decode(binaryCode.text));
+      await ref.read(scanBluetoothRepoProvider).writeValue(
+            deviceId: deviceId,
+            serviceId: serviceId, //serviceUUID.text,
+            characteristicId: characteristicId, //characteristicUUID.text,
+            value: value,
+            bleOutputProperty: BleOutputProperty.withResponse,
+          );
+    } catch (e) {
+      logger.e('writeValue e: $e');
+    }
+  }
+
+  Future<void> readValue({
+    required String serviceId,
+    required String characteristicId,
+  }) async {
+    try {
+      await ref.read(scanBluetoothRepoProvider).readValue(
+          deviceId: deviceId,
+          serviceId: serviceId, //GSS_SERV__BATTERY,
+          characteristic: characteristicId // GSS_CHAR__BATTERY_LEVEL,
+          );
+    } catch (e) {
+      logger.e('readValue e: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final intRssi =
-    //     ref.read(scanBluetoothServiceProvider).rssiCalculate(bluetooth.rssi);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('PeripheralDetailPage'),
@@ -123,7 +151,7 @@ class _BluetoothDetailPageState extends ConsumerState<BluetoothDetailPage> {
                   ),
                 ),
               ),
-              gapH16,
+              gapH24,
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: connected ? Colors.red : Colors.green,
@@ -131,41 +159,67 @@ class _BluetoothDetailPageState extends ConsumerState<BluetoothDetailPage> {
                 icon: connected
                     ? Assets.svg.icons8Disconnected.svg(height: 36, width: 36)
                     : Assets.svg.icons8Connected.svg(height: 36, width: 36),
-                label: Text(connected ? 'disconnect' : 'connect'),
+                label: Text(connected ? 'Disconnect' : 'Connect'),
                 onPressed: () {
                   connected
                       ? ref.read(scanBluetoothRepoProvider).disconnect(deviceId)
                       : ref.read(scanBluetoothRepoProvider).connect(deviceId);
                 },
               ),
-              gapH16,
+              gapH24,
+              if (serviceIdsCharacteristicIds.isNotEmpty)
+                ...serviceIdsCharacteristicIds.entries.map((e) => Column(
+                      children: [
+                        ...e.value.map((characteristicId) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                ElevatedButton.icon(
+                                    icon: Assets.logo.bomb1024.image(
+                                      color: Colors.white70,
+                                      height: 24,
+                                      width: 24,
+                                    ),
+                                    onPressed: () async {
+                                      await sendValue(
+                                        serviceId: e.key,
+                                        characteristicId: characteristicId,
+                                        binaryCode: binaryCode,
+                                      );
+                                    },
+                                    label: Text(
+                                        'Test Characteristic\n$characteristicId')),
+                                gapH8,
+                              ],
+                            )),
+                      ],
+                    )),
               // ElevatedButton(
               //   child: const Text('discoverServices'),
               //   onPressed: () {
               //     QuickBlue.discoverServices(deviceId);
               //   },
               // ),
-              ElevatedButton(
-                onPressed: !connected
-                    ? null
-                    : () {
-                        ref.read(fToastProvider).showToast(
-                            child: const ToastContext(
-                                'Sorry 🙏 developing feature 🧑‍💻'),
-                            gravity: ToastGravity.CENTER);
-                        // try {
-                        //   QuickBlue.setNotifiable(
-                        //       deviceId,
-                        //       WOODEMI_SERV__COMMAND,
-                        //       WOODEMI_CHAR__COMMAND_RESPONSE,
-                        //       BleInputProperty.indication);
-                        // } catch (e) {
-                        //   logger.e('setNotifiable e: $e');
-                        // }
-                      },
-                child: const Text('setNotifiable'),
-              ),
-              gapH16,
+              // ElevatedButton(
+              //   onPressed: !connected
+              //       ? null
+              //       : () {
+              //           ref.read(fToastProvider).showToast(
+              //               child: const ToastContext(
+              //                   'Sorry 🙏 developing feature 🧑‍💻'),
+              //               gravity: ToastGravity.CENTER);
+              //           // try {
+              //           //   QuickBlue.setNotifiable(
+              //           //       deviceId,
+              //           //       WOODEMI_SERV__COMMAND,
+              //           //       WOODEMI_CHAR__COMMAND_RESPONSE,
+              //           //       BleInputProperty.indication);
+              //           // } catch (e) {
+              //           //   logger.e('setNotifiable e: $e');
+              //           // }
+              //         },
+              //   child: const Text('setNotifiable'),
+              // ),
+              // gapH16,
               // TextField(
               //   controller: serviceUUID,
               //   decoration: const InputDecoration(
@@ -179,77 +233,37 @@ class _BluetoothDetailPageState extends ConsumerState<BluetoothDetailPage> {
               //     labelText: 'CharacteristicUUID',
               //   ),
               // ),
-              // gapH16,
-              // TextField(
-              //   controller: binaryCode,
-              //   decoration: const InputDecoration(
-              //     labelText: 'Binary code',
-              //   ),
+              gapH16,
+              if (serviceIdsCharacteristicIds.isNotEmpty)
+                TextField(
+                  controller: binaryCode,
+                  decoration: const InputDecoration(
+                    labelText: 'Binary code',
+                  ),
+                ),
+
+              // ElevatedButton(
+              //   onPressed: !connected
+              //       ? null
+              //       : () async => await sendValue(deviceId, characteristicId ?? '', null),
+              //   child: const Text('Send Value '),
+              // ),
+
+              // ElevatedButton(
+              //   onPressed: !connected
+              //       ? null
+              //       : () async {
+              //           // try {
+              //           //   final mtu = await QuickBlue.requestMtu(
+              //           //       deviceId, WOODEMI_MTU_WUART);
+              //           //   logger.i('requestMtu $mtu');
+              //           // } catch (e) {
+              //           //   logger.e('rrequestMtu e: $e');
+              //           // }
+              //         },
+              //   child: const Text('requestMtu'),
               // ),
               // gapH16,
-
-              ElevatedButton(
-                onPressed: !connected
-                    ? null
-                    : () {
-                        ref.read(fToastProvider).showToast(
-                            child: const ToastContext(
-                                'Sorry 🙏 developing feature 🧑‍💻'),
-                            gravity: ToastGravity.CENTER);
-                        // try {
-                        //   final value =
-                        //       Uint8List.fromList(hex.decode(binaryCode.text));
-                        //   ref.read(scanBluetoothRepoProvider).writeValue(
-                        //         deviceId: deviceId,
-                        //         serviceId: serviceUUID.text,
-                        //         characteristicId: characteristicUUID.text,
-                        //         value: value,
-                        //         bleOutputProperty:
-                        //             BleOutputProperty.withResponse,
-                        //       );
-                        // } catch (e) {
-                        //   logger.e('writeValue e: $e');
-                        // }
-                      },
-                child: const Text('send'),
-              ),
-              gapH16,
-              ElevatedButton(
-                onPressed: !connected
-                    ? null
-                    : () async {
-                        ref.read(fToastProvider).showToast(
-                            child: const ToastContext(
-                                'Sorry 🙏 developing feature 🧑‍💻'),
-                            gravity: ToastGravity.CENTER);
-                        // try {
-                        //   await ref.read(scanBluetoothRepoProvider).readValue(
-                        //         deviceId: deviceId,
-                        //         serviceId: GSS_SERV__BATTERY,
-                        //         characteristic: GSS_CHAR__BATTERY_LEVEL,
-                        //       );
-                        // } catch (e) {
-                        //   logger.e('readValue e: $e');
-                        // }
-                      },
-                child: const Text('readValue battery'),
-              ),
-              gapH16,
-              ElevatedButton(
-                onPressed: !connected
-                    ? null
-                    : () async {
-                        // try {
-                        //   final mtu = await QuickBlue.requestMtu(
-                        //       deviceId, WOODEMI_MTU_WUART);
-                        //   logger.i('requestMtu $mtu');
-                        // } catch (e) {
-                        //   logger.e('rrequestMtu e: $e');
-                        // }
-                      },
-                child: const Text('requestMtu'),
-              ),
-              gapH16,
             ],
           ),
         ),

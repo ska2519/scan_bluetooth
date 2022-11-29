@@ -3,6 +3,7 @@ import '../../authentication/application/auth_service.dart';
 import '../../authentication/domain/app_user.dart';
 import '../data/bluetooth_repo.dart';
 import '../domain/bluetooth.dart';
+import '../domain/bluetooth_list.dart';
 import '../domain/label.dart';
 import '../presentation/label/label_dialog.dart';
 
@@ -23,10 +24,9 @@ class BluetoothService {
 
   Future<Bluetooth?> featchBluetooth(Bluetooth bluetooth) async {
     try {
-      final fetchBluetooth = await ref
+      return await ref
           .read(bluetoothRepoProvider)
           .fetchBluetooth(deviceId: bluetooth.deviceId);
-      return fetchBluetooth;
     } catch (e) {
       logger.i('fetchBluetooth e: $e');
     }
@@ -41,7 +41,6 @@ class BluetoothService {
 
   Future<void> updateLabel(Bluetooth bluetooth) async {
     final user = ref.watch(authStateChangesProvider).value;
-
     logger.i('updateLabel start');
     try {
       if (textEditingCtr.text.isEmpty) {
@@ -100,18 +99,22 @@ class BluetoothService {
       .deleteLabel(deviceId: bluetooth.deviceId, uid: bluetooth.userLabel!.uid);
 }
 
-final userLabelListStreamProvider = StreamProvider<List<Label>>((ref) {
+final userLabelListCountProvider = StateProvider<int>((ref) => 0);
+
+final userLabelListStreamProvider = StreamProvider<List<Label?>>((ref) {
   final bluetoothRepo = ref.read(bluetoothRepoProvider);
   final user = ref.watch(authStateChangesProvider).value;
-  return user != null
-      ? bluetoothRepo.labelsStream(user.uid)
-      : const Stream<List<Label>>.empty();
+
+  if (user == null) return const Stream<List<Label?>>.empty();
+
+  final labelListStream = bluetoothRepo.labelsStream(user.uid);
+  labelListStream.listen((event) =>
+      ref.read(userLabelListCountProvider.notifier).state = event.length);
+  return labelListStream;
 });
 
-final userLabelCountProvider = Provider.autoDispose<int>((ref) {
-  return ref
-      .watch(bluetoothListProvider)
-      .where((bluetooth) => bluetooth.userLabel != null)
-      .toList()
-      .length;
-});
+final userLabelCountProvider = Provider.autoDispose<int>((ref) => ref
+    .watch(bluetoothListProvider)
+    .where((bluetooth) => bluetooth.userLabel != null)
+    .toList()
+    .length);

@@ -126,7 +126,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   ),
                   routes: [
                     GoRoute(
-                      path: 'detail:deviceId',
+                      path: 'detail',
                       name: AppRoute.detail.name,
                       builder: (context, state) {
                         final bluetooth = state.extra as Bluetooth;

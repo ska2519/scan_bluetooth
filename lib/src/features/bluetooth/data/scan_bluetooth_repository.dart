@@ -26,7 +26,7 @@ abstract class ScanBlueToothRepository {
     required String serviceId,
     required String characteristic,
   });
-  void writeValue({
+  Future<void> writeValue({
     required String deviceId,
     required String serviceId,
     required String characteristicId,

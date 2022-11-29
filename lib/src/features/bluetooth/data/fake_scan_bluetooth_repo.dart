@@ -75,22 +75,16 @@ class FakeScanBluetoothRepo implements ScanBlueToothRepository {
   }
 
   @override
-  void writeValue(
+  Future<void> writeValue(
       {required String deviceId,
       required String serviceId,
       required String characteristicId,
       required Uint8List value,
       required BleOutputProperty bleOutputProperty}) {
     // TODO: implement writeValue
+    throw UnimplementedError();
   }
-  @override
-  void setNotifiable(
-      {required String deviceId,
-      required String serviceId,
-      required String characteristicId,
-      required BleInputProperty bleInputProperty}) {
-    // TODO: implement setNotifiable
-  }
+
   @override
   Future<void> readValue(
       {required String deviceId,
@@ -98,6 +92,15 @@ class FakeScanBluetoothRepo implements ScanBlueToothRepository {
       required String characteristic}) {
     // TODO: implement readValue
     throw UnimplementedError();
+  }
+
+  @override
+  void setNotifiable(
+      {required String deviceId,
+      required String serviceId,
+      required String characteristicId,
+      required BleInputProperty bleInputProperty}) {
+    // TODO: implement setNotifiable
   }
 
   @override

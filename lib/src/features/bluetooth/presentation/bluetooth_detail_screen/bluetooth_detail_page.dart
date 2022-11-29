@@ -3,9 +3,11 @@
 import 'dart:typed_data';
 
 import 'package:convert/convert.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quick_blue/quick_blue.dart';
 
 import '../../../../constants/resources.dart';
+import '../../../../utils/toast_context.dart';
 import '../../data/scan_bluetooth_repository.dart';
 import '../../domain/bluetooth.dart';
 import '../bluetooth_card/bluetooth_tile.dart';
@@ -123,11 +125,17 @@ class _BluetoothDetailPageState extends ConsumerState<BluetoothDetailPage> {
     }
   }
 
+  void toggleConnect() {
+    return connected
+        ? ref.read(scanBluetoothRepoProvider).disconnect(deviceId)
+        : ref.read(scanBluetoothRepoProvider).connect(deviceId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('PeripheralDetailPage'),
+        title: const Text('BLuetooth Detail Page'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -160,11 +168,7 @@ class _BluetoothDetailPageState extends ConsumerState<BluetoothDetailPage> {
                     ? Assets.svg.icons8Disconnected.svg(height: 36, width: 36)
                     : Assets.svg.icons8Connected.svg(height: 36, width: 36),
                 label: Text(connected ? 'Disconnect' : 'Connect'),
-                onPressed: () {
-                  connected
-                      ? ref.read(scanBluetoothRepoProvider).disconnect(deviceId)
-                      : ref.read(scanBluetoothRepoProvider).connect(deviceId);
-                },
+                onPressed: toggleConnect,
               ),
               gapH24,
               if (serviceIdsCharacteristicIds.isNotEmpty)
@@ -174,31 +178,33 @@ class _BluetoothDetailPageState extends ConsumerState<BluetoothDetailPage> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 ElevatedButton.icon(
-                                    icon: Assets.logo.bomb1024.image(
-                                      color: Colors.white70,
-                                      height: 24,
-                                      width: 24,
-                                    ),
-                                    onPressed: () async {
-                                      await sendValue(
-                                        serviceId: e.key,
-                                        characteristicId: characteristicId,
-                                        binaryCode: binaryCode,
-                                      );
-                                    },
-                                    label: Text(
-                                        'Test Characteristic\n$characteristicId')),
+                                  icon: Assets.logo.bomb1024.image(
+                                    color: Colors.white70,
+                                    height: 24,
+                                    width: 24,
+                                  ),
+                                  onPressed: () =>
+                                      ref.read(fToastProvider).showToast(
+                                            child: const ToastContext(
+                                                'Sorry 🙏 developing feature 🧑‍💻'),
+                                            gravity: ToastGravity.CENTER,
+                                          ),
+                                  //  () async {
+                                  //   await sendValue(
+                                  //     serviceId: e.key,
+                                  //     characteristicId: characteristicId,
+                                  //     binaryCode: binaryCode,
+                                  //   );
+                                  // },
+                                  label: Text(
+                                      'Test Characteristic\n$characteristicId'),
+                                ),
                                 gapH8,
                               ],
                             )),
                       ],
                     )),
-              // ElevatedButton(
-              //   child: const Text('discoverServices'),
-              //   onPressed: () {
-              //     QuickBlue.discoverServices(deviceId);
-              //   },
-              // ),
+
               // ElevatedButton(
               //   onPressed: !connected
               //       ? null

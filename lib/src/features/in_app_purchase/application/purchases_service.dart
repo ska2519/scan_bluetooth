@@ -22,6 +22,7 @@ final purchasableproductsProvider =
 
 final removeAdsProvider = StateProvider<bool>((ref) => false);
 final preventScanTimeProvider = StateProvider<int>((ref) => 4);
+final labelCountLimitProvider = StateProvider<int>((ref) => 5);
 
 class PurchasesService {
   PurchasesService(this.ref) {
@@ -30,7 +31,6 @@ class PurchasesService {
   final Ref ref;
   final functions = FirebaseFunctions.instanceFor(region: cloudRegion);
   late StreamSubscription<List<PurchaseDetails>> _subscription;
-  bool get removeAds => _removeAdsUpgrade;
   bool _removeAdsUpgrade = false;
   bool hasActiveSubscription = false;
   bool hasUpgrade = false;
@@ -177,6 +177,11 @@ class PurchasesService {
     await purchasesUpdate();
   }
 
+  void _updateStreamOnDone() => _subscription.cancel();
+
+  void _updateStreamOnError(dynamic error) =>
+      logger.i('_updateStreamOnError: $error');
+
   Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
     logger.i(
         'PurchasesService purchaseDetails.status : ${purchaseDetails.status}');
@@ -193,10 +198,10 @@ class PurchasesService {
             ref.read(removeAdsProvider.notifier).update((state) => true);
             break;
           case storeKeySubscription1m:
-            ref.read(removeAdsProvider.notifier).update((state) => true);
+            _enableSubscriptionFeatures();
             break;
           case storeKeySubscription1y:
-            ref.read(removeAdsProvider.notifier).update((state) => true);
+            _enableSubscriptionFeatures();
             break;
         }
       }
@@ -218,12 +223,16 @@ class PurchasesService {
     return results.data as bool;
   }
 
-  void _updateStreamOnDone() {
-    _subscription.cancel();
+  void _enableSubscriptionFeatures() {
+    ref.read(removeAdsProvider.notifier).update((state) => true);
+    ref.read(preventScanTimeProvider.notifier).update((state) => 0);
+    ref.read(labelCountLimitProvider.notifier).update((state) => 999);
   }
 
-  void _updateStreamOnError(dynamic error) {
-    logger.i(error);
+  void _disableSubscriptionFeatures() {
+    ref.read(removeAdsProvider.notifier).update((state) => false);
+    ref.read(preventScanTimeProvider.notifier).update((state) => 4);
+    ref.read(labelCountLimitProvider.notifier).update((state) => 5);
   }
 
   Future<void> purchasesUpdate() async {
@@ -232,9 +241,8 @@ class PurchasesService {
       var upgrades = <PurchasableProduct>[];
       // Get a list of purchasable products for the subscription and upgrade.
       // This should be 1 per type.
-      // final products = ref.read(productsProvider);
-      logger
-          .i('PurchasesService purchasesUpdate products: $purchasableProducts');
+
+      logger.i('PurchasesService purchasableProducts: $purchasableProducts');
       if (purchasableProducts.isNotEmpty) {
         subscriptions = purchasableProducts
             .where((element) =>
@@ -245,7 +253,7 @@ class PurchasesService {
             .where((element) => element.productDetails.id == storeKeyUpgrade)
             .toList();
         logger.i(
-            'PurchasesService subscriptions: ${subscriptions.length} / upgrades: ${upgrades.length}');
+            'PurchasesService subscriptions.length: ${subscriptions.length} / upgrades.length: ${upgrades.length}');
         logger.i(
             'PurchasesService hasActiveSubscription: $hasActiveSubscription / hasUpgrade: $hasUpgrade');
       }
@@ -256,20 +264,19 @@ class PurchasesService {
         for (final element in subscriptions) {
           _updateStatus(element, ProductStatus.purchased);
         }
-        ref.read(removeAdsProvider.notifier).update((state) => true);
-        ref.read(preventScanTimeProvider.notifier).update((state) => 0);
+        _enableSubscriptionFeatures();
       } else {
         for (final element in subscriptions) {
           _updateStatus(element, ProductStatus.purchasable);
         }
-        ref.read(removeAdsProvider.notifier).update((state) => false);
-        ref.read(preventScanTimeProvider.notifier).update((state) => 4);
+        _disableSubscriptionFeatures();
       }
       logger.i(
           'PurchasesService hasUpgrade: $hasUpgrade /_removeAdsUpgrade: $_removeAdsUpgrade');
       // Set the Remove Ads
       if (hasUpgrade != _removeAdsUpgrade) {
         _removeAdsUpgrade = hasUpgrade;
+        ref.read(removeAdsProvider.notifier).update((state) => hasUpgrade);
 
         for (final element in upgrades) {
           _updateStatus(
@@ -278,7 +285,6 @@ class PurchasesService {
                   ? ProductStatus.purchased
                   : ProductStatus.purchasable);
         }
-        ref.read(removeAdsProvider.notifier).update((state) => hasUpgrade);
       }
     } catch (e) {
       logger.e('PurchasesService purchasesUpdate e: $e');

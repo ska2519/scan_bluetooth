@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import '../../../../constants/resources.dart';
 import '../../../presence_user/presentation/user_count.dart';
-import '../../domain/bluetooth.dart';
+import '../../domain/bluetooth_list.dart';
 
 /// Custom [AppBar] widget that is reused by the [ProductsListScreen] and
 /// [ProductScreen].
@@ -35,8 +35,7 @@ class HomeAppBar extends HookConsumerWidget with PreferredSizeWidget {
         ],
       ),
       actions: const [
-        // const ShoppingCartIcon(),
-        // MoreMenuButton(),
+   
       ],
     );
     // } else {}

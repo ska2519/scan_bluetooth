@@ -93,7 +93,7 @@ class QuickBlueBluetoothRepo implements ScanBlueToothRepository {
   // Data would receive from value handler of `QuickBlue.setValueHandler`
 
   @override
-  void writeValue({
+  Future<void> writeValue({
     required String deviceId,
     required String serviceId,
     required String characteristicId,
@@ -101,7 +101,12 @@ class QuickBlueBluetoothRepo implements ScanBlueToothRepository {
     required BleOutputProperty bleOutputProperty,
   }) async =>
       await QuickBlue.writeValue(
-          deviceId, serviceId, characteristicId, value, bleOutputProperty);
+        deviceId,
+        serviceId,
+        characteristicId,
+        value,
+        bleOutputProperty,
+      );
   //* Receive data from peripheral of deviceId
   @override
   void setValueHandler(

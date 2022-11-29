@@ -21,7 +21,9 @@ class BluetoothGridScreenController extends StateNotifier<AsyncValue<void>> {
     );
     logger.i('isUpdate: $isUpdateLabel');
     if (isUpdateLabel != null && isUpdateLabel) {
-      await AsyncValue.guard(() => bluetoothService.updateLabel(bluetooth));
+      state = const AsyncLoading();
+      state =
+          await AsyncValue.guard(() => bluetoothService.updateLabel(bluetooth));
     }
   }
 }

@@ -31,6 +31,7 @@ class BluetoothGrid extends HookConsumerWidget {
           .nextInt(bluetoothList.length >= 7 ? 7 : bluetoothList.length);
     }
     final labelCount = ref.watch(userLabelListCountProvider);
+    final labelCountLimit = ref.watch(labelCountLimitProvider);
     return bluetoothList.isEmpty
         ? Center(
             child: Text(
@@ -51,7 +52,7 @@ class BluetoothGrid extends HookConsumerWidget {
               return !scanning && (index == kAdIndex && !removeAds)
                   ? const NativeAdCard()
                   : BluetoothCard(
-                      onTapLabelEdit: () async => labelCount >= 5
+                      onTapLabelEdit: () async => labelCount >= labelCountLimit
                           ? ref.read(fToastProvider).showToast(
                                 gravity: ToastGravity.CENTER,
                                 child: const ToastContext(

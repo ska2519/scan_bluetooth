@@ -401,6 +401,5 @@ app.*.symbols
 **/remoteconfig.template.json
 
 **/service_account_user.json
-**/**/service_account_user.json
 
 /-t

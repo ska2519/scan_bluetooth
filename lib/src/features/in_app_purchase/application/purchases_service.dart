@@ -267,7 +267,7 @@ class PurchasesService {
         for (final element in subscriptions) {
           _updateStatus(element, ProductStatus.purchasable);
         }
-        _disableSubscriptionFeatures();
+        // _disableSubscriptionFeatures();
       }
       logger.i(
           'PurchasesService hasUpgrade: $hasUpgrade /_removeAdsUpgrade: $_removeAdsUpgrade');

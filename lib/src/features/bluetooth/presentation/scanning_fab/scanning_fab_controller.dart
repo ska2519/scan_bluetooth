@@ -18,7 +18,9 @@ class ScanningFABController extends StateNotifier<AsyncValue<void>> {
     state = const AsyncLoading();
     if (mounted) {
       state = const AsyncData(null);
-      if (!scanning && admobService != null) {
+      if (!scanning &&
+          admobService != null &&
+          !admobService!.disableInterstitialAd) {
         admobService!.showInterstitialAd();
       }
       if (state.hasError == false) {
@@ -39,7 +41,7 @@ final scanningFABControllerProvider =
   logger.i('scanningFABControllerProvider removeAdsUpgrade: $removeAdsUpgrade');
   return ScanningFABController(
     admobService: (Platform.isAndroid || Platform.isIOS) && !removeAdsUpgrade
-        ? ref.read(admobServiceProvider)
+        ? ref.watch(admobServiceProvider)
         : null,
   );
 });

@@ -3,25 +3,39 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../constants/resources.dart';
+import '../../firebase/remote_config.dart';
 import '../data/admob_repository.dart';
 import 'ad_helper.dart';
 
-final admobServiceProvider = Provider<AdmobService>(AdmobService.new);
+final admobServiceProvider = Provider<AdmobService>((ref) {
+  final disableInterstitialAd = ref.watch(disableInterstitialAdProvider);
+  return AdmobService(ref, disableInterstitialAd);
+});
 final adTypeProvider = Provider<ADType>((ref) => throw UnimplementedError());
 
 final interstitialAdProvider = StateProvider<InterstitialAd?>((ref) => null);
 
 class AdmobService {
-  AdmobService(this.ref) {
+  AdmobService(
+    this.ref,
+    this.disableInterstitialAd,
+  ) {
     _init();
   }
   final Ref ref;
+  final bool disableInterstitialAd;
   int _numInterstitialLoadAttempts = 0;
 
   Future<void> _init() async {
-    final admobStatus = await _initAdmob();
-    logger.i('AdmobService _init: ${admobStatus.adapterStatuses.toString()}');
-    _createInterstitialAd();
+    try {
+      final admobStatus = await _initAdmob();
+      logger.i('AdmobService _init: ${admobStatus.adapterStatuses.toString()}');
+      disableInterstitialAd
+          ? ref.read(interstitialAdProvider.notifier).state = null
+          : _createInterstitialAd();
+    } catch (e) {
+      logger.e('AdmobService _init e: $e');
+    }
   }
 
   Future<InitializationStatus> _initAdmob() =>
@@ -84,6 +98,6 @@ class AdmobService {
           logger.i('AdmobService $ad impression occurred.'),
     );
     interstitialAd.show();
-    ref.read(interstitialAdProvider.notifier).update((state) => null);
+    ref.read(interstitialAdProvider.notifier).state = null;
   }
 }

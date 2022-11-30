@@ -135,7 +135,7 @@ class _BluetoothDetailPageState extends ConsumerState<BluetoothDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BLuetooth Detail Page'),
+        title: const Text('Bluetooth Detail Page'),
       ),
       body: SingleChildScrollView(
         child: Padding(

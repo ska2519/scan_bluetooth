@@ -70,16 +70,12 @@ class PurchasesService {
     try {
       final available = await inAppPurchase.isAvailable();
       if (!available) {
-        ref
-            .read(storeStateProvider.notifier)
-            .update((state) => StoreState.notAvailable);
+        ref.read(storeStateProvider.notifier).state = StoreState.notAvailable;
         return;
       }
 
       await fetchPurchasableProduct();
-      ref
-          .read(storeStateProvider.notifier)
-          .update((state) => StoreState.available);
+      ref.read(storeStateProvider.notifier).state = StoreState.available;
     } catch (e) {
       logger.e('_loadPurchases e: $e');
     }
@@ -91,9 +87,7 @@ class PurchasesService {
       logger.i(
           'PurchasesService fetchPurchasableProduct() products.length: ${products.length}');
 
-      ref
-          .read(purchasableproductsProvider.notifier)
-          .update((state) => products);
+      ref.read(purchasableproductsProvider.notifier).state = products;
     } catch (e) {
       logger.e('PurchasesService fetchPurchasableProduct e: $e');
     }
@@ -129,9 +123,7 @@ class PurchasesService {
           logger.i(
               'PurchasesService updatePurchases hasActiveSubscription: $hasActiveSubscription /  hasUpgrade: $hasUpgrade');
           await purchasesUpdate();
-          ref
-              .read(pastPurchaseListProvider.notifier)
-              .update((state) => purchases);
+          ref.read(pastPurchaseListProvider.notifier).state = purchases;
         });
       }
     } catch (e) {
@@ -199,7 +191,7 @@ class PurchasesService {
             // counter.addBoughtDashes(2000);
             break;
           case storeKeyUpgrade:
-            ref.read(removeAdsProvider.notifier).update((state) => true);
+            ref.read(removeAdsProvider.notifier).state = true;
             break;
           case storeKeySubscription1m:
             _enableSubscriptionFeatures();
@@ -228,15 +220,17 @@ class PurchasesService {
   }
 
   void _enableSubscriptionFeatures() {
-    ref.read(removeAdsProvider.notifier).update((state) => true);
-    ref.read(minimumScanIntervalProvider.notifier).update((state) => 0);
-    ref.read(labelLimitCountProvider.notifier).update((state) => 999);
+    ref.read(removeAdsProvider.notifier).state = true;
+    ref.read(minimumScanIntervalProvider.notifier).state = 0;
+    ref.read(labelLimitCountProvider.notifier).state = 999;
   }
 
   void _disableSubscriptionFeatures() {
-    ref.read(removeAdsProvider.notifier).update((state) => false);
-    ref.read(minimumScanIntervalProvider.notifier).update((state) => 4);
-    ref.read(labelLimitCountProvider.notifier).update((state) => 5);
+    ref.read(removeAdsProvider.notifier).state = false;
+    ref.read(minimumScanIntervalProvider.notifier).state =
+        RemoteConfigKeys.minimumScanInterval.value;
+    ref.read(labelLimitCountProvider.notifier).state =
+        RemoteConfigKeys.labelLimitCount.value;
   }
 
   Future<void> purchasesUpdate() async {
@@ -273,14 +267,14 @@ class PurchasesService {
         for (final element in subscriptions) {
           _updateStatus(element, ProductStatus.purchasable);
         }
-        // _disableSubscriptionFeatures();
+        _disableSubscriptionFeatures();
       }
       logger.i(
           'PurchasesService hasUpgrade: $hasUpgrade /_removeAdsUpgrade: $_removeAdsUpgrade');
       // Set the Remove Ads
       if (hasUpgrade != _removeAdsUpgrade) {
         _removeAdsUpgrade = hasUpgrade;
-        ref.read(removeAdsProvider.notifier).update((state) => hasUpgrade);
+        ref.read(removeAdsProvider.notifier).state = hasUpgrade;
 
         for (final element in upgrades) {
           _updateStatus(

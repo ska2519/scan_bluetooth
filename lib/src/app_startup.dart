@@ -94,10 +94,11 @@ class AppStartup {
     );
     appStartupContainer.read(loggerProvider);
     appStartupContainer.read(remoteConfigProvider);
-    if (Platform.isAndroid || Platform.isIOS) {
+    if (Platform.isAndroid) {
+      appStartupContainer.read(admobServiceProvider);
+    } else if (Platform.isAndroid || Platform.isIOS) {
       appStartupContainer.read(presenceUserServiceProvider);
       appStartupContainer.read(purchasesServiceProvider);
-      appStartupContainer.read(admobServiceProvider);
     } else if (Platform.isMacOS) {
       appStartupContainer.read(setWindowSizeProvider);
     }

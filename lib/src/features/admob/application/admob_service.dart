@@ -20,7 +20,10 @@ class AdmobService {
     this.ref,
     this.disableInterstitialAd,
   ) {
-    _init();
+    if (Platform.isAndroid) {
+      //TODO: After release & setting AdMob, update if statement
+      _init();
+    }
   }
   final Ref ref;
   final bool disableInterstitialAd;
@@ -57,14 +60,14 @@ class AdmobService {
           adLoadCallback: InterstitialAdLoadCallback(
             onAdLoaded: (InterstitialAd ad) {
               logger.i('AdmobService InterstitialAd loaded');
-              ref.read(interstitialAdProvider.notifier).update((state) => ad);
+              ref.read(interstitialAdProvider.notifier).state = ad;
               _numInterstitialLoadAttempts = 0;
               ref.read(interstitialAdProvider)?.setImmersiveMode(true);
             },
             onAdFailedToLoad: (LoadAdError error) {
               logger.i('AdmobService InterstitialAd failed to load: $error.');
               _numInterstitialLoadAttempts += 1;
-              ref.read(interstitialAdProvider.notifier).update((state) => null);
+              ref.read(interstitialAdProvider.notifier).state = null;
               if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
                 _createInterstitialAd();
               }

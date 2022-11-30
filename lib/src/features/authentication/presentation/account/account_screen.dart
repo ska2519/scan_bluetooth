@@ -141,15 +141,21 @@ class AccountScreen extends HookConsumerWidget {
                     ),
                   gapH24,
                   if (enablePurchaseScreen)
-                    PrimaryButton(
-                      onPressed: () => context.goNamed(AppRoute.purchase.name),
-                      text: '🔺 Upgrade Features',
-                      style: textTheme.bodyLarge,
-                      radius: 20,
-                      backgroundColor: colorScheme(context).onPrimary,
-                      foregroundColor: AppColors.figmaOrangeColor,
+                    Column(
+                      children: [
+                        PrimaryButton(
+                          onPressed: () =>
+                              context.goNamed(AppRoute.purchase.name),
+                          text: '🔺 Upgrade Features',
+                          style: textTheme.bodyLarge,
+                          radius: 20,
+                          backgroundColor: colorScheme(context).onPrimary,
+                          foregroundColor: AppColors.figmaOrangeColor,
+                        ),
+                        gapH8,
+                      ],
                     ),
-                  gapH4,
+
                   const FruitCount(),
                   gapH24,
                   const LabelScreen(),

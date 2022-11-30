@@ -8,6 +8,7 @@ import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/resources.dart';
 import '../../../../utils/toast_context.dart';
 import '../../../bluetooth/presentation/label/label_screen.dart';
+import '../../../firebase/remote_config.dart';
 import '../../../in_app_purchase/presentation/fruit_count.dart';
 import '../../../presence_user/presentation/user_count_banner.dart';
 import '../../application/auth_service.dart';
@@ -28,6 +29,7 @@ class AccountScreen extends HookConsumerWidget {
     );
 
     final state = ref.watch(accountScreenControllerProvider);
+    final enablePurchaseScreen = ref.watch(enablePurchaseScreenProvider);
     final isLoggedIn = user != null && !user.isAnonymous!;
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
@@ -138,14 +140,15 @@ class AccountScreen extends HookConsumerWidget {
                       ],
                     ),
                   gapH24,
-                  PrimaryButton(
-                    onPressed: () => context.goNamed(AppRoute.purchase.name),
-                    text: '🔺 Upgrade Features',
-                    style: textTheme.bodyLarge,
-                    radius: 20,
-                    backgroundColor: colorScheme(context).onPrimary,
-                    foregroundColor: AppColors.figmaOrangeColor,
-                  ),
+                  if (enablePurchaseScreen)
+                    PrimaryButton(
+                      onPressed: () => context.goNamed(AppRoute.purchase.name),
+                      text: '🔺 Upgrade Features',
+                      style: textTheme.bodyLarge,
+                      radius: 20,
+                      backgroundColor: colorScheme(context).onPrimary,
+                      foregroundColor: AppColors.figmaOrangeColor,
+                    ),
                   gapH4,
                   const FruitCount(),
                   gapH24,

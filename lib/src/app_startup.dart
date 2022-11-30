@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -57,7 +58,8 @@ class AppStartup {
       // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
     }
 
-    // * This code will present some error UI if any uncaught exception happens
+    //* Report uncaught exceptions
+    //* https://firebase.google.com/docs/crashlytics/customize-crash-reports?authuser=0&platform=flutter#report-uncaught-exceptions
     FlutterError.onError = (FlutterErrorDetails details) {
       // * custom error handler in order to see the logs in the console as well.
       if (kReleaseMode && !kIsWeb && crashlytics != null) {
@@ -74,6 +76,21 @@ class AppStartup {
       logger.e(error);
       return true;
     };
+
+    //* Errors outside of Flutter
+    //* https://firebase.google.com/docs/crashlytics/customize-crash-reports?authuser=0&platform=flutter#errors-outside-flutter
+    if (kReleaseMode && crashlytics != null) {
+      Isolate.current.addErrorListener(
+        RawReceivePort((pair) async {
+          final List<dynamic> errorAndStacktrace = pair;
+          await crashlytics.recordError(
+            errorAndStacktrace.first,
+            errorAndStacktrace.last,
+            fatal: true,
+          );
+        }).sendPort,
+      );
+    }
 
     if (kReleaseMode && analytics != null) {
       await analytics.logAppOpen();

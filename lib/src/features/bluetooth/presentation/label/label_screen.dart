@@ -16,8 +16,6 @@ class LabelScreen extends HookConsumerWidget {
       (_, state) => state.showAlertDialogOnError(context),
     );
     final state = ref.watch(labelScreenControllerProvider);
-    logger.i(
-        'ref.watch(userLabelListCountProvider): ${ref.watch(userLabelListCountProvider)}');
     return LoadingStackBody(
       isLoading: state.isLoading,
       child: AsyncValueWidget<List<Label?>>(

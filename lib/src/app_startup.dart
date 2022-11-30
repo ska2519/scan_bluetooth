@@ -19,6 +19,7 @@ import 'exceptions/async_error_logger.dart';
 import 'exceptions/error_logger.dart';
 import 'features/admob/application/ad_helper.dart';
 import 'features/admob/application/admob_service.dart';
+import 'features/firebase/remote_config.dart';
 import 'features/in_app_purchase/application/purchases_service.dart';
 import 'features/presence_user/application/presence_user_service.dart';
 import 'firebase_options.dart';
@@ -87,11 +88,12 @@ class AppStartup {
       overrides: [
         flavorProvider.overrideWithValue(flavor),
         adTypeProvider.overrideWithValue(adType),
-        // sharedPreferencesProvider.overrideWithValue(sharedPreferences),
         packageInfoProvider.overrideWithValue(packageInfo),
+        // sharedPreferencesProvider.overrideWithValue(sharedPreferences),
       ],
     );
     appStartupContainer.read(loggerProvider);
+    appStartupContainer.read(remoteConfigProvider);
     if (Platform.isAndroid || Platform.isIOS) {
       appStartupContainer.read(presenceUserServiceProvider);
       appStartupContainer.read(purchasesServiceProvider);

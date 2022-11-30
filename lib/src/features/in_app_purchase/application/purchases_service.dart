@@ -7,6 +7,7 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../../exceptions/error_logger.dart';
 import '../../authentication/application/auth_service.dart';
 import '../../authentication/domain/app_user.dart';
+import '../../firebase/remote_config.dart';
 import '../constants.dart';
 import '../data/iap_repo.dart';
 import '../domain/past_purchase.dart';
@@ -21,8 +22,11 @@ final purchasableproductsProvider =
     StateProvider<List<PurchasableProduct>>((ref) => []);
 
 final removeAdsProvider = StateProvider<bool>((ref) => false);
-final preventScanTimeProvider = StateProvider<int>((ref) => 4);
-final labelCountLimitProvider = StateProvider<int>((ref) => 5);
+
+final minimumScanIntervalProvider =
+    StateProvider<int>((ref) => RemoteConfigKeys.minimumScanInterval.value);
+final labelLimitCountProvider =
+    StateProvider<int>((ref) => RemoteConfigKeys.labelLimitCount.value);
 
 class PurchasesService {
   PurchasesService(this.ref) {
@@ -225,14 +229,14 @@ class PurchasesService {
 
   void _enableSubscriptionFeatures() {
     ref.read(removeAdsProvider.notifier).update((state) => true);
-    ref.read(preventScanTimeProvider.notifier).update((state) => 0);
-    ref.read(labelCountLimitProvider.notifier).update((state) => 999);
+    ref.read(minimumScanIntervalProvider.notifier).update((state) => 0);
+    ref.read(labelLimitCountProvider.notifier).update((state) => 999);
   }
 
   void _disableSubscriptionFeatures() {
     ref.read(removeAdsProvider.notifier).update((state) => false);
-    ref.read(preventScanTimeProvider.notifier).update((state) => 4);
-    ref.read(labelCountLimitProvider.notifier).update((state) => 5);
+    ref.read(minimumScanIntervalProvider.notifier).update((state) => 4);
+    ref.read(labelLimitCountProvider.notifier).update((state) => 5);
   }
 
   Future<void> purchasesUpdate() async {
@@ -269,7 +273,7 @@ class PurchasesService {
         for (final element in subscriptions) {
           _updateStatus(element, ProductStatus.purchasable);
         }
-        _disableSubscriptionFeatures();
+        // _disableSubscriptionFeatures();
       }
       logger.i(
           'PurchasesService hasUpgrade: $hasUpgrade /_removeAdsUpgrade: $_removeAdsUpgrade');

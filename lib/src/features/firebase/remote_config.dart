@@ -7,7 +7,8 @@ import '../in_app_purchase/application/purchases_service.dart';
 enum RemoteConfigKeys {
   minimumScanInterval('minimumScanInterval', 4),
   labelLimitCount('labelLimitCount', 5),
-  disableInterstitialAd('disableInterstitialAd', false);
+  disableInterstitialAd('disableInterstitialAd', false),
+  enablePurchaseScreen('disableParchaseScreen', false);
 
   const RemoteConfigKeys(this.key, this.value);
   final String key;
@@ -21,6 +22,8 @@ final remoteConfigProvider = Provider<RemoteConfig>(RemoteConfig.new);
 
 final disableInterstitialAdProvider =
     StateProvider<bool>((ref) => RemoteConfigKeys.disableInterstitialAd.value);
+final enablePurchaseScreenProvider =
+    StateProvider<bool>((ref) => RemoteConfigKeys.enablePurchaseScreen.value);
 
 class RemoteConfig {
   RemoteConfig(this.ref) {
@@ -42,11 +45,17 @@ class RemoteConfig {
   }
 
   void activateRemoteConfig() {
-    ref.read(minimumScanIntervalProvider.notifier).state =
-        getMinimumScanInterval();
-    ref.read(labelLimitCountProvider.notifier).state = getLabelLimitCount();
-    ref.read(disableInterstitialAdProvider.notifier).state =
-        getDisableInterstitialAd();
+    try {
+      ref.read(minimumScanIntervalProvider.notifier).state =
+          getMinimumScanInterval();
+      ref.read(labelLimitCountProvider.notifier).state = getLabelLimitCount();
+      ref.read(disableInterstitialAdProvider.notifier).state =
+          getDisableInterstitialAd();
+      ref.read(enablePurchaseScreenProvider.notifier).state =
+          enablePurchaseScreen();
+    } catch (e) {
+      logger.e('activateRemoteConfig _init e: $e');
+    }
   }
 
   int getMinimumScanInterval() =>
@@ -55,6 +64,8 @@ class RemoteConfig {
       _instance.getInt(RemoteConfigKeys.labelLimitCount.key);
   bool getDisableInterstitialAd() =>
       _instance.getBool(RemoteConfigKeys.disableInterstitialAd.key);
+  bool enablePurchaseScreen() =>
+      _instance.getBool(RemoteConfigKeys.enablePurchaseScreen.key);
 
   Future<void> _setConfigSettings() async {
     try {

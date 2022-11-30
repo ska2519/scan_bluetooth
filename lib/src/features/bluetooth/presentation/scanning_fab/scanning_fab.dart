@@ -55,13 +55,13 @@ class ScanningFAB extends HookConsumerWidget {
     return Consumer(
       builder: (context, ref, child) {
         final elapsed = ref.watch(elapsedProvider);
-        final preventScanTime = ref.watch(preventScanTimeProvider);
-        if (elapsed.inSeconds == preventScanTime) {
+        final minimumScanInterval = ref.watch(minimumScanIntervalProvider);
+        if (elapsed.inSeconds == minimumScanInterval) {
           fToast.removeQueuedCustomToasts();
         }
 
         return FloatingActionButton.extended(
-          backgroundColor: elapsed.inSeconds < preventScanTime
+          backgroundColor: elapsed.inSeconds < minimumScanInterval
               ? theme.errorColor
               : !scanning
                   ? theme.primaryColorLight
@@ -69,11 +69,11 @@ class ScanningFAB extends HookConsumerWidget {
           tooltip: 'Search Bluetooth',
           onPressed: state.isLoading
               ? null
-              : scanning && elapsed.inSeconds < preventScanTime
+              : scanning && elapsed.inSeconds < minimumScanInterval
                   ? () => fToast.showToast(
                       gravity: ToastGravity.TOP,
-                      child: const ToastContext(
-                        'Scan minumun time 4s ⌛️',
+                      child: ToastContext(
+                        'Scan minumun time ${ref.read(minimumScanIntervalProvider)}s ⌛️',
                       ))
                   : requestPermissionList != null &&
                           requestPermissionList!.isNotEmpty

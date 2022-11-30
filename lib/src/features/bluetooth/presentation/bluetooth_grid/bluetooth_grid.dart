@@ -32,7 +32,7 @@ class BluetoothGrid extends HookConsumerWidget {
     }
     final labelCount = ref.watch(userLabelListCountProvider);
     final labelLimitCount = ref.watch(labelLimitCountProvider);
-    
+
     return bluetoothList.isEmpty
         ? Center(
             child: Text(
@@ -42,15 +42,17 @@ class BluetoothGrid extends HookConsumerWidget {
           )
         : BluetoothLayoutGrid(
             key: bluetootGridKey,
-            itemCount: !scanning && !removeAds
+            itemCount: Platform.isAndroid && !scanning && !removeAds
                 ? bluetoothList.length + adLength
                 : bluetoothList.length,
             itemBuilder: (_, index) {
-              final i = !scanning && !removeAds
+              final i = Platform.isAndroid && !scanning && !removeAds
                   ? getItemIndex(kAdIndex, index)
                   : index;
-
-              return !scanning && (index == kAdIndex && !removeAds)
+              //TODO: After release & setting AdMob, update Platform.isAndroid &&
+              return Platform.isAndroid &&
+                      !scanning &&
+                      (index == kAdIndex && !removeAds)
                   ? const NativeAdCard()
                   : BluetoothCard(
                       onTapLabelEdit: () async => labelCount >= labelLimitCount

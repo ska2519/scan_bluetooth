@@ -49,17 +49,17 @@ class BluetoothGrid extends HookConsumerWidget {
               final i = Platform.isAndroid && !scanning && !removeAds
                   ? getItemIndex(kAdIndex, index)
                   : index;
-              //TODO: After release & setting AdMob, update Platform.isAndroid &&
+              //TODO: After release & setting AdMob, delete Platform.isAndroid &&
               return Platform.isAndroid &&
                       !scanning &&
                       (index == kAdIndex && !removeAds)
                   ? const NativeAdCard()
                   : BluetoothCard(
-                      onTapLabelEdit: () async => labelCount >= labelLimitCount
+                      onPressed: () async => labelCount >= labelLimitCount
                           ? ref.read(fToastProvider).showToast(
                                 gravity: ToastGravity.CENTER,
                                 child: const ToastContext(
-                                  'Need Support membership to add Labels 🏷',
+                                  'Unlimited labels to Subscribers 🏷',
                                 ),
                               )
                           : await ref

@@ -3,18 +3,18 @@ import '../../../../constants/resources.dart';
 class FloatingIconButton extends StatelessWidget {
   const FloatingIconButton({
     super.key,
-    required this.onTapLabelEdit,
+    required this.onPressed,
     required this.child,
   });
 
-  final VoidCallback? onTapLabelEdit;
+  final VoidCallback? onPressed;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       elevation: 1,
-      onPressed: onTapLabelEdit,
+      onPressed: onPressed,
       backgroundColor: Colors.white,
       foregroundColor: Colors.black87,
       mini: true,

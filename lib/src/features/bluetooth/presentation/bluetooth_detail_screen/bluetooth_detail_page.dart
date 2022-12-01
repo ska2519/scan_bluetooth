@@ -152,7 +152,7 @@ class _BluetoothDetailPageState extends ConsumerState<BluetoothDetailPage> {
                     padding: const EdgeInsets.all(Sizes.p8),
                     child: BluetoothTile(
                       bluetooth: bluetooth,
-                      onTapLabelEdit: () async => await ref
+                      onPressed: () async => await ref
                           .read(bluetoothGridScreenControllerProvider.notifier)
                           .onTapTile(bluetooth, context),
                     ),

@@ -66,7 +66,7 @@ class LabelScreen extends HookConsumerWidget {
                         canDelete: true,
                         bluetooth: bluetooth,
                         index: i,
-                        onTapLabelEdit: () async {
+                        onPressed: () async {
                           logger.i('onTapLabelEdit');
                           await ref
                               .read(labelScreenControllerProvider.notifier)

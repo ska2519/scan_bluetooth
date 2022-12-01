@@ -5,7 +5,7 @@ import 'package:quick_blue/quick_blue.dart';
 import 'quick_blue_bluetooth_repo.dart';
 
 /// API for reading, watching and writing local cart data (guest user)
-abstract class ScanBlueToothRepository {
+abstract class ScanBluetoothRepository {
   Future<bool> isBluetoothAvailable();
   void startScan();
   void stopScan();
@@ -46,7 +46,7 @@ abstract class ScanBlueToothRepository {
 }
 
 final scanBluetoothRepoProvider =
-    Provider<ScanBlueToothRepository>((ref) => QuickBlueBluetoothRepo());
+    Provider<ScanBluetoothRepository>((ref) => QuickBlueBluetoothRepo());
 
 final isBTAvailableProvider = FutureProvider.autoDispose<bool>(
     (ref) => ref.read(scanBluetoothRepoProvider).isBluetoothAvailable());

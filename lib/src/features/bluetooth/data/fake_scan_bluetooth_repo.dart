@@ -6,7 +6,7 @@ import '../../../constants/test_scan_result.dart';
 import '../../../utils/in_memory_store.dart';
 import 'scan_bluetooth_repository.dart';
 
-class FakeScanBluetoothRepo implements ScanBlueToothRepository {
+class FakeScanBluetoothRepo implements ScanBluetoothRepository {
   FakeScanBluetoothRepo({this.addDelay = true});
   final bool addDelay;
 

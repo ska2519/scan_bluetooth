@@ -7,7 +7,7 @@ import 'package:quick_blue/quick_blue.dart';
 import '../../../exceptions/error_logger.dart';
 import 'scan_bluetooth_repository.dart';
 
-class QuickBlueBluetoothRepo implements ScanBlueToothRepository {
+class QuickBlueBluetoothRepo implements ScanBluetoothRepository {
   QuickBlueBluetoothRepo({this.addDelay = true});
   final bool addDelay;
 

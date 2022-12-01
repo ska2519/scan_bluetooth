@@ -16,12 +16,12 @@ class BluetoothTile extends HookConsumerWidget {
     super.key,
     this.index,
     required this.bluetooth,
-    this.onTapLabelEdit,
+    this.onPressed,
   });
 
   final int? index;
   final Bluetooth bluetooth;
-  final VoidCallback? onTapLabelEdit;
+  final VoidCallback? onPressed;
 
   Color? get rssiAnimationColor => bluetooth.previousRssi != null
       ? bluetooth.rssi > bluetooth.previousRssi!
@@ -186,7 +186,7 @@ class BluetoothTile extends HookConsumerWidget {
             ),
           ),
           child: FloatingIconButton(
-            onTapLabelEdit: onTapLabelEdit,
+            onPressed: onPressed,
             child: bluetooth.userLabel != null
                 ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p28)
                 : Assets.svg.icons8AddTag.svg(width: Sizes.p28),

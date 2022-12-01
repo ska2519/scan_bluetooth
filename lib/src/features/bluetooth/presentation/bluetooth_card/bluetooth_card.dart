@@ -8,12 +8,12 @@ class BluetoothCard extends HookConsumerWidget {
   const BluetoothCard({
     required this.bluetooth,
     required this.index,
-    required this.onTapLabelEdit,
+    required this.onPressed,
     this.canDelete = false,
     super.key,
   });
 
-  final VoidCallback onTapLabelEdit;
+  final VoidCallback onPressed;
   final Bluetooth bluetooth;
   final int index;
   final bool canDelete;
@@ -28,7 +28,7 @@ class BluetoothCard extends HookConsumerWidget {
       // pageFlipKey: pageFlipKey,
       index: index,
       bluetooth: bluetooth,
-      onTapLabelEdit: onTapLabelEdit,
+      onPressed: onPressed,
     );
     return SizedBox(
       height: 84,
@@ -73,13 +73,13 @@ class InsideCard extends StatelessWidget {
     // required this.pageFlipKey,
     required this.index,
     required this.bluetooth,
-    required this.onTapLabelEdit,
+    required this.onPressed,
   });
 
   // final GlobalKey<PageFlipBuilderState> pageFlipKey;
   final int index;
   final Bluetooth bluetooth;
-  final VoidCallback onTapLabelEdit;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class InsideCard extends StatelessWidget {
       child: BluetoothTile(
         index: index,
         bluetooth: bluetooth,
-        onTapLabelEdit: onTapLabelEdit,
+        onPressed: onPressed,
       ),
       // PageFlipBuilder(
       //   key: pageFlipKey,

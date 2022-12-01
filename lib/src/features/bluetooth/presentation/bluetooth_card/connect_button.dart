@@ -25,7 +25,7 @@ class ConnectButton extends ConsumerWidget {
         child: Row(
           children: [
             FloatingIconButton(
-              onTapLabelEdit: () => ref
+              onPressed: () => ref
                   .read(scanBluetoothServiceProvider)
                   .connect(bluetooth.deviceId),
               child: connected

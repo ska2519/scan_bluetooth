@@ -26,16 +26,16 @@ const WOODEMI_CHAR__COMMAND_RESPONSE = WOODEMI_CHAR__COMMAND_REQUEST;
 
 const WOODEMI_MTU_WUART = 247;
 
-class BluetoothDetailPage extends StatefulHookConsumerWidget {
-  const BluetoothDetailPage(this.bluetooth);
+class BluetoothDetailScreen extends StatefulHookConsumerWidget {
+  const BluetoothDetailScreen(this.bluetooth);
   final Bluetooth bluetooth;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _BluetoothDetailPageState();
+      _BluetoothDetailScreenState();
 }
 
-class _BluetoothDetailPageState extends ConsumerState<BluetoothDetailPage> {
+class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
   Bluetooth get bluetooth => widget.bluetooth;
   String get deviceId => widget.bluetooth.deviceId;
   bool connected = false;

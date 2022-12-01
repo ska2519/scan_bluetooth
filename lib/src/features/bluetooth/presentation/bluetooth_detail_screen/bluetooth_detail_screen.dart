@@ -41,7 +41,7 @@ class BluetoothDetailScreen extends StatefulHookConsumerWidget {
 class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
   String get deviceId => widget.deviceId;
   bool connected = false;
-  Map<String, List<String>> serviceIdsCharacteristicIds = {};
+  Map<String, List<String>> bluetoothCharacteristcs = {};
   bool isLoading = false;
 
   @override
@@ -84,13 +84,15 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
       ref.read(autoConnectProvider.notifier).state = value;
 
   void handleServiceDiscovery(
-      String deviceId, String serviceId, List<String> characteristicIds) {
-    setState(() =>
-        serviceIdsCharacteristicIds.addAll({serviceId: characteristicIds}));
+      String deviceId, String serviceId, List<String> characteristics) {
+    // bluetoothCharacteristcs.clear();
+    setState(
+        () => bluetoothCharacteristcs.addAll({serviceId: characteristics}));
+    logger.i('handleServiceDiscoverey serviceId: $serviceId');
     logger.i(
-        'handleServiceDiscovery serviceIdsCharacteristicIds: ${serviceIdsCharacteristicIds.toString()}');
+        'handleServiceDiscovery serviceIdsCharacteristicIds: ${characteristics.toString()}');
     logger.i(
-        'handleServiceDiscovery serviceIdsCharacteristicIds.length: ${serviceIdsCharacteristicIds.length}');
+        'handleServiceDiscovery characteristics[0: ${characteristics[0].characters}');
   }
 
   void handleValueChange(
@@ -155,7 +157,7 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
     final bluetooth = ref.watch(bluetoothListProvider
         .select((list) => list.singleWhere((bt) => bt.deviceId == deviceId)));
     final autoConnect = ref.watch(autoConnectProvider);
-    logger.i('selectBluetooth: $bluetooth');
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bluetooth Detail'),
@@ -211,8 +213,8 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
                 onPressed: isLoading ? null : toggleConnect,
               ),
               gapH24,
-              if (serviceIdsCharacteristicIds.isNotEmpty)
-                ...serviceIdsCharacteristicIds.entries.map((e) => Column(
+              if (bluetoothCharacteristcs.isNotEmpty)
+                ...bluetoothCharacteristcs.entries.map((e) => Column(
                       children: [
                         ...e.value.map((characteristicId) => Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -280,7 +282,7 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
               //   ),
               // ),
               gapH16,
-              if (serviceIdsCharacteristicIds.isNotEmpty)
+              if (bluetoothCharacteristcs.isNotEmpty)
                 TextField(
                   controller: binaryCode,
                   decoration: const InputDecoration(

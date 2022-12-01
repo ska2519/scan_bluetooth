@@ -289,7 +289,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" == \"Debug-dev\" ] || [ \"$CONFIGURATION\" == \"Release-dev\" ]; then\n  cp Runner/dev/GoogleService-Info.plist Runner/GoogleService-Info.plist\nelif [ \"$CONFIGURATION\" == \"Debug-prod\" ] || [ \"$CONFIGURATION\" == \"Release-prod\" ]; then\n  cp Runner/prod/GoogleService-Info.plist Runner/GoogleService-Info.plist\nfi\n\n";
+			shellScript = "if [ $CONFIGURATION == \"Debug-prod\" ] || [ $CONFIGURATION == \"Profile-prod\" ] || [ $CONFIGURATION == \"Release-prod\" ]; then\n    echo \"📣 Running Firebase Setup - Copy GoogleService-Info.plist for 'prod' scheme\"\n    cp Runner/prod/GoogleService-Info.plist Runner/GoogleService-Info.plist\nelif [ $CONFIGURATION == \"Debug-dev\" ] || [ $CONFIGURATION == \"Profile-dev\" ] || [ $CONFIGURATION == \"Release-dev\" ]; then\n    echo \"📣 Running Firebase Setup - Copy GoogleService-Info.plist for 'dev' scheme\"\n    cp Runner/dev/GoogleService-Info.plist Runner/GoogleService-Info.plist\nfi\n";
 		};
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -323,7 +323,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" == \"Debug-prod\" ] || [ \"$CONFIGURATION\" == \"Profile-prod\" ] || [ \"$CONFIGURATION\" == \"Release-prod\" ]; then\n  \"$PODS_ROOT/FirebaseCrashlytics/upload-symbols\" --flutter-project \"$PROJECT_DIR/Runner/prod/firebase_app_id_file.json\"\nelse\n    \"$PODS_ROOT/FirebaseCrashlytics/upload-symbols\" --flutter-project \"$PROJECT_DIR/Runner/dev/firebase_app_id_file.json\"\nfi\n\n\n\n\n\n";
+			shellScript = "if [ $CONFIGURATION == \"Debug-prod\" ] || [ $CONFIGURATION == \"Profile-prod\" ] || [ $CONFIGURATION == \"Release-prod\" ];\nthen\n    echo \"📣 Running firebase_crashlytics upload debug symbols script for 'prod' scheme\"\n    PROD_FIREBASE_APPLE_APP_ID=\"1:683927282799:ios:2ac1be06c41aaa01d9999a\"\n    echo \"📣 PROD_FIREBASE_APPLE_APP_ID: $PROD_FIREBASE_APPLE_APP_ID\"\n    $PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase --validate -ai $PROD_FIREBASE_APPLE_APP_ID\n    $PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase -ai $PROD_FIREBASE_APPLE_APP_ID\nelse\n    echo \"📣 Running firebase_crashlytics upload debug symbols script for 'dev' scheme\"\n    DEV_FIREBASE_APPLE_APP_ID=\"1:365566275867:ios:a337e9841a9d3e73f8a3be\"\n    echo \"📣 'DEV_FIREBASE_APPLE_APP_ID: $DEV_FIREBASE_APPLE_APP_ID\"\n    $PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase --validate -ai $DEV_FIREBASE_APPLE_APP_ID\n    $PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase -ai $DEV_FIREBASE_APPLE_APP_ID\nfi\n";
 		};
 		E1AD21E3B4948B0440DA934D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

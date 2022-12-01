@@ -8,7 +8,7 @@ import '../features/authentication/application/auth_service.dart';
 import '../features/authentication/presentation/account/account_screen.dart';
 import '../features/authentication/presentation/profile/profile_screen.dart';
 import '../features/bluetooth/domain/bluetooth.dart';
-import '../features/bluetooth/presentation/bluetooth_detail_screen/bluetooth_detail_page.dart';
+import '../features/bluetooth/presentation/bluetooth_detail_screen/bluetooth_detail_screen.dart';
 import '../features/bluetooth/presentation/bluetooth_screen.dart';
 import '../features/in_app_purchase/presentation/purchase_screen.dart';
 import '../flutter_icons/custom_flutter_icon_icons.dart';
@@ -130,7 +130,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                       name: AppRoute.detail.name,
                       builder: (context, state) {
                         final bluetooth = state.extra as Bluetooth;
-                        return BluetoothDetailPage(bluetooth);
+                        return BluetoothDetailScreen(bluetooth);
                       },
                     ),
                   ],

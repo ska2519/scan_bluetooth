@@ -35,10 +35,11 @@ class BluetoothCard extends HookConsumerWidget {
       child: InkWell(
         onTap: canDelete
             ? null
-            : () => context.pushNamed(
+            : () => context.goNamed(
                   AppRoute.detail.name,
-                  extra: bluetooth,
+                  params: {'deviceId': bluetooth.deviceId},
                 ),
+
         // onTap: () => pageFlipKey.currentState?.flip(),
         child: Card(
           elevation: 0.4,

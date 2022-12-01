@@ -7,7 +7,6 @@ import '../exceptions/error_logger.dart';
 import '../features/authentication/application/auth_service.dart';
 import '../features/authentication/presentation/account/account_screen.dart';
 import '../features/authentication/presentation/profile/profile_screen.dart';
-import '../features/bluetooth/domain/bluetooth.dart';
 import '../features/bluetooth/presentation/bluetooth_detail_screen/bluetooth_detail_screen.dart';
 import '../features/bluetooth/presentation/bluetooth_screen.dart';
 import '../features/in_app_purchase/presentation/purchase_screen.dart';
@@ -126,11 +125,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   ),
                   routes: [
                     GoRoute(
-                      path: 'detail',
+                      path: 'detail:deviceId',
                       name: AppRoute.detail.name,
                       builder: (context, state) {
-                        final bluetooth = state.extra as Bluetooth;
-                        return BluetoothDetailScreen(bluetooth);
+                        final deviceId = state.params['deviceId']!;
+                        return BluetoothDetailScreen(deviceId);
                       },
                     ),
                   ],

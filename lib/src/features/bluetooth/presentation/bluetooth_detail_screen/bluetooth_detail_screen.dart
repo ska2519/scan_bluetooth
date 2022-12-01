@@ -3,13 +3,14 @@
 import 'dart:typed_data';
 
 import 'package:convert/convert.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quick_blue/quick_blue.dart';
 
 import '../../../../constants/resources.dart';
 import '../../../../utils/toast_context.dart';
 import '../../data/scan_bluetooth_repository.dart';
-import '../../domain/bluetooth.dart';
+import '../../domain/bluetooth_list.dart';
 import '../bluetooth_card/bluetooth_tile.dart';
 import '../bluetooth_grid/bluetooth_grid_screen_controller.dart';
 
@@ -26,9 +27,11 @@ const WOODEMI_CHAR__COMMAND_RESPONSE = WOODEMI_CHAR__COMMAND_REQUEST;
 
 const WOODEMI_MTU_WUART = 247;
 
+final autoConnectProvider = StateProvider<bool>((ref) => true);
+
 class BluetoothDetailScreen extends StatefulHookConsumerWidget {
-  const BluetoothDetailScreen(this.bluetooth);
-  final Bluetooth bluetooth;
+  const BluetoothDetailScreen(this.deviceId);
+  final String deviceId;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -36,17 +39,21 @@ class BluetoothDetailScreen extends StatefulHookConsumerWidget {
 }
 
 class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
-  Bluetooth get bluetooth => widget.bluetooth;
-  String get deviceId => widget.bluetooth.deviceId;
+  String get deviceId => widget.deviceId;
   bool connected = false;
-  bool showID = false;
   Map<String, List<String>> serviceIdsCharacteristicIds = {};
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
     QuickBlue.setConnectionHandler(handleConnectionChange);
     QuickBlue.setServiceHandler(handleServiceDiscovery);
     QuickBlue.setValueHandler(handleValueChange);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (ref.watch(autoConnectProvider)) toggleConnect();
+    });
   }
 
   @override
@@ -60,12 +67,21 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
   void handleConnectionChange(String deviceId, BlueConnectionState state) {
     logger.i('handleConnectionChange $deviceId, ${state.value}');
     if (state.value == BlueConnectionState.connected.value) {
-      setState(() => connected = true);
+      setState(() {
+        isLoading = false;
+        connected = true;
+      });
       ref.read(scanBluetoothRepoProvider).discoverServices(deviceId);
     } else if (state.value == BlueConnectionState.disconnected.value) {
-      setState(() => connected = false);
+      setState(() {
+        isLoading = false;
+        connected = false;
+      });
     }
   }
+
+  void toggleAutoConnect(bool value) =>
+      ref.read(autoConnectProvider.notifier).state = value;
 
   void handleServiceDiscovery(
       String deviceId, String serviceId, List<String> characteristicIds) {
@@ -126,6 +142,9 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
   }
 
   void toggleConnect() {
+    setState(() {
+      isLoading = true;
+    });
     return connected
         ? ref.read(scanBluetoothRepoProvider).disconnect(deviceId)
         : ref.read(scanBluetoothRepoProvider).connect(deviceId);
@@ -133,9 +152,19 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bluetooth = ref.watch(bluetoothListProvider
+        .select((list) => list.singleWhere((bt) => bt.deviceId == deviceId)));
+    final autoConnect = ref.watch(autoConnectProvider);
+    logger.i('selectBluetooth: $bluetooth');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bluetooth Detail Page'),
+        title: const Text('Bluetooth Detail'),
+        actions: [
+          Switch(
+            value: autoConnect,
+            onChanged: toggleAutoConnect,
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -162,13 +191,24 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
               gapH24,
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: connected ? Colors.red : Colors.green,
+                  backgroundColor: isLoading
+                      ? Colors.orange
+                      : connected
+                          ? Colors.red
+                          : Colors.green,
                 ),
-                icon: connected
-                    ? Assets.svg.icons8Disconnected.svg(height: 36, width: 36)
-                    : Assets.svg.icons8Connected.svg(height: 36, width: 36),
-                label: Text(connected ? 'Disconnect' : 'Connect'),
-                onPressed: toggleConnect,
+                icon: isLoading
+                    ? const SizedBox()
+                    : connected
+                        ? Assets.svg.icons8Disconnected
+                            .svg(height: 36, width: 36)
+                        : Assets.svg.icons8Connected.svg(height: 36, width: 36),
+                label: isLoading
+                    ? CupertinoActivityIndicator(
+                        color: colorScheme(context).primary,
+                      )
+                    : Text(connected ? 'Disconnect' : 'Connect'),
+                onPressed: isLoading ? null : toggleConnect,
               ),
               gapH24,
               if (serviceIdsCharacteristicIds.isNotEmpty)

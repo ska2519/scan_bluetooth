@@ -5,10 +5,12 @@ import '../../exceptions/error_logger.dart';
 import '../in_app_purchase/application/purchases_service.dart';
 
 enum RemoteConfigKeys {
-  minimumScanInterval('minimumScanInterval', 4),
-  labelLimitCount('labelLimitCount', 5),
+  disabledApp('disabledApp', false),
   disableInterstitialAd('disableInterstitialAd', false),
-  enablePurchaseScreen('disableParchaseScreen', false);
+  enablePurchaseScreen('disableParchaseScreen', false),
+
+  minimumScanInterval('minimumScanInterval', 4),
+  labelLimitCount('labelLimitCount', 5);
 
   const RemoteConfigKeys(this.key, this.value);
   final String key;
@@ -20,6 +22,8 @@ enum RemoteConfigKeys {
 
 final remoteConfigProvider = Provider<RemoteConfig>(RemoteConfig.new);
 
+final disabledAppProvider =
+    StateProvider<bool>((ref) => RemoteConfigKeys.disabledApp.value);
 final disableInterstitialAdProvider =
     StateProvider<bool>((ref) => RemoteConfigKeys.disableInterstitialAd.value);
 final enablePurchaseScreenProvider =
@@ -46,26 +50,29 @@ class RemoteConfig {
 
   void activateRemoteConfig() {
     try {
-      ref.read(minimumScanIntervalProvider.notifier).state =
-          getMinimumScanInterval();
-      ref.read(labelLimitCountProvider.notifier).state = getLabelLimitCount();
+      ref.read(disabledAppProvider.notifier).state = getDisabledApp();
       ref.read(disableInterstitialAdProvider.notifier).state =
           getDisableInterstitialAd();
       ref.read(enablePurchaseScreenProvider.notifier).state =
           enablePurchaseScreen();
+      ref.read(minimumScanIntervalProvider.notifier).state =
+          getMinimumScanInterval();
+      ref.read(labelLimitCountProvider.notifier).state = getLabelLimitCount();
     } catch (e) {
       logger.e('activateRemoteConfig _init e: $e');
     }
   }
 
-  int getMinimumScanInterval() =>
-      _instance.getInt(RemoteConfigKeys.minimumScanInterval.key);
-  int getLabelLimitCount() =>
-      _instance.getInt(RemoteConfigKeys.labelLimitCount.key);
+  bool getDisabledApp() => _instance.getBool(RemoteConfigKeys.disabledApp.key);
   bool getDisableInterstitialAd() =>
       _instance.getBool(RemoteConfigKeys.disableInterstitialAd.key);
   bool enablePurchaseScreen() =>
       _instance.getBool(RemoteConfigKeys.enablePurchaseScreen.key);
+
+  int getMinimumScanInterval() =>
+      _instance.getInt(RemoteConfigKeys.minimumScanInterval.key);
+  int getLabelLimitCount() =>
+      _instance.getInt(RemoteConfigKeys.labelLimitCount.key);
 
   Future<void> _setConfigSettings() async {
     try {

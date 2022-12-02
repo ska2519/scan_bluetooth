@@ -9,6 +9,7 @@ import '../features/authentication/presentation/account/account_screen.dart';
 import '../features/authentication/presentation/profile/profile_screen.dart';
 import '../features/bluetooth/presentation/bluetooth_detail_screen/bluetooth_detail_screen.dart';
 import '../features/bluetooth/presentation/bluetooth_screen.dart';
+import '../features/firebase/remote_config.dart';
 import '../features/in_app_purchase/presentation/purchase_screen.dart';
 import '../flutter_icons/custom_flutter_icon_icons.dart';
 import 'home_screen.dart';
@@ -23,6 +24,7 @@ enum AppRoute {
   purchase,
   community,
   detail,
+  disabledApp,
   // signIn,
 }
 
@@ -60,12 +62,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   ];
 
   final user = ref.watch(authStateChangesProvider).value;
+  final disabledApp = ref.watch(disabledAppProvider);
 
   logger.i('GoRouter tempLocaion: $tempLocaion');
   return GoRouter(
     initialLocation:
         tempLocaion.isNotEmpty ? tempLocaion : (kIsWeb ? '/' : '/bluetooth'),
     redirect: (context, state) {
+      if (disabledApp) {
+        return '/disabledApp';
+      }
       var isLoggedIn =
           user != null && user.isAnonymous != null && !user.isAnonymous!;
       if (user != null) {

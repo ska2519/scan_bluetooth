@@ -25,9 +25,10 @@ class ConnectButton extends ConsumerWidget {
         child: Row(
           children: [
             FloatingIconButton(
-              onPressed: () => ref
-                  .read(scanBluetoothServiceProvider)
-                  .connect(bluetooth.deviceId),
+              onPressed: null,
+              // onPressed: () => ref
+              //     .read(scanBluetoothServiceProvider)
+              //     .connect(),
               child: connected
                   ? Assets.svg.icons8Disconnected.svg(width: Sizes.p28)
                   : Assets.svg.icons8Connected.svg(width: Sizes.p28),

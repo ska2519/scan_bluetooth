@@ -1,17 +1,12 @@
 import 'dart:math';
 
-import 'package:fluttertoast/fluttertoast.dart';
-
 import '../../../../constants/resources.dart';
 import '../../../../utils/destination_item_index.dart';
-import '../../../../utils/toast_context.dart';
 import '../../../admob/presentation/native_ad_card.dart';
 import '../../../in_app_purchase/application/purchases_service.dart';
 import '../../application/bluetooth_service.dart';
 import '../../domain/bluetooth_list.dart';
-import '../bluetooth_card/bluetooth_card.dart';
 import '../scanning_fab/scanning_fab_controller.dart';
-import 'bluetooth_grid_screen_controller.dart';
 import 'bluetooth_layout_grid.dart';
 
 class BluetoothGrid extends HookConsumerWidget {
@@ -54,21 +49,22 @@ class BluetoothGrid extends HookConsumerWidget {
                       !scanning &&
                       (index == kAdIndex && !removeAds)
                   ? const NativeAdCard()
-                  : BluetoothCard(
-                      onPressed: () async => labelCount >= labelLimitCount
-                          ? ref.read(fToastProvider).showToast(
-                                gravity: ToastGravity.CENTER,
-                                child: const ToastContext(
-                                  'Unlimited labels to Subscribers 🏷',
-                                ),
-                              )
-                          : await ref
-                              .read(bluetoothGridScreenControllerProvider
-                                  .notifier)
-                              .onTapTile(bluetoothList[i], context),
-                      bluetooth: bluetoothList[i],
-                      index: i,
-                    );
+                  : Text('BluetoothCard $i');
+              // BluetoothCard(
+              //     onPressed: () async => labelCount >= labelLimitCount
+              //         ? ref.read(fToastProvider).showToast(
+              //               gravity: ToastGravity.CENTER,
+              //               child: const ToastContext(
+              //                 'Unlimited labels to Subscribers 🏷',
+              //               ),
+              //             )
+              //         : await ref
+              //             .read(bluetoothGridScreenControllerProvider
+              //                 .notifier)
+              //             .onTapTile(bluetoothList[i], context),
+              //     bluetooth: bluetoothList[i],
+              //     index: i,
+              //   );
             },
           );
   }

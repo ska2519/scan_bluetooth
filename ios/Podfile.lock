@@ -783,6 +783,12 @@ PODS:
     - FirebaseCoreExtension (~> 10.0)
     - GTMSessionFetcher/Core (< 4.0, >= 2.1)
   - Flutter (1.0.0)
+  - flutter_blue_plus (0.0.1):
+    - Flutter
+    - flutter_blue_plus/Protos (= 0.0.1)
+  - flutter_blue_plus/Protos (0.0.1):
+    - Flutter
+    - Protobuf (~> 3.11)
   - flutter_native_splash (0.0.1):
     - Flutter
   - fluttertoast (0.0.2):
@@ -929,6 +935,7 @@ PODS:
   - permission_handler_apple (9.0.4):
     - Flutter
   - PromisesObjC (2.1.1)
+  - Protobuf (3.21.9)
   - quick_blue (0.0.1):
     - Flutter
   - share_plus (0.0.1):
@@ -957,6 +964,7 @@ DEPENDENCIES:
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
+  - flutter_blue_plus (from `.symlinks/plugins/flutter_blue_plus/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - google_mobile_ads (from `.symlinks/plugins/google_mobile_ads/ios`)
@@ -1014,6 +1022,7 @@ SPEC REPOS:
     - Libuv-gRPC
     - nanopb
     - PromisesObjC
+    - Protobuf
     - Toast
 
 EXTERNAL SOURCES:
@@ -1041,6 +1050,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
     :path: Flutter
+  flutter_blue_plus:
+    :path: ".symlinks/plugins/flutter_blue_plus/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   fluttertoast:
@@ -1110,6 +1121,7 @@ SPEC CHECKSUMS:
   FirebaseSharedSwift: a160b39d4ce77be922b3d6ff009099c7294e36e5
   FirebaseStorage: e7b3fdc90b579cda35e5a0e4c6b206325766e75a
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_blue_plus: 6787777145d615de01828f3a9fa423c3c702f0b3
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   fluttertoast: 74526702fea2c060ea55dde75895b7e1bde1c86b
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
@@ -1135,6 +1147,7 @@ SPEC CHECKSUMS:
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
+  Protobuf: 02524ec14183fe08fb259741659e79683788158b
   quick_blue: 3786c0eccb373bf9799ec1b42f495f77199a4e7e
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad

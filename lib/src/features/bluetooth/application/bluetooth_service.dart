@@ -113,8 +113,8 @@ final userLabelListStreamProvider = StreamProvider<List<Label?>>((ref) {
   return labelListStream;
 });
 
-final userLabelCountProvider = Provider.autoDispose<int>((ref) => ref
-    .watch(bluetoothListProvider)
-    .where((bluetooth) => bluetooth.userLabel != null)
-    .toList()
-    .length);
+// final userLabelCountProvider = Provider.autoDispose<int>((ref) => ref
+//     .watch(bluetoothListProvider)
+//     .where((bluetooth) => bluetooth.userLabel != null)
+//     .toList()
+//     .length);

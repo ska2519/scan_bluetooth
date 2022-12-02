@@ -6,14 +6,14 @@ class UserLabelCount extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final labelList = ref.watch(userLabelListCountProvider);
-    final userLabelCount = ref.watch(userLabelCountProvider);
+    // final userLabelCount = ref.watch(userLabelCountProvider);
     return Chip(
       label: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Assets.svg.icons8Tag.svg(width: Sizes.p20),
           gapW4,
-          Text('Label ($userLabelCount/$labelList)'),
+          // Text('Label ($userLabelCount/$labelList)'),
         ],
       ),
     );

@@ -4,14 +4,15 @@ import 'dart:io';
 import 'package:flutter/scheduler.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../exceptions/error_logger.dart';
-import '../../../utils/current_date_provider.dart';
 import '../data/scan_bluetooth_repository.dart';
 import '../domain/bluetooth.dart';
 import '../presentation/scanning_fab/scanning_fab_controller.dart';
 
-final scanBluetoothStreamProvider = StreamProvider<Bluetooth?>(
-    (ref) => ref.watch(scanBluetoothServiceProvider).scanBluetoothStream());
+// final scanBluetoothListStreamProvider = StreamProvider<List<Bluetooth>>(
+//     (ref) => ref.watch(scanBluetoothServiceProvider).scanBluetoothListStream());
+
+// final scanBluetoothStreamProvider = StreamProvider<Bluetooth?>(
+//     (ref) => ref.watch(scanBluetoothServiceProvider).scanBluetoothStream());
 
 final scanBluetoothServiceProvider =
     Provider<ScanBluetoothService>(ScanBluetoothService.new);
@@ -19,7 +20,7 @@ final scanBluetoothServiceProvider =
 class ScanBluetoothService {
   ScanBluetoothService(this.ref);
   final Ref ref;
-  late final scanBluetoothRepo = ref.read(scanBluetoothRepoProvider);
+  // late final scanBluetoothRepo = ref.read(scanBluetoothRepoProvider);
 
   int rssiCalculate(int rssi) => (120 - rssi.abs());
 
@@ -40,33 +41,54 @@ class ScanBluetoothService {
 
   void toggleStopWatch(bool scanning) => ref.read(stopWatchProvider(scanning));
 
-  Stream<Bluetooth?> scanBluetoothStream() {
-    Bluetooth? scanBluetooth;
-    try {
-      ref.watch(scanResultStreamProvider).whenData((bluetooth) {
-        scanBluetooth = Bluetooth(
-          deviceId: bluetooth.deviceId,
-          manufacturerData: bluetooth.manufacturerData,
-          manufacturerDataHead: bluetooth.manufacturerDataHead,
-          name: bluetooth.name,
-          rssi: bluetooth.rssi,
-          scannedAt: ref.watch(currentDateBuilderProvider).call(),
-        );
-      });
-    } catch (e) {
-      logger.i('ScanBluetoothService scanBluetoothStream e: $e');
-    }
-    return Stream.value(scanBluetooth);
-  }
+  // Stream<List<Bluetooth>> scanBluetoothListStream() {
+  //   var scanList = <Bluetooth>[];
+  //   try {
+  //     ref.watch(scanResultListStreamProvider).whenData((scanList) {
+  //       logger.i('ScanBluetoothService scanList: $scanList');
+
+  //       // scanBluetooth = Bluetooth(
+  //       //   deviceId: bluetooth.deviceId,
+  //       //   manufacturerData: bluetooth.manufacturerData,
+  //       //   manufacturerDataHead: bluetooth.manufacturerDataHead,
+  //       //   name: bluetooth.name,
+  //       //   rssi: bluetooth.rssi,
+  //       //   scannedAt: ref.watch(currentDateBuilderProvider).call(),
+  //       // );
+  //     });
+  //   } catch (e) {
+  //     logger.e('ScanBluetoothService scanBluetoothListStream e: $e');
+  //   }
+  //   return Stream.value(scanList);
+  // }
+
+  // Stream<Bluetooth?> scanBluetoothStream() {
+  //   Bluetooth? scanBluetooth;
+  //   try {
+  //     ref.watch(scanResultStreamProvider).whenData((bluetooth) {
+  //       scanBluetooth = Bluetooth(
+  //         deviceId: bluetooth.deviceId,
+  //         manufacturerData: bluetooth.manufacturerData,
+  //         manufacturerDataHead: bluetooth.manufacturerDataHead,
+  //         name: bluetooth.name,
+  //         rssi: bluetooth.rssi,
+  //         scannedAt: ref.watch(currentDateBuilderProvider).call(),
+  //       );
+  //     });
+  //   } catch (e) {
+  //     logger.i('ScanBluetoothService scanBluetoothStream e: $e');
+  //   }
+  //   return Stream.value(scanBluetooth);
+  // }
 
   void submitScanning(bool scanning) => (scanning) ? startScan() : stopScan();
 
-  void connect(String deviceId) => scanBluetoothRepo.connect(deviceId);
+  // void connect(String deviceId) => scanBluetoothRepo.connect();
 
-  void disconnect(String deviceId) => scanBluetoothRepo.disconnect(deviceId);
+  // void disconnect(String deviceId) => scanBluetoothRepo.disconnect();
 
-  void discoverServices(String deviceId) =>
-      scanBluetoothRepo.discoverServices(deviceId);
+  // void discoverServices(String deviceId) =>
+  //     scanBluetoothRepo.discoverServices(deviceId);
 
   //!! ExmapleData 사용 시 주석 해제
   // ref.read(bluetoothListProvider.notifier).state =

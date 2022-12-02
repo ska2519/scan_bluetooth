@@ -19,7 +19,7 @@ class BluetoothDetailTile extends HookConsumerWidget {
     void handleConnectionChange(String deviceId, BlueConnectionState state) {
       logger.i('handleConnectionChange $deviceId, ${state.value}');
       if (state.value == BlueConnectionState.connected.value) {
-        ref.read(scanBluetoothRepoProvider).discoverServices(deviceId);
+        // ref.read(scanBluetoothRepoProvider).discoverServices(deviceId);
       }
     }
 

@@ -9,7 +9,6 @@ import 'package:quick_blue/quick_blue.dart';
 
 import '../../../../constants/resources.dart';
 import '../../../../utils/toast_context.dart';
-import '../../data/scan_bluetooth_repository.dart';
 import '../../domain/bluetooth_list.dart';
 import '../bluetooth_card/bluetooth_tile.dart';
 import '../bluetooth_grid/bluetooth_grid_screen_controller.dart';
@@ -52,7 +51,7 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
     QuickBlue.setValueHandler(handleValueChange);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (ref.watch(autoConnectProvider)) toggleConnect();
+      // if (ref.watch(autoConnectProvider)) toggleConnect();
     });
   }
 
@@ -71,7 +70,7 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
         isLoading = false;
         connected = true;
       });
-      ref.read(scanBluetoothRepoProvider).discoverServices(deviceId);
+      // ref.read(scanBluetoothRepoProvider).discoverServices(deviceId);
     } else if (state.value == BlueConnectionState.disconnected.value) {
       setState(() {
         isLoading = false;
@@ -109,53 +108,53 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
   final binaryCode = TextEditingController(
       text: hex.encode([0x01, 0x0A, 0x00, 0x00, 0x00, 0x01]));
 
-  Future<void> sendValue({
-    required String serviceId,
-    required String characteristicId,
-    required TextEditingController binaryCode,
-  }) async {
-    try {
-      final value = Uint8List.fromList(hex.decode(binaryCode.text));
-      await ref.read(scanBluetoothRepoProvider).writeValue(
-            deviceId: deviceId,
-            serviceId: serviceId, //serviceUUID.text,
-            characteristicId: characteristicId, //characteristicUUID.text,
-            value: value,
-            bleOutputProperty: BleOutputProperty.withResponse,
-          );
-    } catch (e) {
-      logger.e('writeValue e: $e');
-    }
-  }
+  // Future<void> sendValue({
+  //   required String serviceId,
+  //   required String characteristicId,
+  //   required TextEditingController binaryCode,
+  // }) async {
+  //   try {
+  //     final value = Uint8List.fromList(hex.decode(binaryCode.text));
+  //     await ref.read(scanBluetoothRepoProvider).writeValue(
+  //           deviceId: deviceId,
+  //           serviceId: serviceId, //serviceUUID.text,
+  //           characteristicId: characteristicId, //characteristicUUID.text,
+  //           value: value,
+  //           bleOutputProperty: BleOutputProperty.withResponse,
+  //         );
+  //   } catch (e) {
+  //     logger.e('writeValue e: $e');
+  //   }
+  // }
 
-  Future<void> readValue({
-    required String serviceId,
-    required String characteristicId,
-  }) async {
-    try {
-      await ref.read(scanBluetoothRepoProvider).readValue(
-          deviceId: deviceId,
-          serviceId: serviceId, //GSS_SERV__BATTERY,
-          characteristic: characteristicId // GSS_CHAR__BATTERY_LEVEL,
-          );
-    } catch (e) {
-      logger.e('readValue e: $e');
-    }
-  }
+  // Future<void> readValue({
+  //   required String serviceId,
+  //   required String characteristicId,
+  // }) async {
+  //   try {
+  //     await ref.read(scanBluetoothRepoProvider).readValue(
+  //         deviceId: deviceId,
+  //         serviceId: serviceId, //GSS_SERV__BATTERY,
+  //         characteristic: characteristicId // GSS_CHAR__BATTERY_LEVEL,
+  //         );
+  //   } catch (e) {
+  //     logger.e('readValue e: $e');
+  //   }
+  // }
 
   void toggleConnect() {
-    setState(() {
-      isLoading = true;
-    });
-    return connected
-        ? ref.read(scanBluetoothRepoProvider).disconnect(deviceId)
-        : ref.read(scanBluetoothRepoProvider).connect(deviceId);
+    // setState(() {
+    //   isLoading = true;
+    // });
+    // return connected
+    //     ? ref.read(scanBluetoothRepoProvider).disconnect(deviceId)
+    //     : ref.read(scanBluetoothRepoProvider).connect(deviceId);
   }
 
   @override
   Widget build(BuildContext context) {
-    final bluetooth = ref.watch(bluetoothListProvider
-        .select((list) => list.singleWhere((bt) => bt.deviceId == deviceId)));
+    final bluetooth = ref.watch(bluetoothListProvider.select(
+        (list) => list.singleWhere((bt) => bt.device.id.id == deviceId)));
     final autoConnect = ref.watch(autoConnectProvider);
 
     return Scaffold(
@@ -175,18 +174,19 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 84,
                 child: Card(
                   elevation: 0.4,
                   child: Padding(
-                    padding: const EdgeInsets.all(Sizes.p8),
-                    child: BluetoothTile(
-                      bluetooth: bluetooth,
-                      onPressed: () async => await ref
-                          .read(bluetoothGridScreenControllerProvider.notifier)
-                          .onTapTile(bluetooth, context),
-                    ),
+                    padding: EdgeInsets.all(Sizes.p8),
+                    // child:
+                    // BluetoothTile(
+                    //   bluetooth: bluetooth,
+                    //   onPressed: () async => await ref
+                    //       .read(bluetoothGridScreenControllerProvider.notifier)
+                    //       .onTapTile(bluetooth, context),
+                    // ),
                   ),
                 ),
               ),

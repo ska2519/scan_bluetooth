@@ -54,7 +54,7 @@ class BluetoothService {
           .read(bluetoothRepoProvider)
           .fetchBluetooth(deviceId: bluetooth.deviceId);
     } catch (e) {
-      logger.i('fetchBluetooth e: $e');
+      logger.e('fetchBluetooth e: $e');
     }
     return null;
   }
@@ -83,16 +83,13 @@ class BluetoothService {
         await ref.read(bluetoothRepoProvider).setBluetooth(
               bluetooth: bluetooth.copyWith(firstUpdatedLabel: label),
             );
-      } else {
-        label = _stateLabel(bluetooth.copyWith(), user);
-      }
-
+      } else {}
       await ref.read(bluetoothRepoProvider).setLabel(
             deviceId: bluetooth.deviceId,
             label: label,
           );
     } catch (e) {
-      logger.i('updateLabel e: ${e.toString()}');
+      logger.e('updateLabel e: $e');
     }
   }
 

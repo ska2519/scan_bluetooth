@@ -7,6 +7,33 @@ import '../domain/bluetooth_list.dart';
 import '../domain/label.dart';
 import '../presentation/label/label_dialog.dart';
 
+final userLabelListCountProvider = StateProvider<int>((ref) => 0);
+
+final userLabelListStreamProvider = StreamProvider<List<Label?>>((ref) {
+  final bluetoothRepo = ref.read(bluetoothRepoProvider);
+  final user = ref.watch(authStateChangesProvider).value;
+
+  if (user == null) return const Stream<List<Label?>>.empty();
+
+  final labelListStream = bluetoothRepo.labelsStream(user.uid);
+
+  labelListStream.listen((labelList) =>
+      ref.read(userLabelListCountProvider.notifier).state = labelList.length);
+  return labelListStream;
+});
+
+final userLabelCountProvider = Provider.autoDispose<int>((ref) {
+  var length = 0;
+  if (ref.watch(bluetoothListProvider).isNotEmpty) {
+    length = ref
+        .read(bluetoothListProvider)
+        .where((bluetooth) => bluetooth.userLabel != null)
+        .toList()
+        .length;
+  }
+  return length;
+});
+
 final bluetoothServiceProvider =
     Provider<BluetoothService>(BluetoothService.new);
 
@@ -18,7 +45,6 @@ class BluetoothService {
   late final TextEditingController textEditingCtr;
 
   void _init() {
-    logger.i('BluetoothService _init');
     textEditingCtr = TextEditingController();
   }
 
@@ -50,16 +76,15 @@ class BluetoothService {
             );
         return;
       }
-      final fetchBluetooth = await featchBluetooth(bluetooth);
 
       var label = _stateLabel(bluetooth, user);
+      final fetchBluetooth = await featchBluetooth(bluetooth);
       if (fetchBluetooth == null) {
         await ref.read(bluetoothRepoProvider).setBluetooth(
               bluetooth: bluetooth.copyWith(firstUpdatedLabel: label),
             );
       } else {
-        label = _stateLabel(
-            bluetooth.copyWith(labelCount: fetchBluetooth.labelCount), user);
+        label = _stateLabel(bluetooth.copyWith(), user);
       }
 
       await ref.read(bluetoothRepoProvider).setLabel(
@@ -98,23 +123,3 @@ class BluetoothService {
       .read(bluetoothRepoProvider)
       .deleteLabel(deviceId: bluetooth.deviceId, uid: bluetooth.userLabel!.uid);
 }
-
-final userLabelListCountProvider = StateProvider<int>((ref) => 0);
-
-final userLabelListStreamProvider = StreamProvider<List<Label?>>((ref) {
-  final bluetoothRepo = ref.read(bluetoothRepoProvider);
-  final user = ref.watch(authStateChangesProvider).value;
-
-  if (user == null) return const Stream<List<Label?>>.empty();
-
-  final labelListStream = bluetoothRepo.labelsStream(user.uid);
-  labelListStream.listen((event) =>
-      ref.read(userLabelListCountProvider.notifier).state = event.length);
-  return labelListStream;
-});
-
-// final userLabelCountProvider = Provider.autoDispose<int>((ref) => ref
-//     .watch(bluetoothListProvider)
-//     .where((bluetooth) => bluetooth.userLabel != null)
-//     .toList()
-//     .length);

@@ -153,8 +153,8 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bluetooth = ref.watch(bluetoothListProvider.select(
-        (list) => list.singleWhere((bt) => bt.device.id.id == deviceId)));
+    final bluetooth = ref.watch(bluetoothListProvider
+        .select((list) => list.singleWhere((bt) => bt.deviceId == deviceId)));
     final autoConnect = ref.watch(autoConnectProvider);
 
     return Scaffold(
@@ -174,19 +174,18 @@ class _BluetoothDetailScreenState extends ConsumerState<BluetoothDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(
+              SizedBox(
                 height: 84,
                 child: Card(
                   elevation: 0.4,
                   child: Padding(
-                    padding: EdgeInsets.all(Sizes.p8),
-                    // child:
-                    // BluetoothTile(
-                    //   bluetooth: bluetooth,
-                    //   onPressed: () async => await ref
-                    //       .read(bluetoothGridScreenControllerProvider.notifier)
-                    //       .onTapTile(bluetooth, context),
-                    // ),
+                    padding: const EdgeInsets.all(Sizes.p8),
+                    child: BluetoothTile(
+                      bluetooth: bluetooth,
+                      onPressed: () async => await ref
+                          .read(bluetoothGridScreenControllerProvider.notifier)
+                          .onTapTile(bluetooth, context),
+                    ),
                   ),
                 ),
               ),

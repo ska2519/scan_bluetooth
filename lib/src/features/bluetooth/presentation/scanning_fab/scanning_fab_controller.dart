@@ -1,15 +1,19 @@
 import 'dart:io';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../../../exceptions/error_logger.dart';
 import '../../../admob/application/admob_service.dart';
 import '../../../in_app_purchase/application/purchases_service.dart';
+import '../../application/scan_bluetooth_service.dart';
+import '../../domain/bluetooth_list.dart';
 
 class ScanningFABController extends StateNotifier<AsyncValue<void>> {
-  ScanningFABController({
+  ScanningFABController(
+    this.ref, {
     this.admobService,
   }) : super(const AsyncData(null));
+
   final AdmobService? admobService;
+  final Ref ref;
 
   Future<void> showInterstitialAd(
     bool scanning, {
@@ -30,16 +34,37 @@ class ScanningFABController extends StateNotifier<AsyncValue<void>> {
       if (onSuccess != null) onSuccess();
     }
   }
+
+  Future<void> submit(bool scanning) async {
+    if (scanning) {
+      ref.invalidate(tempBluetoothListProvider);
+      ref.read(bluetoothListProvider.notifier).removeAll();
+    } else {
+      await ref
+          .read(scanningFABControllerProvider.notifier)
+          .showInterstitialAd(scanning);
+      ref.read(tempBluetoothListProvider.notifier).state =
+          ref.read(bluetoothListProvider);
+    }
+    ref.read(scanningProvider.notifier).state = scanning;
+    ref.read(scanBluetoothServiceProvider).submitScanning(scanning);
+  }
 }
 
-final scanFABStateProvider = StateProvider<bool>((ref) => false);
+final scanningProvider = StateProvider<bool>((ref) => false);
 
 final scanningFABControllerProvider =
     StateNotifierProvider.autoDispose<ScanningFABController, AsyncValue<void>>(
         (ref) {
   final removeAdsUpgrade = ref.watch(removeAdsProvider);
-  logger.i('scanningFABControllerProvider removeAdsUpgrade: $removeAdsUpgrade');
+
+  ref.onDispose(() {
+    ref.read(tempBluetoothListProvider.notifier).state =
+        ref.read(bluetoothListProvider);
+    ref.read(scanningProvider.notifier).state = false;
+  });
   return ScanningFABController(
+    ref,
     admobService: (Platform.isAndroid || Platform.isIOS) && !removeAdsUpgrade
         ? ref.watch(admobServiceProvider)
         : null,

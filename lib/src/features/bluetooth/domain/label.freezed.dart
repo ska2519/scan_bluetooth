@@ -23,10 +23,7 @@ mixin _$Label {
   Bluetooth get bluetooth => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
-  AppUser get user =>
-      throw _privateConstructorUsedError; // required String bluetoothName,
-// required String deviceId,
-// required int rssi,
+  AppUser get user => throw _privateConstructorUsedError;
   String? get documentId => throw _privateConstructorUsedError;
   @TimestampNullableConverter()
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -219,9 +216,6 @@ class _$_Label implements _Label {
   final String uid;
   @override
   final AppUser user;
-// required String bluetoothName,
-// required String deviceId,
-// required int rssi,
   @override
   final String? documentId;
   @override
@@ -292,9 +286,7 @@ abstract class _Label implements Label {
   String get uid;
   @override
   AppUser get user;
-  @override // required String bluetoothName,
-// required String deviceId,
-// required int rssi,
+  @override
   String? get documentId;
   @override
   @TimestampNullableConverter()

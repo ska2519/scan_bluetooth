@@ -45,7 +45,7 @@ class BluetoothTile extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scanning = ref.watch(scanFABStateProvider);
+    final scanning = ref.watch(scanningProvider);
     final showID = useState<bool>(false);
     final controller = useAnimationController(
       duration: const Duration(seconds: 1),
@@ -96,7 +96,7 @@ class BluetoothTile extends HookConsumerWidget {
                     padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: scanning ? animationColor : null,
+                      color: scanning ? animationColor : rssiAnimationColor,
                     ),
                     child: Tooltip(
                       message: 'SIGNAL',
@@ -163,7 +163,7 @@ class BluetoothTile extends HookConsumerWidget {
                     ),
                     gapW24,
                     // if (bluetooth.userLabel != null)
-                    //   Text(bluetooth.userLabel.labelCount.toString()),
+                    //   Text(bluetooth.userLabel!.labelCount.toString()),
                   ],
                 ),
               ],
@@ -179,12 +179,12 @@ class BluetoothTile extends HookConsumerWidget {
           elevation: 1,
           badgeColor: theme.colorScheme.primaryContainer,
           position: BadgePosition.bottomEnd(bottom: 0, end: 0),
-          badgeContent: Text(
-            bluetooth.labelCount > 0 ? bluetooth.labelCount.toString() : '',
-            style: textTheme.caption!.copyWith(
-              color: theme.colorScheme.onPrimaryContainer,
-            ),
-          ),
+          // badgeContent: Text(
+          //   scanResult.labelCount > 0 ? bluetooth.labelCount.toString() : '',
+          //   style: textTheme.caption!.copyWith(
+          //     color: theme.colorScheme.onPrimaryContainer,
+          //   ),
+          // ),
           child: FloatingIconButton(
             onPressed: onPressed,
             child: bluetooth.userLabel != null

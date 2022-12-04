@@ -1,6 +1,5 @@
 import '../../../../constants/resources.dart';
 import '../../../../utils/toast_context.dart';
-import '../../application/bluetooth_service.dart';
 import '../../domain/bluetooth.dart';
 import 'bluetooth_tile.dart';
 
@@ -21,6 +20,7 @@ class BluetoothCard extends HookConsumerWidget {
   // * Keys for testing using find.byKey()
   static const bluetoothCardKey = Key('bluetooth-card');
 
+  String get deviceId => bluetooth.deviceId;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final pageFlipKey = useMemoized(GlobalKey<PageFlipBuilderState>.new);
@@ -37,7 +37,7 @@ class BluetoothCard extends HookConsumerWidget {
             ? null
             : () => context.goNamed(
                   AppRoute.detail.name,
-                  params: {'deviceId': bluetooth.deviceId},
+                  params: {'deviceId': deviceId},
                 ),
 
         // onTap: () => pageFlipKey.currentState?.flip(),
@@ -46,9 +46,9 @@ class BluetoothCard extends HookConsumerWidget {
           child: canDelete
               ? Dismissible(
                   direction: DismissDirection.endToStart,
-                  key: Key(bluetooth.deviceId),
+                  key: Key(deviceId),
                   onDismissed: (direction) {
-                    ref.read(bluetoothServiceProvider).deleteLabel(bluetooth);
+                    // ref.read(bluetoothServiceProvider).deleteLabel(bluetooth);
                     final fToast = ref.read(fToastProvider);
                     fToast.showToast(
                         child: const ToastContext(

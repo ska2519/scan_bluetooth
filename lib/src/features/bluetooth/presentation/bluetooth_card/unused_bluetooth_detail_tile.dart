@@ -6,7 +6,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:quick_blue/quick_blue.dart';
 
 import '../../../../constants/resources.dart';
-import '../../data/scan_bluetooth_repository.dart';
 import '../../domain/bluetooth.dart';
 import 'connect_button.dart';
 
@@ -63,10 +62,10 @@ class BluetoothDetailTile extends HookConsumerWidget {
                   style: textTheme.caption!.copyWith(
                     overflow: TextOverflow.ellipsis,
                   ),
-                  children: [
+                  children: const [
                     TextSpan(
-                      text: bluetooth.manufacturerData.toString(),
-                    ),
+                        // text: bluetooth.manufacturerData.toString(),
+                        ),
                     // const TextSpan(text: ' permission'),
                   ],
                 ),

@@ -1,24 +1,22 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, provide_deprecation_message
 
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../exceptions/error_logger.dart';
 import '../../firebase/firestore_json_converter.dart';
 import 'label.dart';
 
 part 'bluetooth.freezed.dart';
 part 'bluetooth.g.dart';
 
-//! ScanResult 를 상속받을 수 있는지
+enum BluetoothDeviceType { unknown, classic, le, dual }
 
 @freezed
 class Bluetooth with _$Bluetooth {
   const factory Bluetooth({
-    required String name,
     required String deviceId,
-    required List<dynamic> manufacturerDataHead,
-    required List<dynamic> manufacturerData,
+    required String name,
+    @Default(BluetoothDeviceType.unknown) BluetoothDeviceType type,
+    AdvertisementData? advertisementData,
     required int rssi,
     int? previousRssi,
     @TimestampNullableConverter() DateTime? scannedAt,
@@ -28,28 +26,25 @@ class Bluetooth with _$Bluetooth {
     Label? firstUpdatedLabel,
     Label? userLabel,
     @Default(false) bool canConnect,
+    @deprecated List<dynamic>? manufacturerDataHead,
+    @deprecated List<dynamic>? manufacturerData,
   }) = _Bluetooth;
 
-  @Implements<ScanResult>()
-  factory Bluetooth.scanResult(
-    BluetoothDevice device,
-    AdvertisementData advertisementData,
-    int rssi,
-    DateTime timeStamp,
-  ) {
-    logger.i('Bluetooth.scanResult advertisementData: $advertisementData');
-    return Bluetooth(
-      name: device.name,
-      deviceId: device.id.id,
-      manufacturerDataHead: [],
-      manufacturerData: [],
-      rssi: rssi,
-      scannedAt: timeStamp,
-    );
-  }
   factory Bluetooth.fromJson(Map<String, dynamic> json) =>
       _$BluetoothFromJson(json);
+}
 
-  //  int rssiCalculate(int rssi) => (120 - rssi.abs());
+@freezed
+class AdvertisementData with _$AdvertisementData {
+  const factory AdvertisementData({
+    required String localName,
+    int? txPowerLevel,
+    required bool connectable,
+    required Map<int, List<int>> manufacturerData,
+    required Map<String, List<int>> serviceData,
+    required List<String> serviceUuids,
+  }) = _AdvertisementData;
 
+  factory AdvertisementData.fromJson(Map<String, dynamic> json) =>
+      _$AdvertisementDataFromJson(json);
 }

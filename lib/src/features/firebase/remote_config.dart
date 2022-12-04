@@ -10,7 +10,7 @@ enum RemoteConfigKeys {
   enablePurchaseScreen('disableParchaseScreen', false),
 
   minimumScanInterval('minimumScanInterval', 4),
-  labelLimitCount('labelLimitCount', 5);
+  labelLimitCount('labelLimitCount', 4);
 
   const RemoteConfigKeys(this.key, this.value);
   final String key;

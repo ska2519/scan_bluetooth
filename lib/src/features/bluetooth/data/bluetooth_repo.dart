@@ -1,5 +1,4 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+import '../../../constants/resources.dart';
 import '../../authentication/domain/app_user.dart';
 import '../../firebase/cloud_firestore.dart';
 import '../../firebase/firebase_path.dart';
@@ -57,15 +56,22 @@ class BluetoothRepo {
       );
 
   Stream<List<Label?>> labelsStream(String uid) {
-    return _firestore.collectionGroupStream<Label?>(
-      path: FirebasePath.collectionGroupLabels(),
-      queryBuilder: (query) => query
-          .where('uid', isEqualTo: uid)
-          .orderBy('createdAt', descending: true),
-      builder: (data, documentId) {
-        if (data != null) data.addAll({'documentId': documentId});
-        return data != null ? Label.fromJson(data) : null;
-      },
-    );
+    var collectionGroupStream = Stream<List<Label?>>.value([]);
+    try {
+      collectionGroupStream = _firestore.collectionGroupStream<Label?>(
+        path: FirebasePath.collectionGroupLabels(),
+        queryBuilder: (query) => query
+            .where('uid', isEqualTo: uid)
+            .orderBy('createdAt', descending: true),
+        builder: (data, documentId) {
+          if (data != null) data.addAll({'documentId': documentId});
+          return data != null ? Label.fromJson(data) : null;
+        },
+      );
+      return collectionGroupStream;
+    } catch (e) {
+      logger.e('labelsStream e: $e');
+    }
+    return collectionGroupStream;
   }
 }

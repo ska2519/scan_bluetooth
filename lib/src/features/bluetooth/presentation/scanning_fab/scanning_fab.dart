@@ -8,9 +8,10 @@ import '../../../../utils/toast_context.dart';
 import '../../../in_app_purchase/application/purchases_service.dart';
 import '../../../permission/presentation/request_permission_dialog.dart';
 import '../../application/scan_bluetooth_service.dart';
-import '../../domain/bluetooth_list.dart';
 import 'animation_scanning_icon.dart';
 import 'scanning_fab_controller.dart';
+
+final initScanProvider = StateProvider<bool>((ref) => false);
 
 class ScanningFAB extends HookConsumerWidget {
   const ScanningFAB(this.requestPermissionList, {super.key});
@@ -25,32 +26,19 @@ class ScanningFAB extends HookConsumerWidget {
     final state = ref.watch(scanningFABControllerProvider);
     final theme = Theme.of(context);
     final fToast = ref.read(fToastProvider);
-    final scanning = ref.watch(scanFABStateProvider);
+    final scanning = ref.watch(scanningProvider);
 
-    Future<void> submit(bool scanning) async {
-      if (scanning) {
-        ref.read(bluetoothListProvider.notifier).removeAll();
-      } else {
-        await ref
-            .read(scanningFABControllerProvider.notifier)
-            .showInterstitialAd(scanning);
-      }
-      ref.read(scanBluetoothServiceProvider).submitScanning(scanning);
-      ref.read(scanFABStateProvider.notifier).update((state) => scanning);
-      ref.read(scanBluetoothServiceProvider).toggleStopWatch(scanning);
-      // ref.read(bluetoothListProvider.notifier).sort();
-    }
-
+    //* Start scan when lanuch app
     useEffect(() {
-      logger.i(
-          'ScanningFAB useEffect requestPermissionList: $requestPermissionList');
-      if ((requestPermissionList != null && requestPermissionList!.isEmpty) ||
-          (Platform.isAndroid || Platform.isIOS) == false) {
-        WidgetsBinding.instance.addPostFrameCallback((_) => submit(true));
+      if (!ref.read(initScanProvider)) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ref.read(initScanProvider.notifier).state = true;
+          ref.read(scanningProvider.notifier).state = true;
+          ref.read(stopWatchProvider(true));
+        });
       }
-
-      return;
-    }, [requestPermissionList?.length]);
+      return null;
+    }, []);
 
     return Consumer(
       builder: (context, ref, child) {
@@ -82,7 +70,9 @@ class ScanningFAB extends HookConsumerWidget {
                             builder: (context) =>
                                 RequestPermissionDialog(requestPermissionList!),
                           )
-                      : () async => await submit(!scanning),
+                      : () async => await ref
+                          .read(scanningFABControllerProvider.notifier)
+                          .submit(!scanning),
           label:
               requestPermissionList != null && requestPermissionList!.isNotEmpty
                   ? const Text('🔔 Setting Permission')

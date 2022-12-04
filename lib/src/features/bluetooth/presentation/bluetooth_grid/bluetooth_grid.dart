@@ -1,12 +1,17 @@
 import 'dart:math';
 
+import 'package:fluttertoast/fluttertoast.dart';
+
 import '../../../../constants/resources.dart';
 import '../../../../utils/destination_item_index.dart';
+import '../../../../utils/toast_context.dart';
 import '../../../admob/presentation/native_ad_card.dart';
 import '../../../in_app_purchase/application/purchases_service.dart';
 import '../../application/bluetooth_service.dart';
 import '../../domain/bluetooth_list.dart';
+import '../bluetooth_card/bluetooth_card.dart';
 import '../scanning_fab/scanning_fab_controller.dart';
+import 'bluetooth_grid_screen_controller.dart';
 import 'bluetooth_layout_grid.dart';
 
 class BluetoothGrid extends HookConsumerWidget {
@@ -17,7 +22,7 @@ class BluetoothGrid extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     /// ** google Ads package support only 1 ADS now. **
     const adLength = 1;
-    final scanning = ref.watch(scanFABStateProvider);
+    final scanning = ref.watch(scanningProvider);
     final removeAds = ref.watch(removeAdsProvider);
     final bluetoothList = ref.watch(bluetoothListProvider);
     var kAdIndex = 1;
@@ -49,22 +54,21 @@ class BluetoothGrid extends HookConsumerWidget {
                       !scanning &&
                       (index == kAdIndex && !removeAds)
                   ? const NativeAdCard()
-                  : Text('BluetoothCard $i');
-              // BluetoothCard(
-              //     onPressed: () async => labelCount >= labelLimitCount
-              //         ? ref.read(fToastProvider).showToast(
-              //               gravity: ToastGravity.CENTER,
-              //               child: const ToastContext(
-              //                 'Unlimited labels to Subscribers 🏷',
-              //               ),
-              //             )
-              //         : await ref
-              //             .read(bluetoothGridScreenControllerProvider
-              //                 .notifier)
-              //             .onTapTile(bluetoothList[i], context),
-              //     bluetooth: bluetoothList[i],
-              //     index: i,
-              //   );
+                  : BluetoothCard(
+                      onPressed: () async => labelCount >= labelLimitCount
+                          ? ref.read(fToastProvider).showToast(
+                                gravity: ToastGravity.CENTER,
+                                child: const ToastContext(
+                                  '99 labels to Subscribers 🏷',
+                                ),
+                              )
+                          : await ref
+                              .read(bluetoothGridScreenControllerProvider
+                                  .notifier)
+                              .onTapTile(bluetoothList[i], context),
+                      bluetooth: bluetoothList[i],
+                      index: i,
+                    );
             },
           );
   }

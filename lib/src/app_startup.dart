@@ -1,3 +1,5 @@
+// ignore_for_file: unused_shown_name, depend_on_referenced_packages
+
 import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
@@ -8,7 +10,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart'
     show PlatformDispatcher, kIsWeb, kReleaseMode;
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
+
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -60,8 +62,8 @@ class AppStartup {
 
     //* Report uncaught exceptions
     //* https://firebase.google.com/docs/crashlytics/customize-crash-reports?authuser=0&platform=flutter#report-uncaught-exceptions
+    // * custom error handler in order to see the logs in the console as well.
     FlutterError.onError = (FlutterErrorDetails details) {
-      // * custom error handler in order to see the logs in the console as well.
       if (kReleaseMode && !kIsWeb && crashlytics != null) {
         FlutterError.onError = crashlytics.recordFlutterFatalError;
       } else {
@@ -73,24 +75,23 @@ class AppStartup {
       if (kReleaseMode && !kIsWeb && crashlytics != null) {
         crashlytics.recordError(error, stack, fatal: true);
       }
-      logger.e(error);
       return true;
     };
 
     //* Errors outside of Flutter
     //* https://firebase.google.com/docs/crashlytics/customize-crash-reports?authuser=0&platform=flutter#errors-outside-flutter
-    if (kReleaseMode && crashlytics != null) {
-      Isolate.current.addErrorListener(
-        RawReceivePort((pair) async {
+    Isolate.current.addErrorListener(
+      RawReceivePort((pair) async {
+        if (kReleaseMode && !kIsWeb && crashlytics != null) {
           final List<dynamic> errorAndStacktrace = pair;
           await crashlytics.recordError(
             errorAndStacktrace.first,
             errorAndStacktrace.last,
             fatal: true,
           );
-        }).sendPort,
-      );
-    }
+        }
+      }).sendPort,
+    );
 
     if (kReleaseMode && analytics != null) {
       await analytics.logAppOpen();
@@ -111,12 +112,15 @@ class AppStartup {
     );
     appStartupContainer.read(loggerProvider);
     appStartupContainer.read(remoteConfigProvider);
+
     if (Platform.isAndroid) {
       appStartupContainer.read(admobServiceProvider);
-    } else if (Platform.isAndroid || Platform.isIOS) {
+    }
+    if (Platform.isAndroid || Platform.isIOS) {
       appStartupContainer.read(presenceUserServiceProvider);
       appStartupContainer.read(purchasesServiceProvider);
-    } else if (Platform.isMacOS) {
+    }
+    if (Platform.isMacOS) {
       appStartupContainer.read(setWindowSizeProvider);
     }
 

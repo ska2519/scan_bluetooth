@@ -222,9 +222,11 @@ class PurchasesService {
   void _enableSubscriptionFeatures() {
     ref.read(removeAdsProvider.notifier).state = true;
     ref.read(minimumScanIntervalProvider.notifier).state = 0;
-    ref.read(labelLimitCountProvider.notifier).state = 999;
+    ref.read(labelLimitCountProvider.notifier).state = 99;
   }
 
+  // TODO: Thinking Logic with app features after decide subscription products
+  // ignore: unused_element
   void _disableSubscriptionFeatures() {
     ref.read(removeAdsProvider.notifier).state = false;
     ref.read(minimumScanIntervalProvider.notifier).state =

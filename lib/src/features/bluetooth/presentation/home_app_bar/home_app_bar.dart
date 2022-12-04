@@ -34,9 +34,7 @@ class HomeAppBar extends HookConsumerWidget with PreferredSizeWidget {
           SizedBox(width: 40),
         ],
       ),
-      actions: const [
-   
-      ],
+      actions: const [],
     );
     // } else {}
   }
@@ -50,28 +48,27 @@ class BluetoothCountInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bluetoothList = ref.watch(bluetoothListProvider);
     final unknownBtsCount = ref.watch(unknownBtsCountProvider);
+    final bluetoothList = ref.watch(bluetoothListProvider);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Assets.svg.icons8Bluetooth.svg(width: 24),
         gapW4,
-        const Text('Unknown '),
-        Text(
-          '$unknownBtsCount'.hardcoded,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            letterSpacing: -1,
-            fontFeatures: [const FontFeature.tabularFigures()],
-          ),
-        ),
-        const Text(' / Total '),
-        Text(
-          '${bluetoothList.length}'.hardcoded,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            letterSpacing: -1,
-            fontFeatures: [const FontFeature.tabularFigures()],
+        RichText(
+          text: TextSpan(
+            text: 'Total ',
+            children: [
+              TextSpan(
+                text: '${bluetoothList.length}'.hardcoded,
+              ),
+            ],
+            style: textTheme(context).titleLarge!.copyWith(
+              color: Colors.red[(bluetoothList.length) * 10],
+              letterSpacing: -1,
+              fontFeatures: [const FontFeature.tabularFigures()],
+            ),
           ),
         ),
       ],

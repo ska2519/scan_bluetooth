@@ -6,9 +6,9 @@ import 'flutter_blue_plus_repo.dart';
 /// API for reading, watching and writing local cart data (guest user)
 abstract class ScanBluetoothRepository {
   Future<bool> isBluetoothAvailable();
-  void startScan();
-  void stopScan();
-  Stream<List<ScanResult>> scanResultListStream();
+  Stream<ScanResult> startScanStream();
+  Future<dynamic> stopScan();
+  // Stream<List<ScanResult>> scanResultListStream();
   // Stream<BlueScanResult> scanResultStream();
   // void connect(String deviceId);
   // void disconnect(String deviceId);
@@ -51,11 +51,5 @@ final scanBluetoothRepoProvider =
 final isBTAvailableProvider = FutureProvider.autoDispose<bool>(
     (ref) => ref.read(scanBluetoothRepoProvider).isBluetoothAvailable());
 
-final scanResultListStreamProvider = StreamProvider<List<ScanResult>>(
-    (ref) => ref.watch(scanBluetoothRepoProvider).scanResultListStream());
-
-// final scanResultStreamProvider = StreamProvider<BlueScanResult>(
-//     (ref) => ref.watch(scanBluetoothRepoProvider).scanResultStream());
-
-// final blueConnectionStateStreamProvider = StreamProvider<BlueConnectionState>(
-//     (ref) => ref.watch(scanBluetoothRepoProvider).blueConnectionStateStream());
+final startScanStreamProvider = StreamProvider<ScanResult>(
+    (ref) => ref.watch(scanBluetoothRepoProvider).startScanStream());

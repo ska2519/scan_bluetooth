@@ -108,7 +108,7 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
 
     for (var label in labelList) {
       for (var i = 0; i < state.length; i++) {
-        if (label!.bluetooth.deviceId == state[i].deviceId) {
+        if (label!.deviceId == state[i].deviceId) {
           state[i] = state[i].copyWith(userLabel: label);
           break;
         }

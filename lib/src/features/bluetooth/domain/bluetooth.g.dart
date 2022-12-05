@@ -17,18 +17,18 @@ _$_Bluetooth _$$_BluetoothFromJson(Map json) => _$_Bluetooth(
               Map<String, dynamic>.from(json['advertisementData'] as Map)),
       rssi: json['rssi'] as int,
       previousRssi: json['previousRssi'] as int?,
+      userLabel: json['userLabel'] == null
+          ? null
+          : Label.fromJson(Map<String, dynamic>.from(json['userLabel'] as Map)),
       scannedAt: const TimestampNullableConverter().fromJson(json['scannedAt']),
       createdAt: const TimestampNullableConverter().fromJson(json['createdAt']),
       updatedAt: const TimestampNullableConverter().fromJson(json['updatedAt']),
       labelCount: json['labelCount'] as int? ?? 0,
+      canConnect: json['canConnect'] as bool? ?? false,
       firstUpdatedLabel: json['firstUpdatedLabel'] == null
           ? null
           : Label.fromJson(
               Map<String, dynamic>.from(json['firstUpdatedLabel'] as Map)),
-      userLabel: json['userLabel'] == null
-          ? null
-          : Label.fromJson(Map<String, dynamic>.from(json['userLabel'] as Map)),
-      canConnect: json['canConnect'] as bool? ?? false,
       manufacturerDataHead: json['manufacturerDataHead'] as List<dynamic>?,
       manufacturerData: json['manufacturerData'] as List<dynamic>?,
     );
@@ -41,6 +41,7 @@ Map<String, dynamic> _$$_BluetoothToJson(_$_Bluetooth instance) =>
       'advertisementData': instance.advertisementData?.toJson(),
       'rssi': instance.rssi,
       'previousRssi': instance.previousRssi,
+      'userLabel': instance.userLabel?.toJson(),
       'scannedAt':
           const TimestampNullableConverter().toJson(instance.scannedAt),
       'createdAt':
@@ -48,9 +49,8 @@ Map<String, dynamic> _$$_BluetoothToJson(_$_Bluetooth instance) =>
       'updatedAt':
           const TimestampNullableConverter().toJson(instance.updatedAt),
       'labelCount': instance.labelCount,
-      'firstUpdatedLabel': instance.firstUpdatedLabel?.toJson(),
-      'userLabel': instance.userLabel?.toJson(),
       'canConnect': instance.canConnect,
+      'firstUpdatedLabel': instance.firstUpdatedLabel?.toJson(),
       'manufacturerDataHead': instance.manufacturerDataHead,
       'manufacturerData': instance.manufacturerData,
     };

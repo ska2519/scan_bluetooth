@@ -42,7 +42,7 @@ class BluetoothRepo {
     required Label label,
   }) async =>
       await _firestore.setData(
-        path: FirebasePath.labels(deviceId: deviceId, uid: label.user.uid),
+        path: FirebasePath.labels(deviceId: deviceId, uid: label.uid),
         data: label.toJson(),
         merge: true,
       );

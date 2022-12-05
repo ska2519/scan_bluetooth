@@ -27,6 +27,7 @@ mixin _$Bluetooth {
       throw _privateConstructorUsedError;
   int get rssi => throw _privateConstructorUsedError;
   int? get previousRssi => throw _privateConstructorUsedError;
+  Label? get userLabel => throw _privateConstructorUsedError;
   @TimestampNullableConverter()
   DateTime? get scannedAt => throw _privateConstructorUsedError;
   @TimestampNullableConverter()
@@ -34,9 +35,9 @@ mixin _$Bluetooth {
   @TimestampNullableConverter()
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   int get labelCount => throw _privateConstructorUsedError;
-  Label? get firstUpdatedLabel => throw _privateConstructorUsedError;
-  Label? get userLabel => throw _privateConstructorUsedError;
   bool get canConnect => throw _privateConstructorUsedError;
+  @deprecated
+  Label? get firstUpdatedLabel => throw _privateConstructorUsedError;
   @deprecated
   List<dynamic>? get manufacturerDataHead => throw _privateConstructorUsedError;
   @deprecated
@@ -60,19 +61,19 @@ abstract class $BluetoothCopyWith<$Res> {
       AdvertisementData? advertisementData,
       int rssi,
       int? previousRssi,
+      Label? userLabel,
       @TimestampNullableConverter() DateTime? scannedAt,
       @TimestampNullableConverter() DateTime? createdAt,
       @TimestampNullableConverter() DateTime? updatedAt,
       int labelCount,
-      Label? firstUpdatedLabel,
-      Label? userLabel,
       bool canConnect,
+      @deprecated Label? firstUpdatedLabel,
       @deprecated List<dynamic>? manufacturerDataHead,
       @deprecated List<dynamic>? manufacturerData});
 
   $AdvertisementDataCopyWith<$Res>? get advertisementData;
-  $LabelCopyWith<$Res>? get firstUpdatedLabel;
   $LabelCopyWith<$Res>? get userLabel;
+  $LabelCopyWith<$Res>? get firstUpdatedLabel;
 }
 
 /// @nodoc
@@ -94,13 +95,13 @@ class _$BluetoothCopyWithImpl<$Res, $Val extends Bluetooth>
     Object? advertisementData = freezed,
     Object? rssi = null,
     Object? previousRssi = freezed,
+    Object? userLabel = freezed,
     Object? scannedAt = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? labelCount = null,
-    Object? firstUpdatedLabel = freezed,
-    Object? userLabel = freezed,
     Object? canConnect = null,
+    Object? firstUpdatedLabel = freezed,
     Object? manufacturerDataHead = freezed,
     Object? manufacturerData = freezed,
   }) {
@@ -129,6 +130,10 @@ class _$BluetoothCopyWithImpl<$Res, $Val extends Bluetooth>
           ? _value.previousRssi
           : previousRssi // ignore: cast_nullable_to_non_nullable
               as int?,
+      userLabel: freezed == userLabel
+          ? _value.userLabel
+          : userLabel // ignore: cast_nullable_to_non_nullable
+              as Label?,
       scannedAt: freezed == scannedAt
           ? _value.scannedAt
           : scannedAt // ignore: cast_nullable_to_non_nullable
@@ -145,18 +150,14 @@ class _$BluetoothCopyWithImpl<$Res, $Val extends Bluetooth>
           ? _value.labelCount
           : labelCount // ignore: cast_nullable_to_non_nullable
               as int,
-      firstUpdatedLabel: freezed == firstUpdatedLabel
-          ? _value.firstUpdatedLabel
-          : firstUpdatedLabel // ignore: cast_nullable_to_non_nullable
-              as Label?,
-      userLabel: freezed == userLabel
-          ? _value.userLabel
-          : userLabel // ignore: cast_nullable_to_non_nullable
-              as Label?,
       canConnect: null == canConnect
           ? _value.canConnect
           : canConnect // ignore: cast_nullable_to_non_nullable
               as bool,
+      firstUpdatedLabel: freezed == firstUpdatedLabel
+          ? _value.firstUpdatedLabel
+          : firstUpdatedLabel // ignore: cast_nullable_to_non_nullable
+              as Label?,
       manufacturerDataHead: freezed == manufacturerDataHead
           ? _value.manufacturerDataHead
           : manufacturerDataHead // ignore: cast_nullable_to_non_nullable
@@ -182,18 +183,6 @@ class _$BluetoothCopyWithImpl<$Res, $Val extends Bluetooth>
 
   @override
   @pragma('vm:prefer-inline')
-  $LabelCopyWith<$Res>? get firstUpdatedLabel {
-    if (_value.firstUpdatedLabel == null) {
-      return null;
-    }
-
-    return $LabelCopyWith<$Res>(_value.firstUpdatedLabel!, (value) {
-      return _then(_value.copyWith(firstUpdatedLabel: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
   $LabelCopyWith<$Res>? get userLabel {
     if (_value.userLabel == null) {
       return null;
@@ -201,6 +190,18 @@ class _$BluetoothCopyWithImpl<$Res, $Val extends Bluetooth>
 
     return $LabelCopyWith<$Res>(_value.userLabel!, (value) {
       return _then(_value.copyWith(userLabel: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LabelCopyWith<$Res>? get firstUpdatedLabel {
+    if (_value.firstUpdatedLabel == null) {
+      return null;
+    }
+
+    return $LabelCopyWith<$Res>(_value.firstUpdatedLabel!, (value) {
+      return _then(_value.copyWith(firstUpdatedLabel: value) as $Val);
     });
   }
 }
@@ -219,22 +220,22 @@ abstract class _$$_BluetoothCopyWith<$Res> implements $BluetoothCopyWith<$Res> {
       AdvertisementData? advertisementData,
       int rssi,
       int? previousRssi,
+      Label? userLabel,
       @TimestampNullableConverter() DateTime? scannedAt,
       @TimestampNullableConverter() DateTime? createdAt,
       @TimestampNullableConverter() DateTime? updatedAt,
       int labelCount,
-      Label? firstUpdatedLabel,
-      Label? userLabel,
       bool canConnect,
+      @deprecated Label? firstUpdatedLabel,
       @deprecated List<dynamic>? manufacturerDataHead,
       @deprecated List<dynamic>? manufacturerData});
 
   @override
   $AdvertisementDataCopyWith<$Res>? get advertisementData;
   @override
-  $LabelCopyWith<$Res>? get firstUpdatedLabel;
-  @override
   $LabelCopyWith<$Res>? get userLabel;
+  @override
+  $LabelCopyWith<$Res>? get firstUpdatedLabel;
 }
 
 /// @nodoc
@@ -254,13 +255,13 @@ class __$$_BluetoothCopyWithImpl<$Res>
     Object? advertisementData = freezed,
     Object? rssi = null,
     Object? previousRssi = freezed,
+    Object? userLabel = freezed,
     Object? scannedAt = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? labelCount = null,
-    Object? firstUpdatedLabel = freezed,
-    Object? userLabel = freezed,
     Object? canConnect = null,
+    Object? firstUpdatedLabel = freezed,
     Object? manufacturerDataHead = freezed,
     Object? manufacturerData = freezed,
   }) {
@@ -289,6 +290,10 @@ class __$$_BluetoothCopyWithImpl<$Res>
           ? _value.previousRssi
           : previousRssi // ignore: cast_nullable_to_non_nullable
               as int?,
+      userLabel: freezed == userLabel
+          ? _value.userLabel
+          : userLabel // ignore: cast_nullable_to_non_nullable
+              as Label?,
       scannedAt: freezed == scannedAt
           ? _value.scannedAt
           : scannedAt // ignore: cast_nullable_to_non_nullable
@@ -305,18 +310,14 @@ class __$$_BluetoothCopyWithImpl<$Res>
           ? _value.labelCount
           : labelCount // ignore: cast_nullable_to_non_nullable
               as int,
-      firstUpdatedLabel: freezed == firstUpdatedLabel
-          ? _value.firstUpdatedLabel
-          : firstUpdatedLabel // ignore: cast_nullable_to_non_nullable
-              as Label?,
-      userLabel: freezed == userLabel
-          ? _value.userLabel
-          : userLabel // ignore: cast_nullable_to_non_nullable
-              as Label?,
       canConnect: null == canConnect
           ? _value.canConnect
           : canConnect // ignore: cast_nullable_to_non_nullable
               as bool,
+      firstUpdatedLabel: freezed == firstUpdatedLabel
+          ? _value.firstUpdatedLabel
+          : firstUpdatedLabel // ignore: cast_nullable_to_non_nullable
+              as Label?,
       manufacturerDataHead: freezed == manufacturerDataHead
           ? _value._manufacturerDataHead
           : manufacturerDataHead // ignore: cast_nullable_to_non_nullable
@@ -339,13 +340,13 @@ class _$_Bluetooth implements _Bluetooth {
       this.advertisementData,
       required this.rssi,
       this.previousRssi,
+      this.userLabel,
       @TimestampNullableConverter() this.scannedAt,
       @TimestampNullableConverter() this.createdAt,
       @TimestampNullableConverter() this.updatedAt,
       this.labelCount = 0,
-      this.firstUpdatedLabel,
-      this.userLabel,
       this.canConnect = false,
+      @deprecated this.firstUpdatedLabel,
       @deprecated final List<dynamic>? manufacturerDataHead,
       @deprecated final List<dynamic>? manufacturerData})
       : _manufacturerDataHead = manufacturerDataHead,
@@ -368,6 +369,8 @@ class _$_Bluetooth implements _Bluetooth {
   @override
   final int? previousRssi;
   @override
+  final Label? userLabel;
+  @override
   @TimestampNullableConverter()
   final DateTime? scannedAt;
   @override
@@ -380,12 +383,11 @@ class _$_Bluetooth implements _Bluetooth {
   @JsonKey()
   final int labelCount;
   @override
-  final Label? firstUpdatedLabel;
-  @override
-  final Label? userLabel;
-  @override
   @JsonKey()
   final bool canConnect;
+  @override
+  @deprecated
+  final Label? firstUpdatedLabel;
   final List<dynamic>? _manufacturerDataHead;
   @override
   @deprecated
@@ -408,7 +410,7 @@ class _$_Bluetooth implements _Bluetooth {
 
   @override
   String toString() {
-    return 'Bluetooth(deviceId: $deviceId, name: $name, type: $type, advertisementData: $advertisementData, rssi: $rssi, previousRssi: $previousRssi, scannedAt: $scannedAt, createdAt: $createdAt, updatedAt: $updatedAt, labelCount: $labelCount, firstUpdatedLabel: $firstUpdatedLabel, userLabel: $userLabel, canConnect: $canConnect, manufacturerDataHead: $manufacturerDataHead, manufacturerData: $manufacturerData)';
+    return 'Bluetooth(deviceId: $deviceId, name: $name, type: $type, advertisementData: $advertisementData, rssi: $rssi, previousRssi: $previousRssi, userLabel: $userLabel, scannedAt: $scannedAt, createdAt: $createdAt, updatedAt: $updatedAt, labelCount: $labelCount, canConnect: $canConnect, firstUpdatedLabel: $firstUpdatedLabel, manufacturerDataHead: $manufacturerDataHead, manufacturerData: $manufacturerData)';
   }
 
   @override
@@ -425,6 +427,8 @@ class _$_Bluetooth implements _Bluetooth {
             (identical(other.rssi, rssi) || other.rssi == rssi) &&
             (identical(other.previousRssi, previousRssi) ||
                 other.previousRssi == previousRssi) &&
+            (identical(other.userLabel, userLabel) ||
+                other.userLabel == userLabel) &&
             (identical(other.scannedAt, scannedAt) ||
                 other.scannedAt == scannedAt) &&
             (identical(other.createdAt, createdAt) ||
@@ -433,12 +437,10 @@ class _$_Bluetooth implements _Bluetooth {
                 other.updatedAt == updatedAt) &&
             (identical(other.labelCount, labelCount) ||
                 other.labelCount == labelCount) &&
-            (identical(other.firstUpdatedLabel, firstUpdatedLabel) ||
-                other.firstUpdatedLabel == firstUpdatedLabel) &&
-            (identical(other.userLabel, userLabel) ||
-                other.userLabel == userLabel) &&
             (identical(other.canConnect, canConnect) ||
                 other.canConnect == canConnect) &&
+            (identical(other.firstUpdatedLabel, firstUpdatedLabel) ||
+                other.firstUpdatedLabel == firstUpdatedLabel) &&
             const DeepCollectionEquality()
                 .equals(other._manufacturerDataHead, _manufacturerDataHead) &&
             const DeepCollectionEquality()
@@ -455,13 +457,13 @@ class _$_Bluetooth implements _Bluetooth {
       advertisementData,
       rssi,
       previousRssi,
+      userLabel,
       scannedAt,
       createdAt,
       updatedAt,
       labelCount,
-      firstUpdatedLabel,
-      userLabel,
       canConnect,
+      firstUpdatedLabel,
       const DeepCollectionEquality().hash(_manufacturerDataHead),
       const DeepCollectionEquality().hash(_manufacturerData));
 
@@ -487,13 +489,13 @@ abstract class _Bluetooth implements Bluetooth {
       final AdvertisementData? advertisementData,
       required final int rssi,
       final int? previousRssi,
+      final Label? userLabel,
       @TimestampNullableConverter() final DateTime? scannedAt,
       @TimestampNullableConverter() final DateTime? createdAt,
       @TimestampNullableConverter() final DateTime? updatedAt,
       final int labelCount,
-      final Label? firstUpdatedLabel,
-      final Label? userLabel,
       final bool canConnect,
+      @deprecated final Label? firstUpdatedLabel,
       @deprecated final List<dynamic>? manufacturerDataHead,
       @deprecated final List<dynamic>? manufacturerData}) = _$_Bluetooth;
 
@@ -513,6 +515,8 @@ abstract class _Bluetooth implements Bluetooth {
   @override
   int? get previousRssi;
   @override
+  Label? get userLabel;
+  @override
   @TimestampNullableConverter()
   DateTime? get scannedAt;
   @override
@@ -524,11 +528,10 @@ abstract class _Bluetooth implements Bluetooth {
   @override
   int get labelCount;
   @override
-  Label? get firstUpdatedLabel;
-  @override
-  Label? get userLabel;
-  @override
   bool get canConnect;
+  @override
+  @deprecated
+  Label? get firstUpdatedLabel;
   @override
   @deprecated
   List<dynamic>? get manufacturerDataHead;

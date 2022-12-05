@@ -1,3 +1,5 @@
+// ignore_for_file: provide_deprecation_message
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../authentication/domain/app_user.dart';
@@ -10,13 +12,16 @@ part 'label.freezed.dart';
 @freezed
 class Label with _$Label {
   const factory Label({
-    required Bluetooth bluetooth,
+    String? deviceId,
+    BluetoothDeviceType? type,
     required String name,
+    int? rssi,
     required UserId uid,
-    required AppUser user,
     String? documentId,
-    @TimestampNullableConverter() DateTime? createdAt,
-    DateTime? updatedAt,
+    @TimestampNullableConverter() DateTime? updatedAt,
+    @deprecated @TimestampNullableConverter() DateTime? createdAt,
+    @deprecated Bluetooth? bluetooth,
+    @deprecated AppUser? user,
   }) = _Label;
 
   factory Label.fromJson(Map<String, dynamic> json) => _$LabelFromJson(json);

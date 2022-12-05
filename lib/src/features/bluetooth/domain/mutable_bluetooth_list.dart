@@ -29,7 +29,7 @@ extension MutableBluetoothList on List<Bluetooth> {
     if (labelList.isNotEmpty) {
       for (var label in labelList) {
         for (var i = 0; i < bluetoothList.length; i++) {
-          if (bluetoothList[i].deviceId == label.bluetooth.deviceId) {
+          if (bluetoothList[i].deviceId == label.deviceId) {
             bluetoothList[i] = bluetoothList[i].copyWith(
               userLabel: label,
             );

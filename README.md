@@ -1,10 +1,10 @@
-# Scan Bluetooth - [Flutter playground App]
+# Scan Bluetooth
 
 🔍 Scan all Bluetooth devices around you
 
 ---
 
-Build a multi-platform Scan Bluetooth app developed by Flutter & Firebase.  
+Build a multi-platform Scan Bluetooth app developed by Flutter & Firebase - Toy App.  
 
 App runs on Android, iOS, and macOS, from a single Dart codebase.  
 

@@ -1,4 +1,4 @@
-# Scan Bluetooth
+# Scan Bluetooth - [Flutter playground App]
 
 🔍 Scan all Bluetooth devices around you
 

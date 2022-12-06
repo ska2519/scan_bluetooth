@@ -36,10 +36,6 @@ mixin _$Bluetooth {
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   int get labelCount => throw _privateConstructorUsedError;
   bool get canConnect => throw _privateConstructorUsedError;
-  @deprecated
-  List<dynamic>? get manufacturerDataHead => throw _privateConstructorUsedError;
-  @deprecated
-  List<dynamic>? get manufacturerData => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -95,8 +91,6 @@ class _$BluetoothCopyWithImpl<$Res, $Val extends Bluetooth>
     Object? updatedAt = freezed,
     Object? labelCount = null,
     Object? canConnect = null,
-    Object? manufacturerDataHead = freezed,
-    Object? manufacturerData = freezed,
   }) {
     return _then(_value.copyWith(
       deviceId: null == deviceId
@@ -147,14 +141,6 @@ class _$BluetoothCopyWithImpl<$Res, $Val extends Bluetooth>
           ? _value.canConnect
           : canConnect // ignore: cast_nullable_to_non_nullable
               as bool,
-      manufacturerDataHead: freezed == manufacturerDataHead
-          ? _value.manufacturerDataHead
-          : manufacturerDataHead // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
-      manufacturerData: freezed == manufacturerData
-          ? _value.manufacturerData
-          : manufacturerData // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
     ) as $Val);
   }
 
@@ -233,8 +219,6 @@ class __$$_BluetoothCopyWithImpl<$Res>
     Object? updatedAt = freezed,
     Object? labelCount = null,
     Object? canConnect = null,
-    Object? manufacturerDataHead = freezed,
-    Object? manufacturerData = freezed,
   }) {
     return _then(_$_Bluetooth(
       deviceId: null == deviceId
@@ -285,14 +269,6 @@ class __$$_BluetoothCopyWithImpl<$Res>
           ? _value.canConnect
           : canConnect // ignore: cast_nullable_to_non_nullable
               as bool,
-      manufacturerDataHead: freezed == manufacturerDataHead
-          ? _value._manufacturerDataHead
-          : manufacturerDataHead // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
-      manufacturerData: freezed == manufacturerData
-          ? _value._manufacturerData
-          : manufacturerData // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
     ));
   }
 }
@@ -347,25 +323,6 @@ class _$_Bluetooth implements _Bluetooth {
   @override
   @JsonKey()
   final bool canConnect;
-  final List<dynamic>? _manufacturerDataHead;
-  @override
-  @deprecated
-  List<dynamic>? get manufacturerDataHead {
-    final value = _manufacturerDataHead;
-    if (value == null) return null;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<dynamic>? _manufacturerData;
-  @override
-  @deprecated
-  List<dynamic>? get manufacturerData {
-    final value = _manufacturerData;
-    if (value == null) return null;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
 
   @override
   String toString() {
@@ -397,11 +354,7 @@ class _$_Bluetooth implements _Bluetooth {
             (identical(other.labelCount, labelCount) ||
                 other.labelCount == labelCount) &&
             (identical(other.canConnect, canConnect) ||
-                other.canConnect == canConnect) &&
-            const DeepCollectionEquality()
-                .equals(other._manufacturerDataHead, _manufacturerDataHead) &&
-            const DeepCollectionEquality()
-                .equals(other._manufacturerData, _manufacturerData));
+                other.canConnect == canConnect));
   }
 
   @JsonKey(ignore: true)
@@ -480,12 +433,6 @@ abstract class _Bluetooth implements Bluetooth {
   int get labelCount;
   @override
   bool get canConnect;
-  @override
-  @deprecated
-  List<dynamic>? get manufacturerDataHead;
-  @override
-  @deprecated
-  List<dynamic>? get manufacturerData;
   @override
   @JsonKey(ignore: true)
   _$$_BluetoothCopyWith<_$_Bluetooth> get copyWith =>

@@ -71,11 +71,6 @@ class RemoteConfig {
   int getLabelLimitCount() =>
       _instance.getInt(RemoteConfigKeys.labelLimitCount.key);
 
-  int getMinimumScanInterval() =>
-      _instance.getInt(RemoteConfigKeys.minimumScanInterval.key);
-  int getLabelLimitCount() =>
-      _instance.getInt(RemoteConfigKeys.labelLimitCount.key);
-
   Future<void> _setConfigSettings() async {
     try {
       return await _instance.setConfigSettings(

@@ -28,13 +28,6 @@ mixin _$Label {
   String? get documentId => throw _privateConstructorUsedError;
   @TimestampNullableConverter()
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-  @deprecated
-  @TimestampNullableConverter()
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-  @deprecated
-  Bluetooth? get bluetooth => throw _privateConstructorUsedError;
-  @deprecated
-  AppUser? get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,13 +46,7 @@ abstract class $LabelCopyWith<$Res> {
       int? rssi,
       String uid,
       String? documentId,
-      @TimestampNullableConverter() DateTime? updatedAt,
-      @deprecated @TimestampNullableConverter() DateTime? createdAt,
-      @deprecated Bluetooth? bluetooth,
-      @deprecated AppUser? user});
-
-  $BluetoothCopyWith<$Res>? get bluetooth;
-  $AppUserCopyWith<$Res>? get user;
+      @TimestampNullableConverter() DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -82,9 +69,6 @@ class _$LabelCopyWithImpl<$Res, $Val extends Label>
     Object? uid = null,
     Object? documentId = freezed,
     Object? updatedAt = freezed,
-    Object? createdAt = freezed,
-    Object? bluetooth = freezed,
-    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       deviceId: freezed == deviceId
@@ -115,43 +99,7 @@ class _$LabelCopyWithImpl<$Res, $Val extends Label>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      bluetooth: freezed == bluetooth
-          ? _value.bluetooth
-          : bluetooth // ignore: cast_nullable_to_non_nullable
-              as Bluetooth?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as AppUser?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $BluetoothCopyWith<$Res>? get bluetooth {
-    if (_value.bluetooth == null) {
-      return null;
-    }
-
-    return $BluetoothCopyWith<$Res>(_value.bluetooth!, (value) {
-      return _then(_value.copyWith(bluetooth: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AppUserCopyWith<$Res>? get user {
-    if (_value.user == null) {
-      return null;
-    }
-
-    return $AppUserCopyWith<$Res>(_value.user!, (value) {
-      return _then(_value.copyWith(user: value) as $Val);
-    });
   }
 }
 
@@ -168,15 +116,7 @@ abstract class _$$_LabelCopyWith<$Res> implements $LabelCopyWith<$Res> {
       int? rssi,
       String uid,
       String? documentId,
-      @TimestampNullableConverter() DateTime? updatedAt,
-      @deprecated @TimestampNullableConverter() DateTime? createdAt,
-      @deprecated Bluetooth? bluetooth,
-      @deprecated AppUser? user});
-
-  @override
-  $BluetoothCopyWith<$Res>? get bluetooth;
-  @override
-  $AppUserCopyWith<$Res>? get user;
+      @TimestampNullableConverter() DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -195,9 +135,6 @@ class __$$_LabelCopyWithImpl<$Res> extends _$LabelCopyWithImpl<$Res, _$_Label>
     Object? uid = null,
     Object? documentId = freezed,
     Object? updatedAt = freezed,
-    Object? createdAt = freezed,
-    Object? bluetooth = freezed,
-    Object? user = freezed,
   }) {
     return _then(_$_Label(
       deviceId: freezed == deviceId
@@ -228,18 +165,6 @@ class __$$_LabelCopyWithImpl<$Res> extends _$LabelCopyWithImpl<$Res, _$_Label>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      bluetooth: freezed == bluetooth
-          ? _value.bluetooth
-          : bluetooth // ignore: cast_nullable_to_non_nullable
-              as Bluetooth?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as AppUser?,
     ));
   }
 }
@@ -254,10 +179,7 @@ class _$_Label implements _Label {
       this.rssi,
       required this.uid,
       this.documentId,
-      @TimestampNullableConverter() this.updatedAt,
-      @deprecated @TimestampNullableConverter() this.createdAt,
-      @deprecated this.bluetooth,
-      @deprecated this.user});
+      @TimestampNullableConverter() this.updatedAt});
 
   factory _$_Label.fromJson(Map<String, dynamic> json) =>
       _$$_LabelFromJson(json);
@@ -277,20 +199,10 @@ class _$_Label implements _Label {
   @override
   @TimestampNullableConverter()
   final DateTime? updatedAt;
-  @override
-  @deprecated
-  @TimestampNullableConverter()
-  final DateTime? createdAt;
-  @override
-  @deprecated
-  final Bluetooth? bluetooth;
-  @override
-  @deprecated
-  final AppUser? user;
 
   @override
   String toString() {
-    return 'Label(deviceId: $deviceId, type: $type, name: $name, rssi: $rssi, uid: $uid, documentId: $documentId, updatedAt: $updatedAt, createdAt: $createdAt, bluetooth: $bluetooth, user: $user)';
+    return 'Label(deviceId: $deviceId, type: $type, name: $name, rssi: $rssi, uid: $uid, documentId: $documentId, updatedAt: $updatedAt)';
   }
 
   @override
@@ -307,18 +219,13 @@ class _$_Label implements _Label {
             (identical(other.documentId, documentId) ||
                 other.documentId == documentId) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.bluetooth, bluetooth) ||
-                other.bluetooth == bluetooth) &&
-            (identical(other.user, user) || other.user == user));
+                other.updatedAt == updatedAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, deviceId, type, name, rssi, uid,
-      documentId, updatedAt, createdAt, bluetooth, user);
+  int get hashCode => Object.hash(
+      runtimeType, deviceId, type, name, rssi, uid, documentId, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -342,10 +249,7 @@ abstract class _Label implements Label {
       final int? rssi,
       required final String uid,
       final String? documentId,
-      @TimestampNullableConverter() final DateTime? updatedAt,
-      @deprecated @TimestampNullableConverter() final DateTime? createdAt,
-      @deprecated final Bluetooth? bluetooth,
-      @deprecated final AppUser? user}) = _$_Label;
+      @TimestampNullableConverter() final DateTime? updatedAt}) = _$_Label;
 
   factory _Label.fromJson(Map<String, dynamic> json) = _$_Label.fromJson;
 
@@ -364,16 +268,6 @@ abstract class _Label implements Label {
   @override
   @TimestampNullableConverter()
   DateTime? get updatedAt;
-  @override
-  @deprecated
-  @TimestampNullableConverter()
-  DateTime? get createdAt;
-  @override
-  @deprecated
-  Bluetooth? get bluetooth;
-  @override
-  @deprecated
-  AppUser? get user;
   @override
   @JsonKey(ignore: true)
   _$$_LabelCopyWith<_$_Label> get copyWith =>

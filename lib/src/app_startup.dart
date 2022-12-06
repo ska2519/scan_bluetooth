@@ -22,6 +22,7 @@ import 'exceptions/async_error_logger.dart';
 import 'exceptions/error_logger.dart';
 import 'features/admob/application/ad_helper.dart';
 import 'features/admob/application/admob_service.dart';
+import 'features/firebase/analytics.dart';
 import 'features/firebase/remote_config.dart';
 import 'features/in_app_purchase/application/purchases_service.dart';
 import 'features/presence_user/application/presence_user_service.dart';
@@ -48,7 +49,8 @@ class AppStartup {
             : DefaultFirebaseOptionsDev.currentPlatform,
       );
     } catch (e) {
-      logger.i('Firebase initializeApp e: $e');
+      logger.e(
+          'Firebase.initializeApp [A Firebase App named "[DEFAULT]" already exists] error try catch e: $e');
     }
 
     final analytics = kReleaseMode ? FirebaseAnalytics.instance : null;
@@ -111,14 +113,24 @@ class AppStartup {
       ],
     );
     appStartupContainer.read(loggerProvider);
-    appStartupContainer.read(remoteConfigProvider);
 
-    if (Platform.isAndroid) {
-      appStartupContainer.read(admobServiceProvider);
-    }
-    if (Platform.isAndroid || Platform.isIOS) {
-      appStartupContainer.read(presenceUserServiceProvider);
-      appStartupContainer.read(purchasesServiceProvider);
+    await appStartupContainer.read(remoteConfigProvider).init();
+    final disabledApp = appStartupContainer.read(disabledAppProvider);
+    if (disabledApp) {
+      if (analytics != null) {
+        await analytics.logEvent(
+          name: 'disabledApp',
+          parameters: analyticsLogParameters(appStartupContainer),
+        );
+      }
+    } else {
+      if (Platform.isAndroid) {
+        appStartupContainer.read(admobServiceProvider);
+      }
+      if (Platform.isAndroid || Platform.isIOS) {
+        appStartupContainer.read(presenceUserServiceProvider);
+        appStartupContainer.read(purchasesServiceProvider);
+      }
     }
     if (Platform.isMacOS) {
       appStartupContainer.read(setWindowSizeProvider);

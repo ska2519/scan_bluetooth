@@ -14,14 +14,6 @@ _$_Label _$$_LabelFromJson(Map json) => _$_Label(
       uid: json['uid'] as String,
       documentId: json['documentId'] as String?,
       updatedAt: const TimestampNullableConverter().fromJson(json['updatedAt']),
-      createdAt: const TimestampNullableConverter().fromJson(json['createdAt']),
-      bluetooth: json['bluetooth'] == null
-          ? null
-          : Bluetooth.fromJson(
-              Map<String, dynamic>.from(json['bluetooth'] as Map)),
-      user: json['user'] == null
-          ? null
-          : AppUser.fromJson(Map<String, dynamic>.from(json['user'] as Map)),
     );
 
 Map<String, dynamic> _$$_LabelToJson(_$_Label instance) => <String, dynamic>{
@@ -33,10 +25,6 @@ Map<String, dynamic> _$$_LabelToJson(_$_Label instance) => <String, dynamic>{
       'documentId': instance.documentId,
       'updatedAt':
           const TimestampNullableConverter().toJson(instance.updatedAt),
-      'createdAt':
-          const TimestampNullableConverter().toJson(instance.createdAt),
-      'bluetooth': instance.bluetooth?.toJson(),
-      'user': instance.user?.toJson(),
     };
 
 const _$BluetoothDeviceTypeEnumMap = {

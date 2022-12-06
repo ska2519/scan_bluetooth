@@ -19,9 +19,9 @@ class Label with _$Label {
     required UserId uid,
     String? documentId,
     @TimestampNullableConverter() DateTime? updatedAt,
-    @deprecated @TimestampNullableConverter() DateTime? createdAt,
-    @deprecated Bluetooth? bluetooth,
-    @deprecated AppUser? user,
+    // @deprecated @TimestampNullableConverter() DateTime? createdAt,
+    // @deprecated Bluetooth? bluetooth,
+    // @deprecated AppUser? user,
   }) = _Label;
 
   factory Label.fromJson(Map<String, dynamic> json) => _$LabelFromJson(json);

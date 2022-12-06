@@ -25,12 +25,6 @@ _$_Bluetooth _$$_BluetoothFromJson(Map json) => _$_Bluetooth(
       updatedAt: const TimestampNullableConverter().fromJson(json['updatedAt']),
       labelCount: json['labelCount'] as int? ?? 0,
       canConnect: json['canConnect'] as bool? ?? false,
-      firstUpdatedLabel: json['firstUpdatedLabel'] == null
-          ? null
-          : Label.fromJson(
-              Map<String, dynamic>.from(json['firstUpdatedLabel'] as Map)),
-      manufacturerDataHead: json['manufacturerDataHead'] as List<dynamic>?,
-      manufacturerData: json['manufacturerData'] as List<dynamic>?,
     );
 
 Map<String, dynamic> _$$_BluetoothToJson(_$_Bluetooth instance) =>
@@ -50,9 +44,6 @@ Map<String, dynamic> _$$_BluetoothToJson(_$_Bluetooth instance) =>
           const TimestampNullableConverter().toJson(instance.updatedAt),
       'labelCount': instance.labelCount,
       'canConnect': instance.canConnect,
-      'firstUpdatedLabel': instance.firstUpdatedLabel?.toJson(),
-      'manufacturerDataHead': instance.manufacturerDataHead,
-      'manufacturerData': instance.manufacturerData,
     };
 
 const _$BluetoothDeviceTypeEnumMap = {

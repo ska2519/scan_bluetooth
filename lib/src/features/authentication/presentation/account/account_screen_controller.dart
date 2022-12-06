@@ -23,17 +23,12 @@ class AccountScreenController extends StateNotifier<AsyncValue<void>> {
         newState = await AsyncValue.guard(authRepository.signInWithApple);
         break;
     }
-    if (mounted) {
-      state = newState;
-    }
+    if (mounted) state = newState;
   }
 
   Future<void> signOut() async {
     state = const AsyncLoading();
-    final newState = await AsyncValue.guard(authService.signOut);
-    if (mounted) {
-      state = newState;
-    }
+    if (mounted) state = await AsyncValue.guard(authService.signOut);
   }
 }
 

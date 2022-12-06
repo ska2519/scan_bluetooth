@@ -25,8 +25,6 @@ _$_Bluetooth _$$_BluetoothFromJson(Map json) => _$_Bluetooth(
       updatedAt: const TimestampNullableConverter().fromJson(json['updatedAt']),
       labelCount: json['labelCount'] as int? ?? 0,
       canConnect: json['canConnect'] as bool? ?? false,
-      manufacturerDataHead: json['manufacturerDataHead'] as List<dynamic>?,
-      manufacturerData: json['manufacturerData'] as List<dynamic>?,
     );
 
 Map<String, dynamic> _$$_BluetoothToJson(_$_Bluetooth instance) =>
@@ -46,45 +44,6 @@ Map<String, dynamic> _$$_BluetoothToJson(_$_Bluetooth instance) =>
           const TimestampNullableConverter().toJson(instance.updatedAt),
       'labelCount': instance.labelCount,
       'canConnect': instance.canConnect,
-      'manufacturerDataHead': instance.manufacturerDataHead,
-      'manufacturerData': instance.manufacturerData,
-    };
-
-const _$BluetoothDeviceTypeEnumMap = {
-  BluetoothDeviceType.unknown: 'unknown',
-  BluetoothDeviceType.classic: 'classic',
-  BluetoothDeviceType.le: 'le',
-  BluetoothDeviceType.dual: 'dual',
-};
-
-_$_AdvertisementData _$$_AdvertisementDataFromJson(Map json) =>
-    _$_AdvertisementData(
-      localName: json['localName'] as String,
-      txPowerLevel: json['txPowerLevel'] as int?,
-      connectable: json['connectable'] as bool,
-      manufacturerData: (json['manufacturerData'] as Map).map(
-        (k, e) => MapEntry(int.parse(k as String),
-            (e as List<dynamic>).map((e) => e as int).toList()),
-      ),
-      serviceData: (json['serviceData'] as Map).map(
-        (k, e) => MapEntry(
-            k as String, (e as List<dynamic>).map((e) => e as int).toList()),
-      ),
-      serviceUuids: (json['serviceUuids'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-    );
-
-Map<String, dynamic> _$$_AdvertisementDataToJson(
-        _$_AdvertisementData instance) =>
-    <String, dynamic>{
-      'localName': instance.localName,
-      'txPowerLevel': instance.txPowerLevel,
-      'connectable': instance.connectable,
-      'manufacturerData':
-          instance.manufacturerData.map((k, e) => MapEntry(k.toString(), e)),
-      'serviceData': instance.serviceData,
-      'serviceUuids': instance.serviceUuids,
     };
 
 const _$BluetoothDeviceTypeEnumMap = {

@@ -76,14 +76,17 @@ class BluetoothService {
             );
         return;
       }
-
+      final now = DateTime.now();
       var label = _stateLabel(bluetooth, user);
       final fetchBluetooth = await featchBluetooth(bluetooth);
       if (fetchBluetooth == null) {
         await ref.read(bluetoothRepoProvider).setBluetooth(
-              bluetooth: bluetooth.copyWith(firstUpdatedLabel: label),
+              bluetooth: bluetooth.copyWith(
+                userLabel: null,
+                createdAt: now,
+              ),
             );
-      } else {}
+      }
       await ref.read(bluetoothRepoProvider).setLabel(
             deviceId: bluetooth.deviceId,
             label: label,
@@ -95,11 +98,12 @@ class BluetoothService {
 
   Label _stateLabel(Bluetooth bluetooth, AppUser? user) {
     return Label(
-      bluetooth: bluetooth.copyWith(previousRssi: null),
       uid: user!.uid,
       name: textEditingCtr.text,
-      user: user,
-      createdAt: bluetooth.userLabel?.createdAt,
+      rssi: bluetooth.rssi,
+      type: bluetooth.type,
+      deviceId: bluetooth.deviceId,
+      updatedAt: DateTime.now(),
     );
   }
 
@@ -116,7 +120,7 @@ class BluetoothService {
     );
   }
 
-  Future<void> deleteLabel(Bluetooth bluetooth) async => await ref
+  Future<void> deleteLabel(String deviceId, UserId uid) async => await ref
       .read(bluetoothRepoProvider)
-      .deleteLabel(deviceId: bluetooth.deviceId, uid: bluetooth.userLabel!.uid);
+      .deleteLabel(deviceId: deviceId, uid: uid);
 }

@@ -7,25 +7,29 @@ part of 'label.dart';
 // **************************************************************************
 
 _$_Label _$$_LabelFromJson(Map json) => _$_Label(
-      bluetooth: Bluetooth.fromJson(
-          Map<String, dynamic>.from(json['bluetooth'] as Map)),
+      deviceId: json['deviceId'] as String?,
+      type: $enumDecodeNullable(_$BluetoothDeviceTypeEnumMap, json['type']),
       name: json['name'] as String,
+      rssi: json['rssi'] as int?,
       uid: json['uid'] as String,
-      user: AppUser.fromJson(Map<String, dynamic>.from(json['user'] as Map)),
       documentId: json['documentId'] as String?,
-      createdAt: const TimestampNullableConverter().fromJson(json['createdAt']),
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
+      updatedAt: const TimestampNullableConverter().fromJson(json['updatedAt']),
     );
 
 Map<String, dynamic> _$$_LabelToJson(_$_Label instance) => <String, dynamic>{
-      'bluetooth': instance.bluetooth.toJson(),
+      'deviceId': instance.deviceId,
+      'type': _$BluetoothDeviceTypeEnumMap[instance.type],
       'name': instance.name,
+      'rssi': instance.rssi,
       'uid': instance.uid,
-      'user': instance.user.toJson(),
       'documentId': instance.documentId,
-      'createdAt':
-          const TimestampNullableConverter().toJson(instance.createdAt),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'updatedAt':
+          const TimestampNullableConverter().toJson(instance.updatedAt),
     };
+
+const _$BluetoothDeviceTypeEnumMap = {
+  BluetoothDeviceType.unknown: 'unknown',
+  BluetoothDeviceType.classic: 'classic',
+  BluetoothDeviceType.le: 'le',
+  BluetoothDeviceType.dual: 'dual',
+};

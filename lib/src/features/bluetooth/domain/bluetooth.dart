@@ -19,15 +19,15 @@ class Bluetooth with _$Bluetooth {
     AdvertisementData? advertisementData,
     required int rssi,
     int? previousRssi,
+    Label? userLabel,
     @TimestampNullableConverter() DateTime? scannedAt,
     @TimestampNullableConverter() DateTime? createdAt,
     @TimestampNullableConverter() DateTime? updatedAt,
     @Default(0) int labelCount,
-    Label? firstUpdatedLabel,
-    Label? userLabel,
     @Default(false) bool canConnect,
-    @deprecated List<dynamic>? manufacturerDataHead,
-    @deprecated List<dynamic>? manufacturerData,
+    // @deprecated Label? firstUpdatedLabel,
+    // @deprecated List<dynamic>? manufacturerDataHead,
+    // @deprecated List<dynamic>? manufacturerData,
   }) = _Bluetooth;
 
   factory Bluetooth.fromJson(Map<String, dynamic> json) =>

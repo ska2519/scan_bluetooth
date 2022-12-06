@@ -2,6 +2,7 @@ import '../../../../common_widgets/loading_animation.dart';
 import '../../../../common_widgets/loading_stack_body.dart';
 import '../../../../constants/resources.dart';
 import '../../application/bluetooth_service.dart';
+import '../../domain/bluetooth.dart';
 import '../../domain/label.dart';
 import '../bluetooth_card/bluetooth_card.dart';
 import '../bluetooth_grid/bluetooth_layout_grid.dart';
@@ -59,9 +60,14 @@ class LabelScreen extends HookConsumerWidget {
                   BluetoothLayoutGrid(
                     itemCount: labelList.length,
                     itemBuilder: (_, i) {
-                      final bluetooth = labelList[i]!
-                          .bluetooth
-                          .copyWith(userLabel: labelList[i]);
+                      final bluetooth = Bluetooth(
+                        deviceId: labelList[i]!.deviceId ?? '',
+                        name: labelList[i]!.name,
+                        rssi: labelList[i]!.rssi ?? 0,
+                        type: labelList[i]!.type ?? BluetoothDeviceType.unknown,
+                        userLabel: labelList[i],
+                      );
+
                       return BluetoothCard(
                         canDelete: true,
                         bluetooth: bluetooth,

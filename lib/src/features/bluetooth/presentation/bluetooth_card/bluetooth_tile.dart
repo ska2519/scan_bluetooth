@@ -144,7 +144,7 @@ class BluetoothTile extends HookConsumerWidget {
                       ),
                       if (bluetooth.userLabel != null &&
                           ref.read(scanBluetoothServiceProvider).rssiCalculate(
-                                  bluetooth.userLabel!.bluetooth.rssi) >
+                                  bluetooth.userLabel!.rssi ?? 70) >
                               70)
                         Padding(
                           padding: const EdgeInsets.only(left: Sizes.p4),

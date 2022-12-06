@@ -30,13 +30,11 @@ final enablePurchaseScreenProvider =
     StateProvider<bool>((ref) => RemoteConfigKeys.enablePurchaseScreen.value);
 
 class RemoteConfig {
-  RemoteConfig(this.ref) {
-    _init();
-  }
+  RemoteConfig(this.ref);
   final Ref ref;
   static final _instance = FirebaseRemoteConfig.instance;
 
-  Future<void> _init() async {
+  Future<void> init() async {
     try {
       await _setConfigSettings();
       await _setDefaults();
@@ -68,6 +66,10 @@ class RemoteConfig {
       _instance.getBool(RemoteConfigKeys.disableInterstitialAd.key);
   bool enablePurchaseScreen() =>
       _instance.getBool(RemoteConfigKeys.enablePurchaseScreen.key);
+  int getMinimumScanInterval() =>
+      _instance.getInt(RemoteConfigKeys.minimumScanInterval.key);
+  int getLabelLimitCount() =>
+      _instance.getInt(RemoteConfigKeys.labelLimitCount.key);
 
   int getMinimumScanInterval() =>
       _instance.getInt(RemoteConfigKeys.minimumScanInterval.key);

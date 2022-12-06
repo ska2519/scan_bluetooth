@@ -8,8 +8,15 @@ import 'primary_button.dart';
 
 /// Placeholder widget showing a message and CTA to go back to the home screen.
 class EmptyPlaceholderWidget extends StatelessWidget {
-  const EmptyPlaceholderWidget({super.key, required this.message});
+  const EmptyPlaceholderWidget({
+    super.key,
+    required this.message,
+    this.onPressed,
+    this.onPressedText,
+  });
   final String message;
+  final VoidCallback? onPressed;
+  final String? onPressedText;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +33,9 @@ class EmptyPlaceholderWidget extends StatelessWidget {
             ),
             gapH32,
             PrimaryButton(
-              onPressed: () => context.goNamed(AppRoute.bluetooth.name),
-              text: 'Go Home'.hardcoded,
+              onPressed:
+                  onPressed ?? () => context.goNamed(AppRoute.bluetooth.name),
+              text: onPressedText ?? 'Go Home'.hardcoded,
             )
           ],
         ),

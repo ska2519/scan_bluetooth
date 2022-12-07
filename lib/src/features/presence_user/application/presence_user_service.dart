@@ -13,7 +13,20 @@ enum OnlineState { online, offline }
 final presenceUserServiceProvider =
     Provider<PresenceUserService>(PresenceUserService.new);
 
-final statusStateOnlineStreamProvider = StreamProvider<List<UserState>>((ref) {
+// final userLabelListStreamProvider = StreamProvider<List<Label?>>((ref) {
+//   final bluetoothRepo = ref.read(bluetoothRepoProvider);
+//   final user = ref.watch(authStateChangesProvider).value;
+
+//   if (user == null) return const Stream<List<Label?>>.empty();
+
+//   final labelListStream = bluetoothRepo.labelsStream(user.uid);
+
+//   labelListStream.listen((labelList) =>
+//       ref.read(userLabelListCountProvider.notifier).state = labelList.length);
+//   return labelListStream;
+// });
+
+final statusStateOnlineStreamProvider = StreamProvider<List<UserState?>>((ref) {
   final presenceUserRepo = ref.read(presenceUserRepoProvider);
   final user = ref.watch(authStateChangesProvider).value;
 

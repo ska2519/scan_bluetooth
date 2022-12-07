@@ -169,7 +169,7 @@
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
 				E1AD21E3B4948B0440DA934D /* [CP] Check Pods Manifest.lock */,
-				94B447F489ED167F592E71DA /* Firebase Setup */,
+				987C58528A2EDE177E440049 /* Firebase Setup */,
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
@@ -273,7 +273,21 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		94B447F489ED167F592E71DA /* Firebase Setup */ = {
+		9740EEB61CF901F6004384FC /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
+		};
+		987C58528A2EDE177E440049 /* Firebase Setup */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -289,21 +303,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ $CONFIGURATION == \"Debug-prod\" ] || [ $CONFIGURATION == \"Profile-prod\" ] || [ $CONFIGURATION == \"Release-prod\" ]; then\n    echo \"📣 Running Firebase Setup - Copy GoogleService-Info.plist for 'prod' scheme\"\n    cp Runner/prod/GoogleService-Info.plist Runner/GoogleService-Info.plist\nelif [ $CONFIGURATION == \"Debug-dev\" ] || [ $CONFIGURATION == \"Profile-dev\" ] || [ $CONFIGURATION == \"Release-dev\" ]; then\n    echo \"📣 Running Firebase Setup - Copy GoogleService-Info.plist for 'dev' scheme\"\n    cp Runner/dev/GoogleService-Info.plist Runner/GoogleService-Info.plist\nfi\n";
-		};
-		9740EEB61CF901F6004384FC /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
+			shellScript = "if [ $CONFIGURATION == \"Debug-dev\" ] || [ $CONFIGURATION == \"Profile-dev\" ] ||[ $CONFIGURATION == \"Release-dev\" ]; then\n    echo \"📣 Running Copy GoogleService-Info.plist, Info.plist  script for 'dev' scheme\"\n    cp Runner/dev/GoogleService-Info.plist Runner/GoogleService-Info.plist\n    cp Runner/dev/Info.plist Runner/Info.plist\n    echo \"📣 Finish Copy GoogleService-Info.plist, Info.plist  script for 'dev' scheme\"\n        \nelif [ $CONFIGURATION == \"Debug-prod\" ] || [ $CONFIGURATION == \"Profile-prod\" ] || [ $CONFIGURATION == \"Release-prod\" ]; then\n    echo \"📣 Running Copy GoogleService-Info.plist, Info.plist  script for 'prod' scheme\"\n    cp Runner/prod/GoogleService-Info.plist Runner/GoogleService-Info.plist\n    cp Runner/prod/Info.plist Runner/Info.plist\n    echo \"📣 Finish Copy GoogleService-Info.plist, Info.plist  script for 'prod' scheme\"\nfi\n\n";
 		};
 		C76CC68DB99EB9202BB3DC1D /* [firebase_crashlytics] Crashlytics Upload Symbols */ = {
 			isa = PBXShellScriptBuildPhase;

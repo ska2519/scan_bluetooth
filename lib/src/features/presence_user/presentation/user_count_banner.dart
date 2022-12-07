@@ -7,19 +7,19 @@ class UserCountBanner extends HookConsumerWidget {
   const UserCountBanner({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncValueWidget<List<UserState>>(
+    return AsyncValueWidget<List<UserState?>>(
       // error: const SizedBox(),
       value: ref.watch(statusStateOnlineStreamProvider),
       data: (userStateList) {
         final totalCount = userStateList.length.numeral();
         final onlineCount = userStateList
-            .where((e) => e.state == 'online')
+            .where((e) => e?.state == 'online')
             .toList()
             .length
             .numeral();
 
         final onlineSignInCount = userStateList
-            .where((e) => e.state == 'online' && !e.isAnonymous)
+            .where((e) => e?.state == 'online' && !e!.isAnonymous)
             .toList()
             .length
             .numeral();

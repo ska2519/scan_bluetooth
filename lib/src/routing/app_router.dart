@@ -78,7 +78,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       if (user != null) {
         tempLocaion = '';
       }
-      logger.i('GoRouter isLoggedIn: $isLoggedIn / state: $state');
+      logger.i('GoRouter isLoggedIn: $isLoggedIn /location: ${state.location}');
 
       if (state.location == '/account/purchase/account') {
         tempLocaion = '/account/purchase';

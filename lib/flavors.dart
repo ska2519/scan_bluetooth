@@ -1,9 +1,5 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-final flavorProvider = Provider<Flavor>((ref) => throw UnimplementedError());
-
 enum Flavor {
   DEV,
   PROD,

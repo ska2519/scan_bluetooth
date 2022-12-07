@@ -20,7 +20,6 @@ class AppUser with _$AppUser {
     bool? isAnonymous,
     String? phoneNumber,
     String? photoURL,
-    // @Default([]) List<dynamic> providerData,
     List<UserInfo>? providerData,
     String? refreshToken,
     String? tenantId,

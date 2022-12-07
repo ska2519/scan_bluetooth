@@ -7,15 +7,15 @@ class UserCount extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AsyncValueWidget<List<UserState>>(
+    return AsyncValueWidget<List<UserState?>>(
       error: const SizedBox(),
       loading: const SizedBox(),
       value: ref.watch(statusStateOnlineStreamProvider),
       data: (userStateList) {
         final onlineUserStateList =
-            userStateList.where((e) => e.state == 'online').toList();
+            userStateList.where((e) => e?.state == 'online').toList();
         final onlineSignInUserStateList = userStateList
-            .where((e) => e.state == 'online' && !e.isAnonymous)
+            .where((e) => e?.state == 'online' && !e!.isAnonymous)
             .toList();
         return SizedBox(
           width: 30,

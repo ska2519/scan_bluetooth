@@ -32,7 +32,7 @@ import 'localization/string_hardcoded.dart';
 import 'utils/window_size_provider.dart';
 
 bool shouldUseFirestoreEmulator = false;
-
+final flavorProvider = Provider<Flavor>((ref) => throw UnimplementedError());
 final sharedPreferencesProvider =
     Provider<SharedPreferences>((ref) => throw UnimplementedError());
 final packageInfoProvider =
@@ -76,6 +76,8 @@ class AppStartup {
     PlatformDispatcher.instance.onError = (error, stack) {
       if (kReleaseMode && !kIsWeb && crashlytics != null) {
         crashlytics.recordError(error, stack, fatal: true);
+      } else {
+        logger.e('PlatformDispatcher e: $error, stack: $stack');
       }
       return true;
     };

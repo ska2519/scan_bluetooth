@@ -9,14 +9,19 @@ final presenceUserRepoProvider =
 class PresenceUserRepo {
   final _firestore = CloudFirestore();
 
-  Stream<List<UserState>> userStateStream() {
-    logger.i('userStateStream start');
-    return _firestore.collectionStream<UserState>(
-      path: FirebasePath.collectionStatus(),
-      builder: (data, documentId) {
-        data?.addAll({'uid': documentId});
-        return UserState.fromJson(data!);
-      },
-    );
+  Stream<List<UserState?>> userStateStream() {
+    var collectionGroupStream = Stream<List<UserState?>>.value([]);
+    try {
+      collectionGroupStream = _firestore.collectionGroupStream<UserState?>(
+        path: FirebasePath.collectionStatus(),
+        builder: (data, documentId) {
+          if (data != null) data.addAll({'documentId': documentId});
+          return data != null ? UserState.fromJson(data) : null;
+        },
+      );
+    } catch (e) {
+      logger.e('userStateStream e: $e');
+    }
+    return collectionGroupStream;
   }
 }

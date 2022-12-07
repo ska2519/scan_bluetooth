@@ -77,7 +77,8 @@ class FirebaseAuthRepository implements AuthRepository {
         authService.refreshAuthStateChangesProvider();
       }
     } on FirebaseAuthException catch (e) {
-      logger.i('e.code: ${e.code}');
+      logger.e('FirebaseAuthException e.code: ${e.code}');
+      logger.e('FirebaseAuthException e.message: ${e.message}');
       switch (e.code) {
         case 'provider-already-linked':
           logger.i('The provider has already been linked to the user.');
@@ -94,8 +95,12 @@ class FirebaseAuthRepository implements AuthRepository {
           logger.d(
               'email-already-in-use to a Firebase User e.credential: ${e.credential}');
           return await _signInWithCredential(e.credential!);
+        case 'user-not-found':
+          logger.d('user-not-found e.credential: ${e.credential}');
+          break;
         default:
-          logger.i('Unknown error. linkWithCredential e.code: ${e.code}');
+          logger.i(
+              'Unknown error. linkWithCredential e.code: ${e.code} / e.message: ${e.message}');
       }
     }
   }

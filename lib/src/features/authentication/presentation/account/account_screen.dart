@@ -54,23 +54,23 @@ class AccountScreen extends HookConsumerWidget {
             ),
           ),
           actions: [
-            if (isLoggedIn)
-              ActionTextButton(
-                text: 'Logout'.hardcoded,
-                onPressed: () async {
-                  final logout = await showAlertDialog(
-                    context: context,
-                    title: 'Are you sure?'.hardcoded,
-                    cancelActionText: 'Cancel'.hardcoded,
-                    defaultActionText: 'Logout'.hardcoded,
-                  );
-                  if (logout == true) {
-                    await ref
-                        .read(accountScreenControllerProvider.notifier)
-                        .signOut();
-                  }
-                },
-              ),
+            // if (isLoggedIn)
+            ActionTextButton(
+              text: 'Logout'.hardcoded,
+              onPressed: () async {
+                final logout = await showAlertDialog(
+                  context: context,
+                  title: 'Are you sure?'.hardcoded,
+                  cancelActionText: 'Cancel'.hardcoded,
+                  defaultActionText: 'Logout'.hardcoded,
+                );
+                if (logout == true) {
+                  await ref
+                      .read(accountScreenControllerProvider.notifier)
+                      .signOut();
+                }
+              },
+            ),
           ],
         ),
         body: LoadingStackBody(

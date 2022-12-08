@@ -40,25 +40,16 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<void> signInAnonymously() async {
     try {
-      final userCredential = await _firebaseAuth.signInAnonymously();
-      logger.i('signInAnonymously userCredential: $userCredential');
-      if (userCredential.user != null) {
-        final appUser = await getAppUser(userCredential.user!.uid);
-        logger.i('signInAnonymously appUser: $appUser');
-        if (appUser == null) {
-          await setAppUser(userCredential.user!);
-        }
-      }
+      await _firebaseAuth.signInAnonymously();
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'operation-not-allowed':
-          logger.e('e.code: ${e.code}', e);
           logger.i("Anonymous auth hasn't been enabled for this project.");
           break;
         default:
-          logger.i('signInAnonymously e.code: ${e.code}');
-          logger.i(e.message);
+          logger.e('signInAnonymously e.code: ${e.code} / ${e.message}');
       }
+      rethrow;
     }
   }
 
@@ -66,13 +57,19 @@ class FirebaseAuthRepository implements AuthRepository {
     try {
       final userLinkWithCredential =
           await _firebaseAuth.currentUser?.linkWithCredential(credential);
+      logger.i(
+          '_linkWithCredential userLinkWithCredential: $userLinkWithCredential');
       if (userLinkWithCredential != null &&
           userLinkWithCredential.user != null) {
         logger.i('_linkWithCredential user: ${userLinkWithCredential.user}');
-        final appUser = await getAppUser(userLinkWithCredential.user!.uid);
-        if (appUser == null) {
-          await setAppUser(userLinkWithCredential.user!);
-        }
+        // final appUser = await getAppUser(userLinkWithCredential.user!.uid);
+        // logger.i('_linkWithCredential appUser: $appUser');
+        // if (appUser == null &&
+        //     appUser!.email == null &&
+        //     appUser.email!.isEmpty) {
+        await setAppUser(userLinkWithCredential.user!);
+        logger.i('_linkWithCredential setAppUser');
+        // }
 
         authService.refreshAuthStateChangesProvider();
       }
@@ -111,10 +108,7 @@ class FirebaseAuthRepository implements AuthRepository {
           await _firebaseAuth.signInWithCredential(credential);
       if (userLinkWithCredential.user != null) {
         logger.i('_signInWithCredential user: ${userLinkWithCredential.user}');
-        final appUser = await getAppUser(userLinkWithCredential.user!.uid);
-        if (appUser == null) {
-          await setAppUser(userLinkWithCredential.user!);
-        }
+        await setAppUser(userLinkWithCredential.user!);
       }
     } catch (e) {
       rethrow;
@@ -213,7 +207,7 @@ class FirebaseAuthRepository implements AuthRepository {
         merge: true,
       );
     } catch (e) {
-      rethrow;
+      logger.e('setAppUser e: $e', e);
     }
   }
 
@@ -226,12 +220,12 @@ class FirebaseAuthRepository implements AuthRepository {
         data: user.toJson(),
       );
     } catch (e) {
-      rethrow;
+      logger.e('updateAppUser e: $e');
     }
   }
 
   @override
-  Future<AppUser?> getAppUser(String uid) async {
+  Future<AppUser?> getAppUser(UserId uid) async {
     try {
       return await _firestore.getDoc(
         path: FirebasePath.users(uid: uid),
@@ -240,8 +234,8 @@ class FirebaseAuthRepository implements AuthRepository {
       );
     } catch (e) {
       logger.e('getAppUser e: $e');
-      return null;
     }
+    return null;
   }
 
   @override

@@ -25,7 +25,7 @@ export const onUserStatusChanged = functions.database.ref('/status/{uid}').onUpd
       // and compare the timestamps.
       const statusSnapshot = await change.after.ref.once('value');
       const status = statusSnapshot.val();
-      functions.logger.log(status, eventStatus);
+      functions.logger.log([status, eventStatus]);
       // If the current timestamp for this data is newer than
       // the data that triggered this event, we exit this function.
       if (status.last_changed > eventStatus.last_changed) {

@@ -60,7 +60,6 @@ class BluetoothList extends StateNotifier<List<Bluetooth>> {
             if (scanResult.rssi > 0) {
               return;
             }
-            logger.i('scanResult: ${scanResult.device.type.name}');
             final bt = Bluetooth(
               deviceId: scanResult.device.id.id,
               name: scanResult.device.name,

@@ -74,7 +74,10 @@ class AppStartup {
     };
 
     PlatformDispatcher.instance.onError = (error, stack) {
-      if (kReleaseMode && !kIsWeb && crashlytics != null) {
+      //* [Firebase] when [user == null] permission-denied error-handling
+      if (error.toString().contains('cloud_firestore/permission-denied')) {
+        logger.d('[cloud_firestore/permission-denied]');
+      } else if (kReleaseMode && !kIsWeb && crashlytics != null) {
         crashlytics.recordError(error, stack, fatal: true);
       } else {
         logger.e('PlatformDispatcher e: $error, stack: $stack');

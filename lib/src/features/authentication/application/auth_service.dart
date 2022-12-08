@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../exceptions/error_logger.dart';
@@ -15,30 +14,20 @@ class AuthService {
   final Ref ref;
 
   Stream<AppUser?> authStateChanges() {
-    User? previousUser;
-    logger.i('authStateChanges tempUser1: $previousUser');
     final auth = ref.watch(authRepositoryProvider);
     final authStateChanges = auth.authStateChanges();
-    return authStateChanges.asyncMap((user) async {
+
+    return authStateChanges.asyncMap<AppUser?>((user) async {
       logger.i('authStateChanges user: $user');
       try {
-        if (user == null || user != previousUser) {
-          previousUser = user;
-          logger.i('authStateChanges tempUser2: $previousUser');
-          if (user == null) {
-            await auth.signInAnonymously();
-          } else {
-            final appUser = await auth.getAppUser(user.uid);
-            logger.i('authStateChanges appUser: $appUser');
-            if (appUser == null) {
-              await auth.setAppUser(user);
-              return await auth.getAppUser(user.uid);
-            }
-            return appUser;
-          }
+        if (user == null) {
+          await auth.signInAnonymously();
+        } else {
+          await auth.setAppUser(user);
+          return await auth.getAppUser(user.uid);
         }
       } catch (e) {
-        logger.e('authStateChanges getAppUser failed: $e');
+        logger.e('authStateChanges e: $e', e);
       }
       return null;
     });

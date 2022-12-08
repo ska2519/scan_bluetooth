@@ -34,5 +34,6 @@ module.exports = {
     "object-curly-spacing": 0,
     "import/no-unresolved": 0,
     "@typescript-eslint/no-unused-vars": 0,
+    "spaced-comment": 0,
   },
 };

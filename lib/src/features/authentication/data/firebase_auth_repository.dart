@@ -44,88 +44,54 @@ class FirebaseAuthRepository implements AuthRepository {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'operation-not-allowed':
-          logger.i("Anonymous auth hasn't been enabled for this project.");
+          logger.e("Anonymous auth hasn't been enabled for this project.");
           break;
         default:
-          logger.e('signInAnonymously e.code: ${e.code} / ${e.message}');
+          logger.e('signInAnonymously FirebaseAuthE: ${e.code} / ${e.message}');
       }
-      rethrow;
     }
   }
 
   Future<void> _linkWithCredential(OAuthCredential credential) async {
     try {
-      final userLinkWithCredential =
-          await _firebaseAuth.currentUser?.linkWithCredential(credential);
-      logger.i(
-          '_linkWithCredential userLinkWithCredential: $userLinkWithCredential');
-      if (userLinkWithCredential != null &&
-          userLinkWithCredential.user != null) {
-        logger.i('_linkWithCredential user: ${userLinkWithCredential.user}');
-        // final appUser = await getAppUser(userLinkWithCredential.user!.uid);
-        // logger.i('_linkWithCredential appUser: $appUser');
-        // if (appUser == null &&
-        //     appUser!.email == null &&
-        //     appUser.email!.isEmpty) {
-        await setAppUser(userLinkWithCredential.user!);
-        logger.i('_linkWithCredential setAppUser');
-        // }
-
-        authService.refreshAuthStateChangesProvider();
-      }
+      await _firebaseAuth.currentUser?.linkWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      logger.e('FirebaseAuthException e.code: ${e.code}');
-      logger.e('FirebaseAuthException e.message: ${e.message}');
+      logger.e('_linkWithCredential FirebaseAuthE: ${e.code} / ${e.message}');
       switch (e.code) {
         case 'provider-already-linked':
-          logger.i('The provider has already been linked to the user.');
+          logger.d('The provider has already been linked to the user.');
           break;
         case 'invalid-credential':
-          logger.i("The provider's credential is not valid.");
+          logger.e("The provider's credential is not valid.");
           break;
         case 'credential-already-in-use':
-          logger.d(
+          logger.i(
               'The account corresponding to the credential already exists, '
               'or is already linked to a Firebase User e.credential: ${e.credential}');
           return await _signInWithCredential(e.credential!);
         case 'email-already-in-use':
-          logger.d(
+          logger.i(
               'email-already-in-use to a Firebase User e.credential: ${e.credential}');
           return await _signInWithCredential(e.credential!);
         case 'user-not-found':
-          logger.d('user-not-found e.credential: ${e.credential}');
+          logger.e('user-not-found e.credential: ${e.credential}');
           break;
         default:
-          logger.i(
-              'Unknown error. linkWithCredential e.code: ${e.code} / e.message: ${e.message}');
+          logger.e('Unknown FirebaseAuthE: ${e.code} / ${e.message}');
       }
     }
   }
 
-  Future<void> _signInWithCredential(AuthCredential credential) async {
-    try {
-      final userLinkWithCredential =
-          await _firebaseAuth.signInWithCredential(credential);
-      if (userLinkWithCredential.user != null) {
-        logger.i('_signInWithCredential user: ${userLinkWithCredential.user}');
-        await setAppUser(userLinkWithCredential.user!);
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
+  Future<void> _signInWithCredential(AuthCredential credential) async =>
+      await _firebaseAuth.signInWithCredential(credential);
 
   @override
   Future<void> signInWithGoogle() async {
     try {
-      final googleUser = await GoogleSignIn(
-        scopes: ['email'],
-      ).signIn();
+      final googleUser = await GoogleSignIn(scopes: ['email']).signIn();
+
       logger.i('signInWithGoogle googleUser: $googleUser');
-      if (googleUser == null) {
-        logger.e('signInWithGoogle googleUser: $googleUser');
-        return;
-      }
+      if (googleUser == null) return;
 
       final googleAuth = await googleUser.authentication;
 

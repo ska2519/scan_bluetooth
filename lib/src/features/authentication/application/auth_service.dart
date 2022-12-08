@@ -42,7 +42,7 @@ class AuthService {
     try {
       await ref.read(authRepositoryProvider).signOut();
     } catch (e) {
-      logger.i('signOut e: e');
+      logger.e('signOut e: $e');
     }
   }
 }

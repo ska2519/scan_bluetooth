@@ -48,18 +48,13 @@ class PresenceUserService {
   void _listenToLogin() {
     ref.listen<AsyncValue<AppUser?>>(authStateChangesProvider,
         (previous, next) async {
-      final previousUser = previous?.value;
       final user = next.value;
       logger.i('PresenceUserService _init user: $user');
-      if (user != null && previousUser?.uid != user.uid) {
-        logger.i(
-            'PresenceUserService user != null && previousUser?.uid != user.uid');
-        _updatePresence(user);
-      }
+      if (user != null) await _updatePresence(user);
     });
   }
 
-  void _updatePresence(AppUser user) {
+  Future<void> _updatePresence(AppUser user) async {
     try {
       final uid = user.uid;
       logger.i('PresenceUserService _updatePresence uid: $uid');
@@ -93,22 +88,21 @@ class PresenceUserService {
         'last_changed': FieldValue.serverTimestamp(),
       };
 
-      database.ref('.info/connected').onValue.listen((event) {
-        logger.i(
-            'PresenceUserService .info/connected event: ${event.snapshot.value}');
+      database.ref('.info/connected').onValue.listen((event) async {
+        logger.i('🎧 PresenceUserService  event: ${event.snapshot.value}');
         if (event.snapshot.value == false) {
-          userStatusFirestoreRef.set(isOfflineForFirestore);
+          await userStatusFirestoreRef.set(isOfflineForFirestore);
           return;
         }
 
-        userStatusDatabaseRef
+        await userStatusDatabaseRef
             .onDisconnect()
             .set(isOfflineForDatabase)
-            .then((_) {
+            .then((_) async {
           logger.i(
               'PresenceUserService userStatusDatabaseRef.onDisconnect().set().then((_)');
-          userStatusDatabaseRef.set(isOnlineForDatabase);
-          userStatusFirestoreRef.set(isOnlineForFirestore);
+          await userStatusDatabaseRef.set(isOnlineForDatabase);
+          await userStatusFirestoreRef.set(isOnlineForFirestore);
         });
       });
     } catch (e) {

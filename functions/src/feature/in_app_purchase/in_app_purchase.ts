@@ -1,28 +1,18 @@
+import * as admin from "firebase-admin";
 import * as Functions from "firebase-functions";
-import * as admin from 'firebase-admin';
 
-import { productDataMap } from './products';
-import { PurchaseHandler } from "./purchase-handler";
-import { GooglePlayPurchaseHandler } from "./google-play.purchase-handler";
-import { AppStorePurchaseHandler } from "./app-store.purchase-handler";
-// import { CLOUD_REGION } from "./constants";
-import {
-  IapRepository,
-  IAPSource,
-} from "./iap.repository";
-// import { HttpsError } from "firebase-functions/lib/providers/https";
-import { functions } from '../../index';
-// const functions = Functions.region(CLOUD_REGION);
+import {functions} from "../../index";
+import {AppStorePurchaseHandler} from "./app-store.purchase-handler";
+import {GooglePlayPurchaseHandler} from "./google-play.purchase-handler";
+import {IapRepository, IAPSource} from "./iap.repository";
+import {productDataMap} from "./products";
+import {PurchaseHandler} from "./purchase-handler";
 
 const iapRepository = new IapRepository(admin.firestore());
 const purchaseHandlers: { [source in IAPSource]: PurchaseHandler } = {
   google_play: new GooglePlayPurchaseHandler(iapRepository),
   app_store: new AppStorePurchaseHandler(iapRepository),
 };
-
-//
-// Callables
-//
 
 // Verify Purchase Function
 interface VerifyPurchaseParams {
@@ -37,7 +27,10 @@ export const verifyPurchase = functions.https.onCall(
     // Check authentication
     if (!context.auth) {
       console.warn("verifyPurchase called when not authenticated");
-      throw new Functions.https.HttpsError("unauthenticated", "Request was not authenticated.");
+      throw new Functions.https.HttpsError(
+        "unauthenticated",
+        "Request was not authenticated."
+      );
     }
     // Get the product data from the map
     const productData = productDataMap[data.productId];

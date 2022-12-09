@@ -54,7 +54,7 @@ export class IapRepository {
       .where("expiryDate", "<=", Timestamp.now())
       .where("status", "==", "ACTIVE")
       .get();
-      
+
     if (!documents.size) return;
     const writeBatch = this.firestore.batch();
     documents.docs.forEach((doc) =>

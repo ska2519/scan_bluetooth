@@ -24,10 +24,9 @@ module.exports = {
   rules: {
     // severity level: 0 = off, 1 = warn, 2 = error
     "max-len": [0, { code: 80, ignorePattern: "^import\\W.*" }],
-    "quotes": [0, "double", { avoidEscape: true }],
     "require-jsdoc": 0,
+    "quotes": [0, "double", { avoidEscape: true }],
     "eol-last": 1,
-    // "@typescript-eslint/no-unused-vars": 0,
     "no-trailing-spaces": 0,
     "indent": "off",
     "operator-linebreak": 0,
@@ -35,5 +34,6 @@ module.exports = {
     "import/no-unresolved": 0,
     "@typescript-eslint/no-unused-vars": 0,
     "spaced-comment": 0,
+    "space-before-function-paren": [0, "always"],
   },
 };

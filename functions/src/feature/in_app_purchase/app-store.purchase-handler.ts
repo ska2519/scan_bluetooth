@@ -1,13 +1,12 @@
-import { PurchaseHandler } from "./purchase-handler";
-import { ProductData, productDataMap } from "./products";
-import { APP_STORE_SHARED_SECRET, CLOUD_REGION } from "./constants";
-import { IapRepository } from "./iap.repository";
 import * as admin from "firebase-admin";
 import * as Functions from "firebase-functions";
+import {groupBy} from "lodash";
 import * as appleReceiptVerify from "node-apple-receipt-verify";
+import {APP_STORE_SHARED_SECRET, CLOUD_REGION} from "./constants";
+import {IapRepository} from "./iap.repository";
+import {ProductData, productDataMap} from "./products";
+import {PurchaseHandler} from "./purchase-handler";
 import Timestamp = admin.firestore.Timestamp;
-import { groupBy } from "lodash";
-
 
 // Add typings for missing property in library interface.
 declare module "node-apple-receipt-verify" {
@@ -84,7 +83,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
             userId,
             purchaseDate: firestore.Timestamp.fromMillis(product.purchaseDate),
             expiryDate: firestore.Timestamp.fromMillis(
-              product.expirationDate ?? 0,
+              product.expirationDate ?? 0
             ),
             status:
               (product.expirationDate ?? 0) <= Date.now()
@@ -111,7 +110,7 @@ export class AppStorePurchaseHandler extends PurchaseHandler {
 
   handleServerEvent = functions.https.onRequest(async (req, res) => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const camelCaseKeys = require('camelcase-keys');
+    const camelCaseKeys = require("camelcase-keys");
 
     type ReceiptInfo = {
       productId: string;

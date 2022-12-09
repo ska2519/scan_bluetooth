@@ -1,14 +1,16 @@
-import { PurchaseHandler } from "./purchase-handler";
-import { ProductData, productDataMap } from "./products";
+import {GoogleAuth} from "google-auth-library";
+import {androidpublisher_v3 as AndroidPublisherApi} from "googleapis";
+import * as credentials from "./assets/service-account.json";
 import {
   ANDROID_PACKAGE_ID,
   CLOUD_REGION,
   GOOGLE_PLAY_PUBSUB_BILLING_TOPIC,
 } from "./constants";
-import { GoogleAuth } from "google-auth-library";
-import { androidpublisher_v3 as AndroidPublisherApi } from "googleapis";
-import * as credentials from "./assets/service-account.json";
+import {ProductData, productDataMap} from "./products";
+import {PurchaseHandler} from "./purchase-handler";
 
+import * as admin from "firebase-admin";
+import * as Functions from "firebase-functions";
 import {
   IapRepository,
   NonSubscriptionPurchase,
@@ -17,9 +19,7 @@ import {
   SubscriptionPurchase,
   SubscriptionStatus,
 } from "./iap.repository";
-import * as admin from "firebase-admin";
 const firestore = admin.firestore;
-import * as Functions from "firebase-functions";
 const functions = Functions.region(CLOUD_REGION);
 
 export class GooglePlayPurchaseHandler extends PurchaseHandler {

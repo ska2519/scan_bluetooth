@@ -20,7 +20,7 @@
     "Eslint": "npm:eslint@^8.23.1",
     "firebase": "^9.12.1",
     "firebase-admin": "^11.0.1",
-    "firebase-functions": "^4.0.1",
+    "firebase-functions": "^4.1.0",
     "google-auth-library": "^8.5.1",
     "googleapis": "^107.0.0",
     "node-apple-receipt-verify": "^1.12.1",

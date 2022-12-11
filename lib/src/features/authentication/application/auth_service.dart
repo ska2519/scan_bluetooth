@@ -5,15 +5,15 @@ import '../data/auth_repository.dart';
 import '../domain/app_user.dart';
 
 final authServiceProvider = Provider<AuthService>(AuthService.new);
-final authStateChangesProvider = StreamProvider<AppUser?>((ref) {
-  return ref.watch(authServiceProvider).authStateChanges();
+final appUserStateChangesProvider = StreamProvider<AppUser?>((ref) {
+  return ref.watch(authServiceProvider).appUserStateChanges();
 });
 
 class AuthService {
   AuthService(this.ref);
   final Ref ref;
 
-  Stream<AppUser?> authStateChanges() {
+  Stream<AppUser?> appUserStateChanges() {
     final auth = ref.watch(authRepositoryProvider);
     final authStateChanges = auth.authStateChanges();
 
@@ -35,7 +35,7 @@ class AuthService {
 
   void refreshAuthStateChangesProvider() {
     logger.i('refreshAuthStateChangesProvider');
-    ref.invalidate(authStateChangesProvider);
+    ref.invalidate(appUserStateChangesProvider);
   }
 
   Future<void> signOut() async {

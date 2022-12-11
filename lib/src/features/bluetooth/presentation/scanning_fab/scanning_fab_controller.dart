@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../../../admob/application/admob_service.dart';
 import '../../../in_app_purchase/application/purchases_service.dart';
-import '../../application/scan_bluetooth_service.dart';
+import '../../application/scan_device_service.dart';
 import '../../domain/bluetooth_list.dart';
 
 class ScanningFABController extends StateNotifier<AsyncValue<void>> {
@@ -47,7 +48,7 @@ class ScanningFABController extends StateNotifier<AsyncValue<void>> {
           ref.read(bluetoothListProvider);
     }
     ref.read(scanningProvider.notifier).state = scanning;
-    ref.read(scanBluetoothServiceProvider).submitScanning(scanning);
+    ref.read(scanDeviceServiceProvider).submitScanning(scanning);
   }
 }
 

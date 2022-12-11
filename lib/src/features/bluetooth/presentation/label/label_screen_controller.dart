@@ -1,6 +1,7 @@
+import 'package:flutter_blue_plus/flutter_blue_plus.dart' as fbp;
+
 import '../../../../constants/resources.dart';
 import '../../application/bluetooth_service.dart';
-import '../../domain/bluetooth.dart';
 
 final labelScreenControllerProvider =
     StateNotifierProvider<LabelScreenController, AsyncValue<void>>(
@@ -16,7 +17,7 @@ class LabelScreenController extends StateNotifier<AsyncValue<void>> {
   final BluetoothService bluetoothService;
 
   Future<void> onTapLabelEdit(
-    Bluetooth bluetooth,
+    fbp.ScanResult bluetooth,
     BuildContext context,
   ) async {
     logger.i('isUpdate');

@@ -1,11 +1,12 @@
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+
 import '../../../../common_widgets/alert_dialogs.dart';
 import '../../../../constants/resources.dart';
-import '../../domain/bluetooth.dart';
 
 Future<bool?> labelDialog({
   required BuildContext context,
   required TextEditingController textEditingCtr,
-  Bluetooth? bluetooth,
+  ScanResult? bluetooth,
 }) {
   final textTheme = Theme.of(context).textTheme;
   return showAlertDialog(
@@ -14,24 +15,30 @@ Future<bool?> labelDialog({
     defaultActionWidget: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        bluetooth?.userLabel != null
-            ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p24)
-            : Assets.svg.icons8AddTag.svg(width: Sizes.p24),
+        // bluetooth?.userLabel != null
+        //     ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p24)
+        //     :
+        Assets.svg.icons8AddTag.svg(width: Sizes.p24),
         gapW8,
-        Text(
-          bluetooth?.userLabel != null ? 'Update' : 'Create',
-          style: const TextStyle(fontWeight: FontWeight.w600),
+        const Text(
+          // bluetooth?.userLabel != null ? 'Update' :
+
+          'Create',
+          style: TextStyle(fontWeight: FontWeight.w600),
         ),
       ],
     ),
     titleWidget: Row(
       children: [
-        bluetooth?.userLabel != null
-            ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p24)
-            : Assets.svg.icons8AddTag.svg(width: Sizes.p24),
+        // bluetooth?.userLabel != null
+        //     ? Assets.svg.icons8UpdateTag.svg(width: Sizes.p24)
+        //     :
+        Assets.svg.icons8AddTag.svg(width: Sizes.p24),
         gapW8,
-        Text(
-          bluetooth?.userLabel != null ? 'Update Label' : 'Create Label',
+        const Text(
+          // bluetooth?.userLabel != null ? 'Update Label' :
+
+          'Create Label',
         ),
       ],
     ),

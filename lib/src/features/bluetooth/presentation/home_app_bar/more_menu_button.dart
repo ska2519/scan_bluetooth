@@ -19,7 +19,7 @@ class MoreMenuButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authStateChangesProvider).value;
+    final user = ref.watch(appUserStateChangesProvider).value;
     return PopupMenuButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       icon: const Icon(Icons.more_vert),

@@ -1,27 +1,36 @@
 import 'dart:convert';
 
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import '../../../constants/resources.dart';
 import '../data/scan_bluetooth_repository.dart';
 import '../domain/bluetooth.dart';
 import '../presentation/scanning_fab/scanning_fab_controller.dart';
 
-final scanBluetoothServiceProvider =
-    Provider<ScanBluetoothService>(ScanBluetoothService.new);
+final scanDeviceServiceProvider =
+    Provider<ScanDeviceService>(ScanDeviceService.new);
 
-class ScanBluetoothService {
-  ScanBluetoothService(this.ref);
+class ScanDeviceService {
+  ScanDeviceService(this.ref);
   final Ref ref;
 
   int rssiCalculate(int rssi) => (120 - rssi.abs());
 
-  Future<bool> isBluetoothAvailable() async =>
-      await ref.read(scanBluetoothRepoProvider).isBluetoothAvailable();
+  //* unused
+  Future<bool> isBluetoothAvailable() =>
+      ref.read(scanBluetoothRepoProvider).isBluetoothAvailable;
 
   void startScan() {
     ref.invalidate(startScanStreamProvider);
     ref.read(stopWatchProvider(true));
+  }
+
+  Stream<List<BluetoothDevice>> connectedDevices() {
+    final connectedDevices =
+        ref.read(scanBluetoothRepoProvider).connectedDevices;
+    return Stream.periodic(const Duration(seconds: 1))
+        .asyncMap((_) => connectedDevices);
   }
 
   //
@@ -60,3 +69,6 @@ final stopWatchProvider = Provider.family.autoDispose<void, bool>((ref, start) {
       (onTick) => ref.read(elapsedProvider.notifier).update((state) => onTick));
   start ? ticker.start() : ticker.stop();
 });
+
+final connectedDevicesProvider = StreamProvider<List<BluetoothDevice>>(
+    (ref) => ref.watch(scanDeviceServiceProvider).connectedDevices());

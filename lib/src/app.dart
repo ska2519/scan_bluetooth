@@ -1,6 +1,5 @@
 import 'constants/resources.dart';
 import 'constants/theme.dart';
-import 'features/bluetooth/data/scan_bluetooth_repository.dart';
 import 'features/permission/application/permission_service.dart';
 
 final scaffoldMessengerKeyProvider =
@@ -29,9 +28,8 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
     logger.i('isBackgroud: $isBackgroud');
     if (!isBackgroud) {
       logger.i('Platform: ${Platform.operatingSystem}');
-      if (Platform.isAndroid || Platform.isIOS) {
-        ref.invalidate(isBTAvailableProvider);
-        ref.invalidate(
+      if (Platform.isAndroid) {
+        ref.refresh(
             requestPermissionListProvider(defaultBluetoothPermissionList));
       }
     }

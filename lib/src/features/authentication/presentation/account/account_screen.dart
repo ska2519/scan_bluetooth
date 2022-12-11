@@ -7,7 +7,6 @@ import '../../../../common_widgets/primary_button.dart';
 import '../../../../common_widgets/responsive_center.dart';
 import '../../../../constants/resources.dart';
 import '../../../../utils/toast_context.dart';
-import '../../../bluetooth/presentation/label/label_screen.dart';
 import '../../../firebase/remote_config.dart';
 import '../../../in_app_purchase/presentation/fruit_count.dart';
 import '../../../presence_user/presentation/user_count_banner.dart';
@@ -22,7 +21,7 @@ class AccountScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authStateChangesProvider).value;
+    final user = ref.watch(appUserStateChangesProvider).value;
     ref.listen<AsyncValue>(
       accountScreenControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
@@ -158,7 +157,7 @@ class AccountScreen extends HookConsumerWidget {
 
                   const FruitCount(),
                   gapH24,
-                  const LabelScreen(),
+                  // const LabelScreen(),
                   // ElevatedButton.icon(
                   //   icon: const Icon(Icons.share_outlined),
                   //   onPressed: () async {

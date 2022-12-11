@@ -21,6 +21,11 @@ abstract class AuthRepository {
   void dispose();
 }
 
+final authStateChangesProvider = StreamProvider<User?>((ref) {
+  final auth = ref.read(authRepositoryProvider);
+  return auth.authStateChanges();
+});
+
 final fetchAppUserProvider =
     FutureProvider.family.autoDispose<AppUser?, UserId>((ref, uid) async {
   final auth = ref.read(authRepositoryProvider);

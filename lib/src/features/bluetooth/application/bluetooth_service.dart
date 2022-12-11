@@ -1,3 +1,5 @@
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+
 import '../../../constants/resources.dart';
 import '../../authentication/application/auth_service.dart';
 import '../../authentication/domain/app_user.dart';
@@ -11,7 +13,7 @@ final userLabelListCountProvider = StateProvider<int>((ref) => 0);
 
 final userLabelListStreamProvider = StreamProvider<List<Label?>>((ref) {
   final bluetoothRepo = ref.read(bluetoothRepoProvider);
-  final user = ref.watch(authStateChangesProvider).value;
+  final user = ref.watch(appUserStateChangesProvider).value;
 
   if (user == null) return const Stream<List<Label?>>.empty();
 
@@ -27,7 +29,7 @@ final userLabelCountProvider = Provider.autoDispose<int>((ref) {
   if (ref.watch(bluetoothListProvider).isNotEmpty) {
     length = ref
         .read(bluetoothListProvider)
-        .where((bluetooth) => bluetooth.userLabel != null)
+        .where((bluetooth) => bluetooth != null)
         .toList()
         .length;
   }
@@ -65,32 +67,32 @@ class BluetoothService {
   //   final label = _stateLabel(bluetooth, user);
   // }
 
-  Future<void> updateLabel(Bluetooth bluetooth) async {
-    final user = ref.watch(authStateChangesProvider).value;
+  Future<void> updateLabel(ScanResult bluetooth) async {
+    final user = ref.watch(appUserStateChangesProvider).value;
     logger.i('updateLabel start');
     try {
       if (textEditingCtr.text.isEmpty) {
         await ref.read(bluetoothRepoProvider).deleteLabel(
-              deviceId: bluetooth.deviceId,
+              deviceId: bluetooth.device.id.id,
               uid: user!.uid,
             );
         return;
       }
       final now = DateTime.now();
-      var label = _stateLabel(bluetooth, user);
-      final fetchBluetooth = await featchBluetooth(bluetooth);
-      if (fetchBluetooth == null) {
-        await ref.read(bluetoothRepoProvider).setBluetooth(
-              bluetooth: bluetooth.copyWith(
-                userLabel: null,
-                createdAt: now,
-              ),
-            );
-      }
-      await ref.read(bluetoothRepoProvider).setLabel(
-            deviceId: bluetooth.deviceId,
-            label: label,
-          );
+      // var label = _stateLabel(bluetooth, user);
+      // final fetchBluetooth = await featchBluetooth(bluetooth);
+      // if (fetchBluetooth == null) {
+      //   await ref.read(bluetoothRepoProvider).setBluetooth(
+      //         bluetooth: bluetooth.copyWith(
+      //           userLabel: null,
+      //           createdAt: now,
+      //         ),
+      //       );
+      // }
+      // await ref.read(bluetoothRepoProvider).setLabel(
+      //       deviceId: bluetooth.deviceId,
+      //       label: label,
+      //     );
     } catch (e) {
       logger.e('updateLabel e: $e');
     }
@@ -109,10 +111,11 @@ class BluetoothService {
 
   Future<bool?> openLabelDialog({
     required BuildContext context,
-    Bluetooth? bluetooth,
+    ScanResult? bluetooth,
   }) async {
     logger.i('openLabelDialog bluetooth: $bluetooth');
-    textEditingCtr.text = bluetooth?.userLabel?.name ?? bluetooth?.name ?? '';
+    textEditingCtr.text = '';
+    // textEditingCtr.text = bluetooth?.userLabel?.name ?? bluetooth?.name ?? '';
     return await labelDialog(
       context: context,
       textEditingCtr: textEditingCtr,

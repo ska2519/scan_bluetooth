@@ -9,7 +9,7 @@ final profileScreenControllerProvider = StateNotifierProvider.autoDispose<
     ProfileScreenController, AsyncValue<void>>((ref) {
   final auth = ref.read(authRepositoryProvider);
   final profileService = ref.read(profileServiceProvider);
-  ref.onDispose(() => ref.refresh(authStateChangesProvider));
+  ref.onDispose(() => ref.refresh(appUserStateChangesProvider));
   return ProfileScreenController(auth: auth, profileService: profileService);
 });
 

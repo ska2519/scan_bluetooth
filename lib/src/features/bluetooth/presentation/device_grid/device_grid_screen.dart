@@ -8,11 +8,11 @@ import '../../../permission/application/permission_service.dart';
 import '../bluetooth_available/bluetooth_available_and_label_count.dart';
 import '../home_app_bar/home_app_bar.dart';
 import '../scanning_fab/scanning_fab.dart';
-import 'bluetooth_grid.dart';
-import 'bluetooth_grid_screen_controller.dart';
+import 'device_grid.dart';
+import 'device_grid_screen_controller.dart';
 
-class BluetoothGridScreen extends HookConsumerWidget {
-  const BluetoothGridScreen(this.isBluetoothAvailable, {super.key});
+class DeviceGridScreen extends HookConsumerWidget {
+  const DeviceGridScreen(this.isBluetoothAvailable, {super.key});
   final bool isBluetoothAvailable;
 
   // void dismissOnScreenKeyboard(BuildContext context) {
@@ -24,10 +24,10 @@ class BluetoothGridScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AsyncValue>(
-      bluetoothGridScreenControllerProvider,
+      deviceGridScreenControllerProvider,
       (_, state) => state.showAlertDialogOnError(context),
     );
-    final state = ref.watch(bluetoothGridScreenControllerProvider);
+    final state = ref.watch(deviceGridScreenControllerProvider);
 
     final scrollController = useScrollController();
     // ..addListener(() => dismissOnScreenKeyboard(context));
@@ -58,7 +58,7 @@ class BluetoothGridScreen extends HookConsumerWidget {
             ),
             const ResponsiveSliverCenter(
               padding: EdgeInsets.all(Sizes.p8),
-              child: BluetoothGrid(),
+              child: DeviceGrid(),
             ),
           ],
         ),

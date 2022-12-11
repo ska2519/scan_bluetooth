@@ -1,6 +1,8 @@
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+
 import '../../../../constants/resources.dart';
 import '../../../../utils/toast_context.dart';
-import '../../domain/bluetooth.dart';
+import '../bluetooth_detail_screen/bluetooth_detail_screen.dart';
 import 'bluetooth_tile.dart';
 
 class BluetoothCard extends HookConsumerWidget {
@@ -13,14 +15,14 @@ class BluetoothCard extends HookConsumerWidget {
   });
 
   final VoidCallback onPressed;
-  final Bluetooth bluetooth;
+  final ScanResult bluetooth;
   final int index;
   final bool canDelete;
 
   // * Keys for testing using find.byKey()
   static const bluetoothCardKey = Key('bluetooth-card');
 
-  String get deviceId => bluetooth.deviceId;
+  String get deviceId => bluetooth.device.id.id;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final pageFlipKey = useMemoized(GlobalKey<PageFlipBuilderState>.new);
@@ -35,10 +37,12 @@ class BluetoothCard extends HookConsumerWidget {
       child: InkWell(
         onTap: canDelete
             ? null
-            : () => context.goNamed(
-                  AppRoute.detail.name,
-                  params: {'deviceId': deviceId},
-                ),
+            : () =>
+                // context.goNamed(AppRoute.device.name, extra: bluetooth.device),
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const FindDevicesScreen())),
 
         // onTap: () => pageFlipKey.currentState?.flip(),
         child: Card(
@@ -79,7 +83,7 @@ class InsideCard extends StatelessWidget {
 
   // final GlobalKey<PageFlipBuilderState> pageFlipKey;
   final int index;
-  final Bluetooth bluetooth;
+  final ScanResult bluetooth;
   final VoidCallback onPressed;
 
   @override
@@ -88,7 +92,7 @@ class InsideCard extends StatelessWidget {
       padding: const EdgeInsets.all(Sizes.p8),
       child: BluetoothTile(
         index: index,
-        bluetooth: bluetooth,
+        scanResult: bluetooth,
         onPressed: onPressed,
       ),
       // PageFlipBuilder(

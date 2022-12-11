@@ -26,7 +26,7 @@ class IAPRepo {
 
 final pastPurchasesStreamProvider = StreamProvider<List<PastPurchase>>((ref) {
   final iapRepo = ref.read(iapRepoProvider);
-  final user = ref.watch(authStateChangesProvider).value;
+  final user = ref.watch(appUserStateChangesProvider).value;
   return user == null || user.isAnonymous!
       ? const Stream<List<PastPurchase>>.empty()
       : iapRepo.watchPurchases(user.uid);

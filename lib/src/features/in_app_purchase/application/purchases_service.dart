@@ -58,7 +58,7 @@ class PurchasesService {
   }
 
   void _listenToLogin() async {
-    ref.listen<AsyncValue<AppUser?>>(authStateChangesProvider,
+    ref.listen<AsyncValue<AppUser?>>(appUserStateChangesProvider,
         (previous, next) async {
       final user = next.value;
       logger.i('PurchasesService _listenToLogin user: $user');
@@ -95,7 +95,7 @@ class PurchasesService {
 
   Future<void> updatePurchases() async {
     try {
-      final user = ref.read(authStateChangesProvider).value;
+      final user = ref.read(appUserStateChangesProvider).value;
       logger.i('PurchasesService updatePurchases uid: ${user?.uid}');
 
       if (user == null || user.isAnonymous!) {

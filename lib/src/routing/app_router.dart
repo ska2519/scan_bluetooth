@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../exceptions/error_logger.dart';
-import '../features/authentication/application/auth_service.dart';
+import '../features/authentication/data/auth_repository.dart';
 import '../features/authentication/presentation/account/account_screen.dart';
 import '../features/authentication/presentation/profile/profile_screen.dart';
 import '../features/bluetooth/presentation/bluetooth_detail_screen/bluetooth_detail_screen.dart';
@@ -24,7 +25,7 @@ enum AppRoute {
   profile,
   purchase,
   community,
-  detail,
+  device,
   disabledApp,
   // signIn,
 }
@@ -62,10 +63,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     ),
   ];
 
-  final user = ref.watch(authStateChangesProvider).value;
   final disabledApp = ref.watch(disabledAppProvider);
+  final user = ref.watch(authStateChangesProvider).value;
 
-  logger.i('GoRouter tempLocaion: $tempLocaion');
+  logger.i('GoRouter tempLocaion: $tempLocaion/ user: $user');
   return GoRouter(
     initialLocation:
         tempLocaion.isNotEmpty ? tempLocaion : (kIsWeb ? '/' : '/bluetooth'),
@@ -73,12 +74,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       if (disabledApp) {
         return '/disabledApp';
       }
-      var isLoggedIn =
-          user != null && user.isAnonymous != null && !user.isAnonymous!;
+      var isLoggedIn = user != null && !user.isAnonymous;
+      logger.i('GoRouter isLoggedIn: $isLoggedIn /location: ${state.location}');
+
       if (user != null) {
         tempLocaion = '';
       }
-      logger.i('GoRouter isLoggedIn: $isLoggedIn /location: ${state.location}');
 
       if (state.location == '/account/purchase/account') {
         tempLocaion = '/account/purchase';
@@ -88,17 +89,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
       return null;
     },
-    //   // if (isLoggedIn) {
-    //   //   if (state.location == '/bluetooth') {
-    //   //     return null;
-    //   //   }
-    //   // } else {
-    //   //   if (state.location == '/account') {
-    //   //     return '/account';
-    //   //   }
-    //   // }
-    //   // return null;
-
     routes: disabledApp
         ? [
             GoRoute(
@@ -136,12 +126,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                       ),
                       routes: [
                         GoRoute(
-                          path: 'detail:deviceId',
-                          name: AppRoute.detail.name,
-                          builder: (context, state) {
-                            final deviceId = state.params['deviceId']!;
-                            return BluetoothDetailScreen(deviceId);
-                          },
+                          name: AppRoute.device.name,
+                          path: 'device',
+                          builder: (context, state) => DeviceScreen(
+                            device: state.extra as BluetoothDevice,
+                          ),
                         ),
                       ],
                     ),

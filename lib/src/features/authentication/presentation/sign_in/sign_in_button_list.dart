@@ -8,7 +8,7 @@ class SignInButtonList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authStateChangesProvider).value;
+    final user = ref.watch(appUserStateChangesProvider).value;
     var loggedInApple = false;
     var loggedInGoogle = false;
     var signInType = SignInType.values.toList();

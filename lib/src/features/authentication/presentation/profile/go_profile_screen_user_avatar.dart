@@ -25,7 +25,7 @@ class GoProfileScreenUserAvatar extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authStateChangesProvider).value;
+    final user = ref.watch(appUserStateChangesProvider).value;
     return user == null
         ? const SizedBox()
         : InkWell(

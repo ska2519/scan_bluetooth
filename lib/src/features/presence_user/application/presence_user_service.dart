@@ -28,7 +28,7 @@ final presenceUserServiceProvider =
 
 final statusStateOnlineStreamProvider = StreamProvider<List<UserState?>>((ref) {
   final presenceUserRepo = ref.read(presenceUserRepoProvider);
-  final user = ref.watch(authStateChangesProvider).value;
+  final user = ref.watch(appUserStateChangesProvider).value;
 
   return user == null
       ? const Stream<List<UserState>>.empty()
@@ -46,7 +46,7 @@ class PresenceUserService {
   }
 
   void _listenToLogin() {
-    ref.listen<AsyncValue<AppUser?>>(authStateChangesProvider,
+    ref.listen<AsyncValue<AppUser?>>(appUserStateChangesProvider,
         (previous, next) async {
       final user = next.value;
       logger.i('PresenceUserService _init user: $user');

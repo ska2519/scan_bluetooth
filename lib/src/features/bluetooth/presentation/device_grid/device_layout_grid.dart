@@ -6,8 +6,8 @@ import '../../../../constants/resources.dart';
 
 /// Grid widget with content-sized items.
 /// See: https://codewithandrea.com/articles/flutter-layout-grid-content-sized-items/
-class BluetoothLayoutGrid extends StatelessWidget {
-  const BluetoothLayoutGrid({
+class DeviceLayoutGrid extends StatelessWidget {
+  const DeviceLayoutGrid({
     super.key,
     required this.itemCount,
     required this.itemBuilder,

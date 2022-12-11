@@ -1,34 +1,31 @@
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+
 import '../../../../constants/resources.dart';
-import '../../application/scan_bluetooth_service.dart';
-import '../../domain/bluetooth.dart';
 import 'floating_icon_button.dart';
 
 class ConnectButton extends ConsumerWidget {
   const ConnectButton({
     super.key,
-    required this.bluetooth,
+    required this.scanResult,
     this.connected = false,
   });
 
-  final Bluetooth bluetooth;
+  final ScanResult scanResult;
   final bool connected;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Visibility(
-      visible:
-          ref.read(scanBluetoothServiceProvider).rssiCalculate(bluetooth.rssi) >
-              50,
+      // ref.read(scanDeviceServiceProvider).rssiCalculate(bluetooth.rssi) >
+      //     50,
       child: Tooltip(
         triggerMode: TooltipTriggerMode.tap,
         message: 'CONNECT',
         child: Row(
           children: [
             FloatingIconButton(
-              onPressed: null,
-              // onPressed: () => ref
-              //     .read(scanBluetoothServiceProvider)
-              //     .connect(),
+              onPressed: scanResult.device.connect,
+              // onPressed: () => ref.read(scanBluetoothServiceProvider).connect(),
               child: connected
                   ? Assets.svg.icons8Disconnected.svg(width: Sizes.p28)
                   : Assets.svg.icons8Connected.svg(width: Sizes.p28),

@@ -1,4 +1,4 @@
-<h1 align="center"> Scan Bluetooth </h1> <br>
+<h1 align="center"> Scan Bluetooth Beta</h1> <br>
 <p align="center">
   <a href="https://fruitshop.app">
     <img alt="[BETA] Scan Bluetooth" title="Scan Bluetooth" src="https://imgur.com/noOg64Y.png" width="450">
@@ -46,7 +46,7 @@ This project implement [Riverpod](https://riverpod.dev) state management techniq
 **Available for both iOS and Android.**
 
 <p align="center">
-  <img src = "http://i.imgur.com/HowF6aM.png" width=350>
+  <img width=350 src = "https://play-lh.googleusercontent.com/6qqyjduRMhS6HlhPFv1CGLR52W4SXA5aslXmO8_A144hXoThYdBjHY52APpCaiNVh7S4=w2560-h1440-rw">
 </p>
 
 ## Features
@@ -57,28 +57,12 @@ A few of the things you can do with Scan Bluetooth:
 * Make new label of Bluetooth device 🏷
 * Number of connected users
 
-
 <p align="center">
-  <img src = "http://i.imgur.com/IkSnFRL.png" width=700>
-</p>
-
-<p align="center">
-  <img src = "http://i.imgur.com/0iorG20.png" width=700>
+<img width=250 src="https://play-lh.googleusercontent.com/dP38b_bA30XrcdtrEJ7lFduJ0zTEnE-KPWRuaY77e5bnA7gizlrAORxUPtHBDyo5upM=w2560-h1440-rw">
+<img width=250 src="https://play-lh.googleusercontent.com/cmP_DFmyINH7xmftWcax7Pufo8MVxsz_VF95jn-iWASMZcYy4kihRZ73jb1gXearjA=w2560-h1440-rw">
 </p>
 
 ## Feedback
 
 Feel free to send us feedback on [Twitter](https://twitter.com/Ska__Lee) or [file an issue](https://github.com/ska2519/scan_bluetooth/issues/new). Feature requests are always welcome.
-
-
-<a href="https://opencollective.com/git-point/sponsor/0/website" target="_blank"><img src="https://opencollective.com/git-point/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/git-point/sponsor/1/website" target="_blank"><img src="https://opencollective.com/git-point/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/git-point/sponsor/2/website" target="_blank"><img src="https://opencollective.com/git-point/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/git-point/sponsor/3/website" target="_blank"><img src="https://opencollective.com/git-point/sponsor/3/avatar.svg"></a>
-<a href="https://opencollective.com/git-point/sponsor/4/website" target="_blank"><img src="https://opencollective.com/git-point/sponsor/4/avatar.svg"></a>
-<a href="https://opencollective.com/git-point/sponsor/5/website" target="_blank"><img src="https://opencollective.com/git-point/sponsor/5/avatar.svg"></a>
-<a href="https://opencollective.com/git-point/sponsor/6/website" target="_blank"><img src="https://opencollective.com/git-point/sponsor/6/avatar.svg"></a>
-<a href="https://opencollective.com/git-point/sponsor/7/website" target="_blank"><img src="https://opencollective.com/git-point/sponsor/7/avatar.svg"></a>
-<a href="https://opencollective.com/git-point/sponsor/8/website" target="_blank"><img src="https://opencollective.com/git-point/sponsor/8/avatar.svg"></a>
-<a href="https://opencollective.com/git-point/sponsor/9/website" target="_blank"><img src="https://opencollective.com/git-point/sponsor/9/avatar.svg"></a>
 
